@@ -1,0 +1,127 @@
+body{
+    width: 100%;
+    min-height: 100vh; 
+    background-image: url(../imagens/entrar.png);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 20px; 
+}
+
+main{
+    background-color: var(--white);
+    width: 100%;
+    max-width: 400px;    
+    padding: 42px 55px; 
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px; 
+}
+
+.txtIntroducao{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+    margin: 1%;
+}
+
+.adorno{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+h1{
+    color: var(--deepNavyBlue);
+    font-size: 15px;
+    text-align: center;
+}
+
+h2, span{
+    color: #8495AF;
+    font-weight: normal;
+    font-size: 10px;
+    text-align: center;
+}
+
+nav{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+a{
+    text-decoration: none; 
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 600; 
+    width: 80%; 
+    padding: 2%; 
+}
+
+.btnEntrar{
+    background-color: var(--deepNavyBlue);
+    color: var(--white);
+}
+
+.btnCadastrar{
+    border: var(--royalBlue) solid 1px;
+    color: var(--royalBlue);
+}
+
+.tracado{
+    background-color: var(--deepNavyBlue);
+    height: 1px;
+    flex: 1;
+ }
+
+.opcoesEntrar{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 2%;
+}
+
+button{
+    border-radius: 50%;
+    background-color: var(--white);
+    border: #B3AFAF solid 1px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+@media (max-width: 750px)  {
+    
+    body{
+        align-items: end;
+        justify-content: center;
+        
+    }
+
+    main{
+        max-width: 800px;    
+        padding: 80px 60px; 
+    }
+}

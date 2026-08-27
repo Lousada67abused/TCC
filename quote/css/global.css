@@ -1,0 +1,52 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+:root{
+    --deepNavyBlue: #002966;
+    --darkOceanBlue: #0E3F88;
+    --royalBlue: #1254B5;
+    --mediumBlue: #4176C4;
+    --brightLightBlue: #7BB0FF;
+    --pastelBlue: #BDD7FF;
+    --iceGray: #FEFEFF;
+    --white: #FFFFFF;
+    --black: #000000;
+    --orange: #E48922;
+    --successful: #6CBE6C;
+    --unsuccessful: #FD8080;
+    --background: #FEFEFF;
+    --softBlue: #BDD7FF;
+
+
+}
+
+
+*{
+    font-family: "Inter", sans-serif;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+h1 {
+    font-size: 24px;
+}
+
+h2 {
+    font-size: 18px;
+}
+
+p{
+    font-size: 14px;
+}
+
+header {
+    width: 100%;
+    height: 70px;
+    background-color: var(--deepNavyBlue);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 32px;
+    margin-bottom: 50px;
+}

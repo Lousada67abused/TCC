@@ -1,0 +1,133 @@
+body{
+    width: 100%;
+    background-color: var(--background);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+main{
+    width: 100%;
+    padding: 3%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+form{
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: left;
+    padding: 12px 78px;
+    gap: 30px;
+    border-radius: 5px;
+    box-shadow: 2px 5px 22px rgba(27, 27, 27, 0.308);
+}
+
+.btnVoltar{
+    display: flex;
+    width: fit-content;
+    position: fixed;
+    top: 20%;
+    left: 39%;
+}
+
+
+div{
+    display: flex;
+    flex-direction: column;
+}
+.adorno{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+}
+
+h1{
+    color: var(--black);
+    font-size: 24px;
+
+}
+
+h2{
+    color: #8495AF;
+    font-weight: normal;
+    font-size: 20px;
+}
+
+span{
+    color: #8495AF;
+    font-weight: normal;
+    font-size: 10px;
+    text-align: center;
+}
+
+nav{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+}
+
+a{
+    text-decoration: none; 
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    font-weight: 600; 
+    width: 80%; 
+    padding: 2%; 
+}
+
+label{
+    font-size: 20px;
+}
+input{
+    border: 1px solid var(--softBlue);
+    border-radius: 5px;
+    padding: 6px 12px;
+    font-size: 20px;
+    color: #8495AF;
+}
+
+#txtBiografia{
+    height: 60px;
+}
+
+.tracado{
+    background-color: var(--deepNavyBlue);
+    height: 1px;
+    flex: 1;
+ }
+
+.opcoesEntrar{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin-top: 2%;
+}
+
+button{
+    border-radius: 50%;
+    background-color: var(--white);
+    border: #B3AFAF solid 1px;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
