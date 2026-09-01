@@ -8,34 +8,90 @@ body{
 }
 
 main{
-    width: 100%;
-    padding: 3%;
+    position: relative;
+    width: fit-content;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    margin: 2%;
 }
 
 form{
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: left;
-    padding: 12px 78px;
-    gap: 30px;
+    background-color: var(--white);
     border-radius: 5px;
-    box-shadow: 2px 5px 22px rgba(27, 27, 27, 0.308);
+    display: flex;
+    flex-direction: column;
+    padding: 20px 78px;
+    justify-content: center;
+    box-shadow: 2px 2px 22px rgba(27, 27, 27, 0.308);
+    gap: 16px;
+
 }
 
-a span{
-    color: black;
+h1{
+    color: var(--black);
+    font-size: 24px;
 }
 
-div{
+h2{
+    color: #8495AF;
+    font-weight: normal;
+    font-size: 20px;
+}
+
+.cabecalhoForm{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    justify-content: center;
+}
+
+.cabecalhoForm > div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    gap: 12px;
+}
+
+section{
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    gap: 12px;
+}
+
+section > div{
     display: flex;
     flex-direction: column;
 }
+
+label{
+    font-size: 18px;
+    margin-bottom: 1px;
+}
+input, textarea{
+    border: 1px solid var(--softBlue);
+    border-radius: 5px;
+    padding: 6px 12px;
+    font-size: 16px;
+    color: #8495AF;
+}
+
+.tracado{
+    background-color: var(--deepNavyBlue);
+    height: 1px;
+    flex: 1;
+ }
+
+ span{
+    color: #8495AF;
+    font-weight: normal;
+    font-size: 14px;
+    text-align: center;
+}
+
 .adorno{
     width: 100%;
     display: flex;
@@ -45,24 +101,6 @@ div{
     gap: 12px;
 }
 
-h1{
-    color: black;
-    font-size: 24px;
-
-}
-
-h2{
-    color: gray;
-    font-weight: normal;
-    font-size: 20px;
-}
-
-span{
-    color: gray;
-    font-weight: normal;
-    font-size: 10px;
-    text-align: center;
-}
 
 nav{
     width: 100%;
@@ -72,52 +110,16 @@ nav{
     gap: 12px;
 }
 
-a{
-    text-decoration: none; 
-    border-radius: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    font-size: 16px;
-    font-weight: 600; 
-    width: 80%; 
-    padding: 2%; 
-}
-
-label{
-    font-size: 20px;
-}
-input{
-    border: 1px solid var(--softBlue);
-    border-radius: 5px;
-    padding: 6px 12px;
-    font-size: 16px;
-    color: var(--black);
-}
-
-#txtBiografia{
-    height: 60px;
-}
-
-.tracado{
-    background-color: var(--deepNavyBlue);
-    height: 1px;
-    flex: 1;
- }
-
-.opcoesEntrar{
+nav > section{
     display: flex;
     flex-direction: row;
-    width: 100%;
     align-items: center;
     justify-content: center;
-    gap: 16px;
-    margin-top: 2%;
 }
 
-.opcoesEntrar button{
+button{
     border-radius: 50%;
-    background-color: white;
+    background-color: var(--white);
     border: #B3AFAF solid 1px;
     width: 44px;
     height: 44px;
@@ -127,17 +129,29 @@ input{
     cursor: pointer;
 }
 
-.btnConfirmar{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 10px;
+a{
+    text-decoration: none; 
+    color: var(--successful);
+    font-size: 14px;
+    margin-left: 1px;
+
+}
+
+#btnProximo{
     background-color: var(--royalBlue);
-    color: white;
-    border-radius: 8px;
-    width: 170px;
-    height: 45px;
-    font-size: 20px;
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    width: auto;
+    padding: 12px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    font-size: 18px;
+    gap: 10px;
+    justify-content: space-between;
+    align-self: self-end;
+    margin-top: 22px;
 }
 
 .btnConfirmar span{
