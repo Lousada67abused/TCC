@@ -1,5 +1,5 @@
 body {
-    height: 100vh;
+    padding-bottom: 50px;
     background-color: var(--background);
 }
 main{
@@ -30,4 +30,52 @@ main{
 }
 .filtro button:hover{
     background-color: var(--softBlue);
+}
+
+main .barraPesquisa { 
+    width: 45%;
+    transform: translateX(0px);
+}
+
+
+main .barraPesquisa span{
+    color: var(--royalBlue);
+    cursor: pointer;
+}
+main .barraPesquisa input{
+    border: 2px solid var(--royalBlue) !important;
+    color: black;
+}
+
+.areaLivros{
+    margin-top: 25px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 40px;
+}
+
+.livro{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 5px;
+}
+
+.textoLivro{
+    height: 60px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.areaEstrelas{
+    display: flex;
+    width: 100%;
+    padding-top: 5px;
+}
+
+.areaEstrelas img{
+    width: 20%;
+    height : 35px;
 }

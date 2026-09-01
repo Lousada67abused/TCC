@@ -1,0 +1,27 @@
+section{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+p{
+    color: gray;
+}
+
+.areaGeneros{
+    margin-top: 30px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 40px;
+}
+
+.genero{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 60px;
+    background-color: aqua;
+    border-radius: 8px;
+}
