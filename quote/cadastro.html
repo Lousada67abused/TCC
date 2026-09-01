@@ -11,13 +11,16 @@
 </head>
 <body>
     <header>
-        <img src="img/logo.svg" alt="Quote" class="quote">
+        <img src="img/logo.svg" alt="Quote">
     </header>
     <main>
         <form action="" method="post">
            
             <div>
-                <a href="index.html"><img src="imagens/voltarCadastro.png" alt="Botão voltar" class="btnVoltar"></a><h1>Criar Conta</h1>
+                <a href="index.html">
+                    <span class="material-symbols-outlined">line_start_arrow_notch</span>
+                </a>
+                <h1>Criar Conta</h1>
                 <h2>Junte-se ao quote e compartilhe sua jornada literária.</h2>
             </div>
 
@@ -43,7 +46,13 @@
         
             <div>
                 <label for="txtSenha">Senha</label>
-                <input type="text" name="senha" id="txtSenha" placeholder="Digite sua senha">
+                <input type="text" name="senha" id="txtSenha" placeholder="Mínimo de 6 caracteres">
+            </div>
+
+            <div>
+                <label for="txtConfirmeSenha">Confirme sua senha</label>
+                <input type="text" name="senha" id="txtSenha" placeholder="Digite sua senha novamente">
+
             </div>
 
            <div class="adorno">
@@ -60,13 +69,12 @@
         </div>
         </form>
 
-        <button class="btnConfirmar" type="submit">Próximo 
-            <span class="material-symbols-outlined">
-            line_end_arrow_notch
-            </span>
+        <button class="btnConfirmar" type="submit">
+            Próximo 
+            <span class="material-symbols-outlined">line_end_arrow_notch</span>
         </button>
     </main>
 
-    <script src="js/script.js"></script>
+    <script src="js/cadastro.js"></script>
 </body>
 </html>

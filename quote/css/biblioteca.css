@@ -1,0 +1,33 @@
+body {
+    height: 100vh;
+    background-color: var(--background);
+}
+main{
+    width: 80%;
+    display: flex;
+    justify-content: center;    
+    flex-direction: column;
+    gap: 25px;
+}
+.filtro {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+}
+.filtro button{
+    width: 20%;
+    padding: 10px 0px;
+    cursor: pointer;
+    border: 2px solid var(--royalBlue);
+    border-radius: 8px;
+    background-color: white;
+    color: var(--royalBlue);
+    font-size: 20px;
+    transition: 0.4s ease;
+}
+.filtro button:hover{
+    background-color: var(--softBlue);
+}

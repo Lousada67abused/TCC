@@ -6,7 +6,7 @@
     --royalBlue: #1254B5;
     --mediumBlue: #4176C4;
     --brightLightBlue: #7BB0FF;
-    --pastelBlue: #BDD7FF;
+    --softBlue: #BDD7FF;
     --iceGray: #FEFEFF;
     --white: #FFFFFF;
     --black: #000000;
@@ -14,11 +14,9 @@
     --successful: #6CBE6C;
     --unsuccessful: #FD8080;
     --background: #FEFEFF;
-    --softBlue: #BDD7FF;
 
 
 }
-
 
 *{
     font-family: "Inter", sans-serif;
@@ -39,6 +37,13 @@ p{
     font-size: 14px;
 }
 
+body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
 header {
     width: 100%;
     height: 70px;
@@ -49,4 +54,35 @@ header {
     justify-content: space-between;
     padding: 0 32px;
     margin-bottom: 50px;
+}
+
+header > img {
+    height: 55px;
+    width: 55px;
+    border-radius: 100px;
+}
+
+header figure img {
+    height: 36px;
+}
+
+.barraPesquisa {
+    max-width: 500px;   
+    width: 42%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    transform: translateX(-5.2%);
+}
+
+.barraPesquisa span {
+    transform: translateX(-30px);
+}
+
+header input {
+    padding: 10px;
+    width: 100%;
+    height: 30px;
+    border-radius: 8px;
+    border: 1px solid var(--black);
 }

@@ -17,7 +17,7 @@ main{
 }
 
 form{
-    background-color: var(--white);
+    background-color: white;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -28,14 +28,9 @@ form{
     box-shadow: 2px 5px 22px rgba(27, 27, 27, 0.308);
 }
 
-.btnVoltar{
-    display: flex;
-    width: fit-content;
-    position: fixed;
-    top: 20%;
-    left: 39%;
+a span{
+    color: black;
 }
-
 
 div{
     display: flex;
@@ -51,19 +46,19 @@ div{
 }
 
 h1{
-    color: var(--black);
+    color: black;
     font-size: 24px;
 
 }
 
 h2{
-    color: #8495AF;
+    color: gray;
     font-weight: normal;
     font-size: 20px;
 }
 
 span{
-    color: #8495AF;
+    color: gray;
     font-weight: normal;
     font-size: 10px;
     text-align: center;
@@ -83,7 +78,7 @@ a{
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600; 
     width: 80%; 
     padding: 2%; 
@@ -96,8 +91,8 @@ input{
     border: 1px solid var(--softBlue);
     border-radius: 5px;
     padding: 6px 12px;
-    font-size: 20px;
-    color: #8495AF;
+    font-size: 16px;
+    color: var(--black);
 }
 
 #txtBiografia{
@@ -120,9 +115,9 @@ input{
     margin-top: 2%;
 }
 
-button{
+.opcoesEntrar button{
     border-radius: 50%;
-    background-color: var(--white);
+    background-color: white;
     border: #B3AFAF solid 1px;
     width: 44px;
     height: 44px;
@@ -130,4 +125,22 @@ button{
     justify-content: center;
     align-items: center;
     cursor: pointer;
+}
+
+.btnConfirmar{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    background-color: var(--royalBlue);
+    color: white;
+    border-radius: 8px;
+    width: 170px;
+    height: 45px;
+    font-size: 20px;
+}
+
+.btnConfirmar span{
+    color: white;
+    font-size: 22px;
 }

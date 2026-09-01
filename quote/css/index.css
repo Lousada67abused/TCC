@@ -12,7 +12,7 @@ body{
 }
 
 main{
-    background-color: var(--white);
+    background-color: white;
     width: 100%;
     max-width: 400px;    
     padding: 42px 55px; 
@@ -76,7 +76,7 @@ a{
 
 .btnEntrar{
     background-color: var(--deepNavyBlue);
-    color: var(--white);
+    color: white;
 }
 
 .btnCadastrar{
@@ -102,7 +102,7 @@ a{
 
 button{
     border-radius: 50%;
-    background-color: var(--white);
+    background-color: white;
     border: #B3AFAF solid 1px;
     width: 44px;
     height: 44px;
