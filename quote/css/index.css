@@ -112,6 +112,8 @@ button{
     cursor: pointer;
 }
 
+
+
 @media (max-width: 750px)  {
     
     body{
@@ -124,4 +126,6 @@ button{
         max-width: 800px;    
         padding: 80px 60px; 
     }
+
+
 }
