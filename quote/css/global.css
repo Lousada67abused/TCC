@@ -14,8 +14,6 @@
     --successful: #6CBE6C;
     --unsuccessful: #FD8080;
     --background: #FEFEFF;
-
-
 }
 
 *{
@@ -69,21 +67,23 @@ header figure img {
 .barraPesquisa {
     max-width: 700px;   
     width: 42%;
+    background-color: var(--iceGray);
     display: flex;
     flex-direction: row;
     align-items: center;
     transform: translateX(-5.2%);
-}
-
-.barraPesquisa span {
-    transform: translateX(-30px);
-    cursor: pointer;
-}
-
-.barraPesquisa input {
+    border: 1px solid var(--black);
     padding: 15px;
     width: 100%;
     height: 30px;
     border-radius: 8px;
-    border: 1px solid var(--black);
+}
+
+.barraPesquisa span {
+    cursor: pointer;
+}
+
+.barraPesquisa input {
+    width: 100%;
+    border: 0;
 }
