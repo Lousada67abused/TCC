@@ -13,8 +13,10 @@ main{
 .areaLivros{
     margin-top: 25px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
     gap: 40px;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
 }
 
 .livro{
@@ -32,15 +34,40 @@ main{
     gap: 5px;
 }
 
+.textoLivro h2 {
+    font-size: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.textoLivro p {
+    font-size: 14px;
+    width: 100%;
+    padding-bottom: 3px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+
 .areaEstrelas{
     display: flex;
-    width: 100%;
+    width: 80%;
     padding-top: 5px;
+    align-items: center;
 }
 
 .areaEstrelas img{
     width: 20%;
     height : 35px;
+}
+
+.areaEstrelas p {
+    margin-right: 5px;
+    font-weight: 600;
 }
 
 .areaBotao{
@@ -64,13 +91,14 @@ section button{
 }
 
 .areaComentarios{
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    flex-wrap: wrap;
     gap: 20px;
 }
 
 .comentario{
-    width: 48%;
+    width: 100%;
     display: flex;
     padding: 30px;
     align-items: center;
@@ -84,6 +112,15 @@ section button{
     flex-direction: row;
     gap: 5px;
     align-items: center;
+}
+
+.areaEstrelasComentario {
+    margin: 0 0 0 10px;
+}
+
+.areaEstrelasComentario p {
+    font-size: 16px;
+    padding: 0;
 }
 
 nav{

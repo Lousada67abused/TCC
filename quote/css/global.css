@@ -64,6 +64,19 @@ header figure img {
     height: 36px;
 }
 
+.botao {
+    background-color: var(--royalBlue);
+    color: var(--white);
+    border: none;
+    border-radius: 5px;
+    padding: 12px 20px;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    justify-content: center;
+    margin-top: 22px;
+}
+
 .barraPesquisa {
     max-width: 700px;   
     width: 42%;
@@ -86,4 +99,8 @@ header figure img {
 .barraPesquisa input {
     width: 100%;
     border: 0;
+}
+
+.barraPesquisa input:focus {
+    outline: none;
 }
