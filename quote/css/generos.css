@@ -1,13 +1,18 @@
-main{
+div{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: left;
+    gap: 12px;
+}
+
+.selecaoGenero{
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: repeat(4, auto);
 }
- 
-div{
-    grid-column: span 4;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-  }
+
+.selecaoGenero > button
+{
+    border: none;
+}
