@@ -10,15 +10,32 @@
     <title>Quote</title>
 </head>
 <body>
-    <header>
-            <figure><img src="img/logoBranco.svg" alt="Logotipo do Quote"></figure>
+      <header>
+        <!-- VERSÃO DESKTOP -->
+         <div class="headerDesktop">
+             <figure><img src="img/logoBranco.svg" alt="Logotipo do Quote"></figure>
+         </div>
+       
+        <!-- VERSÃO MOBILE -->
+        <div class="headerMobile">
+            <span class="material-symbols-outlined line_start_arrow_notch" id="line_start_arrow_notch">line_start_arrow_notch</span>
+
+            <div id="barraPesquisa">
+                <label for="txtPesquisa"></label>
+                <input type="text" id="txtPesquisa" name="txtPesquisa">
+
+                <span class="material-symbols-outlined">
+                    search
+                </span>
+            </div>
+        </div>  
     </header>
 
 
     <main>
         <!-- TELA INICIAL -->
-        <section  class="telaInicial" id="telaInicial">
-            <div id="containerTelaInicial">
+        <section id="Inicio">
+            <div id="cardHome">
                 <img src="img/logoAzulEscuro.svg" alt="Logotipo do Quote">
 
                 <div class="adorno">
@@ -38,7 +55,7 @@
                         <div class="tracado"></div><span>ou continue com</span><div class="tracado"></div>
                     </div>   
         
-                    <div class="opcoesEntrar">
+                    <div class="botoesSocial">
                         <button id="btnGoogle"><img src="img/iconeGoogle.svg" alt="Botão para cadastrar usando conta do Google"></button>
                         <button id="btnApple"><img src="img/iconeApple.svg" alt="Botão para cadastrar usando conta da Apple"></button>
                         <button id="btnTwitter"><img src="img/iconeTwitter.svg" alt="Botão para cadastrar usando conta do Tinder"></button>
@@ -49,9 +66,9 @@
         </section>
         
         <!-- LOGIN -->
-        <section  class="telaLogin"  id="telaLogin">
-            <div id="containerLogin">
-                <a href="index.html"><img src="imagens/voltarLogin.png" alt="Botão voltar" class="btnVoltar"></a>
+        <section  class="Login"  id="Login">
+            <div id="cardLogin">
+                <span class="material-symbols-outlined line_start_arrow_notch" id="line_start_arrow_notch">line_start_arrow_notch</span>
                 <img src="img/logoAzulEscuro.svg" alt="Logotipo do Quote">
         
                 <div class="adorno">
@@ -78,7 +95,7 @@
                         <div class="tracado"></div><span>ou continue com</span><div class="tracado"></div>
                     </div>   
         
-                    <div class="opcoesEntrar">
+                    <div class="botoesSocial">
                         <button id="btnGoogle"><img src="img/iconeGoogle.svg" alt="Botão para cadastrar usando conta do Google"></button>
                         <button id="btnApple"><img src="img/iconeApple.svg" alt="Botão para cadastrar usando conta da Apple"></button>
                         <button id="btnTwitter"><img src="img/iconeTwitter.svg" alt="Botão para cadastrar usando conta do Tinder"></button>
@@ -90,12 +107,12 @@
         
 
         <!-- CADASTRO - ETAPA 1: Nome, data de nascimento, biografia, email e senha -->
-        <section class="telaCadastro" id="cadastroEtapa1">
-            <div id="containerCadastroEtapa1">
+        <section id="cadastroPasso1">
+            <div id="cardCadastroPasso1">
                 <form action="" method="post">
                     <div class="cabecalhoForm">
                         <div>
-                            <a href="index.html"><span class="material-symbols-outlined line_start_arrow_notch" id="line_start_arrow_notch">line_start_arrow_notch</span></a>
+                            <span class="material-symbols-outlined line_start_arrow_notch" id="line_start_arrow_notch">line_start_arrow_notch</span>
                             <h1>Criar Conta</h1>
                         </div>
                         <h2>Junte-se ao quote e compartilhe sua jornada literária.</h2>
@@ -140,7 +157,7 @@
                         <div class="tracado"></div><span>ou continue com</span><div class="tracado"></div>
                     </div> 
                    
-                   <nav class="opcoesEntrar">
+                   <nav class="botoesSocial">
                     <section>
                         <button id="btnGoogle"><img src="img/iconeGoogle.svg" alt="Botão para cadastrar usando conta do Google"></button>
                         <button id="btnApple"><img src="img/iconeApple.svg" alt="Botão para cadastrar usando conta da Apple"></button>
@@ -148,18 +165,20 @@
                         <button id="btnFacebook"><img src="img/iconeFacebook.svg" alt="Botão para cadastrar usando conta do Facebook"></button> 
                     </section>
         
-                    <div><span>Já tem conta?</span><a href="../index.html">Entrar</a></div>
+                    <div><span>Já tem conta?</span><button>Entrar</button></div>
                 </nav>
-                    <button type="submit" id="btnProximo">próximo<span class="material-symbols-outlined" id="line_end_arrow_notch">line_end_arrow_notch</span></button>
+                    <button type="submit" id="btnIrPasso2">próximo<span class="material-symbols-outlined" id="line_end_arrow_notch">line_end_arrow_notch</span></button>
                 </form>
             </div>    
         </section>
             
         <!-- CADASTRO - ETAPA 2: Seleção gêneros -->
-        <section  class="telaCadastro" id="cadastroEtapa2">
-            <div id="containerCadastroEtapa2">
+        <section id="cadastroPasso2">
+            <div id="cardCadastroPasso2">
                 <div>
-                    <a href="../index.html"><span class="material-symbols-outlined line_start_arrow_notch" id="line_start_arrow_notch">line_start_arrow_notch</span></a><h1>Selecione seus gêneros favoritos</h1>
+                    <span class="material-symbols-outlined line_start_arrow_notch" id="line_start_arrow_notch">line_start_arrow_notch</span>
+                    
+                    <h1>Selecione seus gêneros favoritos</h1>
                 </div>
               
                 <section class="selecaoGenero">
@@ -177,14 +196,14 @@
                     <button><img src="img/generoDrama.png" alt="Selecionar livros com gênero de drama"></button>
                 </section>
                 
-                <button type="submit" id="btnProximo">próximo<span class="material-symbols-outlined" id="line_end_arrow_notch">line_end_arrow_notch</span></button>
+                <button type="submit" id="btnIrPasso3">próximo<span class="material-symbols-outlined" id="line_end_arrow_notch">line_end_arrow_notch</span></button>
             </div>
         </section>
 
         <!-- CADASTRO - ETAPA 3: Últimas leituras -->
-        <section>
-            <div>
-                <a href="index.html"><img src="imagens/voltarCadastro.png" alt="Botão voltar" class="btnVoltar"></a>
+        <section id="cadastroPasso3">
+            <div class="versaoDesktop">
+                <span class="material-symbols-outlined line_start_arrow_notch" id="line_start_arrow_notch">line_start_arrow_notch</span>
     
                 <div class="barraPesquisa">
                     <input type="text" placeholder="Pesquise por autores, livros, gêneros e pessoas.">
@@ -192,59 +211,64 @@
                 </div>
             </div>
        
-            <section class="">
-                <h1>Exibindo resultados para...</h1>
-    
-                <div>
-                    <img src="" alt="">
-                    <div>
-                        <h2></h2>
-                        <p></p>
-                    </div>
-                    <!-- <div class="areaEstrelas">
-                        <img src="img/estrela-cheia.svg" alt="Estrela cheia">
-                        <img src="img/estrela-cheia.svg" alt="Estrela cheia">
-                        <img src="img/estrela-vazia.svg" alt="Estrela vazia">
-                        <img src="img/estrela-vazia.svg" alt="Estrela vazia">
-                        <img src="img/estrela-vazia.svg" alt="Estrela vazia">
-                    </div> -->
+            <section class="resultadosPesquisaLivros">
+                <h1>Exibindo resultados para</h1>
+                
+                <article id="cardLivro">
+                    <img src=" alt=" ">
+                <div class="infoLivro">
+                    <h2>Nome do livro</h2>
+                    <p>Nome do autor</p>
                 </div>
+                </article>
+             
             </section>
             
-            <button type="submit" id="btnProximo">próximo<span class="material-symbols-outlined" id="line_end_arrow_notch">line_end_arrow_notch</span></button>
+            <button type="submit" id="btnIrPasso4">próximo<span class="material-symbols-outlined" id="line_end_arrow_notch">line_end_arrow_notch</span></button>
         </section>
 
         <!-- CADASTRO - ETAPA 4: Encontrar amigos -->
-         <section>
-            <div>
-                <a href="index.html"><img src="imagens/voltarCadastro.png" alt="Botão voltar" class="btnVoltar"></a>
-
+         <section id="cadastroPasso4">
+            <div class="versaoDesktop">
+                <span class="material-symbols-outlined line_start_arrow_notch" id="line_start_arrow_notch">line_start_arrow_notch</span>
+    
                 <div class="barraPesquisa">
                     <input type="text" placeholder="Encontre seus amigos">
                     <span class="material-symbols-outlined">search</span>
                 </div>
             </div>
-            <section>
-                <h1>Exibindo resultados para...</h1>
+            
+            
+            <section class="resultadosPesquisaAmigos">
+                <h1>Exibindo resultados para</h1>
 
-                <div class="">
+                <div class="cardAmigo">
                     <img src="" alt="">
                     <div>
-                        <p id="nomeUsuario">Nome usuário</p>
-                        <div>
-                            <p class="lidos">189</p>
-                            <p class="seguidores">10</p>
-                            <p class="seguindo">257</p>
-                            <p>Lidos</p>
-                            <p>Seguidores</p>
-                            <p>Seguindo</p>
+                        <div class="infoAmigo">
+                            <h2>Nome usuário</h2>
+
+                            <div id="lidos">
+                                <strong>189</strong>
+                                <p>Lidos</p>
+                            </div>
+                                
+                            <div id="seguidores">
+                                 <strong>10</strong>
+                                <p>Seguidores</p>
+                            </div>
+                            
+                            <div id="seguindo">
+                                 <strong>257</strong>
+                                <p>Seguindo</p>
+                            </div>
                         </div>
-                        <button></button>
+                        <button><span class="material-symbols-outlined">person_check</span>seguir</button>
                     </div>
                 </div>
             </section>
             
-        <button type="submit" id="btnProximo">finalizar<span class="material-symbols-outlined" id="line_end_arrow_notch">line_end_arrow_notch</span></button>
+        <button type="submit" id="btnFinalizar">finalizar<span class="material-symbols-outlined" id="line_end_arrow_notch">line_end_arrow_notch</span></button>
     </section>
 
     </main>
