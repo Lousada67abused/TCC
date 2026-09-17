@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <article class="cardLivro">
+        <img src="" alt="Capa do livro ${}" class="capaLivro">
+        <h3 class="nomeLivro">Harry Potter</h3>
+        <p class="nomeAutor">Autor</p>
+
+        <div class="avaliacao">
+            <span style="font-size:300%;color:yellow;">★</span>
+            <span style="font-size:300%;color:yellow;">★</span>
+            <span style="font-size:300%;color:yellow;">★</span>
+            <span style="font-size:300%;color:yellow;">★</span>
+            
+        </div>
+    </article>
+</body>
+</html>
+
+<article className="cardLivro">
+    <img src={imagemUrl} alt={titulo} className="capaLivro"/>
+
+    <h3 className="nomeLivro">{titulo}</h3>
+    <p className="nomeAutor">{autor}</p>
+
+    <div className="avaliacao" aria-label={`Avaliação: ${nota} de 5 estrelas`}>
+      {estrelas.map((preenchida, index) => (
+        <span key={index} aria-hidden="true" style={{ fontSize: '300%', color: preenchida ? 'yellow' : 'gray'}}
+        >
+          ★
+        </span>
+      ))}
+    </div>
+  </article>
+)
