@@ -1,4 +1,4 @@
 <?php 
-class UsuarioController {
+class UsuarioController extends Banco {
 }
 ?>
