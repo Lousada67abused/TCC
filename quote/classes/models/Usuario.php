@@ -16,5 +16,15 @@ class Usuario extends Banco{
 		$this->Nascimento = $nascimento;
 		$this->Tipo = $tipo;
 	}
+
+	static function buscarUsuarioPorEmail($email) {
+		$parametros = array(
+        "codigoUsuario" => $codigoUsuario,
+        "codigoLivro"   => $codigoLivro,
+        "nota"          => $nota,
+        "resenha"       => $resenha
+    );
+    self::Executar("sp_inserir_avaliacao", $parametros);
+	}
 }
 ?>
