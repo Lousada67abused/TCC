@@ -1,5 +1,29 @@
 delimiter $$
 
+DROP PROCEDURE IF EXISTS acessar$$
+CREATE PROCEDURE acessar(pEmail varchar(100), pSenha varchar(100))
+begin
+    Declare qtd int default 0;
+	
+    Select count(*) into qtd from usuario 
+	where email = pEmail 
+	and senha = md5(pSenha);
+    
+    if (qtd = 0) Then
+		signal sqlstate '45000' set message_text = 'Login e/ou senha inválida!';
+    else
+		Select id_usuario,
+         nm_usuario,
+         email,
+         bio,
+         dt_nascimento,
+         tipo_usuario 
+        from usuario 
+		where email = pEmail 
+		and senha = md5(pSenha);
+    end if;
+end$$
+
 DROP PROCEDURE IF EXISTS buscarLivros$$
 CREATE PROCEDURE buscarLivros()
 begin
@@ -8,52 +32,11 @@ begin
 
 end$$
 
-drop procedure if exists sp_entrar $$
-
-create procedure sp_entrar(
-  in p_email varchar(100),
-  in p_senha varchar(100)
-)
-begin
-  select id_usuario,
-         nm_usuario,
-         email,
-         bio,
-         dt_nascimento,
-         tipo_usuario
-  from usuario
-  where email = p_email
-    and binary senha = p_senha;
-end $$
-
 DROP PROCEDURE IF EXISTS buscarAvaliacoes$$
 CREATE PROCEDURE buscarAvaliacoes()
 begin
 
 	select id_avaliacao, nota, dt_avaliacao, id_livro, txt_resenha, id_usuario from avaliacao;
-
-end$$
-
-DROP PROCEDURE IF EXISTS acessar$$
-CREATE PROCEDURE acessar(
-    in pEmail varchar(100),
-    in pSenha varchar(100)
-)
-begin
-Declare qtd int default 0;
-	
-    Select count(*) into qtd from cliente 
-	where nm_email = pEmail 
-	and nm_senha = md5(pSenha);
-    
-    if (qtd = 0) Then
-		signal sqlstate '45000' set message_text = 'Login e/ou senha inválida!';
-    else
-		Select nm_email, nm_cliente from cliente 
-		where nm_email = pEmail 
-		and nm_senha = md5(pSenha);
-    end if;
-end$$
 
 end$$
 
@@ -114,7 +97,6 @@ begin
         p_txt_resenha, 
         p_id_usuario
     );
-
 end $$
 
 delimiter ;

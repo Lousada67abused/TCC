@@ -16,6 +16,7 @@ class Usuario extends Banco{
 		$this->Nascimento = $nascimento;
 		$this->Tipo = $tipo;
 	}
+	
 	public static function Acessar($email, $senha) {
 		$parametros = [
 			'pEmail'=>$email,
@@ -24,14 +25,5 @@ class Usuario extends Banco{
 		return self::Consultar("acessar", $parametros);
 	}
 
-	public static function buscarUsuarioPorEmail($email) {
-		$parametros = array(
-        "codigoUsuario" => $codigoUsuario,
-        "codigoLivro"   => $codigoLivro,
-        "nota"          => $nota,
-        "resenha"       => $resenha
-    );
-    self::Executar("sp_inserir_avaliacao", $parametros);
-	}
 }
 ?>
