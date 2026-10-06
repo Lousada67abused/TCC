@@ -18,8 +18,14 @@ class Avaliacao extends Banco {
 	}
 
 	
-	public function avaliar($codigoUsuario, $codigoLivro, $nota, $resenha) {
-		return self::Consultar("avaliarLivro($codigoUsuario, $codigoLivro, $nota, $resenha)");
-	}
+	static public function avaliar($codigoUsuario, $codigoLivro, $nota, $resenha) {
+    $parametros = array(
+        "codigoUsuario" => $codigoUsuario,
+        "codigoLivro"   => $codigoLivro,
+        "nota"          => $nota,
+        "resenha"       => $resenha
+    );
+    self::Executar("sp_inserir_avaliacao", $parametros);
+}
 }
 ?>

@@ -1,0 +1,21 @@
+<?php
+spl_autoload_register(function ($nomeClasse) {
+	$pastaClasses = '../classes/';
+	$possiveisPastas = [
+		$pastaClasses,
+		$pastaClasses . 'base/',
+		$pastaClasses . 'models/',
+		$pastaClasses . 'views/',
+		$pastaClasses . 'controllers/'
+	];
+	foreach ($possiveisPastas as $pasta) {
+		$nomeCompletoArquivo = $pasta . $nomeClasse . '.php';
+		if (file_exists($nomeCompletoArquivo)) {
+			require_once $nomeCompletoArquivo;
+			break;
+		
+	
+}}});
+session_start();
+date_default_timezone_set('America/Sao_Paulo');
+?>
