@@ -16,5 +16,12 @@ class Usuario extends Banco{
 		$this->Nascimento = $nascimento;
 		$this->Tipo = $tipo;
 	}
+	public static function Acessar($email, $senha) {
+		$parametros = [
+			'pEmail'=>$email,
+			'pSenha'=>$senha
+		];
+		return self::Consultar("acessar", $parametros);
+	}
 }
 ?>

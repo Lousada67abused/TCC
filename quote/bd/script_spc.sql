@@ -1,10 +1,10 @@
 delimiter $$
 
-DROP PROCEDURE IF EXISTS sp_buscar_livros$$
-CREATE PROCEDURE sp_buscar_livros()
+DROP PROCEDURE IF EXISTS buscarLivros$$
+CREATE PROCEDURE buscarLivros()
 begin
 
-	Select id_livro, titulo, sinopse, ano_publicacao, qnt_paginas, cd_editora from livro;
+	select id_livro, titulo, sinopse, ano_publicacao, qnt_paginas, cd_editora from livro;
 
 end$$
 
@@ -12,13 +12,35 @@ DROP PROCEDURE IF EXISTS buscarAvaliacoes$$
 CREATE PROCEDURE buscarAvaliacoes()
 begin
 
-	Select id_avaliacao, nota, dt_avaliacao, id_livro, txt_resenha, id_usuario from avaliacao;
+	select id_avaliacao, nota, dt_avaliacao, id_livro, txt_resenha, id_usuario from avaliacao;
 
 end$$
 
-drop procedure if exists sp_inserir_avaliacao$$
+DROP PROCEDURE IF EXISTS acessar$$
+CREATE PROCEDURE acessar(
+    in pEmail varchar(100),
+    in pSenha varchar(100)
+)
+begin
+Declare qtd int default 0;
+	
+    Select count(*) into qtd from cliente 
+	where nm_email = pEmail 
+	and nm_senha = md5(pSenha);
+    
+    if (qtd = 0) Then
+		signal sqlstate '45000' set message_text = 'Login e/ou senha inválida!';
+    else
+		Select nm_email, nm_cliente from cliente 
+		where nm_email = pEmail 
+		and nm_senha = md5(pSenha);
+    end if;
+end$$
 
-create procedure sp_inserir_avaliacao(
+end$$
+
+DROP PROCEDURE IF EXISTS inserirAvaliacao$$
+CREATE PROCEDURE inserirAvaliacao(
     in p_id_usuario int,
     in p_id_livro bigint,
     in p_nota int,
