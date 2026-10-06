@@ -8,6 +8,24 @@ begin
 
 end$$
 
+drop procedure if exists sp_entrar $$
+
+create procedure sp_entrar(
+  in p_email varchar(100),
+  in p_senha varchar(100)
+)
+begin
+  select id_usuario,
+         nm_usuario,
+         email,
+         bio,
+         dt_nascimento,
+         tipo_usuario
+  from usuario
+  where email = p_email
+    and binary senha = p_senha;
+end $$
+
 DROP PROCEDURE IF EXISTS buscarAvaliacoes$$
 CREATE PROCEDURE buscarAvaliacoes()
 begin
