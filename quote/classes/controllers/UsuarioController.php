@@ -1,4 +1,7 @@
 <?php 
-class UsuarioController extends Banco {
+class UsuarioController{
+    public static function acessar($email, $senha) {
+        Usuario::Acessar($email, $senha);
+    }
 }
 ?>
