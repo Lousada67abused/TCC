@@ -1,0 +1,241 @@
+.containerCadastro {
+    width: calc(100% - 32px);
+    max-width: 560px;
+    background-color: var(--white);
+    border-radius: 8px;
+    box-shadow: 0 2px 12px rgba(0, 41, 102, 0.12);
+    padding: 40px 48px 48px;
+    margin-bottom: 50px;
+    display: flex;
+    flex-direction: column;
+}
+
+.cabecalhoCadastro {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 10px;
+}
+
+.cabecalhoCadastro h1 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--black);
+}
+
+.btnVoltar {
+    display: flex;
+    align-items: center;
+    color: var(--black);
+    text-decoration: none;
+}
+
+.btnVoltar span {
+    font-size: 28px;
+}
+
+.subtituloCadastro {
+    color: var(--textoSuave);
+    margin-bottom: 32px;
+}
+
+.formularioCadastro {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.campoCadastro {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.campoCadastro label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--black);
+}
+
+.campoCadastro input,
+.campoCadastro textarea {
+    width: 100%;
+    height: 40px;
+    padding: 0 12px;
+    font-size: 14px;
+    color: var(--black);
+    background-color: var(--white);
+    border: 1px solid var(--softBlue);
+    border-radius: 4px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.campoCadastro textarea {
+    height: 76px;
+    padding: 10px 12px;
+    line-height: 1.4;
+    resize: vertical;
+}
+
+.campoCadastro input::placeholder,
+.campoCadastro textarea::placeholder {
+    color: var(--textoSuave);
+    opacity: 1;
+}
+
+.campoCadastro input:focus,
+.campoCadastro textarea:focus {
+    border-color: var(--royalBlue);
+    box-shadow: 0 0 0 3px rgba(123, 176, 255, 0.35);
+}
+
+.campoCadastro input[type="date"]::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.6;
+}
+
+.inputSenhaContainer {
+    position: relative;
+}
+
+.inputSenhaContainer input {
+    padding-right: 44px;
+}
+
+.btnMostrarSenha {
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    display: flex;
+    align-items: center;
+    background: none;
+    border: none;
+    color: var(--textoSuave);
+    cursor: pointer;
+    transition: color 0.2s;
+}
+
+.btnMostrarSenha span {
+    font-size: 20px;
+}
+
+.btnMostrarSenha:hover,
+.btnMostrarSenha:focus-visible {
+    color: var(--royalBlue);
+}
+
+.elementoDecorativo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.elementoDecorativo .linha {
+    width: 60px;
+    height: 1px;
+    background-color: var(--darkOceanBlue);
+}
+
+.elementoDecorativo p {
+    font-size: 11px;
+    color: var(--textoSuave);
+    white-space: nowrap;
+}
+
+.opcoesEntrar {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+.botoesSociais {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+}
+
+.botaoSocial {
+    width: 34px;
+    height: 34px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--white);
+    border: 1px solid #E3E8F0;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: border-color 0.2s, box-shadow 0.2s, transform 0.2s;
+}
+
+.botaoSocial img {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+}
+
+.temConta {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.temConta p,
+.btnIrLogin {
+    font-size: 12px;
+}
+
+.temConta p {
+    color: var(--textoSuave);
+}
+
+.btnIrLogin {
+    color: var(--successful);
+    text-decoration: none;
+}
+
+.btnIrLogin:hover {
+    text-decoration: underline;
+}
+
+.btnProximo {
+    width: 100%;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-top: 8px;
+    background-color: var(--royalBlue);
+    color: var(--white);
+    font-size: 16px;
+    font-weight: 500;
+    text-transform: capitalize;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btnProximo span {
+    font-size: 20px;
+}
+
+@media (max-width: 600px) {
+    .containerCadastro {
+        padding: 28px 20px 32px;
+    }
+
+    .cabecalhoCadastro h1 {
+        font-size: 18px;
+    }
+
+    .subtituloCadastro {
+        margin-bottom: 24px;
+    }
+}

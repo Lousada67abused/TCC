@@ -104,3 +104,14 @@ header figure img {
 .barraPesquisa input:focus {
     outline: none;
 }
+
+.escondido {
+    display: none;
+}
+
+.mensagemErro {
+    color: var(--unsuccessful);
+    font-size: 14px;
+    margin-bottom: 10px;
+    font-weight: 600;
+}
