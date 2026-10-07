@@ -1244,12 +1244,13 @@ BEGIN
     SELECT
         l.id_livro,
         l.titulo,
-        l.sinopse,
-        e.nm_editora,
+        a.nm_autor,
         COUNT(DISTINCT lg.id_genero) AS generos_compativeis
     FROM livro l
-    INNER JOIN editora e
-        ON l.cd_editora = e.id_editora
+    INNER JOIN livro_autor la
+        ON l.id_livro = la.id_livro
+    INNER JOIN autor a
+        ON la.id_autor = a.id_autor
     INNER JOIN livro_genero lg
         ON l.id_livro = lg.id_livro
     LEFT JOIN preferencia_usuario pu
@@ -1284,13 +1285,11 @@ BEGIN
     GROUP BY
         l.id_livro,
         l.titulo,
-        l.sinopse,
-        e.nm_editora
+        a.nm_autor
     ORDER BY
         generos_compativeis DESC,
         l.titulo;
 END $$
-
 
 -- BIBLIOTECA
 -- ============================================================
