@@ -4,9 +4,9 @@ class UsuarioController{
         return Usuario::Acessar($email, $senha);
     }
 
-    public static function cadastrar($nome, $email, $senha, $biografia, $nascimento, $tipo) {
-        Usuario::Cadastrar($nome, $email, $senha, $biografia, $nascimento, $tipo);
+    public static function cadastrar($nome, $email, $senha, $biografia, $nascimento) {
+        Usuario::Cadastrar($nome, $email, $senha, $biografia, $nascimento);
     }
-    
+
 }
 ?>

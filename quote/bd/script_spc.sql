@@ -45,17 +45,22 @@ BEGIN
 
     IF p_nm_usuario IS NULL OR TRIM(p_nm_usuario) = '' THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Nome do usuario e obrigatorio.';
+        SET MESSAGE_TEXT = 'Nome do usuario é obrigatorio.';
     END IF;
 
     IF p_email IS NULL OR TRIM(p_email) = '' THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Email e obrigatorio.';
+        SET MESSAGE_TEXT = 'Email é obrigatorio.';
     END IF;
 
     IF p_senha IS NULL OR TRIM(p_senha) = '' THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Senha e obrigatoria.';
+        SET MESSAGE_TEXT = 'Senha é obrigatoria.';
+    END IF;
+    
+    IF p_dt_nascimento IS NULL OR TRIM(p_dt_nascimento) = '' THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Data de nascimento  é obrigatoria.';
     END IF;
 
     SELECT COUNT(*)
@@ -65,7 +70,7 @@ BEGIN
 
     IF v_qtd > 0 THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'E-mail ja cadastrado.';
+        SET MESSAGE_TEXT = 'E-mail já cadastrado.';
     END IF;
 
     SELECT COALESCE(MAX(id_usuario), 0) + 1

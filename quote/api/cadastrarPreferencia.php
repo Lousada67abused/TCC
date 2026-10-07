@@ -1,5 +1,4 @@
 <?php
-require_once('cors.php');
 require_once('config.php');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
@@ -23,41 +22,28 @@ if ($metodo != 'POST')
 try {
 	// Código da sua API
 
-	if (!isset($_GET['nome']) || $_GET['nome'] == '') {
+
+	if (!isset($_GET['codigoUsuario']) || $_GET['codigoUsuario'] == '') {
 		http_response_code(400);
 		echo json_encode(['mensagem' => 'Parâmetros obrigatórios insuficientes']);
 		return;
 	}
-	$nome = $_GET['nome'];
+	$codigoUsuario = $_GET['codigoUsuario'];
 
-	if (!isset($_GET['email']) || $_GET['email'] == '') {
+	if (!isset($_GET['codigoGenero']) || $_GET['codigoGenero'] == '') {
 		http_response_code(400);
 		echo json_encode(['mensagem' => 'Parâmetros obrigatórios insuficientes']);
 		return;
 	}
-	$email = $_GET['email'];
+	$codigoGenero = $_GET['codigoGenero'];
 
-	if (!isset($_GET['senha']) || $_GET['senha'] == '') {
-		http_response_code(400);
-		echo json_encode(['mensagem' => 'Parâmetros obrigatórios insuficientes']);
-		return;
-	}
-	$senha = $_GET['senha'];
-
-	if (!isset($_GET['nascimento']) || $_GET['nascimento'] == '') {
-		http_response_code(400);
-		echo json_encode(['mensagem' => 'Parâmetros obrigatórios insuficientes']);
-		return;
-	}
-	$nascimento = $_GET['nascimento'];
-
-	UsuarioController::cadastrar($nome, $email, $senha, 'biografia foda', $nascimento);
+	PreferenciaUsuarioController::cadastrarPreferencia($codigoUsuario, $codigoGenero);
 	
 	http_response_code(200);
-	echo json_encode(['status' => 'true', 'resultado' => 'Usuário cadastrado com sucesso!']);
+	echo json_encode(['status' => 'true']);
 } catch (Exception $erro) {
 	http_response_code(500);
-	echo json_encode(['status' => 'false', 'erro' => $erro->getMessage()]);
+	echo json_encode(['status' => 'false']);
 }
 
 function validaCorpoRequisicao($corpo) {
