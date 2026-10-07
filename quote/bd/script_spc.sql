@@ -125,7 +125,7 @@ END $$
 
 
 DROP PROCEDURE IF EXISTS buscarUsuarios$$
-CREATE PROCEDURE sp_buscar_usuarios()
+CREATE PROCEDURE buscarUsuarios()
 BEGIN
     SELECT
         id_usuario,
@@ -1247,10 +1247,10 @@ BEGIN
         a.nm_autor,
         COUNT(DISTINCT lg.id_genero) AS generos_compativeis
     FROM livro l
-    INNER JOIN livro_autor la
-        ON l.id_livro = la.id_livro
+    INNER JOIN autor_livro al
+        ON l.id_livro = al.id_livro
     INNER JOIN autor a
-        ON la.id_autor = a.id_autor
+        ON al.id_autor = a.id_autor
     INNER JOIN livro_genero lg
         ON l.id_livro = lg.id_livro
     LEFT JOIN preferencia_usuario pu
