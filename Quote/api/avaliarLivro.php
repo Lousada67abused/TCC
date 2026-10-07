@@ -1,4 +1,5 @@
 <?php
+require_once('cors.php');
 require_once('config.php');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
