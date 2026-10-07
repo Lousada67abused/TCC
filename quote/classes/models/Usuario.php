@@ -21,7 +21,19 @@ Class Usuario extends Banco{
 			'pEmail'=>$email,
 			'pSenha'=>$senha
 		];
-		return self::Consultar("acessar", $parametros);
+		return self::Consultar("loginUsuario", $parametros);
+	}
+
+	public static function Cadastrar($nome, $email, $senha, $biografia, $nascimento, $tipo) {
+		$parametros = [
+			'pNome'=>$nome,
+			'pEmail'=>$email,
+			'pSenha'=>$senha,
+			'pBiografia'=>$biografia,
+			'pNascimento'=>$nascimento,
+			'pTipo'=>$tipo
+		];
+		self::Executar("cadastrarUsuario", $parametros);
 	}
 }
 	

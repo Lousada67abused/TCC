@@ -25,7 +25,8 @@ class Avaliacao extends Banco {
         "nota"          => $nota,
         "resenha"       => $resenha
     );
-    self::Executar("sp_inserir_avaliacao", $parametros);
+    self::Executar("cadastrarAvaliacao", $parametros);
 }
 }
+
 ?>

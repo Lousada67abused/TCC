@@ -81,12 +81,14 @@ CREATE TABLE preferencia_usuario
 
 CREATE TABLE biblioteca
 (
-  id_livro BIGINT REFERENCES livro(id_livro),
-  id_biblioteca INT,
-  status ENUM('lido','lendo','quero ler','desisti','favorito'),
-  visivel TINYINT,
-  id_usuario INT REFERENCES usuario(id_usuario),
-  PRIMARY KEY (id_livro, id_biblioteca)
+    id_livro BIGINT REFERENCES livro(id_livro),
+    id_biblioteca INT,
+    status ENUM('lido','lendo','quero ler','desisti','favorito'),
+    visivel TINYINT,
+    id_usuario INT REFERENCES usuario(id_usuario),
+
+    PRIMARY KEY (id_biblioteca),
+    UNIQUE (id_usuario, id_livro)
 );
 
 CREATE TABLE seguidor
@@ -125,21 +127,21 @@ CREATE TABLE comentario
 );
 
 INSERT INTO usuario (id_usuario, nm_usuario, email, senha, bio, dt_nascimento, tipo_usuario) VALUES
-(1, 'Teste da Silva', 'teste@gmail.com', md5('123'), 'Viciada em romances distópicos. Sempre com um livro na bolsa.', '1998-03-14', 'comum'),
-(2, 'Bruno Costa Almeida', 'bruno.almeida@email.com', md5('123'), 'Fã de ficção científica e fantasia épica. Leio Tolkien todo ano.', '1995-07-22', 'comum'),
-(3, 'Camila Souza Ribeiro', 'camila.ribeiro@email.com', md5('123'), 'Administradora do Quote. Apaixonada por literatura brasileira.', '1990-11-05', 'administrador'),
-(4, 'Diego Martins Oliveira', 'diego.oliveira@email.com', md5('123'), 'Poesia contemporânea e crônicas do dia a dia.', '2000-01-30', 'comum'),
-(5, 'Elisa Pereira Lima', 'elisa.lima@email.com', md5('123'), 'Amante de clássicos russos. Dostoiévski é vida.', '1993-09-18', 'comum'),
-(6, 'Felipe Rocha Barbosa', 'felipe.barbosa@email.com', md5('123'), 'Leitor de mistérios e thrillers psicológicos.', '1997-05-09', 'comum'),
-(7, 'Gabriela Nunes Cardoso', 'gabriela.cardoso@email.com', md5('123'), 'Fantasia jovem adulto é meu vício confesso.', '2001-12-25', 'comum'),
-(8, 'Henrique Duarte Santos', 'henrique.santos@email.com', md5('123'), 'Não-ficção e biografias. Sempre aprendendo algo novo.', '1988-04-11', 'comum'),
-(9, 'Isabela Moreira Castro', 'isabela.castro@email.com', md5('123'), 'Administradora do Quote. Moderação e curadoria de conteúdo.', '1992-08-07', 'administrador'),
-(10, 'João Vitor Araújo', 'joao.araujo@email.com', md5('123'), 'Quadrinhos, mangás e literatura fantástica.', '1999-02-16', 'comum'),
-(11, 'Larissa Teixeira Gomes', 'larissa.gomes@email.com', md5('123'), 'Poesia marginal e literatura periférica.', '1996-06-29', 'comum'),
-(12, 'Marcelo Fontes Pinto', 'marcelo.pinto@email.com', md5('123'), 'Ensaísta amador. Curto discutir filosofia e literatura.', '1985-10-03', 'comum'),
-(13, 'Natália Vieira Correia', 'natalia.correia@email.com', md5('123'), 'Romance histórico e sagas familiares são minha praia.', '1994-01-20', 'comum'),
-(14, 'Otávio Ramos Cavalcanti', 'otavio.cavalcanti@email.com', md5('123'), 'Leitor voraz de terror e horror cósmico.', '1991-03-27', 'comum'),
-(15, 'Patrícia Andrade Melo', 'patricia.melo@email.com', md5('123'), 'Literatura infantojuvenil e contação de histórias.', '1989-07-14', 'comum');
+(1, 'Ana Beatriz Ferreira', 'ana.ferreira@email.com', '$2b$12$aBcD1eFgH2iJkL3mNoPqRe', 'Viciada em romances distópicos. Sempre com um livro na bolsa.', '1998-03-14', 'comum'),
+(2, 'Bruno Costa Almeida', 'bruno.almeida@email.com', '$2b$12$bCdE2fGhI3jKlM4nOpQrSt', 'Fã de ficção científica e fantasia épica. Leio Tolkien todo ano.', '1995-07-22', 'comum'),
+(3, 'Camila Souza Ribeiro', 'camila.ribeiro@email.com', '$2b$12$cDeF3gHiJ4kLmN5oPqRsTu', 'Administradora do Quote. Apaixonada por literatura brasileira.', '1990-11-05', 'administrador'),
+(4, 'Diego Martins Oliveira', 'diego.oliveira@email.com', '$2b$12$dEfG4hIjK5lMnO6pQrStUv', 'Poesia contemporânea e crônicas do dia a dia.', '2000-01-30', 'comum'),
+(5, 'Elisa Pereira Lima', 'elisa.lima@email.com', '$2b$12$eFgH5iJkL6mNoP7qRsTuVw', 'Amante de clássicos russos. Dostoiévski é vida.', '1993-09-18', 'comum'),
+(6, 'Felipe Rocha Barbosa', 'felipe.barbosa@email.com', '$2b$12$fGhI6jKlM7nOpQ8rStUvWx', 'Leitor de mistérios e thrillers psicológicos.', '1997-05-09', 'comum'),
+(7, 'Gabriela Nunes Cardoso', 'gabriela.cardoso@email.com', '$2b$12$gHiJ7kLmN8oPqR9sTuVwXy', 'Fantasia jovem adulto é meu vício confesso.', '2001-12-25', 'comum'),
+(8, 'Henrique Duarte Santos', 'henrique.santos@email.com', '$2b$12$hIjK8lMnO9pQrS0tUvWxYz', 'Não-ficção e biografias. Sempre aprendendo algo novo.', '1988-04-11', 'comum'),
+(9, 'Isabela Moreira Castro', 'isabela.castro@email.com', '$2b$12$iJkL9mNoP0qRsT1uVwXyZa', 'Administradora do Quote. Moderação e curadoria de conteúdo.', '1992-08-07', 'administrador'),
+(10, 'João Vitor Araújo', 'joao.araujo@email.com', '$2b$12$jKlM0nOpQ1rStU2vWxYzAb', 'Quadrinhos, mangás e literatura fantástica.', '1999-02-16', 'comum'),
+(11, 'Larissa Teixeira Gomes', 'larissa.gomes@email.com', '$2b$12$kLmN1oPqR2sTuV3wXyZaBc', 'Poesia marginal e literatura periférica.', '1996-06-29', 'comum'),
+(12, 'Marcelo Fontes Pinto', 'marcelo.pinto@email.com', '$2b$12$lMnO2pQrS3tUvW4xYzAbCd', 'Ensaísta amador. Curto discutir filosofia e literatura.', '1985-10-03', 'comum'),
+(13, 'Natália Vieira Correia', 'natalia.correia@email.com', '$2b$12$mNoP3qRsT4uVwX5yZaBcDe', 'Romance histórico e sagas familiares são minha praia.', '1994-01-20', 'comum'),
+(14, 'Otávio Ramos Cavalcanti', 'otavio.cavalcanti@email.com', '$2b$12$nOpQ4rStU5vWxY6zAbCdEf', 'Leitor voraz de terror e horror cósmico.', '1991-03-27', 'comum'),
+(15, 'Patrícia Andrade Melo', 'patricia.melo@email.com', '$2b$12$oPqR5sTuV6wXyZ7aBcDeFg', 'Literatura infantojuvenil e contação de histórias.', '1989-07-14', 'comum');
 
 INSERT INTO genero (id_genero, nm_genero) VALUES
 (1, 'Romance'),
