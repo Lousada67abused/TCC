@@ -22,41 +22,41 @@ if (btnEntrar) {
             }, 5000);
             return;
         }   
-
-        const dados = new FormData();
-        dados.append("email", email.value);
-        dados.append("senha", senha.value);
-
-        fetch("../api/acessar.php",{method: "POST",body: dados,})
+        
+        fetch("../api/acessar.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ email: email.value, senha: senha.value })
+        })
         .then(function (resposta) {
-            if (!resposta.ok) {
-                throw new Error("Erro no servidor: " + resposta.status);
-            }
             return resposta.json();
         })
         .then(function (resultado) {
-            if (resultado.sucesso) {
-                // window.location.href = "home.html";
+            
+            let deuCerto = null;
+            if (resultado.status){
+                deuCerto = true
+            }else{
+                deuCerto = false;
+            }
+        
+            if (deuCerto) {
                 console.log("Login bem-sucedido!");
+                 // window.location.href = "homepage.html";
+                 console.log(resultado);
             } else {
-                console.error(erro);
-            document.querySelector(".mensagemErro").textContent = "Não foi possível conectar ao servidor. Tente novamente.";
-            document.querySelector(".mensagemErro").classList.remove("escondido");
-            setTimeout(() =>{
-                document.querySelector(".mensagemErro").classList.add("escondido");
-            }, 5000);
+                document.querySelector(".mensagemErro").textContent = "Erro no servidor.";
+                document.querySelector(".mensagemErro").classList.remove("escondido");
+                setTimeout(() =>{
+                    document.querySelector(".mensagemErro").classList.add("escondido");
+                }, 5000);
             }
         })
         .catch(function (erro) {
             console.error(erro);
-            document.querySelector(".mensagemErro").textContent = "Não foi possível conectar ao servidor. Tente novamente.";
-            document.querySelector(".mensagemErro").classList.remove("escondido");
-            setTimeout(() =>{
-                document.querySelector(".mensagemErro").classList.add("escondido");
-            }, 5000);
+            mostrarErro("Não foi possível conectar ao servidor. Tente novamente.");
         });
     });
-
 }
 
 

@@ -1,6 +1,13 @@
 <?php 
+Class Usuario extends Banco{
+	public $Codigo;
+	public $Nome;
+	public $Email;
+	public $Biografia;
+	public $Nascimento;
+	public $Tipo;
 
-public function __construct($codigo = null, $nome = null, $email = null, $biografia = null, $nascimento = null, $tipo = null) {
+	public function __construct($codigo = null, $nome = null, $email = null, $biografia = null, $nascimento = null, $tipo = null) {
 		$this->Codigo = $codigo;
 		$this->Nome = $nome;
 		$this->Email = $email;
@@ -16,5 +23,6 @@ public function __construct($codigo = null, $nome = null, $email = null, $biogra
 		];
 		return self::Consultar("acessar", $parametros);
 	}
-
+}
+	
 ?>
