@@ -23,41 +23,22 @@ if ($metodo != 'POST')
 try {
 	// Código da sua API
 
-	if (!isset($_GET['nome']) || $_GET['nome'] == '') {
-		http_response_code(400);
-		echo json_encode(['mensagem' => 'Parâmetros obrigatórios insuficientes']);
+	$corpo = json_decode(file_get_contents("php://input"), true);
+	if (!validaCorpoRequisicao($corpo)) {
 		return;
 	}
-	$nome = $_GET['nome'];
-
-	if (!isset($_GET['email']) || $_GET['email'] == '') {
-		http_response_code(400);
-		echo json_encode(['mensagem' => 'Parâmetros obrigatórios insuficientes']);
+	$chaves = ['nome','email','senha','biografia','nascimento'];
+	if (!validaChaves($corpo, $chaves)) {
 		return;
 	}
-	$email = $_GET['email'];
-
-	if (!isset($_GET['senha']) || $_GET['senha'] == '') {
-		http_response_code(400);
-		echo json_encode(['mensagem' => 'Parâmetros obrigatórios insuficientes']);
-		return;
-	}
-	$senha = $_GET['senha'];
-
-	$biografia = null;
-	if (isset($_GET['biografia']) && $_GET['biografia'] != '') {
-		$biografia = $_GET['biografia'];
-	}
-
-	if (!isset($_GET['nascimento']) || $_GET['nascimento'] == '') {
-		http_response_code(400);
-		echo json_encode(['mensagem' => 'Parâmetros obrigatórios insuficientes']);
-		return;
-	}
-	$nascimento = $_GET['nascimento'];
-
+	$nome = $corpo['nome'];
+	$email = $corpo['email'];
+	$senha = $corpo['senha'];
+	$biografia = $corpo['biografia'];
+	$nascimento = $corpo['nascimento'];
+	
 	UsuarioController::cadastrar($nome, $email, $senha, $biografia, $nascimento);
-
+	
 	http_response_code(200);
 	echo json_encode(['status' => 'true', 'resultado' => 'Usuário cadastrado com sucesso!']);
 } catch (Exception $erro) {
