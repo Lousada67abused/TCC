@@ -1,49 +1,248 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <title>Quote - É assim que acaba</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/livro.css">
-    
-    <title>Página do livro</title>
-    
 </head>
 <body>
 
-    <header>
-        <figure>
-            <a href="homepage.html">
-                <img src="img/logoBranco.svg" alt="Logotipo do quote">
+    <header class="headerDesktop">
+        <div class="headerContainer">
+            <a href="index.html" class="logo"><img src="../imagens/logoBranco.svg" alt="Quote Logo"></a>
+            
+            <div class="barraPesquisa">
+                <input type="text" placeholder="Encontre sua próxima leitura">
+                <span class="material-symbols-outlined iconeBusca" aria-hidden="true">search</span>
+            </div>
+
+            <a href="#" class="perfilUsuarioHeader">
+                <img alt="Sua foto de perfil" class="avatarHeader">
             </a>
-        </figure>
-        <div class="barraPesquisa">
-            <input type="text" placeholder="Pesquise por autores, livros, gêneros e pessoas.">
-            <span class="material-symbols-outlined">search</span>
         </div>
-        <img src="img/avatar.png" alt="Foto de perfil do usuario">
     </header>
 
-    <main>
-        <section>
-            <figure>
-                <img src="img/capa5.jpg" alt="capa do livro Castro.">
-            </figure>
-            <nav>
-                <h1>Jogos Gulosos: A revolta de Castro</h1>
-                <p>Filippo Bento</p>
-                <div class="areaEstrelasLivro">
-                    <img src="img/estrela-cheia.svg" alt="Estrela cheia">
-                    <img src="img/estrela-cheia.svg" alt="Estrela cheia">
-                    <img src="img/estrela-vazia.svg" alt="Estrela vazia">
-                    <img src="img/estrela-vazia.svg" alt="Estrela vazia">
-                    <img src="img/estrela-vazia.svg" alt="Estrela vazia">
-                </div>
+    <main class="containerDetalhesLivro">
+        
+        <a href="javascript:history.back()" class="btnVoltarMobile" aria-label="Voltar">
+            <span class="material-symbols-outlined">arrow_back</span>
+        </a>
+
+        <article class="cabecalhoInfoLivro">
+            <div class="colunaCapa">
+                <img src="../imagens/capa3.jpg" alt="Capa do livro É assim que acaba" class="capaDestaque">
                 
-            </nav>
+                <div class="botoesAcaoInterativa desktopOnly">
+                    <div class="selectWrapper">
+                        <select class="selectStatus" aria-label="Estado de leitura">
+                            <option value="lido" selected>lido</option>
+                            <option value="lendo">Lendo</option>
+                            <option value="quero-ler">Quero ler</option>
+                            <option value="desisti">Desisti</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btnFavorito" aria-label="Favoritar">
+                        <span>favoritar</span>
+                        <span class="material-symbols-outlined">bookmark</span>
+                    </button>
+                </div>
+            </div>
+            
+            <div class="dadosLivro">
+                <h1 class="tituloLivroDestaque">É assim que acaba</h1>
+                <p class="autorNome">Colleen Hoover</p>
+
+                <div class="avaliacaoResumo">
+                    <div class="estrelasExibicao" aria-label="Avaliação média: 4 de 5 estrelas">
+                        <span class="material-symbols-outlined preenchida">star</span>
+                        <span class="material-symbols-outlined preenchida">star</span>
+                        <span class="material-symbols-outlined preenchida">star</span>
+                        <span class="material-symbols-outlined preenchida">star</span>
+                        <span class="material-symbols-outlined">star</span>
+                    </div>
+                    <span class="qtdAvaliacoes">(1,5K)</span>
+                </div>
+
+                <table class="tabelaFichaTecnica">
+                    <tr>
+                        <th>Páginas</th>
+                        <td>394</td>
+                    </tr>
+                    <tr>
+                        <th>Publicado em</th>
+                        <td>2016</td>
+                    </tr>
+                    <tr>
+                        <th>Gêneros</th>
+                        <td>Romance, Ficção</td>
+                    </tr>
+                    <tr>
+                        <th>Editora</th>
+                        <td>Galera Record</td>
+                    </tr>
+                </table>
+
+                <div class="botoesAcaoInterativa mobileOnly">
+                    <div class="selectWrapper">
+                        <select class="selectStatus" aria-label="Estado de leitura">
+                            <option value="lido" selected>lido</option>
+                            <option value="lendo">Lendo</option>
+                            <option value="quero-ler">Quero ler</option>
+                            <option value="desisti">Desisti</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btnFavorito" aria-label="Favoritar">
+                        <span class="material-symbols-outlined">bookmark_border</span>
+                        <span>Favoritar</span>
+                    </button>
+                </div>
+
+                <div class="sinopseLivro">
+                    <p>Considerada a obra mais pessoal de Hoover, o livro aborda sem medo alguns tabus da sociedade para explorar a complexidade das relações tóxicas, e como o amor e o abuso muitas vezes coexistem em uma confusão de sentimentos.</p>
+                    <p>Considerada a obra mais pessoal de Hoover, o livro aborda sem medo alguns tabus da sociedade para explorar a complexidade das relações tóxicas, e como o amor e o abuso muitas vezes coexistem em uma confusão de sentimentos.</p>
+                </div>
+            </div>
+        </article>
+
+        
+        <section class="cardNovaResenha">
+            <div class="cabecalhoNovaResenha">
+                <img src="../imagens/avatar.png" alt="Sua foto de perfil" class="fotoUsuarioResenha">
+                <div class="infoNovaResenha">
+                    <h2>Escreva sua resenha</h2>
+                    <div class="avaliadorEstrelasInput">
+                        <span class="material-symbols-outlined">star</span>
+                        <span class="material-symbols-outlined">star</span>
+                        <span class="material-symbols-outlined">star</span>
+                        <span class="material-symbols-outlined">star</span>
+                        <span class="material-symbols-outlined">star</span>
+                    </div>
+                </div>
+            </div>
+            
+            <form action="#" method="post" class="formularioAvaliacao">
+                <textarea name="resenha" rows="4" placeholder="Compartilhe sua opinião sobre o livro..."></textarea>
+                <div class="containerBtnPublicar">
+                    <button type="submit" class="btnPublicar">publicar</button>
+                </div>
+            </form>
+        </section>
+
+        
+        <section class="secaoResenhasComunidade" aria-label="Resenhas da comunidade">
+            <h2 class="tituloSecaoResenhas">Resenhas <span class="contadorTotal">(1,5K)</span></h2>
+
+            <ul class="listaResenhasComunidade">
+                
+                <li class="cardResenhaUsuario">
+                    <article>
+                        <div class="topoCardResenha">
+                            <img src="../imagens/avatar.png" alt="Foto de @adventuraa" class="fotoUsuarioCard">
+                            <div class="detalhesAutorCard">
+                                <span class="nomeUsuarioResenha">@adventuraa</span>
+                                <div class="estrelasExibicao" aria-label="Avaliação: 5 estrelas">
+                                    <span class="material-symbols-outlined preenchida">star</span>
+                                    <span class="material-symbols-outlined preenchida">star</span>
+                                    <span class="material-symbols-outlined preenchida">star</span>
+                                    <span class="material-symbols-outlined preenchida">star</span>
+                                    <span class="material-symbols-outlined preenchida">star</span>
+                                </div>
+                                <time datetime="2026-07-08" class="dataResenha">08/07/2026</time>
+                            </div>
+                        </div>
+
+                        <p class="textoResenhaUsuario">
+                            Uns dos melhores livros que já li. Recomendo demais para quem gosta de um romance cheio de reviravoltas,fofo e leve de se ler. Uns dos melhores livros que já li. Recomendo demais para quem gosta de um romance cheio de reviravoltas,fofo e leve de se ler.
+                        </p>
+
+                        <footer class="acoesCardResenha">
+                            <button type="button" class="btnAcaoResenha" aria-label="Curtidas">
+                                <span class="material-symbols-outlined">favorite_border</span>
+                                <span>198</span>
+                            </button>
+                            <button type="button" class="btnAcaoResenha" aria-label="Comentários">
+                                <span class="material-symbols-outlined">chat_bubble_outline</span>
+                                <span>27</span>
+                            </button>
+                        </footer>
+                    </article>
+                </li>
+
+                
+                <li class="cardResenhaUsuario">
+                    <article>
+                        <div class="topoCardResenha">
+                            <img src="../imagens/avatar.png" alt="Foto de @Livia_Letters" class="fotoUsuarioCard">
+                            <div class="detalhesAutorCard">
+                                <span class="nomeUsuarioResenha">@Livia_Letters</span>
+                                <div class="estrelasExibicao" aria-label="Avaliação: 5 estrelas">
+                                    <span class="material-symbols-outlined preenchida">star</span>
+                                    <span class="material-symbols-outlined preenchida">star</span>
+                                    <span class="material-symbols-outlined preenchida">star</span>
+                                    <span class="material-symbols-outlined preenchida">star</span>
+                                    <span class="material-symbols-outlined preenchida">star</span>
+                                </div>
+                                <time datetime="2026-07-08" class="dataResenha">08/07/2026</time>
+                            </div>
+                        </div>
+
+                        <p class="textoResenhaUsuario">
+                            Uns dos melhores livros que já li. Recomendo demais para quem gosta de um romance cheio de reviravoltas,fofo e leve de se ler. Uns dos melhores livros que já li. Recomendo demais para quem gosta de um romance cheio de reviravoltas,fofo e leve de se ler.
+                        </p>
+
+                        <footer class="acoesCardResenha">
+                            <button type="button" class="btnAcaoResenha" aria-label="Curtidas">
+                                <span class="material-symbols-outlined">favorite_border</span>
+                                <span>198</span>
+                            </button>
+                            <button type="button" class="btnAcaoResenha" aria-label="Comentários">
+                                <span class="material-symbols-outlined">chat_bubble_outline</span>
+                                <span>27</span>
+                            </button>
+                        </footer>
+                    </article>
+                </li>
+            </ul>
+
+            <div class="containerBtnVerMais">
+                <button type="button" class="btnVerMais">ver mais <span class="material-symbols-outlined">arrow_forward</span></button>
+            </div>
         </section>
     </main>
 
+    
+    <nav class="navInferiorMobile" aria-label="Navegação principal">
+        <ul>
+            <li>
+                <a href="index.html" class="ativo" aria-label="Início">
+                    <span class="material-symbols-outlined">home</span>
+                </a>
+            </li>
+            <li>
+                <a href="ranking.html" aria-label="Ranking">
+                    <span class="material-symbols-outlined">trophy</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" aria-label="Pesquisar">
+                    <span class="material-symbols-outlined">search</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" aria-label="Estante">
+                    <span class="material-symbols-outlined">menu_book</span>
+                </a>
+            </li>
+            <li>
+                <a href="#" aria-label="Perfil">
+                    <span class="material-symbols-outlined">person</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+    <script src="../js/livros.js"></script>
+</body>
 </html>

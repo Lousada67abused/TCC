@@ -1,43 +1,47 @@
 const areaLivros = document.querySelector("main > section");
 const avatar = document.querySelector("header > img");
 avatar.src=`../img/${sessionStorage.getItem("codigo")}.png`;
-
-fetch("../api/recomendarLivroUsuario.php?codigoUsuario=" + sessionStorage.getItem("codigo"), {
-    method: "GET",
-    headers: { "Content-Type": "application/json" }
-  })
-  .then(function (resposta) {
-    return resposta.json();
-  })
-  .then(function (resultado) {
-    console.log(resultado);
-    
-    let deuCerto = null;
-    if (resultado.status){
-        deuCerto = true
-    } else{
-        deuCerto = false;
-    }
-
-    if (deuCerto) {
-        const livros = resultado.resultado;
-        for (let i = 0; i < livros.length; i++) {
-            const livro = livros[i];
-            const divLivro = criarLivro(livro);
-            areaLivros.appendChild(divLivro);
-
-            divLivro.addEventListener("click", function () {
-                const idLivro = this.dataset.idLivro;
-                sessionStorage.setItem("idLivro", idLivro);
-                window.location.href = "livro.html";
-            });
+console.log("js conectado")
+if (areaLivros){
+    fetch("../api/recomendarLivroUsuario.php?codigoUsuario=" + sessionStorage.getItem("codigo"), {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+    })
+    .then(function (resposta) {
+        return resposta.json();
+    })
+    .then(function (resultado) {
+        console.log(resultado);
+        
+        let deuCerto = null;
+        if (resultado.status){
+            deuCerto = true
+        } else{
+            deuCerto = false;
         }
-    }
-    
-  })
-  .catch(function (erro) {
-    console.error(erro);
-});
+        
+        if (deuCerto) {
+            const livros = resultado.resultado;
+            for (let i = 0; i < livros.length; i++) {
+                const livro = livros[i];
+                const divLivro = criarLivro(livro);
+                areaLivros.appendChild(divLivro);
+                
+                divLivro.addEventListener("click", function () {
+                    const idLivro = this.dataset.idLivro;
+                    sessionStorage.setItem("idLivro", idLivro);
+                    window.location.href = "livro.html";
+                });
+            }
+        }
+        
+    })
+    .catch(function (erro) {
+        console.error(erro);
+    });
+}
+
+
 
 function criarLivro(livro) {
     const divLivro = document.createElement("div");

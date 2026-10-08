@@ -1,7 +1,1038 @@
-main{
-    width: 80%;
+
+@import url('https://fonts.googleapis.com/css2?family=Merriweather:wght@700&family=Roboto:wght@400;500;700&display=swap');
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f8f9fa;
+    color: #212529;
     display: flex;
-    justify-content: center;    
     flex-direction: column;
-    gap: 25px;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.app-container {
+    width: 100%;
+    min-height: 100vh;
+    padding: 20px 16px 80px 16px;
+    display: flex;
+    flex-direction: column;
+}
+
+.search-bar {
+    display: flex;
+    align-items: center;
+    border: 1.5px solid #1a56b0;
+    border-radius: 8px;
+    padding: 4px 6px 4px 12px;
+    margin-bottom: 24px;
+    width: 100%;
+    background-color: #ffffff;
+}
+
+.search-bar input {
+    border: none;
+    outline: none;
+    flex: 1;
+    font-size: 14px;
+    color: #333333;
+}
+
+.search-bar input::placeholder {
+    color: #a0a0a0;
+}
+
+.dropdown-btn {
+    background-color: #1a56b0;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.dropdown-btn .material-symbols-outlined {
+    font-size: 18px;
+}
+
+.containerGeneros {
+    width: 100%;
+}
+
+.titulo-secao {
+    font-size: 20px;
+    font-weight: 700;
+    color: #000000;
+    margin-bottom: 20px;
+    line-height: 1.25;
+}
+
+.gradeGenerosGrid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    width: 100%;
+}
+
+.cardGeneroLabel {
+    display: block;
+    cursor: pointer;
+    width: 100%;
+}
+
+.invisivelInput {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.cardGeneroConteudo {
+    height: 100px;
+    border-radius: 8px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: #ffffff;
+    position: relative;
+    overflow: hidden;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.cardGeneroLabel:hover .cardGeneroConteudo {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+.card-header {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    width: 100%;
+}
+
+.tags {
+    display: flex;
+    gap: 4px;
+}
+
+.tag {
+    font-size: 9px;
+    padding: 2px 6px;
+    border: 1px solid rgba(255, 255, 255, 0.6);
+    background-color: rgba(0, 0, 0, 0.35);
+    border-radius: 10px;
+    white-space: nowrap;
+}
+
+.card-titulo {
+    font-family: 'Merriweather', serif;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: 1.1;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8);
+}
+
+
+.card-romance {
+    background-color: #4a152d;
+    background-image: linear-gradient(rgba(74, 21, 45, 0.45), rgba(74, 21, 45, 0.7));
+}
+
+.card-suspense {
+    background-color: #1b1c31;
+    background-image: linear-gradient(rgba(27, 28, 49, 0.45), rgba(27, 28, 49, 0.7));
+}
+
+.card-fantasia {
+    background-color: #1a3331;
+    background-image: linear-gradient(rgba(26, 51, 49, 0.45), rgba(26, 51, 49, 0.7));
+}
+
+.card-biografia {
+    background-color: #213a29;
+    background-image: linear-gradient(rgba(33, 58, 41, 0.45), rgba(33, 58, 41, 0.7));
+}
+
+.card-ficcao-cientifica {
+    background-color: #2a3c42;
+    background-image: linear-gradient(rgba(42, 60, 66, 0.45), rgba(42, 60, 66, 0.7));
+}
+
+.card-ficcao-historica {
+    background-color: #3d3420;
+    background-image: linear-gradient(rgba(61, 52, 32, 0.45), rgba(61, 52, 32, 0.7));
+}
+
+.card-poesia {
+    background-color: #311c38;
+    background-image: linear-gradient(rgba(49, 28, 56, 0.45), rgba(49, 28, 56, 0.7));
+}
+
+.card-terror {
+    background-color: #421c1c;
+    background-image: linear-gradient(rgba(66, 28, 28, 0.45), rgba(66, 28, 28, 0.7));
+}
+
+.card-aventura {
+    background-color: #1e392a;
+    background-image: linear-gradient(rgba(30, 57, 42, 0.45), rgba(30, 57, 42, 0.7));
+}
+
+.card-autoajuda {
+    background-color: #42391c;
+    background-image: linear-gradient(rgba(66, 57, 28, 0.45), rgba(66, 57, 28, 0.7));
+}
+
+.card-filosofia {
+    background-color: #0d1a33;
+    background-image: linear-gradient(rgba(13, 26, 51, 0.45), rgba(13, 26, 51, 0.7));
+}
+
+.card-drama {
+    background-color: #3a1a10;
+    background-image: linear-gradient(rgba(58, 26, 16, 0.45), rgba(58, 26, 16, 0.7));
+}
+
+.invisivelInput:checked + .cardGeneroConteudo {
+    outline: 3px solid #1a56b0;
+}
+
+.bottom-nav {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 56px;
+    background-color: #002b66;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    z-index: 100;
+}
+
+.nav-item {
+    color: #ffffff;
+    opacity: 0.7;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.nav-item.active {
+    opacity: 1;
+}
+
+.nav-item .material-symbols-outlined {
+    font-size: 24px;
+}
+
+@media (min-width: 768px) {
+    .app-container {
+        padding: 40px 60px;
+        max-width: 100%;
+    }
+
+    .search-bar {
+        max-width: 500px;
+        margin: 0 auto 36px auto;
+    }
+
+    .titulo-secao {
+        font-size: 26px;
+        margin-bottom: 28px;
+    }
+
+    .gradeGenerosGrid {
+        grid-template-columns: repeat(4, 1fr);
+        gap: 20px;
+    }
+
+    .cardGeneroConteudo {
+        height: 130px;
+        padding: 16px;
+    }
+
+    .card-titulo {
+        font-size: 22px;
+    }
+
+    .tag {
+        font-size: 11px;
+        padding: 3px 8px;
+    }
+
+    .bottom-nav {
+        display: none;
+    }
+}
+
+
+/* Detalhes do Livro */
+
+
+
+.containerDetalhesLivro {
+    width: 100%;
+    max-width: 414px;
+    background-color: #ffffff;
+    padding: 16px 16px 80px 16px;
+    min-height: 100vh;
+    position: relative;
+}
+
+.headerDesktop,
+.desktopOnly {
+    display: none;
+}
+
+.mobileOnly {
+    display: flex;
+}
+
+.btnVoltarMobile {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px;
+    height: 32px;
+    background-color: #70b0ff;
+    color: #ffffff;
+    border-radius: 50%;
+    text-decoration: none;
+    margin-bottom: 12px;
+}
+
+.btnVoltarMobile .material-symbols-outlined {
+    font-size: 20px;
+}
+
+.cabecalhoInfoLivro {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.colunaCapa {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.capaDestaque {
+    width: 100%;
+    max-width: 220px;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.dadosLivro {
+    display: flex;
+    flex-direction: column;
+}
+
+.tituloLivroDestaque {
+    font-size: 24px;
+    font-weight: 800;
+    color: #000000;
+    line-height: 1.2;
+}
+
+.autorNome {
+    font-size: 14px;
+    color: #555555;
+    margin-bottom: 6px;
+}
+
+.avaliacaoResumo {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 12px;
+}
+
+.estrelasExibicao {
+    display: flex;
+    gap: 1px;
+}
+
+.estrelasExibicao .material-symbols-outlined {
+    font-size: 16px;
+    color: #d1d1d1;
+}
+
+.estrelasExibicao .material-symbols-outlined.preenchida {
+    color: #ffc107;
+    font-variation-settings: 'FILL' 1;
+}
+
+.qtdAvaliacoes {
+    font-size: 12px;
+    color: #666666;
+}
+
+.tabelaFichaTecnica {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 16px;
+}
+
+.tabelaFichaTecnica tr {
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.tabelaFichaTecnica th,
+.tabelaFichaTecnica td {
+    padding: 4px 0;
+    font-size: 12px;
+    text-align: left;
+}
+
+.tabelaFichaTecnica th {
+    font-weight: 500;
+    color: #444444;
+    width: 40%;
+}
+
+.tabelaFichaTecnica td {
+    color: #111111;
+}
+
+.botoesAcaoInterativa {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+}
+
+.selectWrapper {
+    position: relative;
+}
+
+.selectStatus {
+    appearance: none;
+    background-color: #5cb85c;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 28px 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.selectWrapper::after {
+    content: '▾';
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ffffff;
+    pointer-events: none;
+}
+
+.btnFavorito {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background-color: transparent;
+    border: 1px solid #cccccc;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 13px;
+    color: #333333;
+    cursor: pointer;
+}
+
+.btnFavorito .material-symbols-outlined {
+    font-size: 16px;
+}
+
+.sinopseLivro p {
+    font-size: 13px;
+    color: #333333;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.cardNovaResenha {
+    background-color: #ffffff;
+    border-radius: 12px;
+    padding: 16px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+    margin-bottom: 24px;
+    border: 1px solid #f0f0f0;
+}
+
+.cabecalhoNovaResenha {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.fotoUsuarioResenha {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.infoNovaResenha h2 {
+    font-size: 15px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.avaliadorEstrelasInput {
+    display: flex;
+    gap: 2px;
+    color: #cccccc;
+    cursor: pointer;
+}
+
+.avaliadorEstrelasInput .material-symbols-outlined {
+    font-size: 18px;
+}
+
+.formularioAvaliacao textarea {
+    width: 100%;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 10px;
+    font-family: inherit;
+    font-size: 12px;
+    resize: none;
+    outline: none;
+    background-color: #fafafa;
+}
+
+.containerBtnPublicar {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.btnPublicar {
+    background-color: #1a56b0;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.secaoResenhasComunidade {
+    margin-bottom: 24px;
+}
+
+.tituloSecaoResenhas {
+    font-size: 18px;
+    font-weight: 800;
+    color: #000000;
+    margin-bottom: 16px;
+}
+
+.contadorTotal {
+    font-size: 13px;
+    font-weight: 400;
+    color: #666666;
+}
+
+.listaResenhasComunidade {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.cardResenhaUsuario {
+    background-color: #ffffff;
+    border-radius: 10px;
+    padding: 14px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f0f0f0;
+}
+
+.topoCardResenha {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 8px;
+}
+
+.fotoUsuarioCard {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.detalhesAutorCard {
+    display: flex;
+    flex-direction: column;
+}
+
+.nomeUsuarioResenha {
+    font-size: 13px;
+    font-weight: 700;
+    color: #000000;
+}
+
+.dataResenha {
+    font-size: 10px;
+    color: #888888;
+}
+
+.textoResenhaUsuario {
+    font-size: 12px;
+    color: #333333;
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.acoesCardResenha {
+    display: flex;
+    gap: 16px;
+}
+
+.btnAcaoResenha {
+    background: none;
+    border: none;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    color: #e53935;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.btnAcaoResenha:last-child {
+    color: #1e88e5;
+}
+
+.btnAcaoResenha .material-symbols-outlined {
+    font-size: 15px;
+}
+
+.containerBtnVerMais {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 14px;
+}
+
+.btnVerMais {
+    background-color: #1a56b0;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 18px;
+    font-size: 13px;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+}
+
+.btnVerMais .material-symbols-outlined {
+    font-size: 16px;
+}
+
+.navInferiorMobile {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 56px;
+    background-color: #003366;
+    z-index: 100;
+}
+
+.navInferiorMobile ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+}
+
+.navInferiorMobile a {
+    color: #ffffff;
+    text-decoration: none;
+    opacity: 0.7;
+}
+
+.navInferiorMobile a.ativo {
+    opacity: 1;
+}
+
+.navInferiorMobile .material-symbols-outlined {
+    font-size: 24px;
+}
+
+@media (min-width: 768px) {
+    body {
+        background-color: #ffffff;
+    }
+
+    
+    .containerDetalhesLivro {
+        max-width: 900px;
+        padding: 40px 20px;
+    }
+
+    
+    .headerDesktop {
+        display: block;
+        width: 100%;
+        background-color: #003366;
+        padding: 12px 0;
+    }
+
+    .headerContainer {
+        max-width: 900px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 20px;
+    }
+
+    .barraPesquisa {
+        position: relative;
+        width: 320px;
+    }
+
+    .barraPesquisa input {
+        width: 100%;
+        padding: 6px 36px 6px 12px;
+        border-radius: 20px;
+        border: none;
+        font-size: 12px;
+    }
+
+    .barraPesquisa .iconeBusca {
+        position: absolute;
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+        color: #666666;
+    }
+
+    .avatarHeader {
+        width: 36px;
+        height: 36px;
+        border-radius: 50%;
+    }
+
+    .navInferiorMobile,
+    .btnVoltarMobile,
+    .mobileOnly {
+        display: none !important;
+    }
+
+    .desktopOnly {
+        display: flex !important;
+    }
+
+    
+    .cabecalhoInfoLivro {
+        flex-direction: row;
+        gap: 32px;
+        align-items: flex-start;
+    }
+
+    .capaDestaque {
+        max-width: 240px;
+    }
+
+    .botoesAcaoInterativa {
+        margin-top: 16px;
+        justify-content: flex-start;
+    }
+
+    .dadosLivro {
+        flex: 1;
+    }
+
+    .tituloLivroDestaque {
+        font-size: 28px;
+    }
+
+    .tabelaFichaTecnica {
+        max-width: 320px;
+    }
+}
+
+
+.headerDesktop {
+    display: none;
+}
+
+.containerPaginaBusca {
+    width: 100%;
+    max-width: 414px;
+    background-color: #ffffff;
+    padding: 0 16px 80px 16px;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+.headerBusca {
+    background-color: #002b66;
+    margin: 0 -16px 20px -16px;
+    padding: 14px 16px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.btnVoltarIcone {
+    color: #ffffff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.containerInputBuscaHeader {
+    flex: 1;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.containerInputBuscaHeader input {
+    width: 100%;
+    height: 38px;
+    border-radius: 20px;
+    border: none;
+    padding: 0 40px 0 16px;
+    font-size: 14px;
+    outline: none;
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.btnBusca {
+    position: absolute;
+    right: 12px;
+    background: none;
+    border: none;
+    color: #1a56b0;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tituloResultado {
+    font-size: 18px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #000000;
+}
+
+.gradeResultadosLivros {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 20px 10px;
+    margin-bottom: 28px;
+    width: 100%;
+}
+
+.itemLivroBusca {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.cardItemLivroBusca {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.cardItemLivroBusca img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 6px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.12);
+    margin-bottom: 6px;
+    background-color: #f0f0f0;
+}
+
+.tituloLivroBusca {
+    font-size: 13px;
+    font-weight: 700;
+    color: #000000;
+    line-height: 1.25;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    width: 100%;
+}
+
+.autorLivroBusca {
+    font-size: 11px;
+    color: #888888;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    width: 100%;
+}
+
+.containerPaginacao {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
+}
+
+.btnProximo {
+    background-color: #1a56b0;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 500;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.btnProximo .material-symbols-outlined {
+    font-size: 16px;
+}
+
+.navInferiorMobile {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 56px;
+    background-color: #002b66;
+    z-index: 100;
+}
+
+.navInferiorMobile ul {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 100%;
+}
+
+.navInferiorMobile a {
+    color: #ffffff;
+    text-decoration: none;
+    opacity: 0.7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.navInferiorMobile a.ativo {
+    opacity: 1;
+}
+
+.navInferiorMobile .material-symbols-outlined {
+    font-size: 24px;
+}
+
+@media (min-width: 768px) {
+
+    .headerDesktop {
+        display: block;
+        width: 100%;
+        background-color: #002b66;
+        padding: 16px 0;
+    }
+
+    .headerContainer {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+
+    .logo img {
+        height: 32px;
+    }
+
+    .containerPaginaBusca {
+        max-width: 900px;
+        padding: 30px 20px 60px 20px;
+        margin: 0 auto;
+    }
+
+    .headerBusca {
+        background-color: transparent;
+        margin: 0 0 28px 0;
+        padding: 0;
+    }
+
+    .btnVoltarIcone {
+        color: #000000;
+    }
+
+    .containerInputBuscaHeader {
+        max-width: 420px;
+    }
+
+    .containerInputBuscaHeader input {
+        height: 40px;
+        border: 1px solid #1a56b0;
+    }
+
+    .tituloResultado {
+        font-size: 20px;
+        margin-bottom: 24px;
+    }
+
+    .gradeResultadosLivros {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 24px 18px;
+    }
+
+    .tituloLivroBusca {
+        font-size: 14px;
+    }
+
+    .autorLivroBusca {
+        font-size: 12px;
+    }
+
+    .navInferiorMobile {
+        display: none;
+    }
 }
