@@ -18,6 +18,7 @@ class Livro extends Banco {
 	}
 
 	public static function FiltroBuscar($filtro) {
+		$filtro = ['filtro' => $filtro];
 		return self::Consultar("filtroLivro", $filtro);
 	}
 }

@@ -18,7 +18,7 @@ class PreferenciaUsuario extends Banco {
 	}
 
 	public static function RecomendarLivroUsuario($codigoUsuario) {
-		
+		$codigoUsuario = ['pCodigoUsuario'=>$codigoUsuario];
 		return self::Consultar("recomendarLivroUsuario", $codigoUsuario);
 	}
 }

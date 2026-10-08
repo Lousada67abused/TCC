@@ -486,6 +486,17 @@ INSERT INTO livro_genero (id_genero, id_livro) VALUES
 (11, 9788578270889),
 (14, 9788578270889);
 
+INSERT INTO preferencia_usuario (id_usuario, id_genero) VALUES
+(1, 1),
+(1, 3),
+(1, 5),
+(1, 6),
+(2, 2),
+(2, 4),
+(2, 7),
+(2, 8),
+(3, 1);
+
 INSERT INTO autor_livro (id_autor, id_livro) VALUES
 (1, 9788535914849),
 (2, 9788582850350),
