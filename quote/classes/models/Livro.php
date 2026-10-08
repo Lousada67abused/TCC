@@ -21,5 +21,10 @@ class Livro extends Banco {
 		$filtro = ['filtro' => $filtro];
 		return self::Consultar("filtroLivro", $filtro);
 	}
+
+	public static function CalcularNotaMedia($codigo) {
+		$codigo = ['codigo' => $codigo];
+		return self::Consultar("calcularNotaMediaLivro", $codigo);
+	}
 }
 ?>
