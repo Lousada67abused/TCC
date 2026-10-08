@@ -15,8 +15,6 @@ if ($metodo != 'GET')
 }
 
 try {
-	// Código da sua API
-
 
 	if (!isset($_GET['codigo']) || $_GET['codigo'] == '') {
 		http_response_code(400);

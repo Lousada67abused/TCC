@@ -15,7 +15,6 @@ if ($metodo != 'GET')
 }
 
 try {
-	// Código da sua API
 
 	$filtro = null;
 	if (isset($_GET['filtro']) && $_GET['filtro'] != '') {

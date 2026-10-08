@@ -15,7 +15,6 @@ if ($metodo != 'GET')
 }
 
 try {
-	// Código da sua API
 	$resultado = GeneroController::buscarGenero();
 	http_response_code(200);
 	echo json_encode(['status' => 'true', 'dados' => $resultado]);

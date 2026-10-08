@@ -21,8 +21,6 @@ if ($metodo != 'POST')
 }
 
 try {
-	// Código da sua API
-
 	$corpo = json_decode(file_get_contents("php://input"), true);
 	if (!validaCorpoRequisicao($corpo)) {
 		return;

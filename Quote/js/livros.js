@@ -1,7 +1,7 @@
-const areaLivros = document.querySelector("main > section");
+const areaLivros = document.querySelector(".areaLivros");
+const containerDetalhesLivro = document.querySelector(".containerDetalhesLivro");
 const avatar = document.querySelector("header > img");
 avatar.src=`../img/${sessionStorage.getItem("codigo")}.png`;
-console.log("js conectado")
 if (areaLivros){
     fetch("../api/recomendarLivroUsuario.php?codigoUsuario=" + sessionStorage.getItem("codigo"), {
         method: "GET",
@@ -29,7 +29,8 @@ if (areaLivros){
                 
                 divLivro.addEventListener("click", function () {
                     const idLivro = this.dataset.idLivro;
-                    sessionStorage.setItem("idLivro", idLivro);
+                    sessionStorage.setItem("codigoLivro", idLivro);
+                    console.log(sessionStorage.getItem("codigoLivro"));
                     window.location.href = "livro.html";
                 });
             }
@@ -41,7 +42,50 @@ if (areaLivros){
     });
 }
 
+if (containerDetalhesLivro){
+    fetch("../api/buscarLivroCodigo.php?codigo=" + sessionStorage.getItem("codigoLivro"), {
+        method: "GET",
+        headers: { "Content-Type": "application/json" }
+    })
+    .then(function (resposta) {
+        return resposta.json();
+    })
+    .then(function (resultado) {
+        const dados = resultado.resposta[0];
+        console.log(resultado.resposta[0])
+        
+        let deuCerto = null;
+        if (resultado.status){
+            deuCerto = true
+        } else{
+            deuCerto = false;
+        }
+        
+        if (deuCerto) {
+            const titulo = document.querySelector(".tituloLivroDestaque");
+            const autorNome = document.querySelector(".autorNome");
+            const paginas = document.getElementById("qtdPaginas");
+            const ano = document.getElementById("ano");
+            const genero = document.getElementById("genero");
+            const editora = document.getElementById("editora");
+            const sinopse = document.querySelector(".sinopseLivro p");
+            const capa = document.querySelector(".capaDestaque");
 
+
+            capa.src = "https://covers.openlibrary.org/b/isbn/" + dados.id_livro + "-L.jpg";
+            titulo.textContent = dados.titulo;
+            paginas.textContent = dados.qnt_paginas;
+            ano.textContent = dados.ano_publicacao;
+            editora.textContent = dados.nm_editora;
+            sinopse.textContent = dados.sinopse;
+
+        }
+        
+    })
+    .catch(function (erro) {
+        console.error(erro);
+    });
+}
 
 function criarLivro(livro) {
     const divLivro = document.createElement("div");

@@ -20,7 +20,6 @@ if ($metodo != 'POST')
 }
 
 try {
-	// Código da sua API
 
 
 	if (!isset($_GET['codigoUsuario']) || $_GET['codigoUsuario'] == '') {
