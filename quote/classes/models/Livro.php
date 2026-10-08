@@ -16,5 +16,9 @@ class Livro extends Banco {
 		$this->Paginas = $paginas;
 		$this->CodigoEditora = $codigoEditora;
 	}
+
+	public static function FiltroBuscar($filtro) {
+		return self::Consultar("filtroLivro", $filtro);
+	}
 }
 ?>

@@ -16,5 +16,10 @@ class PreferenciaUsuario extends Banco {
 		];
 		self::Executar("cadastrarPreferenciaUsuario", $parametros);
 	}
+
+	public static function RecomendarLivroUsuario($codigoUsuario) {
+		
+		return self::Consultar("recomendarLivroUsuario", $codigoUsuario);
+	}
 }
 ?>

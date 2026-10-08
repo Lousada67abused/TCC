@@ -8,5 +8,9 @@ class Genero extends Banco {
 		$this->Codigo = $codigo;
 		$this->Nome = $nome;
 	}
+
+	public static function BuscarGenero() {
+		return self::Consultar("buscarGenero");
+	}
 }
 ?>

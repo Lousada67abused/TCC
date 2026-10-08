@@ -415,8 +415,8 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_buscar_generos$$
-CREATE PROCEDURE sp_buscar_generos()
+DROP PROCEDURE IF EXISTS buscarGenero$$
+CREATE PROCEDURE buscarGenero()
 BEGIN
     SELECT
         id_genero,
@@ -664,6 +664,51 @@ BEGIN
     INNER JOIN editora e
         ON l.cd_editora = e.id_editora
     ORDER BY l.titulo;
+END $$
+
+DROP PROCEDURE IF EXISTS filtroLivro$$
+CREATE PROCEDURE filtroLivro(
+    IN p_termo VARCHAR(100)
+)
+BEGIN
+    SET p_termo = TRIM(p_termo);
+
+    SELECT
+        l.id_livro,
+        l.titulo,
+        l.sinopse,
+        l.ano_publicacao,
+        l.qnt_paginas,
+        e.id_editora,
+        e.nm_editora,
+        GROUP_CONCAT(DISTINCT a.nm_autor ORDER BY a.nm_autor SEPARATOR ', ') AS autores,
+        GROUP_CONCAT(DISTINCT g.nm_genero ORDER BY g.nm_genero SEPARATOR ', ') AS generos
+    FROM livro l
+    INNER JOIN editora e
+        ON l.cd_editora = e.id_editora
+    LEFT JOIN autor_livro al
+        ON l.id_livro = al.id_livro
+    LEFT JOIN autor a
+        ON al.id_autor = a.id_autor
+    LEFT JOIN livro_genero lg
+        ON l.id_livro = lg.id_livro
+    LEFT JOIN genero g
+        ON lg.id_genero = g.id_genero
+    WHERE p_termo IS NULL 
+       OR p_termo = ''
+       OR l.id_livro = IF(p_termo REGEXP '^[0-9]+$', CAST(p_termo AS UNSIGNED), NULL)
+       OR l.titulo LIKE CONCAT('%', p_termo, '%')
+       OR a.nm_autor LIKE CONCAT('%', p_termo, '%')
+       OR e.nm_editora LIKE CONCAT('%', p_termo, '%')
+       OR g.nm_genero LIKE CONCAT('%', p_termo, '%')
+    GROUP BY
+        l.id_livro,
+        l.titulo,
+        l.sinopse,
+        l.ano_publicacao,
+        l.qnt_paginas,
+        e.id_editora,
+        e.nm_editora;
 END $$
 
 

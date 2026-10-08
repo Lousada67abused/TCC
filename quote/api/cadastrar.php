@@ -44,6 +44,11 @@ try {
 	}
 	$senha = $_GET['senha'];
 
+	$biografia = null;
+	if (isset($_GET['biografia']) && $_GET['biografia'] != '') {
+		$biografia = $_GET['biografia'];
+	}
+
 	if (!isset($_GET['nascimento']) || $_GET['nascimento'] == '') {
 		http_response_code(400);
 		echo json_encode(['mensagem' => 'Parâmetros obrigatórios insuficientes']);
@@ -51,8 +56,8 @@ try {
 	}
 	$nascimento = $_GET['nascimento'];
 
-	UsuarioController::cadastrar($nome, $email, $senha, 'biografia foda', $nascimento);
-	
+	UsuarioController::cadastrar($nome, $email, $senha, $biografia, $nascimento);
+
 	http_response_code(200);
 	echo json_encode(['status' => 'true', 'resultado' => 'Usuário cadastrado com sucesso!']);
 } catch (Exception $erro) {
