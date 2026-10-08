@@ -26,5 +26,10 @@ class Livro extends Banco {
 		$codigo = ['codigo' => $codigo];
 		return self::Consultar("calcularNotaMediaLivro", $codigo);
 	}
+
+	public static function BuscarLivroCodigo($codigo) {
+		$codigo = ['codigo' => $codigo];
+		return self::Consultar("buscarLivroCodigo", $codigo);
+	}
 }
 ?>

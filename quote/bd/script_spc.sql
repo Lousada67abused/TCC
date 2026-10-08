@@ -712,8 +712,8 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_buscar_livro_por_id$$
-CREATE PROCEDURE sp_buscar_livro_por_id(
+DROP PROCEDURE IF EXISTS buscarLivroCodigo$$
+CREATE PROCEDURE buscarLivroCodigo(
     IN p_id_livro BIGINT
 )
 BEGIN
