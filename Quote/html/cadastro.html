@@ -47,9 +47,9 @@
             </div>
 
             <div class="campoCadastro">
-                <label for="txtSenha">Senha</label>
+                <label for="txtSenha1">Senha</label>
                 <div class="inputSenhaContainer">
-                    <input type="password" id="txtSenha" name="senha" placeholder="Mínimo de 6 caracteres">
+                    <input type="password" id="txtSenha1" name="senha1" placeholder="Mínimo de 6 caracteres">
                     <button type="button" class="btnMostrarSenha" aria-label="Mostrar ou ocultar senha">
                         <span class="material-symbols-outlined" aria-hidden="true">visibility_off</span>
                     </button>
@@ -57,15 +57,17 @@
             </div>
 
             <div class="campoCadastro">
-                <label for="txtSenha">Confirme sua senha</label>
+                <label for="txtSenha2">Confirme sua senha</label>
                 <div class="inputSenhaContainer">
-                    <input type="password" id="txtSenha" name="senha" placeholder="Digite sua senha novamente">
+                    <input type="password" id="txtSenha2" name="senha2" placeholder="Digite sua senha novamente">
                     <button type="button" class="btnMostrarSenha" aria-label="Mostrar ou ocultar senha">
                         <span class="material-symbols-outlined" aria-hidden="true">visibility_off</span>
                     </button>
                 </div>
             </div>
-                    
+            
+            <span class="mensagemErro escondido"></span>
+
             <div class="elementoDecorativo">
                 <div class="linha"></div>
                 <p>ou continue com</p>
@@ -109,6 +111,6 @@
             </button>
         </form>          
     </main>
-
+    <script src="../js/cadastro.js"></script>
 </body>
 </html>
