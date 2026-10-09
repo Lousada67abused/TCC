@@ -1,5 +1,4 @@
 <?php
-require_once('cors.php');
 require_once('config.php');
 header('Access-Control-Allow-Origin: *');
 header('Access-Control-Allow-Methods: POST, OPTIONS');
@@ -21,24 +20,24 @@ if ($metodo != 'POST')
 }
 
 try {
+	// Código da sua API
+
 	$corpo = json_decode(file_get_contents("php://input"), true);
 	if (!validaCorpoRequisicao($corpo)) {
 		return;
 	}
-	$chaves = ['nome','email','senha','nascimento'];
+	$chaves = ['codigo','codigoUsuario','codigoAvaliacao'];
 	if (!validaChaves($corpo, $chaves)) {
 		return;
 	}
-	$nome = $corpo['nome'];
-	$email = $corpo['email'];
-	$senha = $corpo['senha'];
-	$biografia = $corpo['biografia'];
-	$nascimento = $corpo['nascimento'];
-	
-	UsuarioController::cadastrar($nome, $email, $senha, $biografia, $nascimento);
-	
+	$codigo = $corpo['codigo'];
+	$codigoUsuario = $corpo['codigoUsuario'];
+	$codigoAvaliacao = $corpo['codigoAvaliacao'];
+
+	ComentarioController::cadastrar($codigo, $codigoUsuario, $codigoAvaliacao);
+
 	http_response_code(200);
-	echo json_encode(['status' => 'true', 'resultado' => 'Usuário cadastrado com sucesso!']);
+	echo json_encode(['status' => 'true', 'resposta' => 'Cadastro de comentario realizado com sucesso!']);
 } catch (Exception $erro) {
 	http_response_code(500);
 	echo json_encode(['status' => 'false', 'erro' => $erro->getMessage()]);
