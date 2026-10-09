@@ -1,4 +1,4 @@
-CALL sp_buscar_livros_filtro("1984 ");
+call buscarLivroCodigo('9788535914849')
  
 -- USUÁRIO
 -- ============================================================
@@ -16,7 +16,8 @@ CALL sp_cadastrar_usuario(
     'teste.procedures@quote.com',
     '123456',
     'Usuario criado para testar as procedures.',
-    '2000-01-01',CALL filtroLivro("");
+    '2000-01-01',
+    CALL filtroLivro("");
  
 
 -- USUÁRIO

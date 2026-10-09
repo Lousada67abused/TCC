@@ -724,11 +724,22 @@ BEGIN
         l.ano_publicacao,
         l.qnt_paginas,
         e.id_editora,
-        e.nm_editora
+        e.nm_editora,
+        GROUP_CONCAT(DISTINCT a.nm_autor SEPARATOR ', ' ) AS nm_autor,
+        GROUP_CONCAT(DISTINCT g.nm_genero SEPARATOR ', ' ) AS nm_genero
     FROM livro l
     INNER JOIN editora e
         ON l.cd_editora = e.id_editora
-    WHERE l.id_livro = p_id_livro;
+	INNER JOIN autor_livro al
+		ON l.id_livro = al.id_livro
+	INNER JOIN autor a
+		ON al.id_autor = a.id_autor
+	INNER JOIN livro_genero lg
+		ON l.id_livro = lg.id_livro
+	INNER JOIN genero g
+		ON lg.id_genero = g.id_genero
+    WHERE l.id_livro = p_id_livro
+    GROUP BY l.id_livro;
 END $$
 
 DROP PROCEDURE IF EXISTS sp_buscar_livros_por_titulo$$
