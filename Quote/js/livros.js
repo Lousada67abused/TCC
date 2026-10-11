@@ -72,7 +72,7 @@ if (containerDetalhesLivro){
             const capa = document.querySelector(".capaDestaque");
 
 
-            capa.src = "https://covers.openlibrary.org/b/isbn/" + dados.id_livro + "-L.jpg";
+            capa.src = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + dados.id_livro;
             titulo.textContent = dados.titulo;
             paginas.textContent = dados.qnt_paginas;
             ano.textContent = dados.ano_publicacao;

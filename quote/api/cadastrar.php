@@ -25,17 +25,22 @@ try {
 	if (!validaCorpoRequisicao($corpo)) {
 		return;
 	}
-	$chaves = ['nome','email','senha','nascimento'];
+	$chaves = ['nome', 'email', 'senha', 'dataNascimento', 'tipo'];
 	if (!validaChaves($corpo, $chaves)) {
 		return;
 	}
-	$nome = $corpo['nome'];
-	$email = $corpo['email'];
-	$senha = $corpo['senha'];
-	$biografia = $corpo['biografia'];
-	$nascimento = $corpo['nascimento'];
+	$nome           = $corpo['nome'];
+	$email          = $corpo['email'];
+	$senha          = $corpo['senha'];
+	$dataNascimento = $corpo['dataNascimento'];
+	$tipo           = $corpo['tipo'];
+
+	$biografia = $corpo['biografia'] ?? null;
+	if ($biografia === '') {
+		$biografia = null;
+	}
 	
-	UsuarioController::cadastrar($nome, $email, $senha, $biografia, $nascimento);
+	UsuarioController::cadastrar($nome, $email, $senha, $biografia, $dataNascimento, $tipo);
 	
 	http_response_code(200);
 	echo json_encode(['status' => 'true', 'resultado' => 'Usuário cadastrado com sucesso!']);

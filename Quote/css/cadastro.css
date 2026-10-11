@@ -239,3 +239,118 @@
         margin-bottom: 24px;
     }
 }
+
+/* Etapa 2 do cadastro: escolha de gêneros (tela criada pelo js/cadastro.js) */
+
+.btnProximo:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.etapaGeneros {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.etapaGeneros .cabecalhoCadastro {
+    margin-bottom: 0;
+}
+
+.etapaGeneros h1:focus {
+    outline: none;
+}
+
+.etapaGeneros .subtituloCadastro {
+    margin-bottom: 0;
+    color: #5B6B82;
+}
+
+.etapaGeneros .gradeGenerosGrid {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+}
+
+.etapaGeneros .cardGeneroLabel {
+    display: block;
+    position: relative;
+    cursor: pointer;
+}
+
+.etapaGeneros .invisivelInput {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.etapaGeneros .cardGeneroConteudo {
+    height: 76px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    border-radius: 8px;
+    background-color: var(--darkOceanBlue);
+    color: var(--white);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.etapaGeneros .cardGeneroLabel:hover .cardGeneroConteudo {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.25);
+}
+
+.etapaGeneros .card-titulo {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.etapaGeneros .cardGeneroMarcado {
+    align-self: flex-end;
+    font-size: 20px;
+    visibility: hidden;
+}
+
+.etapaGeneros .invisivelInput:checked + .cardGeneroConteudo {
+    outline: 3px solid var(--brightLightBlue);
+    outline-offset: 2px;
+}
+
+.etapaGeneros .invisivelInput:checked + .cardGeneroConteudo .cardGeneroMarcado {
+    visibility: visible;
+}
+
+.etapaGeneros .invisivelInput:focus-visible + .cardGeneroConteudo {
+    outline: 3px solid var(--orange);
+    outline-offset: 2px;
+}
+
+/* Cores por gênero: a classe é "card-" + nome do gênero sem acento e com hífen.
+   Gênero sem cor aqui fica com o azul padrão. */
+.etapaGeneros .card-romance { background-color: #4a152d; }
+.etapaGeneros .card-suspense { background-color: #1b1c31; }
+.etapaGeneros .card-fantasia { background-color: #1a3331; }
+.etapaGeneros .card-biografia { background-color: #213a29; }
+.etapaGeneros .card-ficcao-cientifica { background-color: #2a3c42; }
+.etapaGeneros .card-poesia { background-color: #311c38; }
+.etapaGeneros .card-terror { background-color: #421c1c; }
+.etapaGeneros .card-misterio { background-color: #2b2540; }
+.etapaGeneros .card-nao-ficcao { background-color: #3d3420; }
+.etapaGeneros .card-literatura-brasileira { background-color: #1e392a; }
+.etapaGeneros .card-literatura-infantojuvenil { background-color: #42391c; }
+.etapaGeneros .card-distopia { background-color: #33302e; }
+.etapaGeneros .card-cronica { background-color: #3a1a10; }
+.etapaGeneros .card-classicos { background-color: #0d1a33; }
+.etapaGeneros .card-quadrinhos-e-mangas { background-color: #40204a; }
+
+@media (max-width: 600px) {
+    .etapaGeneros .gradeGenerosGrid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}

@@ -24,13 +24,14 @@ Class Usuario extends Banco{
 		return self::Consultar("loginUsuario", $parametros);
 	}
 
-	public static function Cadastrar($nome, $email, $senha, $biografia, $nascimento) {
+	public static function Cadastrar($nome, $email, $senha, $biografia, $nascimento, $tipo) {
 		$parametros = [
 			'pNome'=>$nome,
 			'pEmail'=>$email,
 			'pSenha'=>$senha,
 			'pBiografia'=>$biografia,
-			'pNascimento'=>$nascimento
+			'pNascimento'=>$nascimento,
+			'pTipo'=>$tipo
 		];
 		self::Executar("cadastrarUsuario", $parametros);
 	}
