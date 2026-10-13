@@ -18,7 +18,7 @@ begin
 	
     Select count(*) into qtd from usuario 
 	where email = pEmail 
-	and senha = md5(pSenha);
+	and md5(senha) = md5(pSenha);
     
     if (qtd = 0) Then
 		signal sqlstate '45000' set message_text = 'Login e/ou senha inválida!';
@@ -31,7 +31,7 @@ begin
          tipo_usuario 
         from usuario 
 		where email = pEmail 
-		and senha = md5(pSenha);
+		and md5(senha) = md5(pSenha);
     end if;
 end$$
 
@@ -119,6 +119,21 @@ BEGIN
     ORDER BY nm_usuario;
 END $$
 
+DROP PROCEDURE IF EXISTS buscarUsuarioNome$$
+CREATE PROCEDURE buscarUsuarioNome(
+    IN pNome VARCHAR(80)
+)
+BEGIN
+    SELECT
+        id_usuario,
+        nm_usuario,
+        email,
+        bio,
+        dt_nascimento
+    FROM usuario
+    WHERE nm_usuario LIKE CONCAT('%', pNome, '%')
+    ORDER BY nm_usuario;
+END $$
 
 DROP PROCEDURE IF EXISTS sp_buscar_usuarios_por_nome_email$$
 CREATE PROCEDURE sp_buscar_usuarios_por_nome_email(
@@ -759,8 +774,8 @@ BEGIN
     GROUP BY l.id_livro;
 END $$
 
-DROP PROCEDURE IF EXISTS sp_buscar_livros_por_titulo$$
-CREATE PROCEDURE sp_buscar_livros_por_titulo(
+DROP PROCEDURE IF EXISTS buscarLivroTitulo$$
+CREATE PROCEDURE buscarLivroTitulo(
     IN p_titulo VARCHAR(100)
 )
 BEGIN
@@ -771,11 +786,19 @@ BEGIN
         l.ano_publicacao,
         l.qnt_paginas,
         e.id_editora,
-        e.nm_editora
+        e.nm_editora,
+        GROUP_CONCAT(DISTINCT a.nm_autor SEPARATOR ', ') AS nm_autor,
+        GROUP_CONCAT(DISTINCT g.nm_genero SEPARATOR ', ') AS nm_genero
     FROM livro l
-    INNER JOIN editora e
-        ON l.cd_editora = e.id_editora
+    INNER JOIN editora e      ON l.cd_editora = e.id_editora
+    LEFT JOIN autor_livro al  ON l.id_livro = al.id_livro
+    LEFT JOIN autor a         ON al.id_autor = a.id_autor
+    LEFT JOIN livro_genero lg ON l.id_livro = lg.id_livro
+    LEFT JOIN genero g        ON lg.id_genero = g.id_genero
     WHERE l.titulo LIKE CONCAT('%', p_titulo, '%')
+    GROUP BY
+        l.id_livro, l.titulo, l.sinopse, l.ano_publicacao, l.qnt_paginas,
+        e.id_editora, e.nm_editora
     ORDER BY l.titulo;
 END $$
 
@@ -2006,8 +2029,8 @@ END $$
 
 -- ============================================================
 
-DROP PROCEDURE IF EXISTS sp_cadastrar_comentario$$
-CREATE PROCEDURE sp_cadastrar_comentario(
+DROP PROCEDURE IF EXISTS cadastrarComentario$$
+CREATE PROCEDURE cadastrarComentario(
     IN p_texto VARCHAR(500),
     IN p_id_usuario INT,
     IN p_id_avaliacao INT
