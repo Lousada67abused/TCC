@@ -333,21 +333,21 @@
 
 /* Cores por gênero: a classe é "card-" + nome do gênero sem acento e com hífen.
    Gênero sem cor aqui fica com o azul padrão. */
-.etapaGeneros .card-romance { background-color: #4a152d; }
-.etapaGeneros .card-suspense { background-color: #1b1c31; }
-.etapaGeneros .card-fantasia { background-color: #1a3331; }
-.etapaGeneros .card-biografia { background-color: #213a29; }
-.etapaGeneros .card-ficcao-cientifica { background-color: #2a3c42; }
-.etapaGeneros .card-poesia { background-color: #311c38; }
-.etapaGeneros .card-terror { background-color: #421c1c; }
-.etapaGeneros .card-misterio { background-color: #2b2540; }
-.etapaGeneros .card-nao-ficcao { background-color: #3d3420; }
-.etapaGeneros .card-literatura-brasileira { background-color: #1e392a; }
-.etapaGeneros .card-literatura-infantojuvenil { background-color: #42391c; }
-.etapaGeneros .card-distopia { background-color: #33302e; }
-.etapaGeneros .card-cronica { background-color: #3a1a10; }
-.etapaGeneros .card-classicos { background-color: #0d1a33; }
-.etapaGeneros .card-quadrinhos-e-mangas { background-color: #40204a; }
+.etapaGeneros .cardRomance { background-color: #4a152d; }
+.etapaGeneros .cardSuspense { background-color: #1b1c31; }
+.etapaGeneros .cardFantasia { background-color: #1a3331; }
+.etapaGeneros .cardBiografia { background-color: #213a29; }
+.etapaGeneros .cardFiccaoCientifica { background-color: #2a3c42; }
+.etapaGeneros .cardPoesia { background-color: #311c38; }
+.etapaGeneros .cardTerror { background-color: #421c1c; }
+.etapaGeneros .cardMisterio { background-color: #2b2540; }
+.etapaGeneros .cardNaoFiccao { background-color: #3d3420; }
+.etapaGeneros .cardLiteraturaBrasileira { background-color: #1e392a; }
+.etapaGeneros .cardLiteraturaInfantojuvenil { background-color: #42391c; }
+.etapaGeneros .cardDistopia { background-color: #33302e; }
+.etapaGeneros .cardCronica { background-color: #3a1a10; }
+.etapaGeneros .cardClassicos { background-color: #0d1a33; }
+.etapaGeneros .cardQuadrinhosEMangas { background-color: #40204a; }
 
 @media (max-width: 600px) {
     .etapaGeneros .gradeGenerosGrid {

@@ -24,6 +24,7 @@ function mostrarErro(elemento, mensagem) {
         elemento.classList.add("escondido");
     }, 5000);
 }
+
 function mensagemDaApi(resultado) {
     if (typeof resultado.erro === "string" && resultado.erro.startsWith("SQLSTATE[45000]")) {
         const partes = resultado.erro.split(": 1644 ");
@@ -44,6 +45,7 @@ function dataDeHoje() {
 function validarFormulario() {
     const nome = txtNome.value.trim();
     const nascimento = txtDataNascimento.value;
+    const biografia = txtBiografia.value.trim();
     const email = txtEmail.value.trim();
     const senha = txtSenha1.value.trim();
     const confirmacao = txtSenha2.value.trim();
@@ -60,6 +62,9 @@ function validarFormulario() {
     } else if (nascimento < "1900-01-01" || nascimento > dataDeHoje()) {
         campo = txtDataNascimento;
         mensagem = "Digite uma data de nascimento válida.";
+    } else if (biografia.length > 70) {
+        campo = txtBiografia;
+        mensagem = "A biografia pode ter no máximo 70 caracteres.";
     } else if (email === "") {
         campo = txtEmail;
         mensagem = "Por favor, digite o campo de email.";
@@ -107,8 +112,9 @@ function cadastrarUsuario() {
         body: JSON.stringify({
             nome: txtNome.value.trim(),
             email: txtEmail.value.trim(),
+            // Confira: o cadastrar.php do zip lê $corpo['nascimento'], não 'dataNascimento'.
             dataNascimento: txtDataNascimento.value,
-            biografia: biografia || null,
+            biografia: biografia,
             senha: txtSenha1.value.trim(),
             tipo: tipo
         })
@@ -117,11 +123,13 @@ function cadastrarUsuario() {
         return resposta.json();
     })
     .then(function (resultado) {
-        console.log(resultado)
         if (resultado.status === "true") {
+            contaCriada = true;
+            // A conta já existe: os dados não podem mudar se o botão for clicado de novo.
+            [txtNome, txtDataNascimento, txtBiografia, txtEmail, txtSenha1, txtSenha2].forEach(function (campo) {
+                campo.readOnly = true;
+            });
             buscarGeneros();
-            container.textContent = "";
-            
         } else {
             console.error(resultado);
             erroNoCadastro(mensagemDaApi(resultado));
@@ -130,6 +138,34 @@ function cadastrarUsuario() {
     .catch(function (erro) {
         console.error(erro);
         erroNoCadastro(ERRO_CONEXAO);
+    });
+}
+
+// O cadastro não devolve o código do usuário, e ele é necessário para salvar os gêneros.
+// Por isso o login é feito na hora de salvar: "depois" roda se der certo, "aoFalhar" se der errado.
+function entrar(depois, aoFalhar) {
+    fetch("../api/acessar.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email: txtEmail.value.trim(), senha: txtSenha1.value.trim() })
+    })
+    .then(function (resposta) {
+        return resposta.json();
+    })
+    .then(function (resultado) {
+        if (resultado.status === "true") {
+            usuario = resultado.resultado[0];
+            sessionStorage.setItem("codigo", usuario.id_usuario);
+            sessionStorage.setItem("usuario", JSON.stringify(usuario));
+            depois();
+        } else {
+            console.error(resultado);
+            aoFalhar(mensagemDaApi(resultado));
+        }
+    })
+    .catch(function (erro) {
+        console.error(erro);
+        aoFalhar(ERRO_CONEXAO);
     });
 }
 
@@ -165,7 +201,12 @@ if (formulario) {
         mensagemErro.classList.add("escondido");
         btnProximo.disabled = true;
 
-        cadastrarUsuario();
+        // Continua de onde parou, caso o botão seja clicado de novo depois de um erro.
+        if (!contaCriada) {
+            cadastrarUsuario();
+        } else {
+            buscarGeneros();
+        }
     });
 
     document.querySelectorAll(".btnMostrarSenha").forEach(function (botao) {
@@ -181,13 +222,6 @@ if (formulario) {
             }
         });
     });
-}
-function nomeParaClasse(nome) {
-    return nome
-        .normalize("NFD")
-        .replace(/\p{M}/gu, "")
-        .toLowerCase()
-        .replace(/[^a-z0-9]+/g, "-");
 }
 
 function criarTelaGeneros(generos) {
@@ -210,52 +244,70 @@ function criarTelaGeneros(generos) {
     setaVoltar.textContent = "line_start_arrow_notch";
 
     btnVoltar.append(setaVoltar);
-    
-    const selecaoGenero = document.createElement("section");
-    selecaoGenero.classList.add("selecaoGenero");
-    for (let i = 0; i < generos.length; i++) {
-        const genero = generos[i];
-        console.log(genero.nm_genero)
-        const botaoGenero = document.createElement("button");
-        botaoGenero.textContent = genero.nm_genero;
-        const fotoGenero = document.createElement("img");
-        fotoGenero.src="../img/genero" + genero.nm_genero + ".png"
-        fotoGenero.alt="Selecionar livros com gênero de " + genero.nm_genero
-        botaoGenero.append(fotoGenero);
-        selecaoGenero.append(botaoGenero);
-    }
 
     const titulo = document.createElement("h1");
     titulo.textContent = "Selecione seus gêneros favoritos";
 
     cabecalho.append(btnVoltar, titulo);
 
-    const btnProximo = document.createElement("button");
-    btnProximo.type = "submit";
-    btnProximo.id = "btnIrPasso3";
+    const selecaoGenero = document.createElement("section");
+    selecaoGenero.classList.add("selecaoGenero");
+    for (let i = 0; i < generos.length; i++) {
+        const genero = generos[i];
+        const botaoGenero = document.createElement("button");
+        botaoGenero.type = "button";
+        botaoGenero.textContent = genero.nm_genero;
+        // "Ficção Científica" -> classe "cardFicçãoCientífica"
+        botaoGenero.classList.add("card" + genero.nm_genero.replaceAll(" ", ""));
+        // Guarda o código do gênero no botão, para salvar depois.
+        botaoGenero.dataset.codigo = genero.id_genero;
+        botaoGenero.setAttribute("aria-pressed", "false");
+
+        botaoGenero.addEventListener("click", function () {
+            // toggle: o primeiro clique marca, o segundo desmarca.
+            const marcado = botaoGenero.classList.toggle("ativo");
+            botaoGenero.setAttribute("aria-pressed", String(marcado));
+        });
+
+        selecaoGenero.append(botaoGenero);
+    }
+
+    const erroGeneros = document.createElement("span");
+    erroGeneros.classList.add("mensagemErro", "escondido");
+
+    const btnIrPasso3 = document.createElement("button");
+    btnIrPasso3.type = "button";
+    btnIrPasso3.id = "btnIrPasso3";
 
     const setaAvancar = document.createElement("span");
     setaAvancar.classList.add("material-symbols-outlined");
     setaAvancar.id = "line_end_arrow_notch";
     setaAvancar.textContent = "line_end_arrow_notch";
 
-    btnProximo.append("próximo", setaAvancar);
+    btnIrPasso3.append("próximo", setaAvancar);
 
-    card.append(cabecalho, selecaoGenero, btnProximo);
+    btnIrPasso3.addEventListener("click", function () {
+        salvarGeneros(secao);
+    });
+
+    card.append(cabecalho, selecaoGenero, erroGeneros, btnIrPasso3);
     secao.append(card);
 
+    // Só limpa o formulário quando a tela nova está pronta. Se limpar antes e der erro
+    // no meio do caminho, a mensagem de erro some junto e a página fica em branco.
+    container.textContent = "";
     container.append(secao);
     return secao;
 }
 
-function salvarGeneros(etapa) {
-    const erroGeneros = etapa.querySelector(".mensagemErro");
-    const btnConcluir = etapa.querySelector(".btnProximo");
-    const caixas = Array.from(etapa.querySelectorAll(".invisivelInput"));
+function salvarGeneros(secao) {
+    const erroGeneros = secao.querySelector(".mensagemErro");
+    const btnIrPasso3 = secao.querySelector("#btnIrPasso3");
+    const botoes = Array.from(secao.querySelectorAll(".selecaoGenero button"));
     const escolhidos = [];
-    caixas.forEach(function (caixa) {
-        if (caixa.checked) {
-            escolhidos.push(caixa.value);
+    botoes.forEach(function (botao) {
+        if (botao.classList.contains("ativo")) {
+            escolhidos.push(botao.dataset.codigo);
         }
     });
 
@@ -266,16 +318,16 @@ function salvarGeneros(etapa) {
     erroGeneros.classList.add("escondido");
 
     function travar(valor) {
-        btnConcluir.disabled = valor;
-        caixas.forEach(function (caixa) {
-            caixa.disabled = valor;
+        btnIrPasso3.disabled = valor;
+        botoes.forEach(function (botao) {
+            botao.disabled = valor;
         });
     }
 
     // Salva um gênero por vez: quando um termina, chama o próximo da lista.
     function salvarGenero(posicao) {
         if (posicao === escolhidos.length) {
-            window.location.href = "homepage.html";
+            criarTelaPasso3();
             return;
         }
 
@@ -311,5 +363,20 @@ function salvarGeneros(etapa) {
     }
 
     travar(true);
-    salvarGenero(0);
+    if (usuario === null) {
+        entrar(function () {
+            salvarGenero(0);
+        }, function (mensagem) {
+            mostrarErro(erroGeneros, mensagem);
+            travar(false);
+        });
+    } else {
+        salvarGenero(0);
+    }
+}
+
+// Terceira tela do cadastro: aparece depois que os gêneros foram salvos.
+function criarTelaPasso3() {
+    // TODO: montar aqui a tela 3. Enquanto ela não existe, vai para a homepage.
+    window.location.href = "homepage.html";
 }
