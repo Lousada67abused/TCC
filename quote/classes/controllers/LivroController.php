@@ -12,5 +12,9 @@ class LivroController {
     public static function buscarLivroCodigo($codigo) {
         return Livro::BuscarLivroCodigo($codigo);
     }
+
+    public static function buscarLivroTitulo($titulo) {
+        return Livro::BuscarLivroTitulo($titulo);
+    }
 }
 ?>

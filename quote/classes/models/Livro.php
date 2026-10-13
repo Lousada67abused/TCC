@@ -31,5 +31,10 @@ class Livro extends Banco {
 		$codigo = ['codigo' => $codigo];
 		return self::Consultar("buscarLivroCodigo", $codigo);
 	}
+
+	public static function BuscarLivroTitulo($titulo) {
+		$titulo = ['titulo' => $titulo];
+		return self::Consultar("buscarLivroTitulo", $titulo);
+	}
 }
 ?>
