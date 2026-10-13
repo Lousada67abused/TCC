@@ -8,5 +8,8 @@ class UsuarioController{
         Usuario::Cadastrar($nome, $email, $senha, $biografia, $nascimento, $tipo);
     }
 
+    public static function buscarUsuarioNome($nome) {
+        return Usuario::BuscarUsuarioNome($nome);
+    }
 }
 ?>

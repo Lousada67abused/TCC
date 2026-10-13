@@ -35,6 +35,10 @@ Class Usuario extends Banco{
 		];
 		self::Executar("cadastrarUsuario", $parametros);
 	}
+
+	public static function BuscarUsuarioNome($nome) {
+		$nome = ['pNome'=>$nome];
+		return self::Consultar("buscarUsuarioNome", $nome);
+	}
 }
-	
 ?>
