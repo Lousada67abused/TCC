@@ -349,6 +349,31 @@
 .etapaGeneros .cardClassicos { background-color: #0d1a33; }
 .etapaGeneros .cardQuadrinhosEMangas { background-color: #40204a; }
 
+.listaLivros {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(110px, 1fr));
+    gap: 20px;
+}
+
+.cardLivro {
+    cursor: pointer;
+    border-radius: 8px;
+    padding: 6px;
+    border: 3px solid transparent;
+}
+
+.cardLivro img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.cardLivro.selecionado {
+    border-color: var(--royalBlue);
+    background-color: var(--softBlue);
+}
+
 @media (max-width: 600px) {
     .etapaGeneros .gradeGenerosGrid {
         grid-template-columns: repeat(2, 1fr);

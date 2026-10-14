@@ -112,7 +112,6 @@ function cadastrarUsuario() {
         body: JSON.stringify({
             nome: txtNome.value.trim(),
             email: txtEmail.value.trim(),
-            // Confira: o cadastrar.php do zip lê $corpo['nascimento'], não 'dataNascimento'.
             dataNascimento: txtDataNascimento.value,
             biografia: biografia,
             senha: txtSenha1.value.trim(),
@@ -129,6 +128,7 @@ function cadastrarUsuario() {
             [txtNome, txtDataNascimento, txtBiografia, txtEmail, txtSenha1, txtSenha2].forEach(function (campo) {
                 campo.readOnly = true;
             });
+            entrar();
             buscarGeneros();
         } else {
             console.error(resultado);
@@ -142,12 +142,15 @@ function cadastrarUsuario() {
 }
 
 // O cadastro não devolve o código do usuário, e ele é necessário para salvar os gêneros.
-// Por isso o login é feito na hora de salvar: "depois" roda se der certo, "aoFalhar" se der errado.
-function entrar(depois, aoFalhar) {
+// Por isso o login é feito logo depois do cadastro, e o código fica no sessionStorage.
+function entrar() {
+    const senha = txtSenha1.value.trim();
+    const email = txtEmail.value.trim();
+
     fetch("../api/acessar.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email: txtEmail.value.trim(), senha: txtSenha1.value.trim() })
+        body: JSON.stringify({ email: email, senha: senha})
     })
     .then(function (resposta) {
         return resposta.json();
@@ -157,15 +160,14 @@ function entrar(depois, aoFalhar) {
             usuario = resultado.resultado[0];
             sessionStorage.setItem("codigo", usuario.id_usuario);
             sessionStorage.setItem("usuario", JSON.stringify(usuario));
-            depois();
         } else {
             console.error(resultado);
-            aoFalhar(mensagemDaApi(resultado));
+            mostrarErro(mensagemErro, mensagemDaApi(resultado));
         }
     })
     .catch(function (erro) {
         console.error(erro);
-        aoFalhar(ERRO_CONEXAO);
+        mostrarErro(mensagemErro, ERRO_CONEXAO);
     });
 }
 
@@ -267,6 +269,13 @@ function criarTelaGeneros(generos) {
             // toggle: o primeiro clique marca, o segundo desmarca.
             const marcado = botaoGenero.classList.toggle("ativo");
             botaoGenero.setAttribute("aria-pressed", String(marcado));
+            if (marcado) {
+                generosSalvos.push(genero.id_genero);
+            } else {
+                generosSalvos = generosSalvos.filter(function (id) {
+                    return id !== genero.id_genero;
+                });
+            }
         });
 
         selecaoGenero.append(botaoGenero);
@@ -287,8 +296,25 @@ function criarTelaGeneros(generos) {
     btnIrPasso3.append("próximo", setaAvancar);
 
     btnIrPasso3.addEventListener("click", function () {
-        salvarGeneros(secao);
+        if (generosSalvos.length === 0) {
+            mostrarErro(erroGeneros, "Selecione pelo menos um gênero.");
+                return;
+        }
+        if (!sessionStorage.getItem("codigo")) {
+            mostrarErro(erroGeneros, ERRO_SERVIDOR);
+            return;
+        }
+        btnIrPasso3.disabled = true;
+        salvarGeneros().then(function (todosSalvos) {
+            if (todosSalvos) {
+                criarTelaPasso3();
+            } else {
+                mostrarErro(erroGeneros, ERRO_SERVIDOR);
+                btnIrPasso3.disabled = false;
+            }
+        });
     });
+
 
     card.append(cabecalho, selecaoGenero, erroGeneros, btnIrPasso3);
     secao.append(card);
@@ -300,83 +326,276 @@ function criarTelaGeneros(generos) {
     return secao;
 }
 
-function salvarGeneros(secao) {
-    const erroGeneros = secao.querySelector(".mensagemErro");
-    const btnIrPasso3 = secao.querySelector("#btnIrPasso3");
-    const botoes = Array.from(secao.querySelectorAll(".selecaoGenero button"));
-    const escolhidos = [];
-    botoes.forEach(function (botao) {
-        if (botao.classList.contains("ativo")) {
-            escolhidos.push(botao.dataset.codigo);
+function salvarGeneros() {
+    const codigoUsuario = sessionStorage.getItem("codigo");
+    const requisicoes = [];
+
+    for (let i = 0; i < generosSalvos.length; i++) {
+        const codigoGenero = generosSalvos[i];
+        // O cadastrarPreferencia.php lê $_GET, então os dados vão na URL.
+        const url = "../api/cadastrarPreferencia.php?codigoUsuario=" + codigoUsuario + "&codigoGenero=" + codigoGenero;
+
+        const requisicao = fetch(url, { method: "POST" })
+        .then(function (resposta) {
+            return resposta.json();
+        })
+        .then(function (resultado) {
+            console.log("Gênero", codigoGenero, resultado);
+            return resultado.status === "true";
+        })
+        .catch(function (erro) {
+            console.error("Erro no gênero", codigoGenero, erro);
+            return false;
+        });
+
+        requisicoes.push(requisicao);
+    }
+
+    // Espera todos os fetch terminarem
+    return Promise.all(requisicoes).then(function (resultados) {
+        const todosSalvos = resultados.every(function (deuCerto) {
+            return deuCerto;
+        });
+        console.log("Todos os gêneros salvos?", todosSalvos);
+        return todosSalvos;
+    });
+}
+
+// Terceira tela do cadastro: aparece depois que os gêneros foram salvos.
+function criarTelaPasso3() {
+    const secao = document.createElement("section");
+    secao.id = "cadastroPasso3";
+
+    // Topo: seta de voltar + barra de pesquisa
+    const topo = document.createElement("div");
+    topo.classList.add("versaoDesktop");
+
+    const btnVoltar = document.createElement("a");
+    btnVoltar.href = "../index.html";
+    btnVoltar.classList.add("btnVoltar");
+    btnVoltar.setAttribute("aria-label", "Voltar para a página anterior");
+
+    const setaVoltar = document.createElement("span");
+    setaVoltar.classList.add("material-symbols-outlined", "line_start_arrow_notch");
+    setaVoltar.id = "line_start_arrow_notch";
+    setaVoltar.textContent = "line_start_arrow_notch";
+    btnVoltar.append(setaVoltar);
+
+    const barraPesquisa = document.createElement("div");
+    barraPesquisa.classList.add("barraPesquisa");
+
+    const txtPesquisa = document.createElement("input");
+    txtPesquisa.type = "text";
+    txtPesquisa.placeholder = "Busque por suas últimas leituras";
+
+    const iconePesquisa = document.createElement("span");
+    iconePesquisa.classList.add("material-symbols-outlined");
+    iconePesquisa.textContent = "search";
+
+    barraPesquisa.append(txtPesquisa, iconePesquisa);
+    topo.append(btnVoltar, barraPesquisa);
+
+    // Resultados
+    const resultados = document.createElement("section");
+    resultados.classList.add("resultadosPesquisaLivros");
+
+    const tituloResultados = document.createElement("h1");
+    tituloResultados.textContent = "Busque os livros que você já leu";
+
+    const listaLivros = document.createElement("div");
+    listaLivros.classList.add("listaLivros");
+
+    resultados.append(tituloResultados, listaLivros);
+
+    const erroLivros = document.createElement("span");
+    erroLivros.classList.add("mensagemErro", "escondido");
+
+    // Botão próximo
+    const btnIrPasso4 = document.createElement("button");
+    btnIrPasso4.type = "button";
+    btnIrPasso4.id = "btnIrPasso4";
+
+    const setaAvancar = document.createElement("span");
+    setaAvancar.classList.add("material-symbols-outlined");
+    setaAvancar.id = "line_end_arrow_notch";
+    setaAvancar.textContent = "line_end_arrow_notch";
+
+    btnIrPasso4.append("próximo", setaAvancar);
+
+    // Pesquisa ao apertar Enter ou clicar na lupa
+    function pesquisar() {
+        const texto = txtPesquisa.value.trim();
+        if (texto === "") {
+            mostrarErro(erroLivros, "Digite o nome de um livro para pesquisar.");
+            return;
+        }
+        buscarLivrosTitulo(texto, tituloResultados, listaLivros, erroLivros);
+    }
+
+    txtPesquisa.addEventListener("keydown", function (e) {
+        if (e.key === "Enter") {
+            pesquisar();
+        }
+    });
+    iconePesquisa.addEventListener("click", pesquisar);
+
+    btnIrPasso4.addEventListener("click", function () {
+        // Essa etapa é opcional: sem livro marcado, só segue em frente.
+        if (livrosSelecionados.length === 0) {
+            criarTelaPasso4();
+            return;
+        }
+        btnIrPasso4.disabled = true;
+        salvarLivros().then(function (todosSalvos) {
+            if (todosSalvos) {
+                criarTelaPasso4();
+            } else {
+                mostrarErro(erroLivros, ERRO_SERVIDOR);
+                btnIrPasso4.disabled = false;
+            }
+        });
+    });
+
+    secao.append(topo, resultados, erroLivros, btnIrPasso4);
+
+    container.textContent = "";
+    container.append(secao);
+    txtPesquisa.focus();
+    return secao;
+}
+
+function buscarLivrosTitulo(texto, tituloResultados, listaLivros, erroLivros) {
+    fetch("../api/buscarLivroTitulo.php?titulo=" + encodeURIComponent(texto))
+    .then(function (resposta) {
+        return resposta.json();
+    })
+    .then(function (resultado) {
+        if (resultado.status !== "true") {
+            console.error(resultado);
+            mostrarErro(erroLivros, ERRO_SERVIDOR);
+            return;
+        }
+
+        // Essa API devolve os livros em "resposta", não em "resultado".
+        const livros = resultado.resposta;
+        listaLivros.textContent = "";
+
+        if (livros.length === 0) {
+            tituloResultados.textContent = "Nenhum livro encontrado para \"" + texto + "\"";
+            return;
+        }
+
+        tituloResultados.textContent = "Exibindo resultados para \"" + texto + "\"";
+        for (let i = 0; i < livros.length; i++) {
+            listaLivros.append(criarCardLivro(livros[i]));
+        }
+    })
+    .catch(function (erro) {
+        console.error(erro);
+        mostrarErro(erroLivros, ERRO_CONEXAO);
+    });
+}
+
+function criarCardLivro(livro) {
+    const card = document.createElement("article");
+    card.classList.add("cardLivro");
+    card.tabIndex = 0;
+    card.setAttribute("role", "button");
+
+    // Se o livro já foi marcado numa pesquisa anterior, aparece marcado de novo.
+    const jaSelecionado = livrosSelecionados.includes(livro.id_livro);
+    card.classList.toggle("selecionado", jaSelecionado);
+    card.setAttribute("aria-pressed", String(jaSelecionado));
+
+    const capa = document.createElement("img");
+    // Mesmo esquema do livros.js: o id do livro é o ISBN.
+    capa.src = "https://covers.openlibrary.org/b/isbn/" + livro.id_livro + "-L.jpg";
+    capa.alt = "Capa do livro " + livro.titulo;
+
+    const info = document.createElement("div");
+    info.classList.add("infoLivro");
+
+    const titulo = document.createElement("h2");
+    titulo.textContent = livro.titulo;
+
+    const autor = document.createElement("p");
+    autor.textContent = livro.nm_autor || "";
+
+    info.append(titulo, autor);
+    card.append(capa, info);
+
+    function alternarSelecao() {
+        const marcado = card.classList.toggle("selecionado");
+        card.setAttribute("aria-pressed", String(marcado));
+        if (marcado) {
+            livrosSelecionados.push(livro.id_livro);
+        } else {
+            livrosSelecionados = livrosSelecionados.filter(function (id) {
+                return id !== livro.id_livro;
+            });
+        }
+    }
+
+    card.addEventListener("click", alternarSelecao);
+    card.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            alternarSelecao();
         }
     });
 
-    if (escolhidos.length === 0) {
-        mostrarErro(erroGeneros, "Escolha pelo menos um gênero para continuar.");
-        return;
-    }
-    erroGeneros.classList.add("escondido");
+    return card;
+}
 
-    function travar(valor) {
-        btnIrPasso3.disabled = valor;
-        botoes.forEach(function (botao) {
-            botao.disabled = valor;
-        });
-    }
+// Salva cada livro marcado na biblioteca do usuário como "lido".
+function salvarLivros() {
+    const codigoUsuario = sessionStorage.getItem("codigo");
+    const requisicoes = [];
 
-    // Salva um gênero por vez: quando um termina, chama o próximo da lista.
-    function salvarGenero(posicao) {
-        if (posicao === escolhidos.length) {
-            criarTelaPasso3();
-            return;
-        }
+    for (let i = 0; i < livrosSelecionados.length; i++) {
+        const codigoLivro = livrosSelecionados[i];
 
-        const codigoGenero = escolhidos[posicao];
-        // Se o botão for clicado de novo depois de um erro, pula os que já foram salvos
-        // (a procedure recusa preferência repetida).
-        if (generosSalvos.includes(codigoGenero)) {
-            salvarGenero(posicao + 1);
-            return;
-        }
-
-        fetch("../api/cadastrarPreferencia.php?codigoUsuario=" + usuario.id_usuario + "&codigoGenero=" + codigoGenero, {
-            method: "POST"
+        const requisicao = fetch("../api/cadastrarBiblioteca.php", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                codigoUsuario: codigoUsuario,
+                codigoLivro: codigoLivro,
+                status: "lido"
+            })
         })
         .then(function (resposta) {
             return resposta.json();
         })
         .then(function (resultado) {
             if (resultado.status === "true") {
-                generosSalvos.push(codigoGenero);
-                salvarGenero(posicao + 1);
-            } else {
-                console.error(resultado);
-                mostrarErro(erroGeneros, ERRO_SERVIDOR);
-                travar(false);
+                return true;
             }
+            // Se o botão for clicado de novo depois de um erro, os livros que já
+            // foram salvos voltam com esse aviso. Pra gente, isso conta como salvo.
+            if (mensagemDaApi(resultado) === "Este livro ja esta na sua biblioteca.") {
+                return true;
+            }
+            console.error("Erro no livro", codigoLivro, resultado);
+            return false;
         })
         .catch(function (erro) {
-            console.error(erro);
-            mostrarErro(erroGeneros, ERRO_CONEXAO);
-            travar(false);
+            console.error("Erro no livro", codigoLivro, erro);
+            return false;
         });
+
+        requisicoes.push(requisicao);
     }
 
-    travar(true);
-    if (usuario === null) {
-        entrar(function () {
-            salvarGenero(0);
-        }, function (mensagem) {
-            mostrarErro(erroGeneros, mensagem);
-            travar(false);
+    return Promise.all(requisicoes).then(function (resultados) {
+        return resultados.every(function (deuCerto) {
+            return deuCerto;
         });
-    } else {
-        salvarGenero(0);
-    }
+    });
 }
 
-// Terceira tela do cadastro: aparece depois que os gêneros foram salvos.
-function criarTelaPasso3() {
-    // TODO: montar aqui a tela 3. Enquanto ela não existe, vai para a homepage.
+// Quarta tela do cadastro.
+function criarTelaPasso4() {
+    // TODO: montar aqui a tela 4. Enquanto ela não existe, vai para a homepage.
     window.location.href = "homepage.html";
 }
