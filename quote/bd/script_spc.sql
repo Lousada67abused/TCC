@@ -5,6 +5,45 @@ DELIMITER $$
 -- ============================================================
 
 -- ============================================================
+-- RANKING
+-- ============================================================
+
+-- ============================================================
+
+DROP PROCEDURE IF EXISTS rankingLivroGenero$$
+CREATE PROCEDURE rankingLivroGenero(
+    IN p_id_genero INT
+)
+BEGIN
+    SELECT
+        l.id_livro,
+        l.titulo,
+        e.nm_editora,
+        ROUND(AVG(a.nota), 2) AS nota_media,
+        COUNT(a.id_avaliacao) AS quantidade_avaliacoes
+    FROM livro l
+    INNER JOIN livro_genero lg
+        ON l.id_livro = lg.id_livro
+    INNER JOIN editora e
+        ON l.cd_editora = e.id_editora
+    INNER JOIN avaliacao a
+        ON l.id_livro = a.id_livro
+    WHERE lg.id_genero = p_id_genero
+    GROUP BY
+        l.id_livro,
+        l.titulo,
+        e.nm_editora
+    ORDER BY
+        nota_media DESC,
+        quantidade_avaliacoes DESC,
+        l.titulo ASC
+    LIMIT 10;
+END $$
+
+
+-- ============================================================
+
+-- ============================================================
 -- USUÁRIO
 -- ============================================================
 
