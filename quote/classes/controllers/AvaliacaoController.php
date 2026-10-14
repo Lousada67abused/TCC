@@ -1,7 +1,11 @@
 <?php 
 class AvaliacaoController {
     public static function avaliarLivro($codigoUsuario, $codigoLivro, $nota, $resenha) {
-        Avaliacao::avaliar($codigoUsuario, $codigoLivro, $nota, $resenha);
+        Avaliacao::Avaliar($codigoUsuario, $codigoLivro, $nota, $resenha);
+    }
+
+    public static function buscarFeed($codigoUsuario) {
+        return Avaliacao::BuscarFeed($codigoUsuario);
     }
 }
 ?>

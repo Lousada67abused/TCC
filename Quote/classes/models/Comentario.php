@@ -23,5 +23,28 @@ class Comentario extends Banco {
 		];
 		self::Executar("cadastrarComentario", $parametros);
 	}
+
+	public static function Atualizar($codigo, $codigoUsuario, $texto) {
+		$parametros = [
+			'pCodigo'=>$codigo,
+			'pCodigoUsuario'=>$codigoUsuario,
+			'pTexto'=>$texto
+		];
+		self::Executar("atualizarComentario", $parametros);
+	}
+
+	public static function Deletar($codigo, $codigoUsuario) {
+		$parametros = [
+			'pCodigo'=>$codigo,
+			'pCodigoUsuario'=>$codigoUsuario
+		];
+		self::Executar("deletarComentario", $parametros);
+	}
+
+	public static function BuscarComentarioAvaliacao($avaliacao) {
+		$avaliacao = ['avaliacao'=>$avaliacao];
+		return self::Consultar("buscarComentarioAvaliacao", $avaliacao);
+	}
+
 }
 ?>

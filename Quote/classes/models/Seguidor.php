@@ -1,0 +1,12 @@
+<?php 
+class Seguidor extends Banco {
+	public $CodigoSeguidor;
+	public $CodigoSeguido;
+
+	
+	public function __construct($codigoSeguidor = null, $codigoSeguido = null) {
+		$this->CodigoSeguidor = $codigoSeguidor;
+		$this->CodigoSeguido = $codigoSeguido;
+	}
+}
+?>

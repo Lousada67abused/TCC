@@ -18,15 +18,20 @@ class Avaliacao extends Banco {
 	}
 
 	
-	static public function avaliar($codigoUsuario, $codigoLivro, $nota, $resenha) {
-    $parametros = array(
-        "codigoUsuario" => $codigoUsuario,
-        "codigoLivro"   => $codigoLivro,
-        "nota"          => $nota,
-        "resenha"       => $resenha
-    );
-    self::Executar("cadastrarAvaliacao", $parametros);
-}
-}
+	static public function Avaliar($codigoUsuario, $codigoLivro, $nota, $resenha) {
+		$parametros = array(
+			"codigoUsuario" => $codigoUsuario,
+			"codigoLivro"   => $codigoLivro,
+			"nota"          => $nota,
+			"resenha"       => $resenha
+		);
+		self::Executar("cadastrarAvaliacao", $parametros);
+	}
 
+	public static function BuscarFeed($codigoUsuario) {
+		$codigoUsuario = ['codigoUsuario' => $codigoUsuario];
+		return self::Consultar("buscarFeed", $codigoUsuario);
+	}
+
+}
 ?>

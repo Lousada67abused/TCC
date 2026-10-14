@@ -106,7 +106,7 @@ function cadastrarUsuario() {
 
     const tipo = "comum";
 
-    fetch("../api/cadastrar.php", {
+    fetch("../api/cadastrarUsuario.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
