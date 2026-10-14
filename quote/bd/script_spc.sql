@@ -31,7 +31,7 @@ begin
          tipo_usuario 
         from usuario 
 		where email = pEmail 
-		and md5(senha) = md5(pSenha);
+		and senha = md5(pSenha);
     end if;
 end$$
 
@@ -98,7 +98,7 @@ BEGIN
         v_novo_id,
         p_nm_usuario,
         p_email,
-        p_senha,
+        md5(p_senha),
         p_bio,
         p_dt_nascimento,
         COALESCE(p_tipo_usuario, 'comum')
