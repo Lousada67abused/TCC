@@ -8,6 +8,7 @@ const txtSenha1 = document.getElementById("txtSenha1");
 const txtSenha2 = document.getElementById("txtSenha2");
 const btnProximo = document.querySelector(".btnProximo");
 const mensagemErro = document.querySelector(".mensagemErro");
+const main = document.querySelector("main");
 
 const ERRO_SERVIDOR = "Erro no servidor. Por favor, tente novamente mais tarde.";
 const ERRO_CONEXAO = "Não foi possível acessar o servidor. Por favor, tente novamente mais tarde.";
@@ -15,6 +16,7 @@ const ERRO_CONEXAO = "Não foi possível acessar o servidor. Por favor, tente no
 let contaCriada = false;
 let usuario = null;
 let generosSalvos = [];
+let livrosSelecionados = [];
 
 function mostrarErro(elemento, mensagem) {
     elemento.textContent = mensagem;
@@ -141,8 +143,6 @@ function cadastrarUsuario() {
     });
 }
 
-// O cadastro não devolve o código do usuário, e ele é necessário para salvar os gêneros.
-// Por isso o login é feito logo depois do cadastro, e o código fica no sessionStorage.
 function entrar() {
     const senha = txtSenha1.value.trim();
     const email = txtEmail.value.trim();
@@ -363,6 +363,7 @@ function salvarGeneros() {
 
 // Terceira tela do cadastro: aparece depois que os gêneros foram salvos.
 function criarTelaPasso3() {
+    main.textContent = "";
     const secao = document.createElement("section");
     secao.id = "cadastroPasso3";
 
@@ -456,12 +457,11 @@ function criarTelaPasso3() {
         });
     });
 
-    secao.append(topo, resultados, erroLivros, btnIrPasso4);
+    main
+    .append(topo, resultados, erroLivros, btnIrPasso4);
 
-    container.textContent = "";
-    container.append(secao);
     txtPesquisa.focus();
-    return secao;
+    return body;
 }
 
 function buscarLivrosTitulo(texto, tituloResultados, listaLivros, erroLivros) {
@@ -470,6 +470,7 @@ function buscarLivrosTitulo(texto, tituloResultados, listaLivros, erroLivros) {
         return resposta.json();
     })
     .then(function (resultado) {
+        console.log(resultado);
         if (resultado.status !== "true") {
             console.error(resultado);
             mostrarErro(erroLivros, ERRO_SERVIDOR);
@@ -487,6 +488,7 @@ function buscarLivrosTitulo(texto, tituloResultados, listaLivros, erroLivros) {
 
         tituloResultados.textContent = "Exibindo resultados para \"" + texto + "\"";
         for (let i = 0; i < livros.length; i++) {
+            console.log(livros[i])
             listaLivros.append(criarCardLivro(livros[i]));
         }
     })
