@@ -33,5 +33,14 @@ class Avaliacao extends Banco {
 		return self::Consultar("buscarFeed", $codigoUsuario);
 	}
 
+	public static function BuscarAvaliacaoLivro($codigoLivro) {
+		$codigoLivro = ['codigoLivro' => $codigoLivro];
+		return self::Consultar("buscarAvaliacaoLivro", $codigoLivro);
+	}
+
+	public static function BuscarAvaliacaoUsuario($codigoUsuario) {
+		$codigoUsuario = ['codigoUsuario' => $codigoUsuario];
+		return self::Consultar("buscarAvaliacaoUsuario", $codigoUsuario);
+	}
 }
 ?>

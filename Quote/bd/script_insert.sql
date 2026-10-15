@@ -680,6 +680,103 @@ Ao mesmo tempo, Ford Prefect descobre que a editora do Guia do Mochileiro foi co
 Certa manhã ela vê algo que a deixa abalada e, pouco depois, a mulher desaparece. Convencida de que pode ajudar, Rachel se envolve na investigação, mas suas lembranças falhas a tornam uma testemunha pouco confiável, até para si mesma.',
 '2018-01-01', '378', 5);
 
+
+INSERT INTO autor_livro (id_autor, id_livro) VALUES
+(1, 9788535914849),
+(2, 9788582850350),
+(3, 9788522031450),
+(4, 9788532503251),
+(5, 9788501012074),
+(6, 9788571646858),
+(1, 9788535909555),
+(7, 9788535933925),
+(8, 9788599296578),
+(9, 9788532511010),
+(10, 9788563560155),
+(11, 9788525056009),
+(12, 9788579800245),
+(13, 9788595084759),
+(2, 9788582850015),
+(14, 9788520918852),
+(15, 9788532508126),
+(16, 9788598078397),
+(17, 9788582851425),
+(18, 9788598078175),
+(19, 9788580573299),
+(20, 9788535911121),
+(21, 9788594540188),
+(22, 9788563560438),
+(23, 9788539004119),
+(24, 9788580573015),
+(25, 9788582850985),
+(26, 9788566636239),
+(27, 9788578270889),
+(28, 9788535911695),  -- Capitães da Areia
+(29, 9788535930313),  -- Ensaio sobre a Cegueira
+(7,  9788535928198),  -- Homo Deus
+(7,  9788535930917),  -- 21 Lições para o Século 21
+(30, 9788535929225),  -- Anna Kariênina
+(31, 9788535928839),  -- A Insustentável Leveza do Ser
+(32, 9788539003839),  -- Rápido e Devagar
+(33, 9788547000240),  -- Mindset
+(34, 9788573020809),  -- Inteligência Emocional
+(35, 9788563560292),  -- O Grande Gatsby
+(36, 9788563560032),  -- O Príncipe
+(37, 9788582851890),  -- Vidas Secas
+(38, 9788563560278),  -- Odisseia
+(39, 9788582851395),  -- Jane Eyre
+(40, 9788582850480),  -- Os Miseráveis
+(41, 9788563560179),  -- Triste Fim de Policarpo Quaresma
+(9,  9788532511669),  -- HP e a Câmara Secreta
+(9,  9788532512062),  -- HP e o Prisioneiro de Azkaban
+(9,  9788532512529),  -- HP e o Cálice de Fogo
+(42, 9788532520661),  -- O Conto da Aia
+(12, 9788579800863),  -- A Esperança
+(43, 9788580572261),  -- A Culpa é das Estrelas
+(43, 9788580573749),  -- Cidades de Papel
+(44, 9788580572902),  -- Garota Exemplar
+(13, 9788595084742),  -- O Hobbit
+(13, 9788595084766),  -- As Duas Torres
+(13, 9788595084773),  -- O Retorno do Rei
+(13, 9788595084377),  -- O Silmarillion
+(45, 9788525052247),  -- Fahrenheit 451
+(46, 9788501044457),  -- O Diário de Anne Frank
+(47, 9788599296493),  -- O Nome do Vento
+(48, 9788535918502),  -- Hibisco Roxo
+(48, 9788535924732),  -- Americanah
+(30, 9788535930047),  -- Guerra e Paz
+(48, 9788535925470),  -- Sejamos Todos Feministas
+(28, 9788535911701),  -- Dona Flor e Seus Dois Maridos
+(49, 9788535929881),  -- Cosmos
+(50, 9788535911299),  -- O Gene Egoísta
+(51, 9788535933390),  -- O Avesso da Pele
+(52, 9788582850145),  -- Hamlet
+(10, 9788563560490),  -- Razão e Sensibilidade
+(53, 9788563560551),  -- Dom Quixote
+(38, 9788563560568),  -- Ilíada
+(52, 9788582850404),  -- Romeu e Julieta
+(54, 9788563560476),  -- Grandes Esperanças
+(55, 9788563560513),  -- A Desobediência Civil
+(56, 9788563560315),  -- Madame Bovary
+(57, 9788547001087),  -- Antifrágil
+(57, 9788547001261),  -- A Lógica do Cisne Negro
+(58, 9788547000806),  -- Nudge (Thaler)
+(59, 9788547000806),  -- Nudge (Sunstein)
+(9,  9788532516220),  -- HP e a Ordem da Fênix
+(9,  9788532519474),  -- HP e o Enigma do Príncipe
+(9,  9788532522610),  -- HP e as Relíquias da Morte
+(60, 9788551002735),  -- Me Chame pelo Seu Nome
+(43, 9788580573152),  -- O Teorema Katherine
+(43, 9788551002001),  -- Tartarugas Até Lá Embaixo
+(19, 9788580578645),  -- Depois de Você
+(61, 9788580576467),  -- Uma Breve História do Tempo
+(47, 9788580410327),  -- O Temor do Sábio
+(8,  9788599296585),  -- O Restaurante no Fim do Universo
+(8,  9788599296592),  -- A Vida, o Universo e Tudo Mais
+(8,  9788599296608),  -- Até Mais, e Obrigado pelos Peixes!
+(8,  9788599296615),  -- Praticamente Inofensiva
+(62, 9788501104656);  -- A Garota no Trem
+
 INSERT INTO livro_genero (id_genero, id_livro) VALUES
 (12, 9788535914849), -- 1984
 (2, 9788535914849), -- 1984
@@ -1374,34 +1471,3 @@ INSERT INTO comentario (id_comentario, texto, dt_comentario, id_usuario, id_aval
 (31, 'Esse livro deveria ser leitura de escola.', '2026-08-17', 7, 71),
 (32, 'Está na minha lista, agora subiu de posição.', '2026-08-20', 7, 74),
 (33, 'Está na minha fila. Agora fiquei com medo e com vontade.', '2026-08-29', 1, 81);
-
-INSERT INTO autor_livro (id_autor, id_livro) VALUES
-(1, 9788535914849),
-(2, 9788582850350),
-(3, 9788522031450),
-(4, 9788532503251),
-(5, 9788501012074),
-(6, 9788571646858),
-(1, 9788535909555),
-(7, 9788535933925),
-(8, 9788599296578),
-(9, 9788532511010),
-(10, 9788563560155),
-(11, 9788525056009),
-(12, 9788579800245),
-(13, 9788595084759),
-(2, 9788582850015),
-(14, 9788520918852),
-(15, 9788532508126),
-(16, 9788598078397),
-(17, 9788582851425),
-(18, 9788598078175),
-(19, 9788580573299),
-(20, 9788535911121),
-(21, 9788594540188),
-(22, 9788563560438),
-(23, 9788539004119),
-(24, 9788580573015),
-(25, 9788582850985),
-(26, 9788566636239),
-(27, 9788578270889);

@@ -7,5 +7,13 @@ class AvaliacaoController {
     public static function buscarFeed($codigoUsuario) {
         return Avaliacao::BuscarFeed($codigoUsuario);
     }
+
+    public static function buscarAvaliacaoLivro($codigoLivro) {
+        return Avaliacao::BuscarAvaliacaoLivro($codigoLivro);
+    }
+
+    public static function buscarAvaliacaoUsuario($codigoUsuario) {
+        return Avaliacao::BuscarAvaliacaoUsuario($codigoUsuario);
+    }
 }
 ?>

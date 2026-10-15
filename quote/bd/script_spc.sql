@@ -15,23 +15,35 @@ CREATE PROCEDURE rankingLivroGenero(
     IN p_id_genero INT
 )
 BEGIN
+    -- p_id_genero = 0 traz o ranking geral (todos os gêneros).
     SELECT
         l.id_livro,
         l.titulo,
+        l.ano_publicacao,
         e.nm_editora,
+        GROUP_CONCAT(DISTINCT au.nm_autor SEPARATOR ', ') AS nm_autor,
+        GROUP_CONCAT(DISTINCT g.nm_genero SEPARATOR ', ') AS nm_genero,
         ROUND(AVG(a.nota), 2) AS nota_media,
-        COUNT(a.id_avaliacao) AS quantidade_avaliacoes
+        COUNT(DISTINCT a.id_avaliacao) AS quantidade_avaliacoes
     FROM livro l
     INNER JOIN livro_genero lg
         ON l.id_livro = lg.id_livro
+    INNER JOIN genero g
+        ON lg.id_genero = g.id_genero
     INNER JOIN editora e
         ON l.cd_editora = e.id_editora
     INNER JOIN avaliacao a
         ON l.id_livro = a.id_livro
-    WHERE lg.id_genero = p_id_genero
+    LEFT JOIN autor_livro al
+        ON l.id_livro = al.id_livro
+    LEFT JOIN autor au
+        ON al.id_autor = au.id_autor
+    WHERE p_id_genero = 0
+       OR l.id_livro IN (SELECT id_livro FROM livro_genero WHERE id_genero = p_id_genero)
     GROUP BY
         l.id_livro,
         l.titulo,
+        l.ano_publicacao,
         e.nm_editora
     ORDER BY
         nota_media DESC,
@@ -164,14 +176,20 @@ CREATE PROCEDURE buscarUsuarioNome(
 )
 BEGIN
     SELECT
-        id_usuario,
-        nm_usuario,
-        email,
-        bio,
-        dt_nascimento
-    FROM usuario
-    WHERE nm_usuario LIKE CONCAT('%', pNome, '%')
-    ORDER BY nm_usuario;
+        u.id_usuario,
+        u.nm_usuario,
+        u.email,
+        u.bio,
+        u.dt_nascimento,
+        (SELECT COUNT(*) FROM biblioteca b
+            WHERE b.id_usuario = u.id_usuario AND b.status = 'lido') AS qtd_lidos,
+        (SELECT COUNT(*) FROM seguidor s
+            WHERE s.id_seguido = u.id_usuario) AS qtd_seguidores,
+        (SELECT COUNT(*) FROM seguidor s
+            WHERE s.id_seguidor = u.id_usuario) AS qtd_seguindo
+    FROM usuario u
+    WHERE u.nm_usuario LIKE CONCAT('%', pNome, '%')
+    ORDER BY u.nm_usuario;
 END $$
 
 DROP PROCEDURE IF EXISTS sp_buscar_usuarios_por_nome_email$$
@@ -1218,8 +1236,8 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_buscar_avaliacoes_por_livro$$
-CREATE PROCEDURE sp_buscar_avaliacoes_por_livro(
+DROP PROCEDURE IF EXISTS buscarAvaliacaoLivro$$
+CREATE PROCEDURE buscarAvaliacaoLivro(
     IN p_id_livro BIGINT
 )
 BEGIN
@@ -1238,8 +1256,8 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_buscar_avaliacoes_por_usuario$$
-CREATE PROCEDURE sp_buscar_avaliacoes_por_usuario(
+DROP PROCEDURE IF EXISTS buscarAvaliacaoUsuario$$
+CREATE PROCEDURE buscarAvaliacaoUsuario(
     IN p_id_usuario INT
 )
 BEGIN
@@ -1476,19 +1494,19 @@ END $$
 -- ============================================================
 
 
-DROP PROCEDURE IF EXISTS sp_cadastrar_biblioteca$$
-CREATE PROCEDURE sp_cadastrar_biblioteca(
+DROP PROCEDURE IF EXISTS cadastrarBiblioteca$$
+CREATE PROCEDURE cadastrarBiblioteca(
     IN p_id_livro BIGINT,
-    IN p_status ENUM('lido','lendo','quero ler','desisti','favorito'),
+    IN p_status ENUM('lido', 'lendo', 'quero ler', 'desisti', 'favorito'),
     IN p_visivel TINYINT,
     IN p_id_usuario INT
 )
 BEGIN
     DECLARE v_qtd INT DEFAULT 0;
-    DECLARE v_novo_id INT DEFAULT 1;
+    DECLARE v_id_biblioteca INT DEFAULT NULL;
 
-    SELECT COUNT(*)
-    INTO v_qtd
+    -- usuário existe?
+    SELECT COUNT(*) INTO v_qtd
     FROM usuario
     WHERE id_usuario = p_id_usuario;
 
@@ -1497,8 +1515,8 @@ BEGIN
         SET MESSAGE_TEXT = 'Usuario nao encontrado.';
     END IF;
 
-    SELECT COUNT(*)
-    INTO v_qtd
+    -- livro existe?
+    SELECT COUNT(*) INTO v_qtd
     FROM livro
     WHERE id_livro = p_id_livro;
 
@@ -1507,8 +1525,8 @@ BEGIN
         SET MESSAGE_TEXT = 'Livro nao encontrado.';
     END IF;
 
-    SELECT COUNT(*)
-    INTO v_qtd
+    -- livro já está na biblioteca do usuário?
+    SELECT COUNT(*) INTO v_qtd
     FROM biblioteca
     WHERE id_usuario = p_id_usuario
       AND id_livro = p_id_livro;
@@ -1518,26 +1536,21 @@ BEGIN
         SET MESSAGE_TEXT = 'Este livro ja esta na sua biblioteca.';
     END IF;
 
-    SELECT COALESCE(MAX(id_biblioteca), 0) + 1
-    INTO v_novo_id
-    FROM biblioteca;
+    -- pega o id_biblioteca que o usuário já tem
+    SELECT id_biblioteca INTO v_id_biblioteca
+    FROM biblioteca
+    WHERE id_usuario = p_id_usuario
+    LIMIT 1;
 
-    INSERT INTO biblioteca
-    (
-        id_livro,
-        id_biblioteca,
-        status,
-        visivel,
-        id_usuario
-    )
-    VALUES
-    (
-        p_id_livro,
-        v_novo_id,
-        p_status,
-        p_visivel,
-        p_id_usuario
-    );
+    -- se for o primeiro livro dele, cria um id novo
+    IF v_id_biblioteca IS NULL THEN
+        SELECT COALESCE(MAX(id_biblioteca), 0) + 1
+        INTO v_id_biblioteca
+        FROM biblioteca;
+    END IF;
+
+    INSERT INTO biblioteca (id_livro, id_biblioteca, status, visivel, id_usuario)
+    VALUES (p_id_livro, v_id_biblioteca, p_status, p_visivel, p_id_usuario);
 END $$
 
 
@@ -1560,8 +1573,8 @@ BEGIN
     ORDER BY b.id_biblioteca;
 END $$
 
-DROP PROCEDURE IF EXISTS sp_filtrar_biblioteca_por_status$$
-CREATE PROCEDURE sp_filtrar_biblioteca_por_status(
+DROP PROCEDURE IF EXISTS filtrarBibliotecaStatus$$
+CREATE PROCEDURE filtrarBibliotecaStatus(
     IN p_id_usuario INT,
     IN p_status ENUM('lido','lendo','quero ler','desisti','favorito')
 )
@@ -1570,13 +1583,19 @@ BEGIN
         b.id_biblioteca,
         b.id_livro,
         l.titulo,
+        GROUP_CONCAT(a.nm_autor ORDER BY a.nm_autor SEPARATOR ', ') AS autores,
         b.status,
         b.visivel
     FROM biblioteca b
     INNER JOIN livro l
         ON b.id_livro = l.id_livro
+    LEFT JOIN autor_livro al
+        ON l.id_livro = al.id_livro
+    LEFT JOIN autor a
+        ON al.id_autor = a.id_autor
     WHERE b.id_usuario = p_id_usuario
-      AND b.status = p_status
+      AND (p_status IS NULL OR b.status = p_status)
+    GROUP BY b.id_biblioteca, b.id_livro, l.titulo, b.status, b.visivel
     ORDER BY l.titulo;
 END $$
 
@@ -1675,8 +1694,8 @@ END $$
 
 -- ============================================================
 
-DROP PROCEDURE IF EXISTS sp_seguir_usuario$$
-CREATE PROCEDURE sp_seguir_usuario(
+DROP PROCEDURE IF EXISTS seguirUsuario$$
+CREATE PROCEDURE seguirUsuario(
     IN p_id_seguidor INT,
     IN p_id_seguido INT
 )
@@ -1790,8 +1809,8 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_deixar_de_seguir$$
-CREATE PROCEDURE sp_deixar_de_seguir(
+DROP PROCEDURE IF EXISTS deixarDeSeguir$$
+CREATE PROCEDURE deixarDeSeguir(
     IN p_id_seguidor INT,
     IN p_id_seguido INT
 )

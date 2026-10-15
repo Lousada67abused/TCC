@@ -8,5 +8,21 @@ class Seguidor extends Banco {
 		$this->CodigoSeguidor = $codigoSeguidor;
 		$this->CodigoSeguido = $codigoSeguido;
 	}
+
+	public static function Seguir($codigoSeguidor, $codigoSeguido) {
+		$parametros = [
+			'pSeguidor' => $codigoSeguidor,
+			'pSeguido' => $codigoSeguido
+		];
+		self::Executar("seguirUsuario", $parametros);
+	}
+
+	public static function DeixarDeSeguir($codigoSeguidor, $codigoSeguido) {
+		$parametros = [
+			'pSeguidor' => $codigoSeguidor,
+			'pSeguido' => $codigoSeguido
+		];
+		self::Executar("deixarDeSeguir", $parametros);
+	}
 }
 ?>
