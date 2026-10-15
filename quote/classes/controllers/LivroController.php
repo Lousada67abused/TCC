@@ -17,6 +17,14 @@ class LivroController {
         return Livro::BuscarLivroTitulo($titulo);
     }
 
+    public static function buscarLivroAutor($autor) {
+        return Livro::BuscarLivroAutor($autor);
+    }
+
+    public static function buscarLivroGenero($genero) {
+        return Livro::BuscarLivroGenero($genero);
+    }
+
     public static function buscarRankingGenero($genero) {
         return Livro::BuscarRankingGenero($genero);
     }

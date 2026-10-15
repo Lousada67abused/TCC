@@ -859,6 +859,68 @@ BEGIN
     ORDER BY l.titulo;
 END $$
 
+DROP PROCEDURE IF EXISTS buscarLivroGenero$$
+CREATE PROCEDURE buscarLivroGenero(
+    IN p_nm_genero VARCHAR(45)
+)
+BEGIN
+    SELECT
+        l.id_livro,
+        l.titulo,
+        (
+            SELECT GROUP_CONCAT(a.nm_autor ORDER BY a.nm_autor SEPARATOR ', ')
+            FROM autor_livro al
+            INNER JOIN autor a
+                ON al.id_autor = a.id_autor
+            WHERE al.id_livro = l.id_livro
+        ) AS autores,
+        (
+            SELECT GROUP_CONCAT(g.nm_genero ORDER BY g.nm_genero SEPARATOR ', ')
+            FROM livro_genero lg
+            INNER JOIN genero g
+                ON lg.id_genero = g.id_genero
+            WHERE lg.id_livro = l.id_livro
+        ) AS generos,
+        l.ano_publicacao,
+        l.qnt_paginas
+    FROM livro l
+    WHERE l.id_livro IN (
+        SELECT lg2.id_livro
+        FROM livro_genero lg2
+        INNER JOIN genero g2
+            ON lg2.id_genero = g2.id_genero
+        WHERE g2.nm_genero LIKE CONCAT('%', p_nm_genero, '%')
+    )
+    ORDER BY l.titulo;
+END $$
+
+DROP PROCEDURE IF EXISTS buscarLivroAutor$$
+CREATE PROCEDURE buscarLivroAutor(
+    IN p_nm_autor VARCHAR(100)
+)
+BEGIN
+    SELECT
+        l.id_livro,
+        l.titulo,
+        GROUP_CONCAT(a.nm_autor ORDER BY a.nm_autor SEPARATOR ', ') AS autores,
+        l.ano_publicacao,
+        l.qnt_paginas
+    FROM livro l
+    INNER JOIN autor_livro al
+        ON l.id_livro = al.id_livro
+    INNER JOIN autor a
+        ON al.id_autor = a.id_autor
+    WHERE l.id_livro IN (
+        SELECT al2.id_livro
+        FROM autor_livro al2
+        INNER JOIN autor a2
+            ON al2.id_autor = a2.id_autor
+        WHERE a2.nm_autor LIKE CONCAT('%', p_nm_autor, '%')
+    )
+    GROUP BY l.id_livro, l.titulo, l.ano_publicacao, l.qnt_paginas
+    ORDER BY l.titulo;
+END $$
+
 DROP PROCEDURE IF EXISTS sp_buscar_livros_por_editora$$
 CREATE PROCEDURE sp_buscar_livros_por_editora(
     IN p_id_editora INT
