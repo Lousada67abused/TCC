@@ -14,5 +14,15 @@ class Biblioteca extends Banco {
 		$this->Visivel = $visivel;
 		$this->CodigoUsuario = $codigoUsuario;
 	}
+
+	public static function Cadastrar($codigoLivro, $status, $visivel, $codigoUsuario) {
+		$parametros = [
+			'pCodigoLivro'=>$codigoLivro,
+			'pStatus'=>$status,
+			'pVisivel'=>$visivel,
+			'pCodigoUsuario'=>$codigoUsuario
+		];
+		self::Executar("cadastrarBiblioteca", $parametros);
+	}
 }
 ?>
