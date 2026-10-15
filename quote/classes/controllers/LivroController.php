@@ -16,5 +16,9 @@ class LivroController {
     public static function buscarLivroTitulo($titulo) {
         return Livro::BuscarLivroTitulo($titulo);
     }
+
+    public static function buscarRankingGenero($genero) {
+        return Livro::BuscarRankingGenero($genero);
+    }
 }
 ?>

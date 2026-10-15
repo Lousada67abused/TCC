@@ -90,7 +90,7 @@ CREATE TABLE biblioteca
     visivel TINYINT,
     id_usuario INT REFERENCES usuario(id_usuario),
 
-    PRIMARY KEY (id_biblioteca),
+    PRIMARY KEY (id_biblioteca, id_livro),
     UNIQUE (id_usuario, id_livro)
 );
 

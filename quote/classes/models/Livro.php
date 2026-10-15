@@ -36,5 +36,10 @@ class Livro extends Banco {
 		$titulo = ['titulo' => $titulo];
 		return self::Consultar("buscarLivroTitulo", $titulo);
 	}
+
+	public static function BuscarRankingGenero($genero) {
+		$genero = ['genero' => $genero];
+		return self::Consultar("rankingLivroGenero", $genero);
+	}
 }
 ?>
