@@ -996,8 +996,6 @@ BEGIN
 END $$
 
 
-
-
 -- ============================================================
 
 -- ============================================================
@@ -1945,8 +1943,8 @@ END $$
 
 -- ============================================================
 
-DROP PROCEDURE IF EXISTS sp_cadastrar_meta_leitura$$
-CREATE PROCEDURE sp_cadastrar_meta_leitura(
+DROP PROCEDURE IF EXISTS cadastrarMetaLeitura$$
+CREATE PROCEDURE cadastrarMetaLeitura(
     IN p_qnt_livros INT,
     IN p_data DATE,
     IN p_id_usuario INT
@@ -1980,8 +1978,8 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_buscar_metas_por_usuario$$
-CREATE PROCEDURE sp_buscar_metas_por_usuario(
+DROP PROCEDURE IF EXISTS buscarMetaUsuario$$
+CREATE PROCEDURE buscarMetaUsuario(
     IN p_id_usuario INT
 )
 BEGIN
@@ -2011,9 +2009,8 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_calcular_progresso_meta$$
-
-CREATE PROCEDURE sp_calcular_progresso_meta(
+DROP PROCEDURE IF EXISTS calcularProgressoMeta$$
+CREATE PROCEDURE calcularProgressoMeta(
     IN p_id_meta INT
 )
 BEGIN
@@ -2038,8 +2035,8 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_atualizar_meta_leitura$$
-CREATE PROCEDURE sp_atualizar_meta_leitura(
+DROP PROCEDURE IF EXISTS atualizarMetaLeitura$$
+CREATE PROCEDURE atualizarMetaLeitura(
     IN p_id_meta INT,
     IN p_qnt_livros INT,
     IN p_data DATE
@@ -2053,8 +2050,8 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_deletar_meta_leitura$$
-CREATE PROCEDURE sp_deletar_meta_leitura(
+DROP PROCEDURE IF EXISTS deletarMetaLeitura$$
+CREATE PROCEDURE deletarMetaLeitura(
     IN p_id_meta INT
 )
 BEGIN
@@ -2076,8 +2073,8 @@ END $$
 
 -- ============================================================
 
-DROP PROCEDURE IF EXISTS sp_curtir_avaliacao$$
-CREATE PROCEDURE sp_curtir_avaliacao(
+DROP PROCEDURE IF EXISTS curtirAvaliacao$$
+CREATE PROCEDURE curtirAvaliacao(
     IN p_id_usuario INT,
     IN p_id_avaliacao INT
 )
@@ -2122,8 +2119,8 @@ END $$
 
 
 -- Contar curtidas
-DROP PROCEDURE IF EXISTS sp_contar_curtidas_avaliacao$$
-CREATE PROCEDURE sp_contar_curtidas_avaliacao(
+DROP PROCEDURE IF EXISTS contarCurtidasAvaliacao$$
+CREATE PROCEDURE contarCurtidasAvaliacao(
     IN p_id_avaliacao INT
 )
 BEGIN
@@ -2175,8 +2172,8 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_descurtir_avaliacao$$
-CREATE PROCEDURE sp_descurtir_avaliacao(
+DROP PROCEDURE IF EXISTS descurtirAvaliacao$$
+CREATE PROCEDURE descurtirAvaliacao(
     IN p_id_usuario INT,
     IN p_id_avaliacao INT
 )
@@ -2236,8 +2233,8 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_buscar_comentarios_por_avaliacao$$
-CREATE PROCEDURE sp_buscar_comentarios_por_avaliacao(
+DROP PROCEDURE IF EXISTS buscarComentarioAvaliacao$$
+CREATE PROCEDURE buscarComentarioAvaliacao(
     IN p_id_avaliacao INT
 )
 BEGIN
@@ -2272,8 +2269,8 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_atualizar_comentario$$
-CREATE PROCEDURE sp_atualizar_comentario(
+DROP PROCEDURE IF EXISTS atualizarComentario$$
+CREATE PROCEDURE atualizarComentario(
     IN p_id_comentario INT,
     IN p_id_usuario INT,
     IN p_texto VARCHAR(500)
@@ -2286,8 +2283,8 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_deletar_comentario$$
-CREATE PROCEDURE sp_deletar_comentario(
+DROP PROCEDURE IF EXISTS deletarComentario$$
+CREATE PROCEDURE deletarComentario(
     IN p_id_comentario INT,
     IN p_id_usuario INT
 )
