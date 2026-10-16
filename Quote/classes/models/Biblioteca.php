@@ -24,5 +24,27 @@ class Biblioteca extends Banco {
 		];
 		self::Executar("cadastrarBiblioteca", $parametros);
 	}
+
+	public static function BuscarBibliotecaUsuario($codigoUsuario) {
+		$codigoUsuario = ['codigoUsuario' => $codigoUsuario];
+		return self::Consultar("buscarBibliotecaUsuario", $codigoUsuario);
+	}
+
+	public static function AtualizarStatusBiblioteca($codigoUsuario, $codigoLivro, $status) {
+		$parametros = [
+			'pCodigoUsuario'=>$codigoUsuario,
+			'pCodigoLivro'=>$codigoLivro,
+			'pStatus'=>$status
+		];
+		self::Executar("atualizarStatusBiblioteca", $parametros);
+	}
+
+	public static function DeletarLivroBiblioteca($codigoUsuario, $codigoLivro) {
+		$parametros = [
+			'pCodigoUsuario'=>$codigoUsuario,
+			'pCodigoLivro'=>$codigoLivro
+		];
+		self::Executar("deletarLivroBiblioteca", $parametros);
+	}
 }
 ?>

@@ -1616,8 +1616,8 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_buscar_biblioteca_por_usuario$$
-CREATE PROCEDURE sp_buscar_biblioteca_por_usuario(
+DROP PROCEDURE IF EXISTS buscarBibliotecaUsuario$$
+CREATE PROCEDURE buscarBibliotecaUsuario(
     IN p_id_usuario INT
 )
 BEGIN
@@ -1706,41 +1706,91 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_atualizar_biblioteca$$
-CREATE PROCEDURE sp_atualizar_biblioteca(
-    IN p_id_biblioteca INT,
-    IN p_status ENUM('lido','lendo','quero ler','desisti','favorito'),
-    IN p_visivel TINYINT
+DROP PROCEDURE IF EXISTS atualizarStatusBiblioteca$$
+CREATE PROCEDURE atualizarStatusBiblioteca(
+    IN p_id_usuario INT,
+    IN p_id_livro BIGINT,
+    IN p_status ENUM('lido', 'lendo', 'quero ler', 'desisti', 'favorito')
 )
 BEGIN
     DECLARE v_qtd INT DEFAULT 0;
 
-    SELECT COUNT(*)
-    INTO v_qtd
+    IF p_status IS NULL THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Status invalido.';
+    END IF;
+
+    -- livro está na biblioteca do usuário?
+    SELECT COUNT(*) INTO v_qtd
     FROM biblioteca
-    WHERE id_biblioteca = p_id_biblioteca;
+    WHERE id_usuario = p_id_usuario
+      AND id_livro = p_id_livro;
 
     IF v_qtd = 0 THEN
         SIGNAL SQLSTATE '45000'
-        SET MESSAGE_TEXT = 'Item nao encontrado na biblioteca.';
+        SET MESSAGE_TEXT = 'Este livro nao esta na sua biblioteca.';
     END IF;
 
     UPDATE biblioteca
-    SET
-        status = p_status,
-        visivel = p_visivel
-    WHERE id_biblioteca = p_id_biblioteca;
+    SET status = p_status
+    WHERE id_usuario = p_id_usuario
+      AND id_livro = p_id_livro;
+END $$
+
+DROP PROCEDURE IF EXISTS deletarLivroBiblioteca$$
+CREATE PROCEDURE deletarLivroBiblioteca(
+    IN p_id_usuario INT,
+    IN p_id_livro BIGINT
+)
+BEGIN
+    DECLARE v_qtd INT DEFAULT 0;
+
+    -- livro está na biblioteca do usuário?
+    SELECT COUNT(*) INTO v_qtd
+    FROM biblioteca
+    WHERE id_usuario = p_id_usuario
+      AND id_livro = p_id_livro;
+
+    IF v_qtd = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Este livro nao esta na sua biblioteca.';
+    END IF;
+
+    DELETE FROM biblioteca
+    WHERE id_usuario = p_id_usuario
+      AND id_livro = p_id_livro;
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_deletar_biblioteca$$
-
-CREATE PROCEDURE sp_deletar_biblioteca(
-    IN p_id_biblioteca INT
+DROP PROCEDURE IF EXISTS deletarBiblioteca$$
+CREATE PROCEDURE deletarBiblioteca(
+    IN p_id_usuario INT
 )
 BEGIN
+    DECLARE v_qtd INT DEFAULT 0;
+
+    -- usuário existe?
+    SELECT COUNT(*) INTO v_qtd
+    FROM usuario
+    WHERE id_usuario = p_id_usuario;
+
+    IF v_qtd = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Usuario nao encontrado.';
+    END IF;
+
+    -- usuário tem livros na biblioteca?
+    SELECT COUNT(*) INTO v_qtd
+    FROM biblioteca
+    WHERE id_usuario = p_id_usuario;
+
+    IF v_qtd = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Sua biblioteca ja esta vazia.';
+    END IF;
+
     DELETE FROM biblioteca
-    WHERE id_biblioteca = p_id_biblioteca;
+    WHERE id_usuario = p_id_usuario;
 END $$
 
 
