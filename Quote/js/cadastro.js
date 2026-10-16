@@ -461,7 +461,7 @@ function criarTelaPasso3() {
     .append(topo, resultados, erroLivros, btnIrPasso4);
 
     txtPesquisa.focus();
-    return body;
+    return;
 }
 
 function buscarLivrosTitulo(texto, tituloResultados, listaLivros, erroLivros) {
@@ -557,13 +557,16 @@ function salvarLivros() {
     for (let i = 0; i < livrosSelecionados.length; i++) {
         const codigoLivro = livrosSelecionados[i];
 
+        console.log(codigoLivro, codigoUsuario)
+
         const requisicao = fetch("../api/cadastrarBiblioteca.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 codigoUsuario: codigoUsuario,
                 codigoLivro: codigoLivro,
-                status: "lido"
+                status: "lido",
+                visivel: 1
             })
         })
         .then(function (resposta) {
@@ -599,5 +602,5 @@ function salvarLivros() {
 // Quarta tela do cadastro.
 function criarTelaPasso4() {
     // TODO: montar aqui a tela 4. Enquanto ela não existe, vai para a homepage.
-    window.location.href = "homepage.html";
+    window.location.href = "seguirAmigos.html";
 }

@@ -69,7 +69,7 @@ begin
 	
     Select count(*) into qtd from usuario 
 	where email = pEmail 
-	and md5(senha) = md5(pSenha);
+	and senha = md5(pSenha);
     
     if (qtd = 0) Then
 		signal sqlstate '45000' set message_text = 'Login e/ou senha inválida!';
