@@ -23,7 +23,7 @@
             <span class="material-symbols-outlined">arrow_back</span>
         </a>
         <div class="barraPesquisaMobileHeader">
-            <input type="text" value="delírio" placeholder="Pesquise por autores, livros...">
+            <input type="text" placeholder="Pesquise por autores, livros...">
             <span class="material-symbols-outlined">search</span>
         </div>
     </div>
@@ -35,72 +35,15 @@
                 <span class="material-symbols-outlined">arrow_back</span>
             </a>
             <div class="barraPesquisaInterna">
-                <input type="text" value="delírio" placeholder="Pesquise por autores, livros...">
+                <input type="text" placeholder="Pesquise por autores, livros...">
                 <span class="material-symbols-outlined">search</span>
             </div>
         </div>
 
-        <h1 class="tituloResultados">Exibindo resultados para "delírio"</h1>
+        <h1 class="tituloResultados">Busque os livros que você já leu</h1>
 
-        <div class="gridResultadosLivros">
-            
-            <article class="cardLivroResultado">
-                <a href="livro.html">
-                    <img src="../img/capa10.jpg" alt="Capa do livro Mestres do Tempo" class="capaLivroCard">
-                    <h2 class="tituloLivroCard">Delírio</h2>
-                    <p class="autorLivroCard">Lauren Oliver</p>
-                </a>
-            </article>
-
-            <article class="cardLivroResultado">
-                <a href="livro.html">
-                    <img src="../img/capa2.jpg" alt="Capa do livro O Diário de Anne Frank" class="capaLivroCard">
-                    <h2 class="tituloLivroCard">Delírio</h2>
-                    <p class="autorLivroCard">Laura Restrepo</p>
-                </a>
-            </article>
-
-            <article class="cardLivroResultado">
-                <a href="livro.html">
-                    <img src="../img/capa3.jpg" alt="Capa do livro É assim que acaba" class="capaLivroCard">
-                    <h2 class="tituloLivroCard">Os delírios das Multidões</h2>
-                    <p class="autorLivroCard">William J. Bernstein</p>
-                </a>
-            </article>
-
-            <article class="cardLivroResultado">
-                <a href="livro.html">
-                    <img src="../img/capa4.jpg" alt="Capa do livro Harry Potter" class="capaLivroCard">
-                    <h2 class="tituloLivroCard">Delírios de uma mente...</h2>
-                    <p class="autorLivroCard">Jhonathas Kunh</p>
-                </a>
-            </article>
-
-            <article class="cardLivroResultado">
-                <a href="livro.html">
-                    <img src="../img/capa5.jpg" alt="Capa do livro Jogos Vorazes" class="capaLivroCard">
-                    <h2 class="tituloLivroCard">Os delírios de consumo...</h2>
-                    <p class="autorLivroCard">Sophie Kinsella</p>
-                </a>
-            </article>
-
-            <article class="cardLivroResultado">
-                <a href="livro.html">
-                    <img src="../img/capa6.jpg" alt="Capa do livro Sob as Asas do Dragão de Cristal" class="capaLivroCard">
-                    <h2 class="tituloLivroCard">Delírio de Felicidade</h2>
-                    <p class="autorLivroCard">Olivia Gates</p>
-                </a>
-            </article>
-
-            <article class="cardLivroResultado">
-                <a href="livro.html">
-                    <img src="../img/capa7.jpg" alt="Capa do livro IT A Coisa" class="capaLivroCard">
-                    <h2 class="tituloLivroCard">Delírio</h2>
-                    <p class="autorLivroCard">Lauren Oliver</p>
-                </a>
-            </article>
-
-        </div>
+        <div class="gridResultadosLivros"></div>
+        <span class="mensagemErro escondido" role="alert"></span>
 
         <div class="containerPaginacao">
             <button type="button" class="btnProximo">proximo<span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></button>
@@ -126,5 +69,7 @@
         </a>
     </nav>
 
+    <script src="../js/cadastroCompartilhado.js"></script>
+    <script src="../js/ultimasLeituras.js"></script>
 </body>
 </html>

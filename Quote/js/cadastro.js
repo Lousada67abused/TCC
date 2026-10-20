@@ -1,3 +1,13 @@
+const formulario = document.querySelector(".formularioCadastro");
+const txtNome = document.getElementById("txtNome");
+const txtDataNascimento = document.getElementById("txtDataNascimento");
+const txtBiografia = document.getElementById("txtBiografia");
+const txtEmail = document.getElementById("txtEmail");
+const txtSenha1 = document.getElementById("txtSenha1");
+const txtSenha2 = document.getElementById("txtSenha2");
+const btnProximo = document.querySelector(".btnProximo");
+const mensagemErro = document.querySelector(".mensagemErro");
+
 // Etapa 1: validação, criação da conta e login.
 let contaCriada = false;
 let usuario = null;
@@ -96,7 +106,6 @@ function cadastrarUsuario() {
                 campo.readOnly = true;
             });
             entrar();
-            buscarGeneros();
         } else {
             console.error(resultado);
             erroNoCadastro(mensagemDaApi(resultado));
@@ -112,7 +121,7 @@ function entrar() {
     const senha = txtSenha1.value.trim();
     const email = txtEmail.value.trim();
 
-    fetch("../api/acessar.php", {
+    return fetch("../api/acessar.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: email, senha: senha})
@@ -125,14 +134,15 @@ function entrar() {
             usuario = resultado.resultado[0];
             sessionStorage.setItem("codigo", usuario.id_usuario);
             sessionStorage.setItem("usuario", JSON.stringify(usuario));
+            buscarGeneros();
         } else {
             console.error(resultado);
-            mostrarErro(mensagemErro, mensagemDaApi(resultado));
+            erroNoCadastro(mensagemDaApi(resultado));
         }
     })
     .catch(function (erro) {
         console.error(erro);
-        mostrarErro(mensagemErro, ERRO_CONEXAO);
+        erroNoCadastro(ERRO_CONEXAO);
     });
 }
 
@@ -149,7 +159,7 @@ if (formulario) {
         if (!contaCriada) {
             cadastrarUsuario();
         } else {
-            buscarGeneros();
+            entrar();
         }
     });
 

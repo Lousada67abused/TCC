@@ -269,3 +269,11 @@ header.cabecalhoPrincipal {
         text-overflow: ellipsis;
     }
 }
+
+/* Seleção dos livros durante o cadastro. */
+.cardLivroResultado { cursor: pointer; min-width: 0; border-radius: 8px; }
+.cardLivroResultado.selecionado { outline: 3px solid var(--royalBlue); outline-offset: 4px; }
+.cardLivroResultado:focus-visible { outline: 3px solid var(--royalBlue); outline-offset: 4px; }
+.mensagemErro { display: block; color: #b91c1c; margin-bottom: 16px; }
+.escondido { display: none; }
+.btnProximo:disabled { opacity: 0.6; cursor: wait; }

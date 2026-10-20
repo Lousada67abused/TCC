@@ -1,3 +1,5 @@
+const container = document.querySelector(".containerCadastro");
+
 // Etapa 2: seleção e gravação dos gêneros favoritos.
 let generosSalvos = [];
 
@@ -105,7 +107,7 @@ function criarTelaGeneros(generos) {
         btnIrPasso3.disabled = true;
         salvarGeneros().then(function (todosSalvos) {
             if (todosSalvos) {
-                criarTelaPasso3();
+                window.location.href = "ultimasLeituras.html";
             } else {
                 mostrarErro(erroGeneros, ERRO_SERVIDOR);
                 btnIrPasso3.disabled = false;
