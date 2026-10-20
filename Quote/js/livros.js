@@ -11,6 +11,7 @@ if (areaLivros){
     })
     .then(function (resultado) {
         console.log(resultado);
+        console.log(resultado.nota);
         
         let deuCerto = null;
         if (resultado.status){
@@ -74,8 +75,10 @@ if (containerDetalhesLivro){
             capa.src = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + dados.id_livro;
             titulo.textContent = dados.titulo;
             paginas.textContent = dados.qnt_paginas;
+            autorNome.textContent = dados.nm_autor;
             ano.textContent = dados.ano_publicacao;
             editora.textContent = dados.nm_editora;
+            genero.textContent = dados.nm_genero;
             sinopse.textContent = dados.sinopse;
 
         }

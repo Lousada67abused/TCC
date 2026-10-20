@@ -23,10 +23,11 @@ try {
 	}
 	$codigo = $_GET['codigo'];
 
+	$notaMedia = LivroController::calcularNotaMedia($codigo);
 	$resposta = LivroController::buscarLivroCodigo($codigo);
 
 	http_response_code(200);
-	echo json_encode(['status' => 'true', 'resposta' => $resposta]);
+	echo json_encode(['status' => 'true', 'resposta' => $resposta, 'nota' => $notaMedia]);
 } catch (Exception $erro) {
 	http_response_code(500);
 	echo json_encode(['status' => 'false']);

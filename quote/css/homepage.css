@@ -1,144 +1,429 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
 body {
-    padding-bottom: 50px;
-}
-
-main{
-    width: 70%;
-    display: flex;
-    justify-content: center;    
-    flex-direction: column;
-    gap: 25px;
-}
-
-.areaLivros{
-    margin-top: 25px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 40px;
-    overflow: hidden;
-    transition: max-height 0.3s ease;
-}
-
-.livro{
+    background-color: #ffffff;
+    color: #111111;
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
+    padding-bottom: 70px;
+}
+
+
+.cabecalhoPrincipal {
+    display: flex;
+    align-items: center;
     justify-content: space-between;
-    gap: 5px;
-}
-
-.textoLivro{
-    height: 60px;
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.textoLivro h2 {
-    font-size: 16px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.textoLivro p {
-    font-size: 14px;
+    background-color: #002663;
+    padding: 12px 16px;
+    gap: 12px;
     width: 100%;
-    padding-bottom: 3px;
-    display: -webkit-box;
-    -webkit-line-clamp: 1;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
 }
 
-
-.areaEstrelas{
-    display: flex;
-    width: 80%;
-    padding-top: 5px;
-    align-items: center;
-}
-
-.areaEstrelas img{
-    width: 20%;
-    height : 35px;
-}
-
-.areaEstrelas p {
-    margin-right: 5px;
-    font-weight: 600;
-}
-
-.areaBotao{
-    display: flex;
-    justify-content: end;
-    margin-top: 20px;
-}
-
-section button{
+.logotipoContainer {
     display: flex;
     align-items: center;
-    justify-content: center;
-    align-self: flex-end;
-    width: 165px;
-    height: 45px;
-    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.logotipoContainer img {
+    height: 28px;
+    width: auto;
+    display: block;
+}
+
+.barraPesquisa {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 6px;
+    padding: 6px 12px;
+    flex: 1;
+    max-width: 280px;
+    margin: 0;
+    transform: none !important;
+}
+
+.barraPesquisa input {
     border: none;
-    background-color: var(--royal-blue);
-    color: white;
+    outline: none;
+    width: 100%;
+    font-size: 11px;
+    background: transparent;
+}
+
+.barraPesquisa span {
+    color: #333333;
+    font-size: 18px;
+    margin-left: 6px;
     cursor: pointer;
 }
 
-.areaComentarios{
+.acoesHeaderDesktop {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.botaoRanking {
+    display: none;
+}
+
+.avatarHeader {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+    cursor: pointer;
+}
+
+.menuDropdownPerfil {
+    display: none;
+}
+
+
+.tituloSecao {
+    font-size: 15px;
+    font-weight: bold;
+    color: #111111;
+    margin-bottom: 16px;
+}
+
+.gridLivros {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    flex-wrap: wrap;
-    gap: 20px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
 }
 
-.comentario{
-    width: 100%;
-    display: flex;
-    padding: 30px;
-    align-items: center;
-    box-shadow: 4px 4px 4px 0px #AB9E9E;
-    gap: 15px;
-    border-radius: 8px;
-}
-
-.comentario div {
-    display: flex;
-    flex-direction: row;
-    gap: 5px;
-    align-items: center;
-}
-
-.areaEstrelasComentario {
-    margin: 0 0 0 10px;
-}
-
-.areaEstrelasComentario p {
-    font-size: 16px;
-    padding: 0;
-}
-
-nav{
+.cardLivro {
     display: flex;
     flex-direction: column;
-    gap: 15px;   
 }
 
-.capaDoLivro{
-    width: 112px;
-}
-
-.capaDoLivro img{
+.capaLivro {
     width: 100%;
-    height: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 6px;
 }
 
-.fotoDePerfil img{
-    width: 35px;
-    border-radius: 100%;
+.tituloLivro {
+    font-size: 11px;
+    font-weight: bold;
+    color: #111111;
+    line-height: 1.2;
+    margin-bottom: 2px;
+}
+
+.autorLivro {
+    font-size: 9px;
+    color: #777777;
+    margin-bottom: 4px;
+}
+
+.areaEstrelas span {
+    font-size: 12px;
+}
+
+.containerBotaoVerMais {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+    margin-bottom: 24px;
+}
+
+.botaoVerMais {
+    background-color: #0056b3;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 20px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+
+.secaoAmigos {
+    margin-top: 24px;
+}
+
+.listaResenhasAmigos {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cardResenhaAmigo {
+    display: flex;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+.capaResenha {
+    width: 60px;
+    height: 90px;
+    object-fit: cover;
+    border-radius: 4px;
+    flex-shrink: 0;
+}
+
+.conteudoResenha {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.cabecalhoResenha {
+    margin-bottom: 4px;
+}
+
+.tituloLivroResenha {
+    font-size: 12px;
+    font-weight: bold;
+    color: #111111;
+    display: inline;
+}
+
+.autorLivroResenha {
+    font-size: 10px;
+    color: #777777;
+    margin-left: 4px;
+}
+
+.usuarioAvaliacao {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 6px;
+}
+
+.avatarUsuarioResenha {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.handleUsuario {
+    font-size: 10px;
+    color: #555555;
+}
+
+.textoResenha {
+    font-size: 10px;
+    color: #555555;
+    line-height: 1.4;
+}
+
+
+@media (min-width: 768px) {
+    body {
+        padding-bottom: 0;
+    }
+
+    .cabecalhoPrincipal {
+        padding: 12px 48px;
+        gap: 24px;
+    }
+
+    .logotipoContainer img {
+        height: 32px;
+    }
+
+    .barraPesquisa {
+        max-width: 450px;
+        padding: 6px 16px;
+    }
+
+    .barraPesquisa input {
+        font-size: 13px;
+    }
+
+    .barraPesquisa span {
+        font-size: 20px;
+    }
+
+    .acoesHeaderDesktop {
+        gap: 16px;
+    }
+
+    .botaoRanking {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background-color: transparent;
+        color: #ffffff;
+        border: 1px solid #ffffff;
+        border-radius: 6px;
+        padding: 6px 16px;
+        font-size: 13px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .avatarHeader {
+        width: 40px;
+        height: 40px;
+    }
+
+    .perfilMenuContainer {
+        position: relative;
+    }
+
+    .perfilMenuContainer:hover .menuDropdownPerfil {
+        display: block;
+    }
+
+    .menuDropdownPerfil {
+        position: absolute;
+        top: 48px;
+        right: 0;
+        width: 200px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+        padding: 12px 0;
+        z-index: 200;
+    }
+
+    .cabecalhoDropdown {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 16px 12px 16px;
+        border-bottom: 1px solid #f0f4f8;
+    }
+
+    .cabecalhoDropdown img {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+    }
+
+    .cabecalhoDropdown strong {
+        display: block;
+        font-size: 12px;
+        color: #111111;
+    }
+
+    .cabecalhoDropdown small {
+        font-size: 10px;
+        color: #777777;
+    }
+
+    .listaMenuDropdown {
+        list-style: none;
+        padding-top: 8px;
+    }
+
+    .listaMenuDropdown a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 16px;
+        font-size: 12px;
+        color: #444444;
+        text-decoration: none;
+    }
+
+    .listaMenuDropdown a:hover {
+        background-color: #f8fafc;
+        color: #0056b3;
+    }
+
+    .listaMenuDropdown span {
+        font-size: 16px;
+    }
+
+    .divisorMenu {
+        height: 1px;
+        background-color: #f0f4f8;
+        margin: 6px 0;
+    }
+
+    .itemSair {
+        color: #dc2626 !important;
+    }
+
+    .conteudoPrincipal {
+        padding: 40px 48px;
+    }
+
+    .tituloSecao {
+        font-size: 18px;
+        margin-bottom: 24px;
+    }
+
+    .gridLivros {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 20px;
+    }
+
+    .tituloLivro {
+        font-size: 13px;
+    }
+
+    .autorLivro {
+        font-size: 11px;
+    }
+
+    .areaEstrelas span {
+        font-size: 14px;
+    }
+
+    .containerBotaoVerMais {
+        margin-top: 24px;
+        margin-bottom: 40px;
+    }
+
+    .secaoAmigos {
+        margin-top: 40px;
+    }
+
+    .cardResenhaAmigo {
+        padding: 16px 20px;
+        gap: 16px;
+    }
+
+    .capaResenha {
+        width: 80px;
+        height: 120px;
+    }
+
+    .tituloLivroResenha {
+        font-size: 14px;
+    }
+
+    .autorLivroResenha {
+        font-size: 12px;
+    }
+
+    .avatarUsuarioResenha {
+        width: 22px;
+        height: 22px;
+    }
+
+    .handleUsuario {
+        font-size: 12px;
+    }
+
+    .textoResenha {
+        font-size: 12px;
+        max-width: 650px;
+    }
+
+    .navegacaoMobile {
+        display: none;
+    }
 }
