@@ -1485,8 +1485,63 @@ BEGIN
       AND id_genero = p_id_genero;
 END $$
 
-
 DROP PROCEDURE IF EXISTS recomendarLivroUsuario$$
+CREATE PROCEDURE recomendarLivroUsuario(
+    IN p_id_usuario INT
+)
+BEGIN
+    SELECT
+        l.id_livro,
+        l.titulo,
+        a.nm_autor,
+        COUNT(DISTINCT lg.id_genero) AS generos_compativeis,
+        (
+            SELECT COALESCE(ROUND(AVG(av.nota), 1), 0)
+            FROM avaliacao av
+            WHERE av.id_livro = l.id_livro
+        ) AS nota_media
+    FROM livro l
+    INNER JOIN autor_livro al
+        ON l.id_livro = al.id_livro
+    INNER JOIN autor a
+        ON al.id_autor = a.id_autor
+    INNER JOIN livro_genero lg
+        ON l.id_livro = lg.id_livro
+    LEFT JOIN preferencia_usuario pu
+        ON pu.id_usuario = p_id_usuario
+       AND pu.id_genero = lg.id_genero
+    LEFT JOIN biblioteca b
+        ON b.id_usuario = p_id_usuario
+       AND b.id_livro = l.id_livro
+    WHERE b.id_livro IS NULL
+      AND (
+          pu.id_genero IS NOT NULL
+          OR EXISTS (
+              SELECT 1
+              FROM biblioteca b2
+              INNER JOIN livro_genero lg2
+                  ON b2.id_livro = lg2.id_livro
+              WHERE b2.id_usuario = p_id_usuario
+                AND lg2.id_genero = lg.id_genero
+          )
+          OR EXISTS (
+              SELECT 1
+              FROM avaliacao av
+              INNER JOIN seguidor sg
+                  ON sg.id_seguido = av.id_usuario
+              WHERE sg.id_seguidor = p_id_usuario
+                AND av.id_livro = l.id_livro
+          )
+      )
+    GROUP BY
+        l.id_livro,
+        l.titulo,
+        a.nm_autor
+    ORDER BY
+        generos_compativeis DESC,
+        l.titulo;
+END $$
+/*	DROP PROCEDURE IF EXISTS recomendarLivroUsuario$$
 CREATE PROCEDURE recomendarLivroUsuario(
     IN p_id_usuario INT
 )
@@ -1539,7 +1594,7 @@ BEGIN
     ORDER BY
         generos_compativeis DESC,
         l.titulo;
-END $$
+END $$ */
 
 -- ============================================================
 
