@@ -277,16 +277,3 @@ header.cabecalhoPrincipal {
 .mensagemErro { display: block; color: #b91c1c; margin-bottom: 16px; }
 .escondido { display: none; }
 .btnProximo:disabled { opacity: 0.6; cursor: wait; }
-
-/* Estrutura da etapa de últimas leituras. */
-.conteudoPrincipalResultados { box-sizing: border-box; }
-.conteudoPrincipalResultados > h1 { margin: 12px 0; }
-.conteudoPrincipalResultados > p { margin: 12px 0; }
-#formPesquisaLivros { width: 100%; max-width: 560px; box-sizing: border-box; margin: 28px 0; gap: 12px; }
-.rotuloPesquisa { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
-.btnBuscarLivro { border: 0; background: transparent; cursor: pointer; padding: 6px; }
-button.cardLivroResultado { display: flex; flex-direction: column; text-align: left; border: 0; padding: 8px; background: transparent; color: inherit; font: inherit; }
-button.cardLivroResultado > span { display: block; width: 100%; }
-.containerPaginacao { align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
-[hidden] { display: none !important; }
-
