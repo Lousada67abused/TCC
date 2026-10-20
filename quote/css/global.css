@@ -54,7 +54,7 @@ header {
     margin-bottom: 50px;
 }
 
-#avatar {
+header > img {
     height: 55px;
     width: 55px;
     border-radius: 100px;
@@ -115,4 +115,80 @@ header figure img {
     margin-bottom: 10px;
     font-weight: 600;
     text-align: center;
+}
+
+
+
+.areaEstrelas {
+display: flex;
+    gap: 1px;
+}
+
+.avatarHeaderMobile {
+width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.botaoVoltarMobile {
+color: #004bb5;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.cabecalhoPrincipal {
+display: none;
+}
+
+.conteudoPrincipal {
+padding: 16px;
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.desktopApenas {
+display: none;
+}
+
+.estrelaCheia {
+color: #ffc107;
+    font-variation-settings: 'FILL' 1;
+}
+
+.itemNavegacao {
+color: #ffffff;
+    opacity: 0.7;
+    text-decoration: none;
+}
+
+.itemNavegacao span {
+font-size: 26px;
+}
+
+.itemNavegacao.ativo {
+opacity: 1;
+}
+
+.navegacaoAbasDesktop {
+display: none;
+}
+
+.navegacaoMobile {
+position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #002663;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 12px 0;
+    z-index: 100;
+}
+
+.secaoUsuario {
+display: none;
 }

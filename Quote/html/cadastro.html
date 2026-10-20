@@ -17,101 +17,99 @@
         </figure>
     </header>
     
-    <main>
-        <div class="containerCadastro">
+    <main class="containerCadastro">
+        <form action=" " method="post" class="formularioCadastro">
+            <div class="cabecalhoCadastro">
+                <a href="../index.html" class="btnVoltar" aria-label="Voltar para a página anterior">
+                    <span class="material-symbols-outlined line_start_arrow_notch" id="line_start_arrow_notch">line_start_arrow_notch</span>
+                </a>
+                <h1>Criar conta</h1>
+            </div>
+            
+            <div class="campoCadastro">
+                <label for="txtNome">Nome de usuário</label>
+                <input value="Beta da Silva" type="text" id="txtNome" name="nome" placeholder="Digite seu nome de usuário">
+            </div>
 
-            <form action=" " method="post" class="formularioCadastro">
-                <div class="cabecalhoCadastro">
-                    <a href="../index.html" class="btnVoltar" aria-label="Voltar para a página anterior">
-                        <span class="material-symbols-outlined line_start_arrow_notch" id="line_start_arrow_notch">line_start_arrow_notch</span>
-                    </a>
-                    <h1>Criar conta</h1>
+            <div class="campoCadastro">
+                <label for="txtDataNascimento">Data de nascimento</label>
+                <input value="2001-09-11" type="date" id="txtDataNascimento" name="dataNascimento" placeholder="Data">
+            </div>
+
+             <div class="campoCadastro">
+                <label for="txtBiografia">Biografia (Opcional)</label>
+                <input type="text" id="txtBiografia" name="biografia" placeholder="Fale um pouco sobre você">
+            </div>
+
+            <div class="campoCadastro">
+                <label for="txtEmail">Email</label>
+                <input value="beta@gmail.com" type="email" id="txtEmail" name="email" placeholder="Digite seu email">
+            </div>
+
+            <div class="campoCadastro">
+                <label for="txtSenha1">Senha</label>
+                <div class="inputSenhaContainer">
+                    <input value="bandido67" type="password" id="txtSenha1" name="senha1" placeholder="Mínimo de 6 caracteres">
+                    <button type="button" class="btnMostrarSenha" aria-label="Mostrar ou ocultar senha">
+                        <span class="material-symbols-outlined" aria-hidden="true">visibility_off</span>
+                    </button>
                 </div>
-                
-                <div class="campoCadastro">
-                    <label for="txtNome">Nome de usuário</label>
-                    <input value="Merda da silva" type="text" id="txtNome" name="nome" placeholder="Digite seu nome de usuário">
+            </div>
+
+            <div class="campoCadastro">
+                <label for="txtSenha2">Confirme sua senha</label>
+                <div class="inputSenhaContainer">
+                    <input value="bandido67" type="password" id="txtSenha2" name="senha2" placeholder="Digite sua senha novamente">
+                    <button type="button" class="btnMostrarSenha" aria-label="Mostrar ou ocultar senha">
+                        <span class="material-symbols-outlined" aria-hidden="true">visibility_off</span>
+                    </button>
                 </div>
-                
-                <div class="campoCadastro">
-                    <label for="txtDataNascimento">Data de nascimento</label>
-                    <input value="2001-09-11" type="date" id="txtDataNascimento" name="dataNascimento" placeholder="Data">
-                </div>
-                
-                <div class="campoCadastro">
-                    <label for="txtBiografia">Biografia (Opcional)</label>
-                    <input type="text" id="txtBiografia" name="biografia" placeholder="Fale um pouco sobre você">
-                </div>
-                
-                <div class="campoCadastro">
-                    <label for="txtEmail">Email</label>
-                    <input value="merda@gmail.com" type="email" id="txtEmail" name="email" placeholder="Digite seu email">
-                </div>
-                
-                <div class="campoCadastro">
-                    <label for="txtSenha1">Senha</label>
-                    <div class="inputSenhaContainer">
-                        <input value="bandido67" type="password" id="txtSenha1" name="senha1" placeholder="Mínimo de 6 caracteres">
-                        <button type="button" class="btnMostrarSenha" aria-label="Mostrar ou ocultar senha">
-                            <span class="material-symbols-outlined" aria-hidden="true">visibility_off</span>
+            </div>
+            
+            <span class="mensagemErro escondido"></span>
+
+            <div class="elementoDecorativo">
+                <div class="linha"></div>
+                <p>ou continue com</p>
+                <div class="linha"></div>
+            </div>
+           
+            <div class="opcoesEntrar">
+                <ul class="botoesSociais" aria-label="Opções para continuar com redes sociais">
+                    <li>
+                        <button type="button" class="botaoSocial" aria-label="Entrar com Google">
+                            <img src="../img/iconeGoogle.svg" alt="" aria-hidden="true">
                         </button>
-                    </div>
-                </div>
-                
-                <div class="campoCadastro">
-                    <label for="txtSenha2">Confirme sua senha</label>
-                    <div class="inputSenhaContainer">
-                        <input value="bandido67" type="password" id="txtSenha2" name="senha2" placeholder="Digite sua senha novamente">
-                        <button type="button" class="btnMostrarSenha" aria-label="Mostrar ou ocultar senha">
-                            <span class="material-symbols-outlined" aria-hidden="true">visibility_off</span>
+                    </li>
+                    <li>
+                        <button type="button" class="botaoSocial" aria-label="Entrar com Apple">
+                            <img src="../img/iconeApple.svg" alt="" aria-hidden="true">
                         </button>
-                    </div>
+                    </li>
+                    <li>
+                        <button type="button" class="botaoSocial" aria-label="Entrar com Twitter">
+                            <img src="../img/iconeTwitter.svg" alt="" aria-hidden="true">
+                        </button>
+                    </li>
+                    <li>
+                        <button type="button" class="botaoSocial" aria-label="Entrar com Facebook">
+                            <img src="../img/iconeFacebook.svg" alt="" aria-hidden="true">
+                        </button>
+                    </li>
+                </ul>
+
+                <div class="temConta">
+                    <p>Já tem conta?</p>
+                    <a href="login.html" class="btnIrLogin">Entrar</a>
                 </div>
-                
-                <span class="mensagemErro escondido"></span>
-                
-                <div class="elementoDecorativo">
-                    <div class="linha"></div>
-                    <p>ou continue com</p>
-                    <div class="linha"></div>
-                </div>
-                
-                <div class="opcoesEntrar">
-                    <ul class="botoesSociais" aria-label="Opções para continuar com redes sociais">
-                        <li>
-                            <button type="button" class="botaoSocial" aria-label="Entrar com Google">
-                                <img src="../img/iconeGoogle.svg" alt="" aria-hidden="true">
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button" class="botaoSocial" aria-label="Entrar com Apple">
-                                <img src="../img/iconeApple.svg" alt="" aria-hidden="true">
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button" class="botaoSocial" aria-label="Entrar com Twitter">
-                                <img src="../img/iconeTwitter.svg" alt="" aria-hidden="true">
-                            </button>
-                        </li>
-                        <li>
-                            <button type="button" class="botaoSocial" aria-label="Entrar com Facebook">
-                                <img src="../img/iconeFacebook.svg" alt="" aria-hidden="true">
-                            </button>
-                        </li>
-                    </ul>
-                
-                    <div class="temConta">
-                        <p>Já tem conta?</p>
-                        <a href="login.html" class="btnIrLogin">Entrar</a>
-                    </div>
-                </div>
-                
-                <button type="submit" class="btnProximo">
-                    próximo
-                    <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
-                </button>
-            </form>          
-        </div>
+
+            </div>
+         
+            <button type="submit" class="btnProximo">
+                próximo
+                <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span>
+            </button>
+        </form>          
     </main>
     <script src="../js/cadastro.js"></script>
 </body>
