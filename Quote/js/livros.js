@@ -107,34 +107,37 @@ function criarLivro(livro) {
     textoLivro.appendChild(titulo);
     textoLivro.appendChild(autor);
  
-    // const areaEstrelas = document.createElement("div");
-    // areaEstrelas.className = "areaEstrelas";
+    const areaEstrelas = document.createElement("div");
+    areaEstrelas.className = "areaEstrelas";
  
-    // const nota = Number(livro.nota) || 0;
+    const nota = Number(livro.nota) || 0;
  
-    // const textoNota = document.createElement("p");
-    // textoNota.textContent = nota.toFixed(1);
-    // areaEstrelas.appendChild(textoNota);
+    const textoNota = document.createElement("p");
+    textoNota.textContent = nota.toFixed(1);
+    areaEstrelas.appendChild(textoNota);
  
-    // const estrelasCheias = Math.round(nota);
+    const estrelasCheias = Math.round(nota);
  
-    // for (let i = 1; i <= 5; i++) {
-    //     const estrela = document.createElement("img");
+    for (let i = 1; i <= 5; i++) {
+        const estrela = document.createElement("span");
  
-    //     if (i <= estrelasCheias) {
-    //         estrela.src = "../img/estrela-cheia.svg";
-    //         estrela.alt = "Estrela cheia";
-    //     } else {
-    //         estrela.src = "../img/estrela-vazia.svg";
-    //         estrela.alt = "Estrela vazia";
-    //     }
+        if (i <= estrelasCheias) {
+            estrela.textContent = "star";
+            estrela.classList.add("material-symbols-outlined");
+            estrela.classList.add("estrelaCheia");
+            estrela.alt = "Estrela cheia";
+        } else {
+            estrela.textContent = "star";
+            estrela.classList.add("material-symbols-outlined");
+            estrela.alt = "Estrela vazia";
+        }
  
-    //     areaEstrelas.appendChild(estrela);
-    // }
+        areaEstrelas.appendChild(estrela);
+    }
  
     divLivro.appendChild(capa);
     divLivro.appendChild(textoLivro);
-    // divLivro.appendChild(areaEstrelas);
+    divLivro.appendChild(areaEstrelas);
  
     return divLivro;
 }
