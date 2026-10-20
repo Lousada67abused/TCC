@@ -1,0 +1,279 @@
+html, body {
+    width: 100%;
+    min-height: 100vh;
+    background-color: var(--white);
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.navegacaoMobile {
+    display: none;
+}
+
+.headerMobileBusca {
+    display: none;
+}
+
+header.cabecalhoPrincipal {
+    display: flex;
+    width: 100%;
+}
+
+.barraPesquisa {
+    transform: none;
+    max-width: 550px;
+    width: 100%;
+}
+
+.avatarPerfil img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.conteudoPrincipalResultados {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 24px 32px 60px 32px;
+}
+
+.topoResultadoDesktop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.btnVoltarDesktop {
+    color: var(--black);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.btnVoltarDesktop span {
+    font-size: 24px;
+}
+
+.barraPesquisaInterna {
+    display: flex;
+    align-items: center;
+    border: 1px solid var(--royalBlue);
+    border-radius: 8px;
+    padding: 6px 16px;
+    width: 320px;
+    background-color: var(--white);
+}
+
+.barraPesquisaInterna input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 13px;
+    color: var(--black);
+}
+
+.barraPesquisaInterna span {
+    color: var(--royalBlue);
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.tituloResultados {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--black);
+    margin-bottom: 24px;
+}
+
+.gridResultadosLivros {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 20px 16px;
+    margin-bottom: 40px;
+    width: 100%;
+}
+
+.cardLivroResultado a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+}
+
+.capaLivroCard {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 8px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+    margin-bottom: 8px;
+    transition: transform 0.2s ease;
+}
+
+.cardLivroResultado:hover .capaLivroCard {
+    transform: translateY(-4px);
+}
+
+.tituloLivroCard {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--black);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 2px;
+}
+
+.autorLivroCard {
+    font-size: 11px;
+    color: #64748b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.containerPaginacao {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.btnProximo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: var(--royalBlue);
+    color: var(--white);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    gap: 4px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+@media (max-width: 1024px) {
+    .gridResultadosLivros {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    header.cabecalhoPrincipal {
+        display: none;
+    }
+
+    .topoResultadoDesktop {
+        display: none;
+    }
+
+    .navegacaoMobile {
+        display: flex;
+    }
+
+    .headerMobileBusca {
+        display: flex;
+        align-items: center;
+        background-color: var(--deepNavyBlue);
+        padding: 10px 12px;
+        width: 100%;
+        gap: 8px;
+        box-sizing: border-box;
+    }
+
+    .btnVoltarHeaderMobile {
+        color: var(--white);
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+    }
+
+    .btnVoltarHeaderMobile span {
+        font-size: 22px;
+    }
+
+    .barraPesquisaMobileHeader {
+        flex: 1;
+        background-color: var(--white);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        padding: 5px 10px;
+    }
+
+    .barraPesquisaMobileHeader input {
+        width: 100%;
+        border: none;
+        outline: none;
+        font-size: 12px;
+        color: var(--black);
+        background: transparent;
+    }
+
+    .barraPesquisaMobileHeader span {
+        color: var(--royalBlue);
+        font-size: 16px;
+    }
+
+    .conteudoPrincipalResultados {
+        padding: 12px 10px 80px 10px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .tituloResultados {
+        font-size: 14px;
+        margin-bottom: 12px;
+        padding-left: 2px;
+    }
+
+    .gridResultadosLivros {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px 8px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .cardLivroResultado {
+        width: 100%;
+        min-width: 0; 
+    }
+
+    .capaLivroCard {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 2 / 3;
+        object-fit: cover;
+        border-radius: 6px;
+        margin-bottom: 4px;
+    }
+
+    .tituloLivroCard {
+        font-size: 10px;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .autorLivroCard {
+        font-size: 9px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
+/* Seleção dos livros durante o cadastro. */
+.cardLivroResultado { cursor: pointer; min-width: 0; border-radius: 8px; }
+.cardLivroResultado.selecionado { outline: 3px solid var(--royalBlue); outline-offset: 4px; }
+.cardLivroResultado:focus-visible { outline: 3px solid var(--royalBlue); outline-offset: 4px; }
+.mensagemErro { display: block; color: #b91c1c; margin-bottom: 16px; }
+.escondido { display: none; }
+.btnProximo:disabled { opacity: 0.6; cursor: wait; }
