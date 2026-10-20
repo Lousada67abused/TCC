@@ -25,29 +25,6 @@ body {
     flex-direction: column;
 }
 
-.search-bar {
-    display: flex;
-    align-items: center;
-    border: 1.5px solid #1a56b0;
-    border-radius: 8px;
-    padding: 4px 6px 4px 12px;
-    margin-bottom: 24px;
-    width: 100%;
-    background-color: #ffffff;
-}
-
-.search-bar input {
-    border: none;
-    outline: none;
-    flex: 1;
-    font-size: 14px;
-    color: #333333;
-}
-
-.search-bar input::placeholder {
-    color: #a0a0a0;
-}
-
 .dropdown-btn {
     background-color: #1a56b0;
     color: #ffffff;

@@ -1,0 +1,745 @@
+body {
+    padding-bottom: 50px;
+    background-color: var(--background);
+}
+
+main {
+    width: 70%;
+    max-width: 1024px;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+/* ===== Topo do perfil ===== */
+
+.cabecalhoPerfil {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+}
+
+.fotoPerfil {
+    width: 228px;
+    height: 228px;
+    border-radius: 100%;
+    object-fit: cover;
+}
+
+.infoPerfil {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.bioPerfil {
+    font-size: 18px;
+    font-weight: 600;
+    color: #B3AFAF;
+}
+
+.numerosPerfil {
+    list-style: none;
+    display: flex;
+    gap: 60px;
+    margin-top: 10px;
+}
+
+.numerosPerfil li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--gray);
+}
+
+.numerosPerfil strong {
+    font-size: 24px;
+    color: var(--black);
+}
+
+/* ===== Abas ===== */
+
+.abasPerfil {
+    display: flex;
+    justify-content: space-around;
+    height: 80px;
+    background-color: var(--white);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+}
+
+.abasPerfil button {
+    flex: 1;
+    border: none;
+    background: none;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--gray);
+    cursor: pointer;
+}
+
+.abasPerfil button:hover {
+    color: var(--mediumBlue);
+}
+
+.abasPerfil button.ativo {
+    color: var(--mediumBlue);
+    font-size: 26px;
+}
+
+.conteudoAba {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.conteudoAba.escondido {
+    display: none;
+}
+
+/* ===== Aba principal ===== */
+
+.blocoPerfil {
+    display: flex;
+    flex-direction: column;
+    gap: 22px;
+}
+
+.blocoPerfil > h2 {
+    font-size: 24px;
+}
+
+.tituloGrande {
+    font-size: 32px !important;
+}
+
+.fileiraCapas {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 40px;
+}
+
+.fileiraCapas img {
+    width: 100%;
+    aspect-ratio: 161 / 237;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+/* ===== Resenhas ===== */
+
+.resenha {
+    display: flex;
+    gap: 30px;
+    padding: 0 10px;
+}
+
+.resenha > img {
+    width: 161px;
+    height: 237px;
+    flex-shrink: 0;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.textoResenha {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding-top: 22px;
+}
+
+.textoResenha h2 {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+.textoResenha p {
+    font-size: 16px;
+    line-height: 1.3;
+}
+
+.textoResenha .autorResenha {
+    font-size: 14px;
+    color: var(--gray);
+}
+
+.notaResenha {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 16px;
+}
+
+.notaResenha p {
+    font-size: 14px;
+}
+
+.notaResenha .estrelas span {
+    font-size: 32px;
+}
+
+/* ===== Estante ===== */
+
+.areaLivros {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 40px;
+}
+
+.livro {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    cursor: pointer;
+}
+
+.livro img {
+    width: 100%;
+    aspect-ratio: 161 / 237;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.textoLivro {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.textoLivro h2 {
+    font-size: 16px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.textoLivro p {
+    font-size: 12px;
+    color: var(--gray);
+}
+
+/* ===== Atividade ===== */
+
+.listaAtividades {
+    list-style: none;
+}
+
+.listaAtividades li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 70px;
+    padding: 0 18px 0 4px;
+    border-bottom: 1px solid var(--black);
+}
+
+.listaAtividades li:last-child {
+    border-bottom: none;
+}
+
+.listaAtividades p {
+    font-size: 18px;
+    color: var(--gray);
+}
+
+.listaAtividades strong {
+    color: var(--black);
+    font-weight: 600;
+}
+
+.listaAtividades .estrelas span {
+    font-size: 26px;
+}
+
+.listaAtividades .tempo {
+    margin-left: auto;
+    font-size: 18px;
+    color: var(--gray);
+}
+
+/* ===== Metas ===== */
+
+.tituloMetas {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.seletorAno {
+    width: 188px;
+    height: 45px;
+    padding: 0 16px;
+    border: none;
+    border-radius: 8px;
+    background-color: var(--royalBlue);
+    color: var(--white);
+    font-size: 20px;
+    text-align: center;
+    cursor: pointer;
+}
+
+.gradeMetas {
+    display: grid;
+    grid-template-columns: 1fr 261px;
+    gap: 50px;
+    align-items: start;
+}
+
+.colunaMetas,
+.colunaLateral {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.cardMeta {
+    background-color: var(--white);
+    border: 2px solid var(--softBlue);
+    border-radius: 8px;
+}
+
+.metaAnual {
+    display: flex;
+    align-items: center;
+    gap: 36px;
+    padding: 60px 30px;
+}
+
+/* Roda de progresso feita com conic-gradient. O valor vem do --progresso. */
+.roda {
+    width: 157px;
+    height: 157px;
+    flex-shrink: 0;
+    border-radius: 100%;
+    background: conic-gradient(var(--royalBlue) var(--progresso), #F2F3F6 0);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.roda > div {
+    width: 133px;
+    height: 133px;
+    border-radius: 100%;
+    background-color: var(--white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: rgba(22, 26, 65, 0.78);
+}
+
+.roda strong {
+    font-size: 32px;
+}
+
+.roda span {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.detalheMeta {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.detalheMeta h3 {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.detalheMeta h3 span {
+    font-size: 32px;
+    color: var(--royalBlue);
+}
+
+.detalheMeta p {
+    font-size: 16px;
+}
+
+.detalheMeta .faltam {
+    font-size: 14px;
+    color: #363333;
+}
+
+.linhaProgresso {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 40px;
+}
+
+.barraProgresso {
+    flex: 1;
+    height: 12px;
+    border-radius: 50px;
+    background-color: #F2F3F6;
+    overflow: hidden;
+}
+
+.barraProgresso > div {
+    height: 100%;
+    border-radius: 50px;
+    background-color: var(--royalBlue);
+}
+
+.numerosMeta {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 2px solid var(--softBlue);
+}
+
+.numerosMeta li {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 14px 0;
+    font-size: 16px;
+}
+
+.numerosMeta li + li {
+    border-left: 2px solid var(--softBlue);
+}
+
+.numerosMeta span {
+    font-size: 32px;
+    color: var(--mediumBlue);
+}
+
+.numerosMeta .estrelaMeta {
+    color: var(--yellow);
+    font-variation-settings: 'FILL' 1;
+}
+
+.numerosMeta strong {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+.historicoMetas {
+    list-style: none;
+}
+
+.historicoMetas li {
+    display: grid;
+    grid-template-columns: 50px 100px 110px 1fr 50px 130px;
+    align-items: center;
+    gap: 10px;
+    height: 64px;
+    padding: 0 12px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #716E6E;
+}
+
+.historicoMetas li + li {
+    border-top: 2px solid var(--softBlue);
+}
+
+.historicoMetas li > span:nth-child(2),
+.historicoMetas strong {
+    color: var(--black);
+    font-weight: 500;
+}
+
+.historicoMetas .anoMeta {
+    font-weight: 400;
+}
+
+.historicoMetas .barraProgresso {
+    height: 6px;
+}
+
+.historicoMetas .concluida .barraProgresso > div {
+    background-color: #22C55E;
+}
+
+.historicoMetas .naoConcluida .barraProgresso {
+    background-color: #D9D9D9;
+}
+
+.historicoMetas .naoConcluida .barraProgresso > div {
+    background-color: var(--unsuccessful);
+}
+
+.situacaoMeta {
+    padding: 4px 0;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.concluida .situacaoMeta {
+    background-color: #DAF5E4;
+    color: #22C55E;
+}
+
+.naoConcluida .situacaoMeta {
+    background-color: #FDEBEB;
+    color: var(--unsuccessful);
+}
+
+.colunaLateral h3 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 14px;
+}
+
+.resumoAno,
+.melhoresAno {
+    padding: 16px 8px;
+}
+
+.resumoAno ul,
+.melhoresAno ul {
+    list-style: none;
+}
+
+.resumoAno li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 0;
+    font-size: 16px;
+}
+
+.resumoAno li + li {
+    border-top: 2px solid var(--softBlue);
+}
+
+.resumoAno .estrelas span {
+    font-size: 20px;
+}
+
+.melhoresAno li {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 12px 6px;
+}
+
+.melhoresAno li + li {
+    border-top: 2px solid var(--softBlue);
+}
+
+.melhoresAno img {
+    flex-shrink: 0;
+    width: 81px;
+    height: 104px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.melhoresAno h3 {
+    font-size: 16px;
+    margin-bottom: 4px;
+}
+
+.melhoresAno p {
+    font-size: 14px;
+    color: var(--lightGray);
+}
+
+.melhoresAno .estrelas span {
+    font-size: 20px;
+}
+
+/* ===== Telas menores ===== */
+
+@media (max-width: 1100px) {
+    main {
+        width: 85%;
+    }
+
+    .gradeMetas {
+        grid-template-columns: 1fr;
+    }
+
+    .historicoMetas li {
+        grid-template-columns: 45px 1fr 100px 1fr 45px 120px;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        padding-bottom: 80px;
+    }
+
+    main {
+        width: 100%;
+        padding: 0 16px;
+        gap: 22px;
+    }
+
+    .cabecalhoPerfil {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+
+    .fotoPerfil {
+        width: 120px;
+        height: 120px;
+    }
+
+    .infoPerfil {
+        align-items: center;
+        gap: 8px;
+    }
+
+    .nomePerfil {
+        font-size: 18px;
+    }
+
+    .bioPerfil {
+        font-size: 15px;
+    }
+
+    .numerosPerfil {
+        gap: 30px;
+    }
+
+    .numerosPerfil li {
+        font-size: 15px;
+        gap: 2px;
+    }
+
+    .numerosPerfil strong {
+        font-size: 16px;
+    }
+
+    .abasPerfil {
+        height: 50px;
+        overflow-x: auto;
+    }
+
+    .abasPerfil button,
+    .abasPerfil button.ativo {
+        flex: 0 0 auto;
+        padding: 0 14px;
+        font-size: 16px;
+    }
+
+    .blocoPerfil > h2,
+    .tituloGrande {
+        font-size: 18px !important;
+        border-bottom: 1px solid var(--black);
+    }
+
+    .fileiraCapas {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 14px;
+    }
+
+    .fileiraCapas img:nth-child(n+4) {
+        display: none;
+    }
+
+    .resenha {
+        gap: 14px;
+        padding: 0;
+    }
+
+    .resenha > img {
+        width: 90px;
+        height: 133px;
+    }
+
+    .textoResenha {
+        padding-top: 0;
+    }
+
+    .textoResenha h2 {
+        font-size: 16px;
+    }
+
+    .textoResenha p {
+        font-size: 13px;
+    }
+
+    .notaResenha {
+        margin-bottom: 6px;
+    }
+
+    .notaResenha .estrelas span {
+        font-size: 18px;
+    }
+
+    .areaLivros {
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+    }
+
+    .listaAtividades li {
+        flex-wrap: wrap;
+        padding: 12px 4px;
+    }
+
+    .listaAtividades p,
+    .listaAtividades .tempo {
+        font-size: 14px;
+    }
+
+    .listaAtividades .estrelas span {
+        font-size: 18px;
+    }
+
+    .seletorAno {
+        width: 110px;
+        height: 36px;
+        font-size: 16px;
+    }
+
+    .metaAnual {
+        flex-direction: column;
+        padding: 24px 16px;
+        gap: 20px;
+    }
+
+    .detalheMeta h3 {
+        font-size: 18px;
+    }
+
+    .linhaProgresso {
+        margin-top: 10px;
+    }
+
+    .numerosMeta li {
+        font-size: 12px;
+        text-align: center;
+    }
+
+    .numerosMeta strong {
+        font-size: 18px;
+    }
+
+    .historicoMetas li {
+        grid-template-columns: 40px 1fr 45px;
+        height: auto;
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .historicoMetas li > span:nth-child(2) {
+        display: none;
+    }
+
+    .historicoMetas .barraProgresso {
+        grid-column: 1 / -1;
+        grid-row: 2;
+    }
+
+    .historicoMetas .porcentagem {
+        display: none;
+    }
+}

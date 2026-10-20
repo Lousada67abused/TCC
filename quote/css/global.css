@@ -54,7 +54,7 @@ header {
     margin-bottom: 50px;
 }
 
-header > img {
+#avatar {
     height: 55px;
     width: 55px;
     border-radius: 100px;

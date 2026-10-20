@@ -1,7 +1,6 @@
 const areaLivros = document.querySelector(".areaLivros");
 const containerDetalhesLivro = document.querySelector(".containerDetalhesLivro");
-const avatar = document.querySelector("header > img");
-avatar.src=`../img/${sessionStorage.getItem("codigo")}.png`;
+
 if (areaLivros){
     fetch("../api/recomendarLivroUsuario.php?codigoUsuario=" + sessionStorage.getItem("codigo"), {
         method: "GET",
