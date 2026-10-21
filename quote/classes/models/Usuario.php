@@ -40,5 +40,10 @@ Class Usuario extends Banco{
 		$nome = ['pNome'=>$nome];
 		return self::Consultar("buscarUsuarioNome", $nome);
 	}
+
+	public static function BuscarUsuarioCodigo($codigo) {
+		$codigo = ['pCodigo'=>$codigo];
+		return self::Consultar("buscarUsuarioCodigo", $codigo);
+	}
 }
 ?>

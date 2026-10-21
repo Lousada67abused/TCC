@@ -11,5 +11,9 @@ class UsuarioController{
     public static function buscarUsuarioNome($nome) {
         return Usuario::BuscarUsuarioNome($nome);
     }
+
+    public static function buscarUsuarioCodigo($codigo) {
+        return Usuario::BuscarUsuarioCodigo($codigo);
+    }
 }
 ?>

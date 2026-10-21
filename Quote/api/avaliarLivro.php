@@ -26,7 +26,7 @@ try {
 		return;
 	}
 
-	$chaves = ['codigoUsuario', 'codigoLivro', 'nota', 'resenha'];
+	$chaves = ['codigoUsuario', 'codigoLivro', 'nota'];
 	if (!validaChaves($corpo, $chaves)) {
 		return;
 	}
