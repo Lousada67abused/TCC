@@ -26,7 +26,7 @@
     retry.hidden = true;
     message.after(retry);
     const style = document.createElement('style');
-    style.textContent = '.cardNovaResenha[hidden]{display:none!important}.containerDetalhesLivro.resenhaPublicada .cardResenhaUsuario{border:1px solid #bdd7ff;box-shadow:none}.avaliadorEstrelasInput span{cursor:pointer}.avaliadorEstrelasInput .estrelaCheia,.listaResenhasComunidade .estrelaCheia{color:#ffc107;font-variation-settings:"FILL" 1}.avaliadorEstrelasInput .estrelaVazia,.listaResenhasComunidade .estrelaVazia{color:#b3afaf;font-variation-settings:"FILL" 1}.textoResenhaUsuario{white-space:pre-wrap}';
+    style.textContent = '.cardNovaResenha[hidden]{display:none!important}.containerDetalhesLivro.resenhaPublicada .cardResenhaUsuario{border:1px solid #bdd7ff;box-shadow:none}.avaliadorEstrelasInput span{cursor:pointer}.avaliadorEstrelasInput .estrelaCheia,.listaResenhasComunidade .estrelaCheia{color:#ffc107;font-variation-settings:"FILL" 1}.avaliadorEstrelasInput .estrelaVazia,.listaResenhasComunidade .estrelaVazia{color:#b3afaf;font-variation-settings:"FILL" 1}.textoResenhaUsuario{white-space:pre-wrap}.acoesMinhaResenha{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}.acoesMinhaResenha button{display:inline-flex;align-items:center;border:0;border-radius:6px;padding:6px;background:#f0f4f8;cursor:pointer}.acoesMinhaResenha button:disabled{opacity:.5;cursor:default}.acoesMinhaResenha .excluirResenha{color:#dc2626}';
     document.head.appendChild(style);
 
     function foto(img, codigo) {
@@ -72,6 +72,55 @@
         details.append(date);
         top.append(img, details);
         article.append(top, elemento('p', 'textoResenhaUsuario', avaliacao.txt_resenha || ''));
+        if (String(avaliacao.id_usuario) === String(codigoUsuario)) {
+            const actions = elemento('div', 'acoesMinhaResenha');
+            const edit = document.createElement('button');
+            edit.type = 'button';
+            edit.disabled = true;
+            edit.title = 'Editar resenha (em breve)';
+            edit.setAttribute('aria-label', 'Editar resenha (em breve)');
+            edit.append(elemento('span', 'material-symbols-outlined', 'edit'));
+            const remove = document.createElement('button');
+            remove.type = 'button';
+            remove.className = 'excluirResenha';
+            remove.title = 'Excluir resenha';
+            remove.setAttribute('aria-label', 'Excluir resenha');
+            remove.append(elemento('span', 'material-symbols-outlined', 'delete'));
+            // A freshly saved local review may not have received its ID yet.
+            remove.disabled = !avaliacao.id_avaliacao;
+            remove.addEventListener('click', async () => {
+                if (enviando || !avaliacao.id_avaliacao) return;
+                enviando = true;
+                remove.disabled = true;
+                try {
+                    const response = await fetch('../api/deletarAvaliacao.php', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ codigoAvaliacao: avaliacao.id_avaliacao, codigoLivro })
+                    });
+                    const result = await response.json();
+                    if (!response.ok || result.status !== true) throw new Error(result.mensagem || 'Não foi possível excluir a resenha.');
+                    item.remove();
+                    minhaResenha = null;
+                    nota = 0;
+                    text.value = '';
+                    stars.forEach(el => {
+                        el.classList.remove('estrelaCheia');
+                        el.classList.add('estrelaVazia');
+                        el.setAttribute('aria-pressed', 'false');
+                    });
+                    message.textContent = 'Resenha excluída. Você pode publicar outra avaliação.';
+                } catch (erro) {
+                    message.textContent = erro.message || 'Não foi possível excluir. Tente novamente.';
+                    remove.disabled = false;
+                } finally {
+                    enviando = false;
+                    atualizarTela();
+                }
+            });
+            actions.append(edit, remove);
+            article.append(actions);
+        }
         item.append(article);
         return item;
     }
