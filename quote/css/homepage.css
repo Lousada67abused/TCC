@@ -2,6 +2,20 @@ body {
     padding-bottom: 50px;
 }
 
+header > a {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+header #avatar {
+    display: block;
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 main{
     width: 70%;
     display: flex;
