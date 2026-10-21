@@ -1521,7 +1521,16 @@ BEGIN
     SELECT
         l.id_livro,
         l.titulo,
-        a.nm_autor,
+        GROUP_CONCAT(
+            DISTINCT a.nm_autor
+            ORDER BY a.nm_autor
+            SEPARATOR ', '
+        ) AS autores,
+        GROUP_CONCAT(
+            DISTINCT g.nm_genero
+            ORDER BY g.nm_genero
+            SEPARATOR ', '
+        ) AS generos,
         COUNT(DISTINCT lg.id_genero) AS generos_compativeis,
         (
             SELECT COALESCE(ROUND(AVG(av.nota), 1), 0)
@@ -1535,6 +1544,8 @@ BEGIN
         ON al.id_autor = a.id_autor
     INNER JOIN livro_genero lg
         ON l.id_livro = lg.id_livro
+    INNER JOIN genero g
+        ON lg.id_genero = g.id_genero
     LEFT JOIN preferencia_usuario pu
         ON pu.id_usuario = p_id_usuario
        AND pu.id_genero = lg.id_genero
@@ -1563,12 +1574,11 @@ BEGIN
       )
     GROUP BY
         l.id_livro,
-        l.titulo,
-        a.nm_autor
+        l.titulo
     ORDER BY
         generos_compativeis DESC,
         l.titulo;
-END $$
+END$$
 /*	DROP PROCEDURE IF EXISTS recomendarLivroUsuario$$
 CREATE PROCEDURE recomendarLivroUsuario(
     IN p_id_usuario INT
