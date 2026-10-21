@@ -1410,8 +1410,8 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_buscar_feed$$
-CREATE PROCEDURE sp_buscar_feed(
+DROP PROCEDURE IF EXISTS buscarFeed$$
+CREATE PROCEDURE buscarFeed(
     IN p_id_usuario INT
 )
 BEGIN
