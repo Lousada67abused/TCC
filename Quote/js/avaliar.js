@@ -47,31 +47,7 @@
         if (conteudo !== undefined) el.textContent = conteudo;
         return el;
     }
-    function criarResenha(avaliacao) {
-        const item = elemento('li', 'cardResenhaUsuario');
-        item.dataset.idAvaliacao = avaliacao.id_avaliacao || '';
-        const article = document.createElement('article');
-        const top = elemento('div', 'topoCardResenha');
-        const img = elemento('img', 'fotoUsuarioCard');
-        img.alt = 'Foto de perfil de ' + (avaliacao.nm_usuario || 'Leitor');
-        foto(img, avaliacao.id_usuario);
-        const details = elemento('div', 'detalhesAutorCard');
-        details.append(elemento('span', 'nomeUsuarioResenha', avaliacao.nm_usuario || 'Leitor'));
-        const rating = elemento('div', 'estrelasExibicao');
-        rating.setAttribute('aria-label', 'Avaliação: ' + avaliacao.nota + ' de 5');
-        for (let i = 1; i <= 5; i++) {
-            rating.append(elemento('span', 'material-symbols-outlined ' + (i <= Number(avaliacao.nota) ? 'estrelaCheia' : 'estrelaVazia'), 'star'));
-        }
-        details.append(rating);
-        const date = elemento('time', 'dataResenha');
-        if (avaliacao.dt_avaliacao) {
-            const raw = String(avaliacao.dt_avaliacao).slice(0, 10);
-            date.dateTime = raw;
-            date.textContent = /^\d{4}-\d{2}-\d{2}$/.test(raw) ? raw.split('-').reverse().join('/') : raw;
-        }
-        details.append(date);
-        top.append(img, details);
-        article.append(top, elemento('p', 'textoResenhaUsuario', avaliacao.txt_resenha || ''));
+    function criarAcoes(avaliacao, item, article) {
         if (String(avaliacao.id_usuario) === String(codigoUsuario)) {
             const actions = elemento('div', 'acoesMinhaResenha');
             const edit = document.createElement('button');
@@ -100,7 +76,7 @@
                     });
                     const result = await response.json();
                     if (!response.ok || result.status !== true) throw new Error(result.mensagem || 'Não foi possível excluir a resenha.');
-                    item.remove();
+                    window.ResenhasLivro.remover(avaliacao.id_avaliacao);
                     minhaResenha = null;
                     nota = 0;
                     text.value = '';
@@ -121,22 +97,14 @@
             actions.append(edit, remove);
             article.append(actions);
         }
-        item.append(article);
-        return item;
     }
     function mostrarResenhas(avaliacoes) {
         minhaResenha = avaliacoes.find(a => String(a.id_usuario) === String(codigoUsuario)) || null;
-        const ordenadas = minhaResenha ? [minhaResenha, ...avaliacoes.filter(a => String(a.id_usuario) !== String(codigoUsuario))] : avaliacoes;
-        list.replaceChildren(...ordenadas.map(criarResenha));
+        window.ResenhasLivro.mostrar(avaliacoes, criarAcoes);
         atualizarTela();
     }
-    async function consultar() {
-        const response = await fetch('../api/buscarAvaliacaoLivro.php?codigoLivro=' + encodeURIComponent(codigoLivro));
-        const resultado = await response.json();
-        if (!response.ok || !(resultado.status === true || resultado.status === 'true') || !Array.isArray(resultado.resposta)) {
-            throw new Error('Não foi possível verificar as resenhas. Tente novamente.');
-        }
-        return resultado.resposta;
+    function consultar() {
+        return window.ResenhasLivro.consultar();
     }
     async function iniciar() {
         retry.hidden = true;
@@ -216,6 +184,8 @@
             atualizarTela();
         }
     });
+    list.replaceChildren();
+    document.querySelectorAll('.secaoResenhasComunidade .contadorTotal').forEach(el => el.textContent = '(...)');
     atualizarTela();
     iniciar();
 })();
