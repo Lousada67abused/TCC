@@ -71,7 +71,7 @@ if (containerDetalhesLivro){
             const capa = document.querySelector(".capaDestaque");
 
 
-            capa.src = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + dados.id_livro;
+            capa.src = "https://covers.openlibrary.org/b/isbn/" + dados.id_livro + "-L.jpg";
             titulo.textContent = dados.titulo;
             paginas.textContent = dados.qnt_paginas;
             ano.textContent = dados.ano_publicacao;
@@ -124,7 +124,7 @@ function criarLivro(livro) {
         if (i <= estrelasCheias) {
             estrela.textContent = "star";
             estrela.classList.add("material-symbols-outlined");
-            estrela.classList.add("estrelaCheia");
+            estrela.classList.add("preenchida");
             estrela.alt = "Estrela cheia";
         } else {
             estrela.textContent = "star";
