@@ -26,7 +26,7 @@ try {
 		return;
 	}
 
-	$chaves = ['codigoUsuario', 'codigoLivro', 'nota'];
+	$chaves = ['codigoUsuario', 'codigoLivro', 'nota', 'resenha'];
 	if (!validaChaves($corpo, $chaves)) {
 		return;
 	}
@@ -34,7 +34,22 @@ try {
 	$codigoUsuario = $corpo['codigoUsuario'];
 	$codigoLivro = $corpo['codigoLivro'];
 	$nota = $corpo['nota'];
-	$resenha = $corpo['resenha'];
+	$resenha = trim((string) $corpo['resenha']);
+
+	if (filter_var($nota, FILTER_VALIDATE_INT) === false || $nota < 1 || $nota > 5 || $resenha === '') {
+		http_response_code(400);
+		echo json_encode(['status' => false, 'mensagem' => 'Selecione uma nota de 1 a 5 e escreva sua resenha.']);
+		return;
+	}
+
+	$avaliacoes = AvaliacaoController::buscarAvaliacaoLivro($codigoLivro);
+	foreach ($avaliacoes as $avaliacao) {
+		if ((string) $avaliacao['id_usuario'] === (string) $codigoUsuario) {
+			http_response_code(409);
+			echo json_encode(['status' => false, 'mensagem' => 'Você já publicou uma resenha deste livro.']);
+			return;
+		}
+	}
 
 	AvaliacaoController::avaliarLivro($codigoUsuario, $codigoLivro, $nota, $resenha);
 
