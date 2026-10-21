@@ -1368,8 +1368,8 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_atualizar_avaliacao$$
-CREATE PROCEDURE sp_atualizar_avaliacao(
+DROP PROCEDURE IF EXISTS atualizarAvaliacao$$
+CREATE PROCEDURE atualizarAvaliacao(
     IN p_id_avaliacao INT,
     IN p_nota INT,
     IN p_txt_resenha VARCHAR(500)

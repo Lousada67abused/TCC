@@ -42,5 +42,14 @@ class Avaliacao extends Banco {
 		$codigoUsuario = ['codigoUsuario' => $codigoUsuario];
 		return self::Consultar("buscarAvaliacaoUsuario", $codigoUsuario);
 	}
+
+	public static function Atualizar($codigo, $nota, $txtResenha) {
+		$parametros = [
+			'pCodigo'=>$codigo,
+			'pNota'=>$nota,
+			'pResenha'=>$txtResenha
+		];
+		self::Executar("atualizarAvaliacao", $parametros);
+	}
 }
 ?>

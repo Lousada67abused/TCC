@@ -15,5 +15,9 @@ class AvaliacaoController {
     public static function buscarAvaliacaoUsuario($codigoUsuario) {
         return Avaliacao::BuscarAvaliacaoUsuario($codigoUsuario);
     }
+
+    public static function atualizar($codigo, $nota, $txtResenha) {
+        Avaliacao::Atualizar($codigo, $nota, $txtResenha);
+    }
 }
 ?>
