@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="./buscasUsuario.css">
+    <title>Busca de Leitores - Quote</title>
+</head>
+<body>
+
+    <header class="cabecalhoPrincipal">
+        <figure class="logotipoContainer">
+            <a href="../homepage.html">
+                <img src="../../img/logoBranco.svg" alt="Logotipo do quote">
+            </a>
+        </figure>
+
+        <div class="barraPesquisa">
+            <input type="text" placeholder="Encontre sua próxima leitura">
+            <span class="material-symbols-outlined">search</span>
+        </div>
+
+        <div class="perfilHeaderDesktop">
+            <img class="avatarHeader" src="../../img/usuario.jpg" alt="Foto de perfil">
+        </div>
+    </header>
+
+    <main class="conteudoPrincipal">
+
+        <section class="secaoFiltrosBusca">
+            <div class="containerBotoesFiltro">
+                <button class="botaoFiltro">geral</button>
+                <button class="botaoFiltro">livros</button>
+                <button class="botaoFiltro">gêneros</button>
+                <button class="botaoFiltro">autores</button>
+                <button class="botaoFiltro ativo">leitores</button>
+            </div>
+
+            <div class="barraPesquisaInterna">
+                <input type="text" placeholder="Busque por leitores">
+                <span class="material-symbols-outlined">search</span>
+            </div>
+        </section>
+
+        <h1 class="tituloResultadoBusca">Exibindo resultados para “nivia”</h1>
+
+        <section class="listaUsuarios">
+
+            <article class="cardUsuario">
+                <div class="infoPerfilUsuario">
+                    <img src="../../img/usuario.jpg" alt="Avatar do usuário" class="avatarUsuario">
+                    <div class="detalhesUsuario">
+                        <h3 class="nomeUsuario">nivia_oliveira</h3>
+                        <div class="estatisticasUsuario">
+                            <div class="itemEstatistica">
+                                <strong>189</strong>
+                                <span>Lidos</span>
+                            </div>
+                            <div class="itemEstatistica">
+                                <strong>10</strong>
+                                <span>Seguidores</span>
+                            </div>
+                            <div class="itemEstatistica">
+                                <strong>257</strong>
+                                <span>Seguindo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="botaoSeguir seguindo">
+                    <span class="material-symbols-outlined">person_check</span>
+                    seguindo
+                </button>
+            </article>
+
+            <article class="cardUsuario">
+                <div class="infoPerfilUsuario">
+                    <img src="../../img/capa1.jpg" alt="Avatar do usuário" class="avatarUsuario">
+                    <div class="detalhesUsuario">
+                        <h3 class="nomeUsuario">letters_nivia</h3>
+                        <div class="estatisticasUsuario">
+                            <div class="itemEstatistica">
+                                <strong>35</strong>
+                                <span>Lidos</span>
+                            </div>
+                            <div class="itemEstatistica">
+                                <strong>765</strong>
+                                <span>Seguidores</span>
+                            </div>
+                            <div class="itemEstatistica">
+                                <strong>800</strong>
+                                <span>Seguindo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="botaoSeguir">
+                    <span class="material-symbols-outlined">person_add</span>
+                    seguir
+                </button>
+            </article>
+
+            <article class="cardUsuario">
+                <div class="infoPerfilUsuario">
+                    <img src="../../img/capa2.jpg" alt="Avatar do usuário" class="avatarUsuario">
+                    <div class="detalhesUsuario">
+                        <h3 class="nomeUsuario">niviaAvalia</h3>
+                        <div class="estatisticasUsuario">
+                            <div class="itemEstatistica">
+                                <strong>18</strong>
+                                <span>Lidos</span>
+                            </div>
+                            <div class="itemEstatistica">
+                                <strong>10</strong>
+                                <span>Seguidores</span>
+                            </div>
+                            <div class="itemEstatistica">
+                                <strong>25</strong>
+                                <span>Seguindo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="botaoSeguir">
+                    <span class="material-symbols-outlined">person_add</span>
+                    seguir
+                </button>
+            </article>
+
+            <article class="cardUsuario">
+                <div class="infoPerfilUsuario">
+                    <img src="../../img/capa3.jpg" alt="Avatar do usuário" class="avatarUsuario">
+                    <div class="detalhesUsuario">
+                        <h3 class="nomeUsuario">niviaaa</h3>
+                        <div class="estatisticasUsuario">
+                            <div class="itemEstatistica">
+                                <strong>189</strong>
+                                <span>Lidos</span>
+                            </div>
+                            <div class="itemEstatistica">
+                                <strong>10</strong>
+                                <span>Seguidores</span>
+                            </div>
+                            <div class="itemEstatistica">
+                                <strong>257</strong>
+                                <span>Seguindo</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="botaoSeguir">
+                    <span class="material-symbols-outlined">person_add</span>
+                    seguir
+                </button>
+            </article>
+
+        </section>
+
+    <p class="mensagemErro escondido" role="status"></p></main>
+
+    <nav class="navegacaoMobile">
+        <a href="../homepage.html" class="itemNavegacao"><span class="material-symbols-outlined">home</span></a>
+        <a href="../ranking.html" class="itemNavegacao"><span class="material-symbols-outlined">emoji_events</span></a>
+        <a href="../pesquisa.html" class="itemNavegacao ativo"><span class="material-symbols-outlined">search</span></a>
+        <a href="../biblioteca.html" class="itemNavegacao"><span class="material-symbols-outlined">collections_bookmark</span></a>
+        <a href="../perfil.html" class="itemNavegacao"><span class="material-symbols-outlined">person</span></a>
+    </nav>
+
+<script src="../../js/interface.js"></script></body>
+</html>

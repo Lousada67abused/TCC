@@ -1,0 +1,258 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    color: #111111;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 70px;
+}
+
+.cabecalhoMobileEstante {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.cabecalhoMobileEstante h2 {
+    font-size: 15px;
+    font-weight: bold;
+    color: #111111;
+}
+
+.containerFiltrosEstante {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 16px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+}
+
+.containerFiltrosEstante::-webkit-scrollbar {
+    display: none;
+}
+
+.filtroItem {
+    flex: 0 0 auto;
+    padding: 6px 16px;
+    border: 1px solid #0056b3;
+    background-color: #ffffff;
+    color: #0056b3;
+    border-radius: 6px;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.filtroItem.ativo {
+    background-color: #0056b3;
+    color: #ffffff;
+}
+
+.secaoGradeLivros {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    align-items: start;
+}
+
+.cardLivro {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.cardLivro img {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+}
+
+.infoLivroDesktop {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    body {
+        padding-bottom: 0;
+    }
+
+    .cabecalhoMobileEstante {
+        display: none;
+    }
+
+    .cabecalhoPrincipal {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #002663;
+        padding: 12px 48px;
+    }
+
+    .logotipoContainer img {
+        height: 32px;
+    }
+
+    .cabecalhoPrincipal .barraPesquisa {
+        display: flex;
+        align-items: center;
+        background-color: #ffffff;
+        border-radius: 6px;
+        padding: 6px 16px;
+        width: 420px;
+    }
+
+    .cabecalhoPrincipal .barraPesquisa input {
+        border: none;
+        outline: none;
+        width: 100%;
+        font-size: 13px;
+    }
+
+    .cabecalhoPrincipal .barraPesquisa span {
+        color: #333333;
+        font-size: 20px;
+    }
+
+    .avatarHeader {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .conteudoPrincipal {
+        padding: 40px 48px;
+    }
+
+    .secaoUsuario {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+        gap: 32px;
+        margin-bottom: 32px;
+    }
+
+    .avatarPerfil {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .nomeUsuario {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .biografiaUsuario {
+        font-size: 13px;
+        color: #888888;
+        margin-bottom: 20px;
+    }
+
+    .estatisticasUsuario {
+        display: flex;
+        justify-content: flex-start;
+        gap: 40px;
+    }
+
+    .itemEstatistica {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .itemEstatistica strong {
+        font-size: 18px;
+    }
+
+    .itemEstatistica span {
+        font-size: 13px;
+        color: #666666;
+    }
+
+       .navegacaoAbasDesktop {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 0;
+        margin-bottom: 32px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .abaItem {
+        flex: 1;
+        background: none;
+        border: none;
+        padding: 10px 0;
+        font-size: 14px;
+        color: #777777;
+        font-weight: 500;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .abaItem.ativo {
+        color: #3b82f6;
+        font-weight: 700;
+    }
+
+    .containerFiltrosEstante {
+        overflow-x: visible;
+        margin-bottom: 32px;
+        gap: 16px;
+    }
+
+    .filtroItem {
+        flex: 0 1 auto;
+        padding: 6px 20px;
+        font-size: 13px;
+    }
+
+    .secaoGradeLivros {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 24px 20px;
+    }
+
+    .infoLivroDesktop {
+        display: block;
+        margin-top: 8px;
+    }
+
+    .tituloLivro {
+        font-size: 12px;
+        font-weight: bold;
+        color: #111111;
+        line-height: 1.3;
+    }
+
+    .autorLivro {
+        font-size: 11px;
+        color: #777777;
+        margin-top: 2px;
+    }
+
+    .desktopApenas {
+        display: block;
+    }
+
+    .navegacaoMobile {
+        display: none;
+    }
+}

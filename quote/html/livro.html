@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quote</title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <title>Quote - É assim que acaba</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
     <link rel="stylesheet" href="../css/global.css">
     <link rel="stylesheet" href="../css/livro.css">
 </head>
@@ -12,107 +12,94 @@
 
     <header>
         <figure>
-            <a href="homepage.html">
-                <img src="../img/logoBranco.svg" alt="Logotipo do quote">
-            </a>
+            <img src="../img/logoBranco.svg" alt="Quote Logo">
         </figure>
+
         <div class="barraPesquisa">
-            <input type="text" placeholder="Pesquise por autores, livros, gêneros e pessoas.">
-            <span class="material-symbols-outlined">
-                search
-            </span>
+            <input type="text" placeholder="Encontre sua próxima leitura" aria-label="Buscar livros">
+            <span class="material-symbols-outlined">search</span>
         </div>
-        <img alt="Foto de perfil do usuario">
+
+        <img src="../img/usuario.jpg" alt="Sua foto de perfil">
     </header>
 
-    <main class="containerDetalhesLivro">
-        
-        <a href="javascript:history.back()" class="btnVoltarMobile" aria-label="Voltar">
+    <main class="conteudoPrincipal containerDetalhesLivro">
+        <a href="javascript:history.back()" class="botaoVoltarMobile">
             <span class="material-symbols-outlined">arrow_back</span>
         </a>
 
-        <article class="cabecalhoInfoLivro">
+        <div class="detalhesLivroContainer">
+
             <div class="colunaCapa">
-                <img alt="" class="capaDestaque">
-                
-                <div class="botoesAcaoInterativa desktopOnly">
-                    <div class="selectWrapper">
-                        <select class="selectStatus" aria-label="Estado de leitura">
-                            <option value="lido" selected>lido</option>
-                            <option value="lendo">Lendo</option>
-                            <option value="quero-ler">Quero ler</option>
-                            <option value="desisti">Desisti</option>
-                        </select>
+                <img src="../img/capa3.jpg" alt="Capa do livro É assim que acaba" class="capaDetalhe capaDestaque">
+
+                <div class="grupoBotoesAcao">
+                    <div class="dropdownContainer">
+                        <button type="button" class="btnLido">
+                            Lido <span class="material-symbols-outlined">expand_more</span>
+                        </button>
+
+                        <div class="dropdownMenu">
+                            <label class="opcaoStatus">
+                                <input type="radio" name="statusLeitura" value="lido" checked>
+                                <span>Lido</span>
+                            </label>
+                            <label class="opcaoStatus">
+                                <input type="radio" name="statusLeitura" value="lendo">
+                                <span>Lendo</span>
+                            </label>
+                            <label class="opcaoStatus">
+                                <input type="radio" name="statusLeitura" value="quero_ler">
+                                <span>Quero ler</span>
+                            </label>
+                            <label class="opcaoStatus">
+                                <input type="radio" name="statusLeitura" value="desisti">
+                                <span>Desisti</span>
+                            </label>
+                        </div>
                     </div>
-                    <button type="button" class="btnFavorito" aria-label="Favoritar">
-                        <span>favoritar</span>
-                        <span class="material-symbols-outlined">bookmark</span>
+
+                    <button type="button" class="btnFavoritar">
+                        <span class="material-symbols-outlined">bookmark</span> Favoritar
                     </button>
                 </div>
             </div>
-            
-            <div class="dadosLivro">
-                <h1 class="tituloLivroDestaque"></h1>
-                <p class="autorNome"></p>
 
-                <div class="avaliacaoResumo">
-                    <div class="estrelasExibicao" aria-label="Avaliação média: 4 de 5 estrelas">
-                        <span class="material-symbols-outlined preenchida">star</span>
-                        <span class="material-symbols-outlined preenchida">star</span>
-                        <span class="material-symbols-outlined preenchida">star</span>
-                        <span class="material-symbols-outlined preenchida">star</span>
-                        <span class="material-symbols-outlined">star</span>
+            <div class="colunaInfo">
+                <h1 class=" tituloLivroDestaque">É assim que acaba</h1>
+                <p class="autorLivro autorNome">Colleen Hoover</p>
+
+                <div class="avaliacaoLivro">
+                    <div class="areaEstrelas">
+                        <span class="material-symbols-outlined estrelaCheia">star</span>
+                        <span class="material-symbols-outlined estrelaCheia">star</span>
+                        <span class="material-symbols-outlined estrelaCheia">star</span>
+                        <span class="material-symbols-outlined estrelaCheia">star</span>
+                        <span class="material-symbols-outlined estrelaCheia">star</span>
                     </div>
                     <span class="qtdAvaliacoes">(1,5K)</span>
                 </div>
 
-                <table class="tabelaFichaTecnica">
-                    <tr>
-                        <th>Páginas</th>
-                        <td id="qtdPaginas">394</td>
-                    </tr>
-                    <tr>
-                        <th>Publicado em</th>
-                        <td id="ano">2016</td>
-                    </tr>
-                    <tr>
-                        <th>Gêneros</th>
-                        <td id="genero">Romance, Ficção</td>
-                    </tr>
-                    <tr>
-                        <th>Editora</th>
-                        <td id="editora">Galera Record</td>
-                    </tr>
-                </table>
+                <ul class="listaDetalhes">
+                    <li><span>Páginas</span><strong id="qtdPaginas">384</strong></li>
+                    <li><span>Publicado em</span><strong id="ano">2018</strong></li>
+                    <li><span>Gêneros</span><strong id="genero">Romance, Ficção</strong></li>
+                    <li><span>Editora</span><strong id="editora">Galera Record</strong></li>
+                </ul>
 
-                <div class="botoesAcaoInterativa mobileOnly">
-                    <div class="selectWrapper">
-                        <select class="selectStatus" aria-label="Estado de leitura">
-                            <option value="lido" selected>lido</option>
-                            <option value="lendo">Lendo</option>
-                            <option value="quero-ler">Quero ler</option>
-                            <option value="desisti">Desisti</option>
-                        </select>
-                    </div>
-                    <button type="button" class="btnFavorito" aria-label="Favoritar">
-                        <span class="material-symbols-outlined">bookmark_border</span>
-                        <span>Favoritar</span>
-                    </button>
-                </div>
-
-                <div class="sinopseLivro">
-                    <p></p>
-                </div>
+                <div class="sinopseLivro"><p>
+                    Considerada a obra mais pessoal de Hoover, o livro aborda sem medo alguns tabus da sociedade para explorar a complexidade das relações tóxicas, e como o amor e o abuso muitas vezes coexistem em uma confusão de sentimentos.
+                </p></div>
             </div>
-        </article>
 
-        
-        <section class="cardNovaResenha">
-            <div class="cabecalhoNovaResenha">
-                <img src="../imagens/avatar.png" alt="Sua foto de perfil" class="fotoUsuarioResenha">
-                <div class="infoNovaResenha">
+        </div>
+
+        <section class="secaoEscreverResenha">
+            <div class="headerEscreverResenha">
+                <img src="../img/usuario.jpg" alt="Sua foto de perfil" class="avatarHeaderMobile">
+                <div class="infoEscrever">
                     <h2>Escreva sua resenha</h2>
-                    <div class="avaliadorEstrelasInput">
+                    <div class="areaEstrelas">
                         <span class="material-symbols-outlined">star</span>
                         <span class="material-symbols-outlined">star</span>
                         <span class="material-symbols-outlined">star</span>
@@ -121,127 +108,200 @@
                     </div>
                 </div>
             </div>
-            
-            <form action="#" method="post" class="formularioAvaliacao">
-                <textarea id="txtResenha" name="resenha" rows="4" placeholder="Compartilhe sua opinião sobre o livro..."></textarea>
-                <div class="containerBtnPublicar">
-                    <button type="submit" class="btnPublicar">publicar</button>
-                </div>
-            </form>
+            <textarea class="campoResenha" placeholder="Compartilhe sua opinião sobre o livro..." id="txtResenha"></textarea>
+            <div class="footerEscreverResenha">
+                <button type="button" class="btnPublicar">publicar</button>
+            </div>
         </section>
 
-        
-        <section class="secaoResenhasComunidade" aria-label="Resenhas da comunidade">
-            <h2 class="tituloSecaoResenhas">Resenhas <span class="contadorTotal">(1,5K)</span></h2>
+        <section class="secaoResenhasComunidade">
+            <h2>Resenhas <span class="qtdTotalResenhas">(1,5K)</span></h2>
 
-            <ul class="listaResenhasComunidade">
-                
-                <li class="cardResenhaUsuario">
-                    <article>
-                        <div class="topoCardResenha">
-                            <img src="../imagens/avatar.png" alt="Foto de @adventuraa" class="fotoUsuarioCard">
-                            <div class="detalhesAutorCard">
-                                <span class="nomeUsuarioResenha">@adventuraa</span>
-                                <div class="estrelasExibicao" aria-label="Avaliação: 5 estrelas">
-                                    <span class="material-symbols-outlined preenchida">star</span>
-                                    <span class="material-symbols-outlined preenchida">star</span>
-                                    <span class="material-symbols-outlined preenchida">star</span>
-                                    <span class="material-symbols-outlined preenchida">star</span>
-                                    <span class="material-symbols-outlined preenchida">star</span>
-                                </div>
-                                <time datetime="2026-07-08" class="dataResenha">08/07/2026</time>
-                            </div>
+            <ul class="listaResenhas">
+
+                <li class="cardResenhaItem">
+                    <div class="headerCardResenha">
+                        <img src="../img/usuario.jpg" alt="Foto de @adventuraa" class="avatarHeaderMobile">
+                        <span class="usernameResenha">@adventuraa</span>
+                        <div class="areaEstrelas">
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
                         </div>
-
-                        <p class="textoResenhaUsuario">
-                            Uns dos melhores livros que já li. Recomendo demais para quem gosta de um romance cheio de reviravoltas,fofo e leve de se ler. Uns dos melhores livros que já li. Recomendo demais para quem gosta de um romance cheio de reviravoltas,fofo e leve de se ler.
-                        </p>
-
-                        <footer class="acoesCardResenha">
-                            <button type="button" class="btnAcaoResenha" aria-label="Curtidas">
-                                <span class="material-symbols-outlined">favorite_border</span>
-                                <span>198</span>
-                            </button>
-                            <button type="button" class="btnAcaoResenha" aria-label="Comentários">
-                                <span class="material-symbols-outlined">chat_bubble_outline</span>
-                                <span>27</span>
-                            </button>
-                        </footer>
-                    </article>
+                    </div>
+                    <span class="dataResenha">08/07/2026</span>
+                    <p class="textoResenha">
+                        Um dos melhores livros que já li. Recomendo demais para quem gosta de um romance cheio de reviravoltas, fofo e leve de se ler.
+                    </p>
+                    <div class="interacoesResenha">
+                        <button type="button" class="btnInteracao">
+                            <span class="material-symbols-outlined">favorite</span> 198
+                        </button>
+                        <button type="button" class="btnInteracao">
+                            <span class="material-symbols-outlined">chat_bubble</span> 27
+                        </button>
+                    </div>
                 </li>
 
-                
-                <li class="cardResenhaUsuario">
-                    <article>
-                        <div class="topoCardResenha">
-                            <img src="../imagens/avatar.png" alt="Foto de @Livia_Letters" class="fotoUsuarioCard">
-                            <div class="detalhesAutorCard">
-                                <span class="nomeUsuarioResenha">@Livia_Letters</span>
-                                <div class="estrelasExibicao" aria-label="Avaliação: 5 estrelas">
-                                    <span class="material-symbols-outlined preenchida">star</span>
-                                    <span class="material-symbols-outlined preenchida">star</span>
-                                    <span class="material-symbols-outlined preenchida">star</span>
-                                    <span class="material-symbols-outlined preenchida">star</span>
-                                    <span class="material-symbols-outlined preenchida">star</span>
-                                </div>
-                                <time datetime="2026-07-08" class="dataResenha">08/07/2026</time>
-                            </div>
+                <li class="cardResenhaItem">
+                    <div class="headerCardResenha">
+                        <img src="../img/usuario.jpg" alt="Foto de @Livia_Letters" class="avatarHeaderMobile">
+                        <span class="usernameResenha">@Livia_Letters</span>
+                        <div class="areaEstrelas">
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
                         </div>
-
-                        <p class="textoResenhaUsuario">
-                            Uns dos melhores livros que já li. Recomendo demais para quem gosta de um romance cheio de reviravoltas,fofo e leve de se ler. Uns dos melhores livros que já li. Recomendo demais para quem gosta de um romance cheio de reviravoltas,fofo e leve de se ler.
-                        </p>
-
-                        <footer class="acoesCardResenha">
-                            <button type="button" class="btnAcaoResenha" aria-label="Curtidas">
-                                <span class="material-symbols-outlined">favorite_border</span>
-                                <span>198</span>
-                            </button>
-                            <button type="button" class="btnAcaoResenha" aria-label="Comentários">
-                                <span class="material-symbols-outlined">chat_bubble_outline</span>
-                                <span>27</span>
-                            </button>
-                        </footer>
-                    </article>
+                    </div>
+                    <span class="dataResenha">08/07/2026</span>
+                    <p class="textoResenha">
+                        Um dos melhores livros que já li. Recomendo demais para quem gosta de um romance cheio de reviravoltas, fofo e leve de se ler.
+                    </p>
+                    <div class="interacoesResenha">
+                        <button type="button" class="btnInteracao">
+                            <span class="material-symbols-outlined">favorite</span> 198
+                        </button>
+                        <button type="button" class="btnInteracao">
+                            <span class="material-symbols-outlined">chat_bubble</span> 27
+                        </button>
+                    </div>
                 </li>
+
             </ul>
 
-            <div class="containerBtnVerMais">
-                <button type="button" class="btnVerMais">ver mais <span class="material-symbols-outlined">arrow_forward</span></button>
+            <div class="containerVerMaisResenhas">
+                <button type="button" class="btnVerMaisResenhas">ver mais</button>
             </div>
         </section>
-    </main>
 
-    
-    <nav class="navInferiorMobile" aria-label="Navegação principal">
-        <ul>
-            <li>
-                <a href="index.html" class="ativo" aria-label="Início">
-                    <span class="material-symbols-outlined">home</span>
-                </a>
-            </li>
-            <li>
-                <a href="ranking.html" aria-label="Ranking">
-                    <span class="material-symbols-outlined">trophy</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" aria-label="Pesquisar">
-                    <span class="material-symbols-outlined">search</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" aria-label="Estante">
-                    <span class="material-symbols-outlined">menu_book</span>
-                </a>
-            </li>
-            <li>
-                <a href="#" aria-label="Perfil">
-                    <span class="material-symbols-outlined">person</span>
-                </a>
-            </li>
-        </ul>
-    <script src="../js/avaliar.js"></script>
-    <script src="../js/livros.js"></script>
-</body>
+    <p class="mensagemErro escondido" role="status"></p></main>
+
+    <nav class="navegacaoMobile">
+        <a href="homepage.html" class="itemNavegacao">
+            <span class="material-symbols-outlined">home</span>
+        </a>
+        <a href="ranking.html" class="itemNavegacao">
+            <span class="material-symbols-outlined">trophy</span>
+        </a>
+        <a href="pesquisa.html" class="itemNavegacao">
+            <span class="material-symbols-outlined">search</span>
+        </a>
+        <a href="#" class="itemNavegacao">
+            <span class="material-symbols-outlined">menu_book</span>
+        </a>
+        <a href="perfil.html" class="itemNavegacao">
+            <span class="material-symbols-outlined">person</span>
+        </a>
+    </nav>
+
+    <!--  POPUP 1: DÊ SEU FEEDBACK SOBRE O LIVRO (DESKTOP E MOBILE) -->
+
+    <!-- <div class="overlayModal">
+        <div class="modalFeedback">
+            <button class="btnFecharModal" aria-label="Fechar">&times;</button>
+
+            <h2 class="tituloModal">Dê seu feedback sobre o livro</h2>
+
+            <div class="headerLivroModal">
+                <img src="../img/capa3.jpg" alt="Capa do livro" class="capaModal">
+                <div class="infoLivroModal">
+                    <h3>É assim que acaba</h3>
+                    <p>Colleen Hoover</p>
+                </div>
+            </div>
+
+            <div class="secaoAvaliacaoModal">
+                <p class="rotuloModal">Como você avalia?</p>
+                <div class="estrelasAvaliacaoModal">
+                    <span class="material-symbols-outlined estrelaCheia">star</span>
+                    <span class="material-symbols-outlined estrelaCheia">star</span>
+                    <span class="material-symbols-outlined estrelaCheia">star</span>
+                    <span class="material-symbols-outlined estrelaCheia">star</span>
+                    <span class="material-symbols-outlined">star</span>
+                </div>
+                <div class="legendaEstrelas">
+                    <span>pessimo</span>
+                    <span>excelente</span>
+                </div>
+                <div class="badgeNota">
+                    <span>★ 4 - muito bom</span>
+                </div>
+            </div>
+
+            <div class="secaoOpinaoModal">
+                <p class="rotuloModal">Quer contar o que achou? <small>(opcional)</small></p>
+                <div class="textareaContainerModal">
+                    <textarea maxlength="200" placeholder="Escreva sua resenha..."></textarea>
+                    <span class="contadorCaracteres">0/200</span>
+                </div>
+            </div>
+
+            <div class="bannerAjudaModal">
+                <p>Sua avaliação ajuda a definir o ranking dos livros mais bem avaliados</p>
+            </div>
+
+            <div class="footerModal">
+                <button type="button" class="btnEnviarAvaliacao">enviar avaliação</button>
+            </div>
+        </div>
+    </div> -->
+
+
+    <!-- POPUP 2: COMENTÁRIOS DA RESENHA (DESKTOP E MOBILE) -->
+
+    <!-- <div class="overlayModal">
+        <div class="modalComentarios">
+            <div class="headerComentarios">
+                <h2>Comentários</h2>
+                <button class="btnFecharIcone" aria-label="Fechar">
+                    <span class="material-symbols-outlined">cancel</span>
+                </button>
+            </div>
+
+            <div class="listaComentariosModal">
+                <div class="itemComentario">
+                    <img src="../img/usuario.jpg" alt="Avatar" class="avatarComentario">
+                    <div class="conteudoComentario">
+                        <div class="headerUserComentario">
+                            <strong>@lettersLily</strong>
+                            <span class="dataComentario">02/06/2026</span>
+                        </div>
+                        <p>Concordo plenamente com você!!!!</p>
+                        <div class="acoesComentario">
+                            <span><span class="material-symbols-outlined">favorite</span> 198</span>
+                            <span><span class="material-symbols-outlined">chat_bubble</span> 45</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="itemComentario">
+                    <img src="../img/usuario.jpg" alt="Avatar" class="avatarComentario">
+                    <div class="conteudoComentario">
+                        <div class="headerUserComentario">
+                            <strong>@dafne_98</strong>
+                            <span class="dataComentario">02/06/2026</span>
+                        </div>
+                        <p>tive a mesma impressão,scrr</p>
+                        <div class="acoesComentario">
+                            <span><span class="material-symbols-outlined">favorite</span> 198</span>
+                            <span><span class="material-symbols-outlined">chat_bubble</span> 45</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="inputComentarioContainer">
+                <input type="text" placeholder="Adicionar um comentário">
+                <button type="button" class="btnEnviarComentario">
+                    <span class="material-symbols-outlined">arrow_circle_right</span>
+                </button>
+            </div>
+        </div>
+    </div> -->
+
+<script src="../js/livros.js"></script><script src="../js/avaliar.js"></script><script src="../js/interface.js"></script></body>
 </html>

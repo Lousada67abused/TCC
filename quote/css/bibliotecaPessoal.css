@@ -1,0 +1,234 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    color: #111111;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 70px;
+}
+
+.secaoFiltrosBiblioteca {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.barraPesquisaMobile {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #0056b3;
+    border-radius: 6px;
+    padding: 6px 12px;
+}
+
+.barraPesquisaMobile input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 11px;
+    color: #333333;
+}
+
+.barraPesquisaMobile span {
+    color: #0056b3;
+    font-size: 18px;
+}
+
+.barraPesquisaDesktop {
+    display: none;
+}
+
+.containerBotoesFiltro {
+    display: flex;
+    gap: 8px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+}
+
+.containerBotoesFiltro::-webkit-scrollbar {
+    display: none;
+}
+
+.botaoFiltro {
+    flex: 0 0 auto;
+    background-color: #ffffff;
+    color: #0056b3;
+    border: 1px solid #0056b3;
+    border-radius: 6px;
+    padding: 6px 16px;
+    font-size: 13px;
+    text-align: center;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.botaoFiltro.ativo {
+    background-color: #0056b3;
+    color: #ffffff;
+}
+
+.secaoGradeLivros {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    align-items: start;
+}
+
+.cardLivro {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.capaLivro {
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 6px;
+}
+
+.tituloLivro {
+    font-size: 11px;
+    font-weight: bold;
+    color: #111111;
+    line-height: 1.2;
+    margin-bottom: 2px;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.autorLivro {
+    font-size: 9px;
+    color: #777777;
+}
+
+
+@media (min-width: 768px) {
+    body {
+        padding-bottom: 0;
+    }
+
+    .cabecalhoPrincipal {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #002663;
+        padding: 12px 48px;
+    }
+
+    .logotipoContainer img {
+        height: 32px;
+    }
+
+    .cabecalhoPrincipal .barraPesquisa {
+        display: flex;
+        align-items: center;
+        background-color: #ffffff;
+        border-radius: 6px;
+        padding: 6px 16px;
+        width: 420px;
+    }
+
+    .cabecalhoPrincipal .barraPesquisa input {
+        border: none;
+        outline: none;
+        width: 100%;
+        font-size: 13px;
+    }
+
+    .cabecalhoPrincipal .barraPesquisa span {
+        color: #333333;
+        font-size: 20px;
+    }
+
+    .perfilHeaderDesktop img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .conteudoPrincipal {
+        padding: 40px 48px;
+    }
+
+    .barraPesquisaMobile {
+        display: none;
+    }
+
+    .secaoFiltrosBiblioteca {
+        flex-direction: column;
+        align-items: center;
+        gap: 16px;
+        margin-bottom: 32px;
+    }
+
+    .containerBotoesFiltro {
+        overflow-x: visible;
+        justify-content: center;
+        gap: 16px;
+    }
+
+    .botaoFiltro {
+        padding: 6px 28px;
+        font-size: 14px;
+    }
+
+    .barraPesquisaDesktop {
+        display: flex;
+        align-items: center;
+        background-color: #ffffff;
+        border: 1px solid #0056b3;
+        border-radius: 6px;
+        padding: 6px 16px;
+        width: 100%;
+        max-width: 320px;
+    }
+
+    .barraPesquisaDesktop input {
+        border: none;
+        outline: none;
+        width: 100%;
+        font-size: 13px;
+        color: #333333;
+    }
+
+    .barraPesquisaDesktop span {
+        color: #0056b3;
+        font-size: 20px;
+    }
+
+    .desktopApenas {
+        display: flex;
+    }
+
+    .secaoGradeLivros {
+        grid-template-columns: repeat(5, 1fr);
+        gap: 24px 20px;
+    }
+
+    .tituloLivro {
+        font-size: 12px;
+    }
+
+    .autorLivro {
+        font-size: 11px;
+    }
+
+    .navegacaoMobile {
+        display: none;
+    }
+}

@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quote - Ranking</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/ranking.css">
+</head>
+<body>
+
+    <div class="appContainer">
+
+        <header class="headerPrincipal">
+            <div class="logoContainer">
+                <img src="../img/logoBranco.svg" alt="Quote Logo" class="logoImg">
+            </div>
+
+            <div class="searchBarHeader">
+                <input type="text" placeholder="Encontre sua próxima leitura">
+                <button class="btnSearch" aria-label="Buscar">
+                    <span class="material-symbols-outlined">search</span>
+                </button>
+            </div>
+
+            <div class="perfilContainer">
+                <img src="../img/usuario.jpg" alt="Perfil" class="fotoPerfil">
+            </div>
+        </header>
+
+        <div class="layoutConteudo">
+
+            <main class="containerRanking">
+
+                <div class="cabecalhoRanking">
+                    <h2 class="tituloRanking">Ranking dos livros mais bem avaliados</h2>
+                    <p class="subtituloRanking">Baseado nas avaliações da comunidade</p>
+                </div>
+
+                <div class="filtrosMobile">
+                    <button class="btnFiltroMobile ativo">Geral</button>
+                    <button class="btnFiltroMobile">Ficção</button>
+                    <button class="btnFiltroMobile">Romance</button>
+                    <button class="btnFiltroMobile">Terror</button>
+                    <button class="btnFiltroMobile">Suspense</button>
+                    <button class="btnFiltroMobile">Aventura</button>
+                    <button class="btnFiltroMobile">Biografia</button>
+                    <button class="btnFiltroMobile">Auto-Ajuda</button>
+                </div>
+
+                <section class="secaoPodio" aria-label="Top 3 livros mais bem avaliados">
+                    <ol class="podioTopTres">
+
+                        <li class="itemPodio segundoLugar">
+                            <div class="capaContainer">
+                                <img src="../img/capa3.jpg" alt="Capa do livro É assim que acaba">
+                            </div>
+
+                            <a href="#" class="cardPodio">
+                                <h3 class="tituloLivroPodio">É assim que acaba</h3>
+                                <span class="autorLivroPodio">Collen Hoover</span>
+
+                                <div class="estrelasExibicao">
+                                    <span class="material-symbols-outlined iconeEstrela">star</span>
+                                    <span class="notaLivroPodio">4.9</span>
+                                </div>
+
+                                <span class="qtdAvaliacoesPodio">3289 avaliações</span>
+                            </a>
+                        </li>
+
+                        <li class="itemPodio primeiroLugar">
+                            <div class="capaContainer">
+                                <img src="../img/capa9.jpg" alt="Capa do livro Harry Potter e as Relíquias da Morte">
+                            </div>
+
+                            <a href="#" class="cardPodio">
+                                <h3 class="tituloLivroPodio">Harry Potter e as Relíquias da Morte</h3>
+                                <span class="autorLivroPodio">JK. Rowling</span>
+
+                                <div class="estrelasExibicao">
+                                    <span class="material-symbols-outlined iconeEstrela">star</span>
+                                    <span class="notaLivroPodio">5.0</span>
+                                </div>
+
+                                <span class="qtdAvaliacoesPodio">4250 avaliações</span>
+                            </a>
+                        </li>
+
+                        <li class="itemPodio terceiroLugar">
+                            <div class="capaContainer">
+                                <img src="../img/capa7.jpg" alt="Capa do livro IT: A coisa">
+                            </div>
+
+                            <a href="#" class="cardPodio">
+                                <h3 class="tituloLivroPodio">It: A coisa</h3>
+                                <span class="autorLivroPodio">Stephen King</span>
+
+                                <div class="estrelasExibicao">
+                                    <span class="material-symbols-outlined iconeEstrela">star</span>
+                                    <span class="notaLivroPodio">4.9</span>
+                                </div>
+
+                                <span class="qtdAvaliacoesPodio">2974 avaliações</span>
+                            </a>
+                        </li>
+
+                    </ol>
+                </section>
+
+                <section class="containerListaRanking" aria-label="Outras posições do ranking">
+                    <ol class="listaRankingOrdenada">
+
+                        <li class="itemRanking">
+                            <span class="numeroPosicao">4</span>
+
+                            <a href="#" class="conteudoItemRanking">
+                                <img src="../img/capa1.jpg" alt="Capa do livro A Empregada" class="capaRanking">
+
+                                <div class="infoLivroRanking">
+                                    <h3 class="tituloLivroRanking">A Empregada</h3>
+                                    <span class="autorLivroRanking">Freida McFadden</span>
+
+                                    <div class="avaliacaoContainer">
+                                        <span class="material-symbols-outlined iconeEstrelaMini">star</span>
+                                        <strong class="notaLivro">4.8</strong>
+                                        <span class="qtdAvaliacoes">2950 avaliações</span>
+                                    </div>
+
+                                    <span class="generoAno">Suspense - 2023</span>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="itemRanking">
+                            <span class="numeroPosicao">5</span>
+
+                            <a href="#" class="conteudoItemRanking">
+                                <img src="../img/capa4.jpg" alt="Capa do livro Harry Potter e a Pedra Filosofal" class="capaRanking">
+
+                                <div class="infoLivroRanking">
+                                    <h3 class="tituloLivroRanking">Harry Potter e a Pedra Filosofal</h3>
+                                    <span class="autorLivroRanking">JK. Rowling</span>
+
+                                    <div class="avaliacaoContainer">
+                                        <span class="material-symbols-outlined iconeEstrelaMini">star</span>
+                                        <strong class="notaLivro">4.8</strong>
+                                        <span class="qtdAvaliacoes">2950 avaliações</span>
+                                    </div>
+
+                                    <span class="generoAno">Fantasia - 1997</span>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="itemRanking">
+                            <span class="numeroPosicao">6</span>
+
+                            <a href="#" class="conteudoItemRanking">
+                                <img src="../img/capa11.jpg" alt="Capa do livro Os delírios de consumo de Becky Bloom" class="capaRanking">
+
+                                <div class="infoLivroRanking">
+                                    <h3 class="tituloLivroRanking">Os delírios de consumo de Becky Bloom</h3>
+                                    <span class="autorLivroRanking">Sophie Kinsella</span>
+
+                                    <div class="avaliacaoContainer">
+                                        <span class="material-symbols-outlined iconeEstrelaMini">star</span>
+                                        <strong class="notaLivro">4.8</strong>
+                                        <span class="qtdAvaliacoes">2950 avaliações</span>
+                                    </div>
+
+                                    <span class="generoAno">Romance - 2000</span>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="itemRanking">
+                            <span class="numeroPosicao">7</span>
+
+                            <a href="#" class="conteudoItemRanking">
+                                <img src="../img/capa10.jpg" alt="Capa do livro Delírio" class="capaRanking">
+
+                                <div class="infoLivroRanking">
+                                    <h3 class="tituloLivroRanking">Delírio</h3>
+                                    <span class="autorLivroRanking">Maya Banks</span>
+
+                                    <div class="avaliacaoContainer">
+                                        <span class="material-symbols-outlined iconeEstrelaMini">star</span>
+                                        <strong class="notaLivro">4.8</strong>
+                                        <span class="qtdAvaliacoes">2950 avaliações</span>
+                                    </div>
+
+                                    <span class="generoAno">Romance - 2012</span>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="itemRanking">
+                            <span class="numeroPosicao">8</span>
+
+                            <a href="#" class="conteudoItemRanking">
+                                <img src="../img/capa5.jpg" alt="Capa do livro É assim que começa" class="capaRanking">
+
+                                <div class="infoLivroRanking">
+                                    <h3 class="tituloLivroRanking">É assim que começa</h3>
+                                    <span class="autorLivroRanking">Colleen Hoover</span>
+
+                                    <div class="avaliacaoContainer">
+                                        <span class="material-symbols-outlined iconeEstrelaMini">star</span>
+                                        <strong class="notaLivro">4.8</strong>
+                                        <span class="qtdAvaliacoes">2950 avaliações</span>
+                                    </div>
+
+                                    <span class="generoAno">Romance - 2022</span>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="itemRanking">
+                            <span class="numeroPosicao">9</span>
+
+                            <a href="#" class="conteudoItemRanking">
+                                <img src="../img/capa6.jpg" alt="Capa do livro A hipótese do amor" class="capaRanking">
+
+                                <div class="infoLivroRanking">
+                                    <h3 class="tituloLivroRanking">A hipótese do amor</h3>
+                                    <span class="autorLivroRanking">Ali Hazelwood</span>
+
+                                    <div class="avaliacaoContainer">
+                                        <span class="material-symbols-outlined iconeEstrelaMini">star</span>
+                                        <strong class="notaLivro">4.8</strong>
+                                        <span class="qtdAvaliacoes">2950 avaliações</span>
+                                    </div>
+
+                                    <span class="generoAno">Romance - 2021</span>
+                                </div>
+                            </a>
+                        </li>
+
+                        <li class="itemRanking">
+                            <span class="numeroPosicao">10</span>
+
+                            <a href="#" class="conteudoItemRanking">
+                                <img src="../img/capa8.jpg" alt="Capa do livro Harry Potter e o Prisioneiro de Azkaban" class="capaRanking">
+
+                                <div class="infoLivroRanking">
+                                    <h3 class="tituloLivroRanking">Harry Potter e o Prisioneiro de Azkaban</h3>
+                                    <span class="autorLivroRanking">JK. Rowling</span>
+
+                                    <div class="avaliacaoContainer">
+                                        <span class="material-symbols-outlined iconeEstrelaMini">star</span>
+                                        <strong class="notaLivro">4.8</strong>
+                                        <span class="qtdAvaliacoes">2950 avaliações</span>
+                                    </div>
+
+                                    <span class="generoAno">Fantasia - 1999</span>
+                                </div>
+                            </a>
+                        </li>
+
+                    </ol>
+                </section>
+
+            <p class="mensagemErro escondido" role="status"></p></main>
+
+            <aside class="painelFiltros">
+                <h3 class="tituloPainelFiltro">Mostrar resultados de</h3>
+
+                <nav class="listaFiltros" aria-label="Categorias de ranking">
+                    <button class="itemFiltro ativo">Geral</button>
+                    <button class="itemFiltro">Ficção</button>
+                    <button class="itemFiltro">Romance</button>
+                    <button class="itemFiltro">Terror</button>
+                    <button class="itemFiltro">Suspense</button>
+                    <button class="itemFiltro">Aventura</button>
+                    <button class="itemFiltro">Biografia</button>
+                    <button class="itemFiltro">Auto-Ajuda</button>
+                </nav>
+            </aside>
+
+        </div>
+
+        <nav class="bottomNav" aria-label="Navegação principal">
+            <a href="#" class="navItem" aria-label="Início">
+                <span class="material-symbols-outlined">home</span>
+            </a>
+
+            <a href="#" class="navItem active" aria-label="Ranking">
+                <span class="material-symbols-outlined">emoji_events</span>
+            </a>
+
+            <a href="#" class="navItem" aria-label="Buscar">
+                <span class="material-symbols-outlined">search</span>
+            </a>
+
+            <a href="#" class="navItem" aria-label="Livros">
+                <span class="material-symbols-outlined">menu_book</span>
+            </a>
+
+            <a href="#" class="navItem" aria-label="Perfil">
+                <span class="material-symbols-outlined">person</span>
+            </a>
+        </nav>
+
+    </div>
+<script src="../js/interface.js"></script></body>
+</html>

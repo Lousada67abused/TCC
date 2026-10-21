@@ -1,0 +1,263 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    color: #111111;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 70px;
+}
+
+.cabecalhoMobileAtividade {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 24px;
+}
+
+.cabecalhoMobileAtividade h2 {
+    font-size: 15px;
+    font-weight: bold;
+    color: #111111;
+}
+
+.secaoListaAtividades {
+    display: flex;
+    flex-direction: column;
+}
+
+.itemAtividade {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 0;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.textoAtividade {
+    font-size: 11px;
+    color: #555555;
+    line-height: 1.4;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 3px;
+}
+
+.nomeUsuarioAtividade {
+    font-weight: bold;
+    color: #111111;
+}
+
+.acaoAtividade {
+    color: #666666;
+}
+
+.tituloLivroAtividade {
+    font-weight: bold;
+    color: #111111;
+}
+
+.areaEstrelas {
+    display: inline-flex;
+    align-items: center;
+    gap: 1px;
+    margin-left: 4px;
+}
+
+.areaEstrelas span {
+    font-size: 13px;
+}
+
+.tempoAtividade {
+    font-size: 10px;
+    color: #999999;
+    margin-left: 12px;
+    white-space: nowrap;
+}
+
+.containerBotaoVerMais {
+    display: flex;
+    justify-content: center;
+    margin-top: 28px;
+    margin-bottom: 16px;
+}
+
+.botaoVerMais {
+    background-color: #1d61d1;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 8px 24px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+@media (min-width: 768px) {
+    body {
+        padding-bottom: 0;
+    }
+
+    .cabecalhoMobileAtividade {
+        display: none;
+    }
+
+    .cabecalhoPrincipal {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #002663;
+        padding: 12px 48px;
+    }
+
+    .logotipoContainer img {
+        height: 32px;
+    }
+
+    .cabecalhoPrincipal .barraPesquisa {
+        display: flex;
+        align-items: center;
+        background-color: #ffffff;
+        border-radius: 6px;
+        padding: 6px 16px;
+        width: 420px;
+    }
+
+    .cabecalhoPrincipal .barraPesquisa input {
+        border: none;
+        outline: none;
+        width: 100%;
+        font-size: 13px;
+    }
+
+    .cabecalhoPrincipal .barraPesquisa span {
+        color: #333333;
+        font-size: 20px;
+    }
+
+    .avatarHeader {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .conteudoPrincipal {
+        padding: 40px 48px;
+    }
+
+    .secaoUsuario {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+        gap: 32px;
+        margin-bottom: 32px;
+    }
+
+    .avatarPerfil {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .nomeUsuario {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .biografiaUsuario {
+        font-size: 13px;
+        color: #888888;
+        margin-bottom: 20px;
+    }
+
+    .estatisticasUsuario {
+        display: flex;
+        justify-content: flex-start;
+        gap: 40px;
+    }
+
+    .itemEstatistica {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .itemEstatistica strong {
+        font-size: 18px;
+    }
+
+    .itemEstatistica span {
+        font-size: 13px;
+        color: #666666;
+    }
+
+    .navegacaoAbasDesktop {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 0;
+        margin-bottom: 32px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .abaItem {
+        flex: 1;
+        background: none;
+        border: none;
+        padding: 10px 0;
+        font-size: 14px;
+        color: #777777;
+        font-weight: 500;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .abaItem.ativo {
+        color: #3b82f6;
+        font-weight: 700;
+    }
+
+    .itemAtividade {
+        padding: 16px 0;
+    }
+
+    .textoAtividade {
+        font-size: 13px;
+    }
+
+    .areaEstrelas span {
+        font-size: 15px;
+    }
+
+    .tempoAtividade {
+        font-size: 12px;
+    }
+
+    .containerBotaoVerMais {
+        justify-content: flex-end;
+        margin-top: 32px;
+    }
+
+    .botaoVerMais {
+        padding: 8px 20px;
+        font-size: 13px;
+    }
+
+    .navegacaoMobile {
+        display: none;
+    }
+}
