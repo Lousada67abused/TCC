@@ -45,5 +45,31 @@ Class Usuario extends Banco{
 		$codigo = ['pCodigo'=>$codigo];
 		return self::Consultar("buscarUsuarioCodigo", $codigo);
 	}
+
+	public static function Atualizar($codigo, $nome, $email, $biografia, $nascimento) {
+		$parametros = [
+			'pCodigo'=>$codigo,
+			'pNome'=>$nome,
+			'pEmail'=>$email,
+			'pBiografia'=>$biografia,
+			'pNascimento'=>$nascimento
+		];
+		self::Executar("atualizarUsuario", $parametros);
+	}
+
+	public static function AtualizarSenha($codigo, $senhaAtual, $novaSenha) {
+		$parametros = [
+			'pCodigo'=>$codigo,
+			'pSenhaAtual'=>$senhaAtual,
+			'pNovaSenha'=>$novaSenha
+		];
+		self::Executar("atualizarSenhaUsuario", $parametros);
+	}
+
+	public static function Deletar($codigo) {
+		$parametros = ['pCodigo'=>$codigo];
+		self::Executar("deletarUsuario", $parametros);
+	}
+
 }
 ?>

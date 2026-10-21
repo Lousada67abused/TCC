@@ -233,8 +233,8 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_atualizar_usuario$$
-CREATE PROCEDURE sp_atualizar_usuario(
+DROP PROCEDURE IF EXISTS atualizarUsuario$$
+CREATE PROCEDURE atualizarUsuario(
     IN p_id_usuario INT,
     IN p_nm_usuario VARCHAR(80),
     IN p_email VARCHAR(100),
@@ -276,10 +276,10 @@ BEGIN
     WHERE id_usuario = p_id_usuario;
 END $$
 
-
-DROP PROCEDURE IF EXISTS sp_alterar_senha_usuario$$
-CREATE PROCEDURE sp_alterar_senha_usuario(
+DROP PROCEDURE IF EXISTS atualizarSenhaUsuario$$
+CREATE PROCEDURE atualizarSenhaUsuario(
     IN p_id_usuario INT,
+    IN p_senha_atual VARCHAR(100),
     IN p_nova_senha VARCHAR(100)
 )
 BEGIN
@@ -295,19 +295,29 @@ BEGIN
         SET MESSAGE_TEXT = 'Usuario nao encontrado.';
     END IF;
 
+    IF NOT EXISTS (
+        SELECT 1
+        FROM usuario
+        WHERE id_usuario = p_id_usuario
+          AND senha = MD5(p_senha_atual)
+    ) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Senha atual incorreta.';
+    END IF;
+
     IF p_nova_senha IS NULL OR TRIM(p_nova_senha) = '' THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Nova senha obrigatoria.';
     END IF;
 
     UPDATE usuario
-    SET senha = p_nova_senha
+    SET senha = MD5(p_nova_senha)
     WHERE id_usuario = p_id_usuario;
-END $$
+END$$
 
 
-DROP PROCEDURE IF EXISTS sp_deletar_usuario$$
-CREATE PROCEDURE sp_deletar_usuario(
+DROP PROCEDURE IF EXISTS deletarUsuario$$
+CREATE PROCEDURE deletarUsuario(
     IN p_id_usuario INT
 )
 BEGIN
