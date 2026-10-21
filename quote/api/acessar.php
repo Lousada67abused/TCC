@@ -33,6 +33,11 @@ try {
 	$senha = $corpo['senha'];
 
 	$resultado = UsuarioController::acessar($email, $senha);
+	unset($_SESSION['codigoUsuario']);
+	if (!empty($resultado[0]['id_usuario'])) {
+		session_regenerate_id(true);
+		$_SESSION['codigoUsuario'] = $resultado[0]['id_usuario'];
+	}
 	http_response_code(200);
 	echo json_encode(['status' => 'true', 'resultado' => $resultado]);
 } catch (Exception $erro) {

@@ -76,5 +76,19 @@ class Banco
 
 		$cSQL->closeCursor();
 	}
+    protected static function Transacao($operacao)
+    {
+        self::Conectar();
+        self::$conexao->beginTransaction();
+        try {
+            $resultado = $operacao(self::$conexao);
+            self::$conexao->commit();
+            return $resultado;
+        } catch (Throwable $erro) {
+            if (self::$conexao->inTransaction()) self::$conexao->rollBack();
+            throw $erro;
+        }
+    }
+
 }
 ?>
