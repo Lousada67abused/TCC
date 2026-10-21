@@ -1,0 +1,615 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    color: #111111;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 70px;
+}
+
+.cabecalhoMobileMetas {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.cabecalhoMobileMetas h2 {
+    font-size: 15px;
+    font-weight: bold;
+    color: #111111;
+}
+
+.cabecalhoSecaoMeta {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.tituloSecao {
+    font-size: 16px;
+    font-weight: bold;
+    color: #111111;
+}
+
+.selectAnoContainer {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.selectAno {
+    appearance: none;
+    background-color: #0d59c6;
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 28px 6px 14px;
+    font-size: 12px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.iconeSeta {
+    position: absolute;
+    right: 6px;
+    color: #ffffff;
+    pointer-events: none;
+    font-size: 18px;
+}
+
+.gridMetas {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cardMetaPrincipal {
+    border: 1px solid #e0e6ed;
+    border-radius: 8px;
+    background-color: #ffffff;
+    overflow: hidden;
+}
+
+.corpoMetaPrincipal {
+    padding: 20px 16px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.graficoRosca {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    background: conic-gradient(#0d59c6 0% 70%, #e6ecf5 70% 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.conteudoRosca {
+    width: 64px;
+    height: 64px;
+    background-color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.numeroProgresso {
+    font-size: 18px;
+    font-weight: bold;
+    color: #111111;
+}
+
+.totalProgresso {
+    font-size: 11px;
+    color: #777777;
+}
+
+.detalhesMetaPrincipal {
+    flex: 1;
+}
+
+.tituloMetaIcone {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 2px;
+}
+
+.iconeMeta {
+    color: #0d59c6;
+    font-size: 18px;
+}
+
+.tituloMetaIcone h3 {
+    font-size: 13px;
+    font-weight: bold;
+    color: #111111;
+}
+
+.statusMeta {
+    font-size: 11px;
+    color: #666666;
+    margin-bottom: 8px;
+}
+
+.barraProgressoContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.barraProgressoBase {
+    flex: 1;
+    height: 6px;
+    background-color: #f0f4f8;
+    border-radius: 3px;
+    overflow: hidden;
+}
+
+.barraProgressoPreenchida {
+    height: 100%;
+    background-color: #0d59c6;
+    border-radius: 3px;
+}
+
+.barraProgressoPreenchida.verde {
+    background-color: #22c55e;
+}
+
+.barraProgressoPreenchida.vermelha {
+    background-color: #f87171;
+}
+
+.porcentagemProgresso {
+    font-size: 10px;
+    font-weight: bold;
+    color: #333333;
+}
+
+.subtextoMeta {
+    font-size: 10px;
+    color: #888888;
+}
+
+.rodapeMetaPrincipal {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    border-top: 1px solid #f0f4f8;
+    padding: 12px 8px;
+    background-color: #fafbfc;
+}
+
+.itemEstatisticaMeta {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+}
+
+.itemEstatisticaMeta span {
+    font-size: 18px;
+    color: #0d59c6;
+}
+
+.itemEstatisticaMeta .estrelaIcone {
+    color: #eab308;
+}
+
+.itemEstatisticaMeta strong {
+    font-size: 13px;
+    color: #111111;
+}
+
+.itemEstatisticaMeta small {
+    font-size: 9px;
+    color: #777777;
+    text-align: center;
+}
+
+.divisorEstatistica {
+    width: 1px;
+    height: 28px;
+    background-color: #e0e6ed;
+}
+
+.cardInfoAno {
+    border: 1px solid #e0e6ed;
+    border-radius: 8px;
+    padding: 14px;
+    margin-bottom: 12px;
+}
+
+.tituloCardSide {
+    font-size: 12px;
+    font-weight: bold;
+    color: #111111;
+    margin-bottom: 12px;
+}
+
+.linhaInfoAno {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 11px;
+    padding: 6px 0;
+    border-bottom: 1px solid #f2f5f8;
+}
+
+.linhaInfoAno:last-child {
+    border-bottom: none;
+}
+
+.linhaInfoAno span {
+    color: #666666;
+}
+
+.linhaInfoAno strong {
+    color: #111111;
+}
+
+.areaEstrelas span {
+    font-size: 12px;
+}
+
+.itemMelhorAvaliado {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.itemMelhorAvaliado:last-child {
+    margin-bottom: 0;
+}
+
+.itemMelhorAvaliado img {
+    width: 36px;
+    height: 52px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.detalhesMelhorAvaliado h4 {
+    font-size: 11px;
+    font-weight: bold;
+    color: #111111;
+    line-height: 1.2;
+}
+
+.detalhesMelhorAvaliado p {
+    font-size: 10px;
+    color: #777777;
+    margin: 2px 0;
+}
+
+.secaoHistoricoMetas {
+    margin-top: 12px;
+}
+
+.tituloSecaoSub {
+    font-size: 13px;
+    font-weight: bold;
+    color: #111111;
+    margin-bottom: 10px;
+}
+
+.cardHistorico {
+    border: 1px solid #e0e6ed;
+    border-radius: 8px;
+    padding: 10px 14px;
+}
+
+.linhaHistorico {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 0;
+    border-bottom: 1px solid #f2f5f8;
+    font-size: 10px;
+}
+
+.linhaHistorico:last-child {
+    border-bottom: none;
+}
+
+.anoHistorico {
+    color: #666666;
+}
+
+.nomeMetaHistorico {
+    font-weight: bold;
+    color: #111111;
+}
+
+.valorHistorico {
+    color: #777777;
+    font-size: 9px;
+}
+
+.valorHistorico strong {
+    color: #111111;
+}
+
+.flexBarra {
+    flex: 1;
+}
+
+.verdeTexto {
+    color: #22c55e;
+    font-weight: bold;
+}
+
+.vermelhaTexto {
+    color: #f87171;
+    font-weight: bold;
+}
+
+.badgeStatus {
+    font-size: 8px;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-weight: 500;
+}
+
+.badgeStatus.concluida {
+    background-color: #dcfce7;
+    color: #166534;
+}
+
+.badgeStatus.naoConcluida {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+@media (min-width: 768px) {
+    body {
+        padding-bottom: 0;
+    }
+
+    .cabecalhoMobileMetas {
+        display: none;
+    }
+
+    .cabecalhoPrincipal {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #002663;
+        padding: 12px 48px;
+    }
+
+    .logotipoContainer img {
+        height: 32px;
+    }
+
+    .cabecalhoPrincipal .barraPesquisa {
+        display: flex;
+        align-items: center;
+        background-color: #ffffff;
+        border-radius: 6px;
+        padding: 6px 16px;
+        width: 420px;
+    }
+
+    .cabecalhoPrincipal .barraPesquisa input {
+        border: none;
+        outline: none;
+        width: 100%;
+        font-size: 13px;
+    }
+
+    .cabecalhoPrincipal .barraPesquisa span {
+        color: #333333;
+        font-size: 20px;
+    }
+
+    .avatarHeader {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .conteudoPrincipal {
+        padding: 40px 48px;
+    }
+
+    .secaoUsuario {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        text-align: left;
+        gap: 32px;
+        margin-bottom: 32px;
+    }
+
+    .avatarPerfil {
+        width: 140px;
+        height: 140px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .nomeUsuario {
+        font-size: 20px;
+        font-weight: bold;
+        margin-bottom: 8px;
+    }
+
+    .biografiaUsuario {
+        font-size: 13px;
+        color: #888888;
+        margin-bottom: 20px;
+    }
+
+    .estatisticasUsuario {
+        display: flex;
+        justify-content: flex-start;
+        gap: 40px;
+    }
+
+    .itemEstatistica {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .itemEstatistica strong {
+        font-size: 18px;
+    }
+
+    .itemEstatistica span {
+        font-size: 13px;
+        color: #666666;
+    }
+
+    .navegacaoAbasDesktop {
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        background-color: #ffffff;
+        border: none;
+        border-radius: 4px;
+        padding: 8px 0;
+        margin-bottom: 32px;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, 0.08);
+    }
+
+    .abaItem {
+        flex: 1;
+        background: none;
+        border: none;
+        padding: 10px 0;
+        font-size: 14px;
+        color: #777777;
+        font-weight: 500;
+        cursor: pointer;
+        text-align: center;
+    }
+
+    .abaItem.ativo {
+        color: #3b82f6;
+        font-weight: 700;
+    }
+
+    .tituloSecao {
+        font-size: 20px;
+    }
+
+    .gridMetas {
+        display: grid;
+        grid-template-columns: 1fr 320px;
+        gap: 24px;
+        align-items: start;
+    }
+
+    .corpoMetaPrincipal {
+        padding: 28px 24px;
+        gap: 24px;
+    }
+
+    .graficoRosca {
+        width: 110px;
+        height: 110px;
+    }
+
+    .conteudoRosca {
+        width: 86px;
+        height: 86px;
+    }
+
+    .numeroProgresso {
+        font-size: 24px;
+    }
+
+    .totalProgresso {
+        font-size: 13px;
+    }
+
+    .tituloMetaIcone h3 {
+        font-size: 16px;
+    }
+
+    .statusMeta {
+        font-size: 12px;
+    }
+
+    .subtextoMeta {
+        font-size: 11px;
+    }
+
+    .rodapeMetaPrincipal {
+        padding: 16px;
+    }
+
+    .itemEstatisticaMeta strong {
+        font-size: 15px;
+    }
+
+    .itemEstatisticaMeta small {
+        font-size: 11px;
+    }
+
+    .tituloSecaoSub {
+        font-size: 18px;
+        margin-top: 24px;
+        margin-bottom: 16px;
+    }
+
+    .cardHistorico {
+        padding: 16px 20px;
+    }
+
+    .linhaHistorico {
+        padding: 12px 0;
+        font-size: 12px;
+        gap: 12px;
+    }
+
+    .badgeStatus {
+        font-size: 10px;
+        padding: 4px 10px;
+    }
+
+    .tituloCardSide {
+        font-size: 14px;
+    }
+
+    .linhaInfoAno {
+        font-size: 12px;
+        padding: 8px 0;
+    }
+
+    .itemMelhorAvaliado img {
+        width: 44px;
+        height: 64px;
+    }
+
+    .detalhesMelhorAvaliado h4 {
+        font-size: 12px;
+    }
+
+    .detalhesMelhorAvaliado p {
+        font-size: 11px;
+    }
+
+    .navegacaoMobile {
+        display: none;
+    }
+}

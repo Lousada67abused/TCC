@@ -1,0 +1,490 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
+        Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    color: #1e293b;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+.appContainer {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    padding-bottom: 70px;
+}
+
+
+.headerPrincipal {
+    background-color: #003366;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 36px;
+    gap: 20px;
+    width: 100%;
+}
+
+.logoContainer {
+    display: flex;
+    align-items: center;
+    flex-shrink: 0;
+}
+
+.logoImg {
+    height: 38px;
+    width: auto;
+    object-fit: contain;
+}
+
+.searchBarHeader {
+    flex: 1;
+    max-width: 520px;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.searchBarHeader input {
+    width: 100%;
+    padding: 8px 40px 8px 16px;
+    border-radius: 6px;
+    border: none;
+    outline: none;
+    font-size: 0.88rem;
+    color: #333333;
+}
+
+.searchBarHeader input::placeholder {
+    color: #888888;
+}
+
+.btnSearch {
+    position: absolute;
+    right: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #555555;
+    display: flex;
+    align-items: center;
+}
+
+.perfilContainer {
+    width: 42px;
+    height: 42px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fotoPerfil {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+
+.layoutConteudo {
+    display: flex;
+    padding: 32px 36px;
+    gap: 36px;
+    width: 100%;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.containerRanking {
+    flex: 1;
+    min-width: 0;
+}
+
+.cabecalhoRanking {
+    margin-bottom: 24px;
+}
+
+.tituloRanking {
+    font-size: 1.45rem;
+    font-weight: 800;
+    color: #000000;
+    margin-bottom: 4px;
+}
+
+.subtituloRanking {
+    font-size: 0.92rem;
+    color: #64748b;
+}
+
+
+.filtrosMobile {
+    display: none;
+    gap: 12px;
+    margin-bottom: 28px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+}
+
+.btnFiltroMobile {
+    background-color: #ffffff;
+    border: 1.5px solid #2563eb;
+    color: #2563eb;
+    padding: 6px 28px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.btnFiltroMobile.ativo {
+    background-color: #2563eb;
+    color: #ffffff;
+}
+
+
+.podioTopTres {
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    align-items: flex-end;
+    margin-bottom: 20px;
+    width: 100%;
+}
+
+.itemPodio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+}
+
+.capaContainer {
+    width: 100%;
+    max-width: 110px;
+    aspect-ratio: 2 / 3;
+    margin-bottom: -18px;
+    z-index: 2;
+    border-radius: 6px;
+    overflow: hidden;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.capaContainer img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.cardPodio {
+    width: 100%;
+    background-color: #ffffff;
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    padding: 26px 6px 12px;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+}
+
+.primeiroLugar {
+    order: 2;
+}
+
+.primeiroLugar .capaContainer {
+    max-width: 125px;
+}
+
+.segundoLugar {
+    order: 1;
+}
+
+.terceiroLugar {
+    order: 3;
+}
+
+.tituloLivroPodio {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #003366;
+    margin-bottom: 2px;
+    line-height: 1.2;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    max-width: 100%;
+}
+
+.autorLivroPodio {
+    font-size: 0.72rem;
+    color: #64748b;
+    margin-bottom: 6px;
+    word-wrap: break-word;
+    max-width: 100%;
+}
+
+.estrelasExibicao {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    margin-bottom: 2px;
+}
+
+.iconeEstrela {
+    color: #eab308;
+    font-size: 1rem;
+    font-variation-settings: 'FILL' 1;
+}
+
+.notaLivroPodio {
+    font-weight: 700;
+    font-size: 0.95rem;
+    color: #003366;
+}
+
+.qtdAvaliacoesPodio {
+    font-size: 0.7rem;
+    color: #64748b;
+}
+
+
+.containerListaRanking {
+    border: 1px solid #bfdbfe;
+    border-radius: 8px;
+    overflow: hidden;
+    width: 100%;
+}
+
+.listaRankingOrdenada {
+    list-style: none;
+}
+
+.itemRanking {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #dbeafe;
+    padding: 14px 12px;
+    background-color: #ffffff;
+}
+
+.itemRanking:last-child {
+    border-bottom: none;
+}
+
+.numeroPosicao {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #003366;
+    width: 36px;
+    flex-shrink: 0;
+    text-align: center;
+}
+
+.conteudoItemRanking {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-decoration: none;
+    color: inherit;
+    flex: 1;
+    min-width: 0;
+}
+
+.capaRanking {
+    width: 46px;
+    height: 68px;
+    object-fit: cover;
+    border-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0;
+}
+
+.infoLivroRanking {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.tituloLivroRanking {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: #003366;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.autorLivroRanking {
+    font-size: 0.75rem;
+    color: #64748b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.avaliacaoContainer {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    margin-top: 2px;
+}
+
+.iconeEstrelaMini {
+    color: #eab308;
+    font-size: 0.95rem;
+    font-variation-settings: 'FILL' 1;
+}
+
+.notaLivro {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #003366;
+}
+
+.qtdAvaliacoes {
+    font-size: 0.73rem;
+    color: #64748b;
+    margin-left: 4px;
+}
+
+.generoAno {
+    font-size: 0.73rem;
+    color: #64748b;
+    margin-top: 1px;
+}
+
+
+.painelFiltros {
+    width: 210px;
+    background-color: #ffffff;
+    border: 1px solid #dbeafe;
+    border-radius: 8px;
+    overflow: hidden;
+    height: fit-content;
+    flex-shrink: 0;
+}
+
+.tituloPainelFiltro {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #003366;
+    padding: 12px 14px;
+    border-bottom: 1px solid #eff6ff;
+}
+
+.listaFiltros {
+    display: flex;
+    flex-direction: column;
+}
+
+.itemFiltro {
+    background: none;
+    border: none;
+    text-align: left;
+    padding: 8px 14px;
+    font-size: 0.78rem;
+    color: #64748b;
+    cursor: pointer;
+    border-bottom: 1px solid #f1f5f9;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.itemFiltro:last-child {
+    border-bottom: none;
+}
+
+.itemFiltro.ativo {
+    background-color: #dbeafe;
+    color: #1e40af;
+    font-weight: 600;
+}
+
+
+.bottomNav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #003366;
+    justify-content: space-around;
+    align-items: center;
+    padding: 12px 0;
+    z-index: 1000;
+}
+
+.navItem {
+    color: #ffffff;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.8;
+}
+
+.navItem.active {
+    opacity: 1;
+}
+
+
+@media (max-width: 850px) {
+    .headerPrincipal {
+        display: none;
+    }
+
+    .painelFiltros {
+        display: none;
+    }
+
+    .filtrosMobile {
+        display: flex;
+    }
+
+    .bottomNav {
+        display: flex;
+    }
+
+    .layoutConteudo {
+        padding: 20px 12px;
+    }
+
+    .tituloRanking {
+        font-size: 1.25rem;
+    }
+
+    .podioTopTres {
+        gap: 6px;
+    }
+
+    .cardPodio {
+        padding: 22px 4px 8px;
+    }
+
+    .tituloLivroPodio {
+        font-size: 0.78rem;
+    }
+
+    .autorLivroPodio {
+        font-size: 0.68rem;
+    }
+
+    .qtdAvaliacoesPodio {
+        font-size: 0.65rem;
+    }
+}

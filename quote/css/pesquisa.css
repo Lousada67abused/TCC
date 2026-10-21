@@ -1,27 +1,211 @@
-section{
+.navegacaoMobile {
+    display: none;
+}
+
+.containerPesquisaMobile {
+    display: none;
+}
+
+header.cabecalhoPrincipal {
     display: flex;
-    flex-direction: column;
-    gap: 10px;
 }
 
-p{
-    color: gray;
-}
-
-.areaGeneros{
-    margin-top: 30px;
+.barraPesquisa {
+    transform: none;
+    max-width: 550px;
     width: 100%;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 40px;
 }
 
-.genero{
+.avatarPerfil img {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.conteudoPrincipal {
+    max-width: 1000px;
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 24px 60px 24px;
+}
+
+.textoGuia {
+    margin-bottom: 24px;
+}
+
+.textoGuia h1 {
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--black);
+    margin-bottom: 6px;
+}
+
+.textoGuia p {
+    font-size: 14px;
+    color: #64748b;
+}
+
+.selecaoGenero {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    width: 100%;
+}
+
+.botaoGenero {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    width: 100%;
+    max-height: 85px;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+}
+
+.botaoGenero img {
+    width: 100%;
+    height: 100%;
+    max-height: 85px;
+    display: block;
+    border-radius: 8px;
+    object-fit: cover;
+}
+
+@media (max-width: 900px) {
+    .selecaoGenero {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    header.cabecalhoPrincipal {
+        display: none;
+    }
+
+    .navegacaoMobile {
+        display: flex;
+    }
+
+    .containerPesquisaMobile {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        background-color: var(--deepNavyBlue);
+        padding: 16px 20px 20px 20px;
+        width: 100%;
+        margin-bottom: 24px;
+    }
+
+    .logotipoContainerMobile {
+        margin-bottom: 16px;
+    }
+
+    .logotipoContainerMobile img {
+        height: 40px;
+        display: block;
+    }
+
+    .barraPesquisaMobile {
+        width: 100%;
+        background-color: var(--white);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        padding: 8px 12px;
+        border: 1px solid var(--black);
+    }
+
+    .barraPesquisaMobile input {
+        width: 100%;
+        border: none;
+        outline: none;
+        font-size: 13px;
+        color: var(--black);
+        background: transparent;
+    }
+
+    .barraPesquisaMobile span {
+        color: var(--black);
+        font-size: 20px;
+        cursor: pointer;
+        margin-left: 8px;
+    }
+
+    .conteudoPrincipal {
+        padding-bottom: 80px;
+    }
+
+    .selecaoGenero {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 12px;
+    }
+
+    .botaoGenero,
+    .botaoGenero img {
+        max-height: 60px;
+    }
+
+    .preferencia{
+        display: none;
+    }
+}
+
+.containerPaginacao {
+    margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.btnProximo {
     display: flex;
     align-items: center;
     justify-content: center;
+    background-color: var(--royalBlue);
+    color: var(--white);
+    border: none;
+    padding: 8px 20px;
+    border-radius: 6px;
+    font-size: 13px;
+    gap: 4px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.botaoGenero {
+    background: none;
+    border: none;
+    padding: 0;
+    cursor: pointer;
     width: 100%;
-    height: 60px;
-    background-color: aqua;
+    max-height: 85px;
     border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    transition: transform 0.2s cubic-bezier(0.25, 0.8, 0.25, 1), box-shadow 0.2s ease;
+}
+
+.botaoGenero:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+    z-index: 5;
+}
+
+.botaoGenero:active {
+    animation: pulsoClique 0.3s ease-in-out;
+}
+
+@keyframes pulsoClique {
+    0% {
+        transform: scale(1.05);
+    }
+    50% {
+        transform: scale(0.95);
+    }
+    100% {
+        transform: scale(1.02);
+    }
 }

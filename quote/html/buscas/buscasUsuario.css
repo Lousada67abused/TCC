@@ -1,0 +1,286 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    background-color: #ffffff;
+    color: #111111;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 70px;
+}
+
+.secaoFiltrosBusca {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.containerBotoesFiltro {
+    display: flex;
+    gap: 6px;
+    overflow-x: auto;
+    padding-bottom: 4px;
+    scrollbar-width: none;
+}
+
+.containerBotoesFiltro::-webkit-scrollbar {
+    display: none;
+}
+
+.botaoFiltro {
+    flex: 0 0 auto;
+    background-color: #ffffff;
+    color: #0056b3;
+    border: 1px solid #0056b3;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.botaoFiltro.ativo {
+    background-color: #0056b3;
+    color: #ffffff;
+}
+
+.barraPesquisaInterna {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #0056b3;
+    border-radius: 6px;
+    padding: 6px 12px;
+}
+
+.barraPesquisaInterna input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 13px;
+    color: #333333;
+}
+
+.barraPesquisaInterna span {
+    color: #0056b3;
+    font-size: 20px;
+}
+
+.tituloResultadoBusca {
+    font-size: 15px;
+    font-weight: bold;
+    color: #111111;
+    margin-bottom: 16px;
+}
+
+.listaUsuarios {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.cardUsuario {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 14px;
+    border-bottom: 1px solid #edf2f7;
+    gap: 10px;
+}
+
+.infoPerfilUsuario {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+    min-width: 0;
+}
+
+.avatarUsuario {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.detalhesUsuario {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    flex: 1;
+}
+
+.nomeUsuario {
+    font-size: 13px;
+    font-weight: bold;
+    color: #111111;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.estatisticasUsuario {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+}
+
+.itemEstatistica {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    font-size: 10px;
+    white-space: nowrap;
+}
+
+.itemEstatistica strong {
+    color: #111111;
+    font-weight: bold;
+}
+
+.itemEstatistica span {
+    color: #777777;
+}
+
+.botaoSeguir {
+    background-color: #ffffff;
+    color: #0056b3;
+    border: 1px solid #0056b3;
+    border-radius: 6px;
+    padding: 6px 12px;
+    font-size: 11px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.botaoSeguir.seguindo {
+    background-color: #f0f4f8;
+    color: #444444;
+    border-color: #cbd5e1;
+}
+
+.botaoSeguir span {
+    font-size: 15px;
+}
+
+@media (min-width: 768px) {
+    body {
+        padding-bottom: 0;
+    }
+
+    .cabecalhoPrincipal {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        background-color: #002663;
+        padding: 12px 48px;
+    }
+
+    .logotipoContainer img {
+        height: 32px;
+    }
+
+    .cabecalhoPrincipal .barraPesquisa {
+        display: flex;
+        align-items: center;
+        background-color: #ffffff;
+        border-radius: 6px;
+        padding: 6px 16px;
+        width: 420px;
+    }
+
+    .cabecalhoPrincipal .barraPesquisa input {
+        border: none;
+        outline: none;
+        width: 100%;
+        font-size: 13px;
+    }
+
+    .cabecalhoPrincipal .barraPesquisa span {
+        color: #333333;
+        font-size: 20px;
+    }
+
+    .perfilHeaderDesktop img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .conteudoPrincipal {
+        padding: 40px 48px;
+    }
+
+    .secaoFiltrosBusca {
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .barraPesquisaInterna {
+        display: none;
+    }
+
+    .containerBotoesFiltro {
+        overflow-x: visible;
+        gap: 16px;
+    }
+
+    .botaoFiltro {
+        padding: 6px 24px;
+        font-size: 14px;
+    }
+
+    .tituloResultadoBusca {
+        font-size: 20px;
+        margin-bottom: 28px;
+    }
+
+    .listaUsuarios {
+        gap: 20px;
+    }
+
+    .cardUsuario {
+        padding-bottom: 20px;
+    }
+
+    .avatarUsuario {
+        width: 64px;
+        height: 64px;
+    }
+
+    .nomeUsuario {
+        font-size: 16px;
+    }
+
+    .estatisticasUsuario {
+        gap: 16px;
+        flex-wrap: nowrap;
+    }
+
+    .itemEstatistica {
+        font-size: 13px;
+        gap: 6px;
+    }
+
+    .botaoSeguir {
+        padding: 8px 20px;
+        font-size: 13px;
+    }
+
+    .navegacaoMobile {
+        display: none;
+    }
+}

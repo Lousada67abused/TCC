@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet" href="../../css/global.css">
+    <link rel="stylesheet" href="./principal.css">
+    <title>Perfil de Usuário</title>
+</head>
+<body>
+
+    <header class="cabecalhoPrincipal">
+        <figure class="logotipoContainer">
+            <a href="../homepage.html">
+                <img src="../../img/logoBranco.svg" alt="Logotipo do quote">
+            </a>
+        </figure>
+        <div class="barraPesquisa">
+            <input type="text" placeholder="Encontre sua próxima leitura">
+            <span class="material-symbols-outlined">search</span>
+        </div>
+        <img class="avatarHeader" src="../../img/usuario.jpg" alt="Foto de perfil do usuario">
+    </header>
+
+    <main class="conteudoPrincipal">
+
+        <section class="secaoUsuario">
+            <img class="avatarPerfil" src="../../img/usuario.jpg" alt="Foto de perfil do usuario">
+            <div class="infoUsuario">
+                <h1 class="nomeUsuario">nivia_oliveira</h1>
+                <p class="biografiaUsuario">"Ler é sonhar pelas mãos de outra pessoa."</p>
+                <div class="estatisticasUsuario">
+                    <div class="itemEstatistica">
+                        <strong>128</strong>
+                        <span>Lidos</span>
+                    </div>
+                    <div class="itemEstatistica">
+                        <strong>312</strong>
+                        <span>Seguidores</span>
+                    </div>
+                    <div class="itemEstatistica">
+                        <strong>257</strong>
+                        <span>Seguindo</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <nav class="navegacaoAbasDesktop">
+            <button class="abaItem ativo">Principal</button>
+            <button class="abaItem">Estante</button>
+            <button class="abaItem">Resenhas</button>
+            <button class="abaItem">Atividade</button>
+            <button class="abaItem">Metas</button>
+        </nav>
+
+        <section class="secaoPrateleira">
+            <h2 class="tituloSecao">Favoritos</h2>
+            <div class="gradeLivros">
+                <img src="../../img/capa1.jpg" alt="Capa do livro A Empregada">
+                <img src="../../img/capa2.jpg" alt="Capa do livro O Diário de Anne Frank">
+                <img src="../../img/capa3.jpg" alt="Capa do livro É assim que acaba">
+                <img src="../../img/capa4.jpg" alt="Capa do livro Harry Potter">
+                <img src="../../img/capa5.jpg" alt="Capa do livro Jogos Vorazes" class="desktopApenas">
+            </div>
+        </section>
+
+        <section class="secaoPrateleira">
+            <h2 class="tituloSecao">Atividade Recente</h2>
+            <div class="gradeLivros">
+                <img src="../../img/capa6.jpg" alt="Capa do livro Dragão de Cristal">
+                <img src="../../img/capa7.jpg" alt="Capa do livro It A Coisa">
+                <img src="../../img/capa8.jpg" alt="Capa do livro Torto Arado">
+                <img src="../../img/capa4.jpg" alt="Capa do livro Harry Potter" class="desktopApenas">
+                <img src="../../img/capa9.jpg" alt="Capa do livro Mestres do Tempo" class="desktopApenas">
+            </div>
+        </section>
+
+        <ul class="menuOpcoesMobile">
+            <li><a href="#">ESTANTE</a></li>
+            <li><a href="#">RESENHAS</a></li>
+            <li><a href="#">ATIVIDADE</a></li>
+            <li><a href="#">SEGUIDORES</a></li>
+            <li><a href="#">SEGUINDO</a></li>
+            <li><a href="#">METAS</a></li>
+        </ul>
+
+        <section class="secaoResenhasDesktop">
+            <h2 class="tituloSecao">Resenhas recente</h2>
+
+            <article class="cardResenha">
+                <img class="capaResenha" src="../../img/capa10.jpg" alt="Capa do livro Vermelho Branco e Sangue Azul">
+                <div class="conteudoResenha">
+                    <h3>Vermelho Branco e Sangue Azul</h3>
+                    <p class="autorLivro">Casey McQuiston</p>
+                    <div class="avaliacaoData">
+                        <div class="areaEstrelas">
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                        </div>
+                        <span class="dataResenha">08/07/2026</span>
+                    </div>
+                    <p class="textoResenha">
+                        Uns dos melhores livros que já li. Recomendo demais para quem gosta de um romance cheio de reviravoltas, fofo e leve de se ler. Uns dos melhores livros que já li. Recomendo demais para quem gosta de um romance cheio de reviravoltas, fofo e leve de se ler.
+                    </p>
+                </div>
+            </article>
+
+            <article class="cardResenha">
+                <img class="capaResenha" src="../../img/capa11.jpg" alt="Capa do livro Sussuros na Floresta">
+                <div class="conteudoResenha">
+                    <h3>Sussuros na floresta</h3>
+                    <p class="autorLivro">Maria Silveira</p>
+                    <div class="avaliacaoData">
+                        <div class="areaEstrelas">
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                            <span class="material-symbols-outlined estrelaCheia">star</span>
+                        </div>
+                        <span class="dataResenha">01/07/2026</span>
+                    </div>
+                    <p class="textoResenha">
+                        Uns dos melhores livros que já li. Recomendo demais para quem gosta de um romance cheio de reviravoltas, fofo e leve de se ler. Uns dos melhores livros que já li. Recomendo demais para quem gosta de um romance cheio de reviravoltas, fofo e leve de se ler.
+                    </p>
+                </div>
+            </article>
+        </section>
+
+    <p class="mensagemErro escondido" role="status"></p></main>
+
+    <nav class="navegacaoMobile">
+        <a href="../homepage.html" class="itemNavegacao"><span class="material-symbols-outlined">home</span></a>
+        <a href="../ranking.html" class="itemNavegacao"><span class="material-symbols-outlined">emoji_events</span></a>
+        <a href="../pesquisa.html" class="itemNavegacao"><span class="material-symbols-outlined">search</span></a>
+        <a href="../biblioteca.html" class="itemNavegacao"><span class="material-symbols-outlined">collections_bookmark</span></a>
+        <a href="../perfil.html" class="itemNavegacao ativo"><span class="material-symbols-outlined">person</span></a>
+    </nav>
+
+<script src="../../js/interface.js"></script></body>
+</html>
