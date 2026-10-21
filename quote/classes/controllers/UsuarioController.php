@@ -15,5 +15,17 @@ class UsuarioController{
     public static function buscarUsuarioCodigo($codigo) {
         return Usuario::BuscarUsuarioCodigo($codigo);
     }
+
+    public static function atualizar($codigo, $nome, $email, $biografia, $nascimento) {
+        Usuario::Atualizar($codigo, $nome, $email, $biografia, $nascimento);
+    }
+
+    public static function atualizarSenha($codigo, $senhaAtual, $novaSenha) {
+        Usuario::AtualizarSenha($codigo, $senhaAtual, $novaSenha);
+    }
+
+    public static function deletar($codigo) {
+        Usuario::Deletar($codigo);
+    }
 }
 ?>
