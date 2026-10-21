@@ -24,5 +24,15 @@ class Seguidor extends Banco {
 		];
 		self::Executar("deixarDeSeguir", $parametros);
 	}
+
+	public static function BuscarSeguidoresUsuario($codigoUsuario) {
+		$codigoUsuario = ['pCodigoUsuario'=>$codigoUsuario];
+		return self::Consultar("buscarSeguidoresUsuario", $codigoUsuario);
+	}
+
+	public static function buscarSeguidosUsuario($codigoUsuario) {
+		$codigoUsuario = ['pCodigoUsuario'=>$codigoUsuario];
+		return self::Consultar("buscarSeguidosUsuario", $codigoUsuario);
+	}
 }
 ?>
