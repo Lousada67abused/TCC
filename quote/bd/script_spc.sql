@@ -210,20 +210,26 @@ BEGIN
 END $$
 
 
-DROP PROCEDURE IF EXISTS sp_buscar_usuario_por_id$$
-CREATE PROCEDURE sp_buscar_usuario_por_id(
+DROP PROCEDURE IF EXISTS buscarUsuarioCodigo$$
+CREATE PROCEDURE buscarUsuarioCodigo(
     IN p_id_usuario INT
 )
 BEGIN
-    SELECT
-        id_usuario,
-        nm_usuario,
-        email,
-        bio,
-        dt_nascimento,
-        tipo_usuario
-    FROM usuario
-    WHERE id_usuario = p_id_usuario;
+     SELECT
+        u.id_usuario,
+        u.nm_usuario,
+        u.email,
+        u.bio,
+        u.dt_nascimento,
+        (SELECT COUNT(*) FROM biblioteca b
+            WHERE b.id_usuario = u.id_usuario AND b.status = 'lido') AS qtd_lidos,
+        (SELECT COUNT(*) FROM seguidor s
+            WHERE s.id_seguido = u.id_usuario) AS qtd_seguidores,
+        (SELECT COUNT(*) FROM seguidor s
+            WHERE s.id_seguidor = u.id_usuario) AS qtd_seguindo
+    FROM usuario u
+    WHERE u.id_usuario = p_id_usuario
+    ORDER BY u.nm_usuario;
 END $$
 
 
