@@ -2,7 +2,10 @@ const abas = document.querySelectorAll(".abasPerfil button");
 const conteudosAba = document.querySelectorAll(".conteudoAba");
 const filtrosEstante = document.querySelectorAll("#estante .filtros button");
 const avatar = document.getElementById("avatar");
+const avatarMenu = document.querySelector(".cabecalhoDropdown img");
+console.log(sessionStorage.getItem("codigo"));
 avatar.src=`../img/${sessionStorage.getItem("codigo")}.png`;
+avatarMenu.src=`../img/${sessionStorage.getItem("codigo")}.png`;
 
 function abrirAba(nomeAba) {
     // Se a aba não existir (ex.: #qualquercoisa), abre a principal.

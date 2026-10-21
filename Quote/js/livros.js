@@ -41,7 +41,7 @@ if (areaLivros){
     });
 }
 
-if (containerDetalhesLivro){
+if (containerDetalhesLivro) {
     fetch("../api/buscarLivroCodigo.php?codigo=" + sessionStorage.getItem("codigoLivro"), {
         method: "GET",
         headers: { "Content-Type": "application/json" }
@@ -50,17 +50,11 @@ if (containerDetalhesLivro){
         return resposta.json();
     })
     .then(function (resultado) {
-        const dados = resultado.resposta[0];
-        console.log(resultado.resposta[0])
-        
-        let deuCerto = null;
-        if (resultado.status){
-            deuCerto = true
-        } else{
-            deuCerto = false;
-        }
-        
-        if (deuCerto) {
+        const deuCerto = resultado.status === true || resultado.status === "true";
+
+        if (deuCerto && resultado.resposta && resultado.resposta.length > 0) {
+            const dados = resultado.resposta[0];
+
             const titulo = document.querySelector(".tituloLivroDestaque");
             const autorNome = document.querySelector(".autorNome");
             const paginas = document.getElementById("qtdPaginas");
@@ -70,7 +64,6 @@ if (containerDetalhesLivro){
             const sinopse = document.querySelector(".sinopseLivro p");
             const capa = document.querySelector(".capaDestaque");
 
-
             capa.src = "https://covers.openlibrary.org/b/isbn/" + dados.id_livro + "-L.jpg";
             titulo.textContent = dados.titulo;
             paginas.textContent = dados.qnt_paginas;
@@ -78,8 +71,23 @@ if (containerDetalhesLivro){
             editora.textContent = dados.nm_editora;
             sinopse.textContent = dados.sinopse;
 
+            const areaEstrelas = document.querySelector(".avaliacaoResumo .estrelasExibicao");
+            areaEstrelas.innerHTML = "";
+
+            const nota = Number(String(dados.nota_media ?? 0).replace(",", ".")) || 0;
+            const estrelasCheias = Math.round(Math.min(5, Math.max(0, nota)));
+
+            areaEstrelas.setAttribute("aria-label", "Avaliação média: " + nota.toFixed(1));
+
+            for (let i = 1; i <= 5; i++) {
+                const estrela = document.createElement("span");
+                estrela.className = "material-symbols-outlined";
+                estrela.textContent = "star";
+                estrela.classList.add(i <= estrelasCheias ? "estrelaCheia" : "estrelaVazia");
+
+                areaEstrelas.appendChild(estrela);
+            }
         }
-        
     })
     .catch(function (erro) {
         console.error(erro);
@@ -87,57 +95,51 @@ if (containerDetalhesLivro){
 }
 
 function criarLivro(livro) {
-    const divLivro = document.createElement("div");
-    divLivro.className = "livro";
+    const divLivro = document.createElement("article");
+    divLivro.className = "cardLivro";
     divLivro.dataset.idLivro = livro.id_livro;
 
     const capa = document.createElement("img");
+    capa.className = "capaLivro";
     capa.src = "https://covers.openlibrary.org/b/isbn/" + livro.id_livro + "-L.jpg";
-    capa.alt = "Capa do livro " + livro.titulo;
+    capa.alt = livro.titulo;
 
-    const textoLivro = document.createElement("div");
-    textoLivro.className = "textoLivro";
- 
-    const titulo = document.createElement("h2");
+    const titulo = document.createElement("h3");
+    titulo.className = "tituloLivro";
     titulo.textContent = livro.titulo;
- 
+
     const autor = document.createElement("p");
+    autor.className = "autorLivro";
     autor.textContent = livro.nm_autor;
- 
-    textoLivro.appendChild(titulo);
-    textoLivro.appendChild(autor);
- 
+
     const areaEstrelas = document.createElement("div");
     areaEstrelas.className = "areaEstrelas";
- 
-    const nota = Number(livro.nota) || 0;
- 
-    const textoNota = document.createElement("p");
-    textoNota.textContent = nota.toFixed(1);
-    areaEstrelas.appendChild(textoNota);
- 
+
+    const nota = Number(livro.nota_media) || 0;
+    const pNota = document.createElement("p");
+    pNota.textContent = nota.toFixed(1);
+    
+    
+    
     const estrelasCheias = Math.round(nota);
- 
     for (let i = 1; i <= 5; i++) {
         const estrela = document.createElement("span");
- 
+        estrela.className = "material-symbols-outlined estrelaVazia";
+        estrela.textContent = "star";
+        estrela.classList.add("estrelaVazia");
+        
         if (i <= estrelasCheias) {
-            estrela.textContent = "star";
-            estrela.classList.add("material-symbols-outlined");
-            estrela.classList.add("preenchida");
-            estrela.alt = "Estrela cheia";
-        } else {
-            estrela.textContent = "star";
-            estrela.classList.add("material-symbols-outlined");
-            estrela.alt = "Estrela vazia";
+            estrela.className = "material-symbols-outlined estrelaCheia";
         }
- 
+        
         areaEstrelas.appendChild(estrela);
     }
- 
+    
+    areaEstrelas.append(pNota);
     divLivro.appendChild(capa);
-    divLivro.appendChild(textoLivro);
+    divLivro.appendChild(titulo);
+    divLivro.appendChild(autor);
     divLivro.appendChild(areaEstrelas);
- 
+
     return divLivro;
 }

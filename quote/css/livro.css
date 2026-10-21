@@ -221,6 +221,25 @@ body {
     font-size: 24px;
 }
 
+.avaliacaoResumo .estrelasExibicao {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+}
+
+.avaliacaoResumo .estrelasExibicao span {
+    font-size: 24px;
+    font-variation-settings: 'FILL' 1;
+}
+
+.avaliacaoResumo .estrelasExibicao .estrelaCheia {
+    color: #ffc107;
+}
+
+.avaliacaoResumo .estrelasExibicao .estrelaVazia {
+    color: #b3afaf;
+}
+
 @media (min-width: 768px) {
     .app-container {
         padding: 40px 60px;

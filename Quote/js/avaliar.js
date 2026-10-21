@@ -3,15 +3,31 @@ const autorNome = document.querySelector(".tituloLivroDestaque");
 
 const txtResenha = document.querySelector("#txtResenha");
 const btnPublicar = document.querySelector(".btnPublicar");
+const estrelas = document.querySelectorAll(".avaliadorEstrelasInput span");
+let nota = 0;
 
 console.log(sessionStorage.getItem("codigo"));
 
 console.log(sessionStorage.getItem("codigoLivro"));
 
 if (btnPublicar) {
+
+    for (let i = 0; i < estrelas.length; i++) {
+    estrelas[i].addEventListener("click", function () {
+        nota = i + 1;
+
+        for (let j = 0; j < estrelas.length; j++) {
+            estrelas[j].classList.toggle("estrelaCheia", j < nota);
+            estrelas[j].classList.toggle("estrelaVazia", j >= nota);
+        }
+    });
+
+    const avatarResenha = document.querySelector(".cabecalhoNovaResenha img");
+    avatarResenha.src=`../img/${sessionStorage.getItem("codigo")}.png`;
+    
     btnPublicar.addEventListener("click", function (e) {
         e.preventDefault();
-
+        
         if (txtResenha.value === "") {
             document.querySelector(".mensagemErro").textContent = "O campo de resenha está vazio.";
             document.querySelector(".mensagemErro").classList.remove("escondido");
@@ -26,7 +42,7 @@ if (btnPublicar) {
         const codigoLivro = sessionStorage.getItem("codigoLivro");
         const nota = 3;
         console.log(codigoLivro, codigoUsuario, nota, resenha)
-
+        
         fetch("../api/avaliarLivro.php", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -43,27 +59,29 @@ if (btnPublicar) {
             }else{
                 deuCerto = false;
             }
-        
+            
             if (deuCerto) {              
                 console.log("certo")
                 
             } else {
                 console.log("erro")
-                // document.querySelector(".mensagemErro").textContent = "Erro no servidor.";
-                // document.querySelector(".mensagemErro").classList.remove("escondido");
-                // setTimeout(() =>{
-                //     document.querySelector(".mensagemErro").classList.add("escondido");
-                // }, 5000);
-            }
-        })
-        .catch(function (erro) {
-            console.error(erro);
-            document.querySelector(".mensagemErro").textContent = "Não foi possível acessar o servidor. Por favor, tente novamente mais tarde.";
-            document.querySelector(".mensagemErro").classList.remove("escondido");
-            setTimeout(() => {
-                document.querySelector(".mensagemErro").classList.add("escondido");
-            }, 5000);
-            return;
+                document.querySelector(".mensagemErro").textContent = "Erro no servidor.";
+                document.querySelector(".mensagemErro").classList.remove("escondido");
+                setTimeout(() =>{
+                        document.querySelector(".mensagemErro").classList.add("escondido");
+                    }, 5000);
+                }
+            })
+            .catch(function (erro) {
+                console.error(erro);
+                document.querySelector(".mensagemErro").textContent = "Não foi possível acessar o servidor. Por favor, tente novamente mais tarde.";
+                document.querySelector(".mensagemErro").classList.remove("escondido");
+                setTimeout(() => {
+                    document.querySelector(".mensagemErro").classList.add("escondido");
+                }, 5000);
+                return;
+            });
         });
-    });
+    }
+    
 }

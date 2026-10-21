@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
-:root{
+:root {
     --deepNavyBlue: #002966;
     --darkOceanBlue: #0E3F88;
     --royalBlue: #1254B5;
@@ -16,7 +16,7 @@
     --background: #FEFEFF;
 }
 
-*{
+* {
     font-family: "Inter", sans-serif;
     margin: 0;
     padding: 0;
@@ -31,7 +31,7 @@ h2 {
     font-size: 18px;
 }
 
-p{
+p {
     font-size: 14px;
 }
 
@@ -54,18 +54,89 @@ header {
     margin-bottom: 50px;
 }
 
-header > a {
+header > img {
+    height: 55px;
+    width: 55px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+header figure img {
+    height: 36px;
+}
+
+.cabecalhoPrincipal {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #002663;
+    padding: 12px 16px;
+    gap: 12px;
+    width: 100%;
+}
+
+.logotipoContainer {
     display: flex;
     align-items: center;
     flex-shrink: 0;
 }
 
-header #avatar {
+.logotipoContainer img {
+    height: 28px;
+    width: auto;
     display: block;
-    width: 55px;
-    height: 55px;
+}
+
+.barraPesquisa {
+    display: flex;
+    align-items: center;
+    background-color: #ffffff;
+    border-radius: 6px;
+    padding: 6px 12px;
+    flex: 1;
+    min-width: 0;
+    max-width: 280px;
+    margin: 0;
+    transform: none;
+}
+
+.barraPesquisa input {
+    border: none;
+    outline: none;
+    width: 100%;
+    min-width: 0;
+    font-size: 11px;
+    background: transparent;
+}
+
+.barraPesquisa span {
+    color: #333333;
+    font-size: 18px;
+    margin-left: 6px;
+    cursor: pointer;
+}
+
+.acoesHeaderDesktop {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-shrink: 0;
+}
+
+.botaoRanking {
+    display: none;
+}
+
+.avatarHeader {
+    width: 32px;
+    height: 32px;
     border-radius: 50%;
     object-fit: cover;
+    cursor: pointer;
+}
+
+.menuDropdownPerfil {
+    display: none;
 }
 
 .botao {
@@ -81,34 +152,6 @@ header #avatar {
     margin-top: 22px;
 }
 
-.barraPesquisa {
-    max-width: 700px;   
-    width: 42%;
-    background-color: var(--iceGray);
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    transform: translateX(-5.2%);
-    border: 1px solid var(--black);
-    padding: 15px;
-    width: 100%;
-    height: 30px;
-    border-radius: 8px;
-}
-
-.barraPesquisa span {
-    cursor: pointer;
-}
-
-.barraPesquisa input {
-    width: 100%;
-    border: 0;
-}
-
-.barraPesquisa input:focus {
-    outline: none;
-}
-
 .escondido {
     display: none;
 }
@@ -121,67 +164,67 @@ header #avatar {
     text-align: center;
 }
 
-
-
 .areaEstrelas {
-display: flex;
+    display: flex;
+    align-items: center;
     gap: 1px;
 }
 
 .avatarHeaderMobile {
-width: 32px;
+    width: 32px;
     height: 32px;
     border-radius: 50%;
     object-fit: cover;
 }
 
 .botaoVoltarMobile {
-color: #004bb5;
+    color: #004bb5;
     text-decoration: none;
     display: flex;
     align-items: center;
 }
 
-.cabecalhoPrincipal {
-display: none;
-}
-
 .conteudoPrincipal {
-padding: 16px;
+    padding: 16px;
     width: 100%;
     max-width: 1100px;
     margin: 0 auto;
 }
 
 .desktopApenas {
-display: none;
+    display: none;
 }
 
 .estrelaCheia {
-color: #ffc107;
+    color: #ffc107;
+    font-variation-settings: 'FILL' 1;
+}
+
+.estrelaVazia {
+    color: #B3AFAF;
     font-variation-settings: 'FILL' 1;
 }
 
 .itemNavegacao {
-color: #ffffff;
+    color: #ffffff;
     opacity: 0.7;
     text-decoration: none;
 }
 
 .itemNavegacao span {
-font-size: 26px;
+    font-size: 26px;
 }
 
 .itemNavegacao.ativo {
-opacity: 1;
+    opacity: 1;
 }
 
 .navegacaoAbasDesktop {
-display: none;
+    display: none;
 }
 
 .navegacaoMobile {
-position: fixed;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100%;
@@ -194,5 +237,132 @@ position: fixed;
 }
 
 .secaoUsuario {
-display: none;
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .cabecalhoPrincipal {
+        padding: 12px 48px;
+        gap: 24px;
+    }
+
+    .logotipoContainer img {
+        height: 32px;
+    }
+
+    .barraPesquisa {
+        max-width: 450px;
+        padding: 6px 16px;
+    }
+
+    .barraPesquisa input {
+        font-size: 13px;
+    }
+
+    .barraPesquisa span {
+        font-size: 20px;
+    }
+
+    .acoesHeaderDesktop {
+        gap: 16px;
+    }
+
+    .botaoRanking {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        background-color: transparent;
+        color: #ffffff;
+        border: 1px solid #ffffff;
+        border-radius: 6px;
+        padding: 6px 16px;
+        font-size: 13px;
+        font-weight: bold;
+        text-decoration: none;
+    }
+
+    .avatarHeader {
+        width: 40px;
+        height: 40px;
+    }
+
+    .perfilMenuContainer {
+        position: relative;
+    }
+
+    .perfilMenuContainer:hover .menuDropdownPerfil {
+        display: block;
+    }
+
+    .menuDropdownPerfil {
+        position: absolute;
+        top: 48px;
+        right: 0;
+        width: 200px;
+        background-color: #ffffff;
+        border-radius: 8px;
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+        padding: 12px 0;
+        z-index: 200;
+    }
+
+    .cabecalhoDropdown {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 0 16px 12px;
+        border-bottom: 1px solid #f0f4f8;
+    }
+
+    .cabecalhoDropdown img {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .cabecalhoDropdown strong {
+        display: block;
+        font-size: 12px;
+        color: #111111;
+    }
+
+    .cabecalhoDropdown small {
+        font-size: 10px;
+        color: #777777;
+    }
+
+    .listaMenuDropdown {
+        list-style: none;
+        padding-top: 8px;
+    }
+
+    .listaMenuDropdown a {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        padding: 8px 16px;
+        font-size: 12px;
+        color: #444444;
+        text-decoration: none;
+    }
+
+    .listaMenuDropdown a:hover {
+        background-color: #f8fafc;
+        color: #0056b3;
+    }
+
+    .listaMenuDropdown span {
+        font-size: 16px;
+    }
+
+    .divisorMenu {
+        height: 1px;
+        background-color: #f0f4f8;
+        margin: 6px 0;
+    }
+
+    .itemSair {
+        color: #dc2626 !important;
+    }
 }

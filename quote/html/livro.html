@@ -10,19 +10,49 @@
 </head>
 <body>
 
-    <header>
-        <figure>
+    <header class="cabecalhoPrincipal">
+        <figure class="logotipoContainer">
             <a href="homepage.html">
                 <img src="../img/logoBranco.svg" alt="Logotipo do quote">
             </a>
         </figure>
+        
         <div class="barraPesquisa">
-            <input type="text" placeholder="Pesquise por autores, livros, gêneros e pessoas.">
-            <span class="material-symbols-outlined">
-                search
-            </span>
+            <input type="text" placeholder="Encontre sua próxima leitura">
+            <span class="material-symbols-outlined">search</span>
         </div>
-        <img alt="Foto de perfil do usuario">
+
+        <div class="acoesHeaderDesktop">
+            <a href="ranking.html" class="botaoRanking">
+                <span class="material-symbols-outlined">emoji_events</span>
+                Ranking
+            </a>
+
+            <div class="perfilMenuContainer">
+                <img id="avatar" class="avatarHeader" alt="Foto de perfil do usuario">
+                
+                
+                <div class="menuDropdownPerfil">
+                    <div class="cabecalhoDropdown">
+                        <img id="avatar" class="avatarHeader">
+                        <div>
+                            <strong>Nívia Oliveira</strong>
+                            <small>nivia_oliveira</small>
+                        </div>
+                    </div>
+                    <ul class="listaMenuDropdown">
+                        <li><a href="perfil.html"><span class="material-symbols-outlined">person</span>Perfil</a></li>
+                        <li><a href="estante.html"><span class="material-symbols-outlined">collections_bookmark</span>Estante</a></li>
+                        <li><a href="atividade.html"><span class="material-symbols-outlined">format_list_bulleted</span>Atividade</a></li>
+                        <li><a href="resenhas.html"><span class="material-symbols-outlined">rate_review</span>Resenhas</a></li>
+                        <li><a href="metas.html"><span class="material-symbols-outlined">target</span>Metas</a></li>
+                        <li class="divisorMenu"></li>
+                        <li><a href="#"><span class="material-symbols-outlined">settings</span>Configurações</a></li>
+                        <li><a href="#" class="itemSair"><span class="material-symbols-outlined">logout</span>Sair</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </header>
 
     <main class="containerDetalhesLivro">
@@ -57,11 +87,7 @@
 
                 <div class="avaliacaoResumo">
                     <div class="estrelasExibicao" aria-label="Avaliação média: 4 de 5 estrelas">
-                        <span class="material-symbols-outlined preenchida">star</span>
-                        <span class="material-symbols-outlined preenchida">star</span>
-                        <span class="material-symbols-outlined preenchida">star</span>
-                        <span class="material-symbols-outlined preenchida">star</span>
-                        <span class="material-symbols-outlined">star</span>
+                        
                     </div>
                     <span class="qtdAvaliacoes">(1,5K)</span>
                 </div>
@@ -109,15 +135,15 @@
         
         <section class="cardNovaResenha">
             <div class="cabecalhoNovaResenha">
-                <img src="../imagens/avatar.png" alt="Sua foto de perfil" class="fotoUsuarioResenha">
+                <img alt="Sua foto de perfil" class="fotoUsuarioResenha">
                 <div class="infoNovaResenha">
                     <h2>Escreva sua resenha</h2>
                     <div class="avaliadorEstrelasInput">
-                        <span class="material-symbols-outlined">star</span>
-                        <span class="material-symbols-outlined">star</span>
-                        <span class="material-symbols-outlined">star</span>
-                        <span class="material-symbols-outlined">star</span>
-                        <span class="material-symbols-outlined">star</span>
+                        <span class="material-symbols-outlined estrelaVazia">star</span>
+                        <span class="material-symbols-outlined estrelaVazia">star</span>
+                        <span class="material-symbols-outlined estrelaVazia">star</span>
+                        <span class="material-symbols-outlined estrelaVazia">star</span>
+                        <span class="material-symbols-outlined estrelaVazia">star</span>
                     </div>
                 </div>
             </div>
@@ -243,5 +269,6 @@
         </ul>
     <script src="../js/avaliar.js"></script>
     <script src="../js/livros.js"></script>
+    <script src="../js/perfil.js"></script>
 </body>
 </html>
