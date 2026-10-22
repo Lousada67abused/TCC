@@ -228,6 +228,7 @@ if (formulario) {
 }
 
 function criarTelaGeneros(generos) {
+    document.body.classList.remove("etapaLeiturasAtiva");
     generosDisponiveis = generos;
     const tela = document.getElementById("templateGeneros").content.cloneNode(true);
     const selecaoGenero = tela.querySelector(".selecaoGenero");
@@ -350,7 +351,8 @@ function criarTelaPasso3() {
             else { mostrarErro(erro, ERRO_SERVIDOR); proximo.disabled = false; }
         });
     });
-    main.className = "cadastroEtapas";
+    main.className = "cadastroEtapas etapaLeituras";
+    document.body.classList.add("etapaLeiturasAtiva");
     main.replaceChildren(tela);
     atualizarQuantidadeLivros();
     document.getElementById("tituloLeituras").focus();
