@@ -1,162 +1,177 @@
-const tituloBusca = document.querySelector(".tituloBusca");
-const botoesFiltro = document.querySelectorAll(".filtros button");
-const resultadoLivros = document.querySelector(".resultadoLivros");
-const resultadoLeitores = document.querySelector(".resultadoLeitores");
-const areaLivros = document.querySelector(".areaLivros");
-const listaLeitores = document.querySelector(".listaLeitores");
-const subtitulos = document.querySelectorAll(".subtituloBusca");
-const erroBusca = document.querySelector(".mensagemErro");
-const txtPesquisaBusca = document.getElementById("txtPesquisaBusca");
-const btnPesquisaBusca = document.getElementById("btnPesquisaBusca");
+(() => {
+    const titulo = document.querySelector('.tituloBusca');
+    const botoes = [...document.querySelectorAll('.filtros [data-filtro]')];
+    const secaoLivros = document.querySelector('.resultadoLivros');
+    const secaoLeitores = document.querySelector('.resultadoLeitores');
+    const areaLivros = document.querySelector('.resultadoLivros .areaLivros');
+    const listaLeitores = document.querySelector('.resultadoLeitores .listaLeitores');
+    const estado = document.getElementById('estadoBusca');
+    const tentar = document.getElementById('tentarBusca');
+    if (!titulo || !areaLivros || !listaLeitores || !estado || !tentar) return;
+    const filtros = new Set(['geral', 'livros', 'generos', 'autores', 'leitores']);
+    let termo = '', filtro = 'geral';
+    let livros = [], leitores = [], erros = {};
+    let carregando = false, consulta = 0;
 
-const ERRO_CONEXAO = "Não foi possível acessar o servidor. Por favor, tente novamente mais tarde.";
-
-// O termo e o filtro vêm da URL: busca.html?termo=delirio&filtro=livros
-const parametros = new URLSearchParams(location.search);
-const termo = (parametros.get("termo") || "").trim();
-let filtroAtual = parametros.get("filtro") || "geral";
-
-let livrosEncontrados = [];
-let leitoresEncontrados = [];
-
-// Tira acento e deixa minúsculo, para "ficcao" achar "Ficção".
-function normalizar(texto) {
-    return (texto || "").normalize("NFD").replace(/[̀-ͯ]/g, "").toLowerCase();
-}
-
-function contemTermo(texto) {
-    return normalizar(texto).includes(normalizar(termo));
-}
-
-function criarLivro(livro) {
-    const divLivro = document.createElement("div");
-    divLivro.className = "livro";
-    divLivro.dataset.idLivro = livro.id_livro;
-
-    const capa = document.createElement("img");
-    capa.src = "https://covers.openlibrary.org/b/isbn/" + livro.id_livro + "-L.jpg";
-    capa.alt = "Capa do livro " + livro.titulo;
-
-    const textoLivro = document.createElement("div");
-    textoLivro.className = "textoLivro";
-
-    const titulo = document.createElement("h2");
-    titulo.textContent = livro.titulo;
-
-    const autor = document.createElement("p");
-    autor.textContent = livro.autores || "";
-
-    textoLivro.append(titulo, autor);
-    divLivro.append(capa, textoLivro);
-
-    divLivro.addEventListener("click", function () {
-        sessionStorage.setItem("codigoLivro", livro.id_livro);
-        window.location.href = "livro.html";
-    });
-    return divLivro;
-}
-
-function mostrarResultados() {
-    for (let i = 0; i < botoesFiltro.length; i++) {
-        botoesFiltro[i].classList.toggle("ativo", botoesFiltro[i].dataset.filtro === filtroAtual);
+    function texto(valor, padrao = '') {
+        return typeof valor === 'string' || typeof valor === 'number' ? String(valor) : padrao;
     }
-
-    let livros = [];
-    if (filtroAtual === "geral") {
-        livros = livrosEncontrados;
-    } else if (filtroAtual === "livros") {
-        livros = livrosEncontrados.filter(function (livro) { return contemTermo(livro.titulo); });
-    } else if (filtroAtual === "generos") {
-        livros = livrosEncontrados.filter(function (livro) { return contemTermo(livro.generos); });
-    } else if (filtroAtual === "autores") {
-        livros = livrosEncontrados.filter(function (livro) { return contemTermo(livro.autores); });
+    function normalizar(valor) {
+        return texto(valor).normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
     }
-
-    let leitores = [];
-    if (filtroAtual === "geral" || filtroAtual === "leitores") {
-        leitores = leitoresEncontrados;
+    function contem(valor) { return normalizar(valor).includes(normalizar(termo)); }
+    function elemento(tag, classe, conteudo) {
+        const novo = document.createElement(tag);
+        novo.className = classe;
+        if (conteudo !== undefined) novo.textContent = conteudo;
+        return novo;
     }
-
-    areaLivros.textContent = "";
-    for (let i = 0; i < livros.length; i++) {
-        areaLivros.appendChild(criarLivro(livros[i]));
+    function criarLivro(livro) {
+        const id = String(livro.id_livro);
+        const nome = texto(livro.titulo, 'Livro sem título');
+        const autores = texto(livro.autores || livro.nm_autor, 'Autor não informado');
+        const card = elemento('a', 'cardLivro');
+        card.href = 'livro.html';
+        card.dataset.idLivro = id;
+        const selecionar = () => {
+            try { sessionStorage.setItem('codigoLivro', id); } catch (_) {}
+        };
+        card.addEventListener('click', selecionar);
+        card.addEventListener('auxclick', selecionar);
+        const capa = elemento('img', 'capaLivro');
+        capa.alt = 'Capa de ' + nome;
+        capa.loading = 'lazy';
+        capa.width = 200;
+        capa.height = 300;
+        capa.addEventListener('error', () => {
+            capa.replaceWith(elemento('span', 'capaLivro capaLivroIndisponivel', 'Capa indisponível'));
+        }, { once: true });
+        capa.src = 'https://covers.openlibrary.org/b/isbn/' + id + '-L.jpg';
+        const tituloLivro = elemento('h3', 'tituloLivro', nome);
+        tituloLivro.title = nome;
+        const autor = elemento('p', 'autorLivro', autores);
+        autor.title = autores;
+        const numero = Number(texto(livro.nota_media, '0').replace(',', '.'));
+        const nota = Number.isFinite(numero) ? Math.min(5, Math.max(0, numero)) : 0;
+        const estrelas = elemento('div', 'areaEstrelas');
+        estrelas.setAttribute('role', 'img');
+        estrelas.setAttribute('aria-label', 'Nota média: ' + nota.toFixed(1) + ' de 5');
+        for (let i = 1; i <= 5; i++) {
+            const estrela = elemento('span', 'estrelaAvaliacao ' + (i <= Math.round(nota) ? 'estrelaCheia' : 'estrelaVazia'), '★');
+            estrela.setAttribute('aria-hidden', 'true');
+            estrelas.append(estrela);
+        }
+        card.append(capa, tituloLivro, autor, estrelas);
+        return card;
     }
-
-    listaLeitores.textContent = "";
-    for (let i = 0; i < leitores.length; i++) {
-        listaLeitores.appendChild(criarCardLeitor(leitores[i]));
+    function atualizarCampos() {
+        const dicas = { geral: 'Busque por livros e leitores', livros: 'Busque por título ou ISBN',
+            generos: 'Busque por gêneros', autores: 'Busque por autores', leitores: 'Busque por leitores' };
+        document.querySelectorAll('form.barraPesquisa [name="termo"], form.pesquisaMobile [name="termo"]').forEach(campo => {
+            campo.value = termo;
+            if (campo.id === 'txtPesquisaBusca') {
+                campo.placeholder = dicas[filtro];
+                campo.setAttribute('aria-label', dicas[filtro]);
+            }
+        });
+        document.querySelectorAll('form.barraPesquisa [name="filtro"], form.pesquisaMobile [name="filtro"]').forEach(campo => { campo.value = filtro; });
+        botoes.forEach(botao => {
+            const ativo = botao.dataset.filtro === filtro;
+            botao.classList.toggle('ativo', ativo);
+            botao.setAttribute('aria-pressed', String(ativo));
+        });
+        titulo.textContent = termo ? 'Exibindo resultados para “' + termo + '”' : 'Encontre sua próxima leitura';
     }
-
-    resultadoLivros.classList.toggle("escondido", livros.length === 0);
-    resultadoLeitores.classList.toggle("escondido", leitores.length === 0);
-
-    // Os subtítulos "Livros" e "Leitores" só aparecem na aba geral.
-    for (let i = 0; i < subtitulos.length; i++) {
-        subtitulos[i].classList.toggle("escondido", filtroAtual !== "geral");
+    function mostrarResultados() {
+        atualizarCampos();
+        let selecionados = livros;
+        if (filtro === 'livros') selecionados = livros.filter(livro => contem(livro.titulo) || String(livro.id_livro) === termo);
+        if (filtro === 'generos') selecionados = livros.filter(livro => contem(livro.generos || livro.nm_genero));
+        if (filtro === 'autores') selecionados = livros.filter(livro => contem(livro.autores || livro.nm_autor));
+        const mostrarLivros = filtro !== 'leitores';
+        const mostrarLeitores = filtro === 'geral' || filtro === 'leitores';
+        areaLivros.replaceChildren(...(mostrarLivros ? selecionados.map(criarLivro) : []));
+        listaLeitores.replaceChildren(...(mostrarLeitores ? leitores.map(window.criarCardLeitor) : []));
+        secaoLivros.hidden = !mostrarLivros || !selecionados.length;
+        secaoLeitores.hidden = !mostrarLeitores || !leitores.length;
+        document.querySelectorAll('.subtituloBusca').forEach(subtitulo => { subtitulo.hidden = filtro !== 'geral'; });
+        tentar.hidden = true;
+        if (!termo) estado.textContent = 'Digite um termo na busca ou explore os gêneros literários.';
+        else if (carregando) estado.textContent = 'Buscando resultados...';
+        else {
+            const falhas = [];
+            if (mostrarLivros && erros.livros) falhas.push('Não foi possível carregar os livros.');
+            if (mostrarLeitores && erros.leitores) falhas.push('Não foi possível carregar os leitores.');
+            if (falhas.length) {
+                estado.textContent = falhas.join(' ') + ' Tente novamente.';
+                tentar.hidden = false;
+            } else estado.textContent = (mostrarLivros && selecionados.length) || (mostrarLeitores && leitores.length)
+                ? '' : 'Nenhum resultado encontrado para “' + termo + '”.';
+        }
+        tentar.disabled = carregando;
+        areaLivros.setAttribute('aria-busy', String(carregando));
+        listaLeitores.setAttribute('aria-busy', String(carregando));
     }
-
-    if (livros.length === 0 && leitores.length === 0) {
-        erroBusca.textContent = "Nenhum resultado encontrado.";
-        erroBusca.classList.remove("escondido");
-    } else {
-        erroBusca.classList.add("escondido");
+    async function buscar(url) {
+        const resposta = await fetch(url, { headers: { Accept: 'application/json' } });
+        const resultado = await resposta.json();
+        if (!resposta.ok || !(resultado.status === true || resultado.status === 'true') || !Array.isArray(resultado.resposta)) {
+            throw new Error('Pesquisa indisponível');
+        }
+        return resultado.resposta;
     }
-}
-
-function buscarJson(url) {
-    return fetch(url).then(function (resposta) {
-        return resposta.json();
-    });
-}
-
-function pesquisar() {
-    tituloBusca.textContent = "Exibindo resultados para “" + termo + "”";
-    txtPesquisaBusca.value = termo;
-    txtPesquisaHeader.value = termo;
-
-    Promise.all([
-        buscarJson("../api/filtrarlivro.php?filtro=" + encodeURIComponent(termo)),
-        buscarJson("../api/buscarUsuarioNome.php?nome=" + encodeURIComponent(termo))
-    ])
-    .then(function (resultados) {
-        console.log(resultados);
-        livrosEncontrados = resultados[0].status === "true" ? resultados[0].resposta : [];
-        leitoresEncontrados = resultados[1].status === "true" ? resultados[1].resposta : [];
+    function unicos(dados, chave) {
+        const mapa = new Map();
+        dados.forEach(item => {
+            if (item && /^[1-9]\d*$/.test(String(item[chave])) && !mapa.has(String(item[chave]))) mapa.set(String(item[chave]), item);
+        });
+        return [...mapa.values()];
+    }
+    async function pesquisar() {
+        const atual = ++consulta;
+        livros = [];
+        leitores = [];
+        erros = {};
+        carregando = Boolean(termo);
         mostrarResultados();
-    })
-    .catch(function (erro) {
-        console.error(erro);
-        erroBusca.textContent = ERRO_CONEXAO;
-        erroBusca.classList.remove("escondido");
-    });
-}
-
-for (let i = 0; i < botoesFiltro.length; i++) {
-    botoesFiltro[i].addEventListener("click", function () {
-        filtroAtual = this.dataset.filtro;
-        history.replaceState(null, "", "?termo=" + encodeURIComponent(termo) + "&filtro=" + filtroAtual);
+        if (!termo) return;
+        const query = encodeURIComponent(termo);
+        // A consulta de seguidos atualiza os botões sem atrasar os livros.
+        window.Leitores.preparar();
+        const resultados = await Promise.allSettled([
+            buscar('../api/filtrarlivro.php?filtro=' + query),
+            buscar('../api/buscarUsuarioNome.php?nome=' + query)
+        ]);
+        if (atual !== consulta) return;
+        if (resultados[0].status === 'fulfilled') livros = unicos(resultados[0].value, 'id_livro');
+        else erros.livros = true;
+        if (resultados[1].status === 'fulfilled') leitores = unicos(resultados[1].value, 'id_usuario');
+        else erros.leitores = true;
+        carregando = false;
         mostrarResultados();
+    }
+    function lerEndereco() {
+        const parametros = new URLSearchParams(location.search);
+        termo = (parametros.get('termo') || '').trim().slice(0, 100);
+        filtro = filtros.has(parametros.get('filtro')) ? parametros.get('filtro') : 'geral';
+    }
+    botoes.forEach(botao => botao.addEventListener('click', () => {
+        const novoFiltro = botao.dataset.filtro;
+        if (!filtros.has(novoFiltro) || filtro === novoFiltro) return;
+        filtro = novoFiltro;
+        const endereco = new URL(location.href);
+        endereco.searchParams.set('termo', termo);
+        endereco.searchParams.set('filtro', filtro);
+        history.pushState(null, '', endereco);
+        mostrarResultados();
+    }));
+    window.addEventListener('popstate', () => {
+        const anterior = termo;
+        lerEndereco();
+        if (termo !== anterior) pesquisar();
+        else mostrarResultados();
     });
-}
-
-// A pesquisa do celular funciona igual à do cabeçalho.
-function pesquisarMobile() {
-    const novoTermo = txtPesquisaBusca.value.trim();
-    if (novoTermo !== "") {
-        window.location.href = "busca.html?termo=" + encodeURIComponent(novoTermo) + "&filtro=" + filtroAtual;
-    }
-}
-
-txtPesquisaBusca.addEventListener("keydown", function (e) {
-    if (e.key === "Enter") {
-        pesquisarMobile();
-    }
-});
-btnPesquisaBusca.addEventListener("click", pesquisarMobile);
-
-if (termo !== "") {
+    tentar.addEventListener('click', pesquisar);
+    lerEndereco();
     pesquisar();
-} else {
-    resultadoLivros.classList.add("escondido");
-    resultadoLeitores.classList.add("escondido");
-}
+})();

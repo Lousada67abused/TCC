@@ -17,10 +17,11 @@
             </a>
         </figure>
         
-        <div class="barraPesquisa">
-            <input type="text" placeholder="Encontre sua próxima leitura">
-            <span class="material-symbols-outlined">search</span>
-        </div>
+        <form class="barraPesquisa" action="busca.html" method="get" role="search">
+            <input type="search" name="termo" maxlength="100" required aria-label="Pesquisar livros e leitores" placeholder="Encontre sua próxima leitura">
+            <input type="hidden" name="filtro" value="geral">
+            <button type="submit" aria-label="Pesquisar"><span class="material-symbols-outlined" aria-hidden="true">search</span></button>
+        </form>
 
         <div class="acoesHeaderDesktop">
             <a href="ranking.html" class="botaoRanking">
