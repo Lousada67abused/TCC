@@ -1,4 +1,4 @@
-body {
+body.paginaPesquisa {
     min-height: 100vh;
     color: var(--black);
     background-color: var(--background);
@@ -16,18 +16,7 @@ body {
     border: 0;
 }
 
-.somenteLeitura {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    padding: 0;
-    overflow: hidden;
-    clip: rect(0, 0, 0, 0);
-    white-space: nowrap;
-    border: 0;
-}
-
-.cabecalhoPrincipal {
+.paginaPesquisa .cabecalhoPrincipal {
     display: none;
 }
 
@@ -109,7 +98,7 @@ body {
         padding-bottom: 40px;
     }
 
-    .cabecalhoPrincipal {
+    .paginaPesquisa .cabecalhoPrincipal {
         display: flex;
     }
 
@@ -183,36 +172,27 @@ body {
     min-width: 0;
     overflow: hidden;
     border-radius: 6px;
-    color: var(--white);
-    background-color: var(--deepNavyBlue);
+    color: var(--royalBlue);
+    border: 1px solid var(--softBlue);
+    background-color: #f5f8fc;
     text-decoration: none;
 }
 
-.cardGenero img {
-    display: block;
-    width: 100%;
-    height: auto;
-    aspect-ratio: 256 / 69;
-    object-fit: contain;
-}
-
-.cardGenero .nomeGenero:not(.somenteLeitura) {
+.cardGenero .nomeGenero {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-height: 0;
-    aspect-ratio: 256 / 69;
-    padding: 4px;
-    font-family: Georgia, serif;
-    font-size: 12px;
-    font-weight: bold;
-    line-height: 1.2;
+    min-height: 56px;
+    padding: 12px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
     text-align: center;
     overflow-wrap: anywhere;
 }
 
 .cardGenero:hover {
-    filter: brightness(1.1);
+    background-color: #edf4ff;
 }
 
 .cardGenero:focus-visible,
@@ -271,14 +251,61 @@ body {
         margin-top: 24px;
     }
 
-    .cardGenero img {
+    .cardGenero .nomeGenero {
+        min-height: 64px;
+        font-size: 18px;
+    }
+}
+
+.pesquisaEmEdicao .conteudoPesquisa {
+    display: block;
+}
+
+.pesquisaEmEdicao .cabecalhoPrincipal .barraPesquisa {
+    width: 100%;
+    transform: none;
+}
+
+.pesquisaEmEdicao .botaoRanking,
+.filtroPesquisaAtiva {
+    display: none;
+}
+
+@media (max-width: 767px) {
+    .paginaPesquisa.pesquisaEmEdicao .cabecalhoPrincipal {
+        display: flex;
         height: auto;
-        aspect-ratio: 256 / 69;
+        padding: 24px 16px 0;
+        margin-bottom: 0;
+        background-color: transparent;
     }
 
-    .cardGenero .nomeGenero:not(.somenteLeitura) {
-        min-height: 0;
-        aspect-ratio: 256 / 69;
-        font-size: clamp(16px, 1.7vw, 24px);
+    .pesquisaEmEdicao .cabecalhoPrincipal > :not(.barraPesquisa) {
+        display: none;
+    }
+
+    .pesquisaEmEdicao .cabecalhoPrincipal .barraPesquisa {
+        max-width: none;
+        height: 36px;
+        margin: 0;
+        padding: 2px 4px 2px 8px;
+        border: 1px solid var(--mediumBlue);
+        background-color: var(--white);
+    }
+
+    .pesquisaEmEdicao .filtroPesquisaAtiva {
+        display: block;
+        max-width: 100px;
+        height: 26px;
+        padding: 2px 6px;
+        border: 0;
+        border-radius: 4px;
+        background-color: var(--royalBlue);
+        color: var(--white);
+        font-size: 12px;
+    }
+
+    .pesquisaEmEdicao .conteudoPesquisa {
+        padding-top: 28px;
     }
 }

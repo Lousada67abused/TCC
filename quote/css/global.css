@@ -130,6 +130,13 @@ form.barraPesquisa button:focus-visible {
     outline-offset: 3px;
 }
 
+.estadoEntradaPesquisa {
+    margin-bottom: 16px;
+    color: #475569;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
 .acoesHeaderDesktop {
     display: flex;
     align-items: center;

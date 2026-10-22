@@ -6,7 +6,7 @@
     document.querySelectorAll('form.barraPesquisa, form.pesquisaMobile').forEach(formulario => {
         const campo = formulario.querySelector('[name="termo"]');
         if (!campo) return;
-        campo.value = termo;
+        if (parametros.has('termo')) campo.value = termo;
         const campoFiltro = formulario.querySelector('[data-filtro-header]');
         if (campoFiltro) campoFiltro.value = filtro;
         formulario.addEventListener('submit', evento => {

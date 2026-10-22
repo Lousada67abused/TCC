@@ -5,6 +5,13 @@ procedures existentes. `pesquisa.html` permite explorar os gêneros;
 `busca.html?termo=...&filtro=...` apresenta os resultados. Os filtros são
 `geral`, `livros`, `generos`, `autores` e `leitores`.
 
+Ao clicar na barra do cabeçalho, o conteúdo muda para a exploração de gêneros
+e a URL passa a `pesquisa.html`. O próprio campo permanece no documento,
+preservando texto, foco e posição do cursor durante o carregamento. Enter ou
+a lupa enviam a busca para os resultados. Voltar/Avançar restaura o conteúdo
+da página de origem ou a exploração de gêneros. Acesso direto à página de
+pesquisa também funciona.
+
 ## Atualização do banco
 
 Recarregue as procedures para que os resultados incluam a nota média:
@@ -26,8 +33,8 @@ pesquisa; a coluna que armazena o nome do usuário não foi alterada.
 ## Dados exibidos
 
 - **Gêneros:** vêm exclusivamente de `buscarGenero.php`, no campo `dados`.
-  A tela não contém uma lista fixa de gêneros. O mapa no JavaScript escolhe
-  apenas as imagens existentes; um gênero sem imagem aparece com seu nome.
+  Os botões exibem apenas o nome retornado pelo banco, com o mesmo estilo
+  simples para todos os gêneros.
   Adicionar, renomear ou excluir um gênero no banco se reflete na próxima
   consulta da tela. Uma falha da API apresenta erro e permite tentar novamente.
 - **Livros:** `filtrarlivro.php?filtro=...`, no campo `resposta`, com título,
@@ -56,3 +63,10 @@ livros e leitores em 320, 375, 768, 1024 e 1440 px, incluindo estado vazio,
 falhas parciais, repetição de consulta, visitante e navegação pelo histórico.
 A lista de gêneros foi comparada à API e testada após inserir e excluir um
 gênero temporário. Nenhum banco remoto foi alterado.
+
+A abertura pelo cabeçalho também foi verificada com carregamento lento,
+digitação durante a troca de conteúdo, identidade e foco do campo preservados,
+Enter antes de carregar os gêneros e recuperação após falhas de HTML ou CSS.
+Com as três APIs do livro respondendo após a abertura da pesquisa, Voltar
+restaurou os detalhes, as resenhas, o contador e os controles da estante
+atualizados, sem perder o conteúdo original.

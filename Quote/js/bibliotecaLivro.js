@@ -43,7 +43,7 @@
             if (rotulo) rotulo.textContent = favorito ? 'Favorito' : 'Favoritar';
             if (icone) icone.textContent = favorito ? 'bookmark' : 'bookmark_border';
         });
-        document.querySelectorAll('.botoesAcaoInterativa').forEach(area => {
+        container.querySelectorAll('.botoesAcaoInterativa').forEach(area => {
             area.setAttribute('aria-busy', String(pendente));
         });
         tentar.disabled = pendente;

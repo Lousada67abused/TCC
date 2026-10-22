@@ -1,6 +1,7 @@
 (() => {
     const list = document.querySelector('.listaResenhasComunidade');
     if (!list) return;
+    const container = list.closest('.containerDetalhesLivro');
     const codigoLivro = sessionStorage.getItem('codigoLivro');
     const codigoUsuario = sessionStorage.getItem('codigo');
     let avaliacoesAtuais = [];
@@ -46,7 +47,7 @@
     }
 
     function atualizarQuantidade() {
-        document.querySelectorAll('.secaoResenhasComunidade .contadorTotal').forEach(el => {
+        container.querySelectorAll('.secaoResenhasComunidade .contadorTotal').forEach(el => {
             el.textContent = '(' + avaliacoesAtuais.length + ')';
         });
     }
@@ -57,9 +58,9 @@
         const outras = avaliacoesAtuais.filter(a => String(a.id_usuario) !== String(codigoUsuario));
         list.replaceChildren(...[...minhas, ...outras].map(a => criarResenha(a, criarAcoes)));
         atualizarQuantidade();
-        const mais = document.querySelector('.containerBtnVerMais');
+        const mais = container.querySelector('.containerBtnVerMais');
         if (mais) mais.hidden = true;
-        let vazio = document.querySelector('.avisoSemResenhas');
+        let vazio = container.querySelector('.avisoSemResenhas');
         if (!vazio) {
             vazio = elemento('p', 'avisoSemResenhas', 'Este livro ainda não tem resenhas.');
             list.after(vazio);
@@ -80,12 +81,12 @@
     }
     window.ResenhasLivro = { consultar, mostrar, remover };
     // avaliar.js coordinates the initial query when the review form is present.
-    if (!document.querySelector('.formularioAvaliacao')) {
+    if (!container.querySelector('.formularioAvaliacao')) {
         const status = elemento('p', 'statusResenhas', 'Carregando resenhas...');
         status.setAttribute('role', 'status');
         list.before(status);
         list.replaceChildren();
-        document.querySelectorAll('.secaoResenhasComunidade .contadorTotal').forEach(el => el.textContent = '(...)');
+        container.querySelectorAll('.secaoResenhasComunidade .contadorTotal').forEach(el => el.textContent = '(...)');
         consultar().then(avaliacoes => { mostrar(avaliacoes); status.textContent = ''; })
             .catch(() => { status.textContent = 'Não foi possível carregar as resenhas. Atualize a página para tentar novamente.'; });
     }
