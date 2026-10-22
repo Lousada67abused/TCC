@@ -419,6 +419,10 @@ body {
     margin-bottom: 16px;
 }
 
+.botoesAcaoInterativa.desktopOnly {
+    display: none;
+}
+
 .selectWrapper {
     position: relative;
 }
@@ -460,6 +464,40 @@ body {
 
 .btnFavorito .material-symbols-outlined {
     font-size: 16px;
+}
+
+.btnFavorito.favoritoAtivo {
+    color: var(--royalBlue);
+    background-color: #edf4ff;
+    border-color: var(--royalBlue);
+}
+
+.btnFavorito:disabled,
+.selectStatus:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.feedbackBibliotecaLivro {
+    margin: 0 0 20px;
+    color: #475569;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
+.feedbackBibliotecaLivro[hidden],
+#tentarBibliotecaLivro[hidden] {
+    display: none !important;
+}
+
+#tentarBibliotecaLivro {
+    margin-top: 8px;
+    padding: 8px 12px;
+    border: 1px solid var(--royalBlue);
+    border-radius: 6px;
+    color: var(--royalBlue);
+    background-color: #ffffff;
+    cursor: pointer;
 }
 
 .sinopseLivro p {

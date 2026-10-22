@@ -460,9 +460,11 @@ FROM biblioteca
 WHERE id_usuario = @id_usuario_teste
   AND id_livro = @isbn_teste;
 
-CALL sp_cadastrar_biblioteca(
+-- Um livro pode ser favorito antes de terminar a leitura.
+CALL cadastrarBiblioteca(
     @isbn_teste,
     'quero ler',
+    1,
     1,
     @id_usuario_teste
 );
@@ -473,52 +475,30 @@ FROM biblioteca
 WHERE id_usuario = @id_usuario_teste
   AND id_livro = @isbn_teste;
 
-SELECT *
+CALL buscarBibliotecaUsuario(@id_usuario_teste);
+CALL sp_buscar_biblioteca_por_id(@id_biblioteca_teste);
+CALL sp_verificar_livro_na_biblioteca(@id_usuario_teste, @isbn_teste);
+CALL filtrarBibliotecaStatus(@id_usuario_teste, 'quero ler');
+CALL filtrarBibliotecaFavoritos(@id_usuario_teste);
+
+-- Alterar o status preserva favorito = 1.
+CALL atualizarStatusBiblioteca(@id_usuario_teste, @isbn_teste, 'lendo');
+SELECT status, favorito
 FROM biblioteca
-WHERE id_biblioteca = @id_biblioteca_teste;
+WHERE id_usuario = @id_usuario_teste AND id_livro = @isbn_teste;
 
-CALL sp_buscar_biblioteca_por_usuario(
-    @id_usuario_teste
-);
-
-CALL sp_buscar_biblioteca_por_id(
-    @id_biblioteca_teste
-);
-
-CALL sp_verificar_livro_na_biblioteca(
-    @id_usuario_teste,
-    @isbn_teste
-);
-
-CALL sp_filtrar_biblioteca_por_status(
-    @id_usuario_teste,
-    'quero ler'
-);
-
--- UPDATE
-SELECT *
+-- Alterar o favorito preserva status = 'lendo'.
+CALL atualizarFavoritoBiblioteca(@id_usuario_teste, @isbn_teste, 0);
+SELECT status, favorito
 FROM biblioteca
-WHERE id_biblioteca = @id_biblioteca_teste;
+WHERE id_usuario = @id_usuario_teste AND id_livro = @isbn_teste;
 
-CALL sp_atualizar_biblioteca(
-    @id_biblioteca_teste,
-    'lido',
-    0
-);
-
-SELECT *
-FROM biblioteca
-WHERE id_biblioteca = @id_biblioteca_teste;
-
-CALL sp_filtrar_biblioteca_por_status(
-    @id_usuario_teste,
-    'lido'
-);
-
-CALL sp_verificar_livro_na_biblioteca(
-    @id_usuario_teste,
-    @isbn_teste
-);
+CALL atualizarStatusBiblioteca(@id_usuario_teste, @isbn_teste, 'lido');
+CALL atualizarFavoritoBiblioteca(@id_usuario_teste, @isbn_teste, 1);
+CALL filtrarBibliotecaStatus(@id_usuario_teste, 'lido');
+CALL filtrarBibliotecaStatus(@id_usuario_teste, NULL);
+CALL filtrarBibliotecaFavoritos(@id_usuario_teste);
+CALL sp_verificar_livro_na_biblioteca(@id_usuario_teste, @isbn_teste);
 
 
 -- SEGUIDOR
@@ -1304,9 +1284,11 @@ FROM biblioteca
 WHERE id_usuario = @id_usuario_teste
   AND id_livro = @isbn_teste;
 
-CALL sp_cadastrar_biblioteca(
+-- Um livro pode ser favorito antes de terminar a leitura.
+CALL cadastrarBiblioteca(
     @isbn_teste,
     'quero ler',
+    1,
     1,
     @id_usuario_teste
 );
@@ -1317,52 +1299,30 @@ FROM biblioteca
 WHERE id_usuario = @id_usuario_teste
   AND id_livro = @isbn_teste;
 
-SELECT *
+CALL buscarBibliotecaUsuario(@id_usuario_teste);
+CALL sp_buscar_biblioteca_por_id(@id_biblioteca_teste);
+CALL sp_verificar_livro_na_biblioteca(@id_usuario_teste, @isbn_teste);
+CALL filtrarBibliotecaStatus(@id_usuario_teste, 'quero ler');
+CALL filtrarBibliotecaFavoritos(@id_usuario_teste);
+
+-- Alterar o status preserva favorito = 1.
+CALL atualizarStatusBiblioteca(@id_usuario_teste, @isbn_teste, 'lendo');
+SELECT status, favorito
 FROM biblioteca
-WHERE id_biblioteca = @id_biblioteca_teste;
+WHERE id_usuario = @id_usuario_teste AND id_livro = @isbn_teste;
 
-CALL sp_buscar_biblioteca_por_usuario(
-    @id_usuario_teste
-);
-
-CALL sp_buscar_biblioteca_por_id(
-    @id_biblioteca_teste
-);
-
-CALL sp_verificar_livro_na_biblioteca(
-    @id_usuario_teste,
-    @isbn_teste
-);
-
-CALL sp_filtrar_biblioteca_por_status(
-    @id_usuario_teste,
-    'quero ler'
-);
-
--- UPDATE
-SELECT *
+-- Alterar o favorito preserva status = 'lendo'.
+CALL atualizarFavoritoBiblioteca(@id_usuario_teste, @isbn_teste, 0);
+SELECT status, favorito
 FROM biblioteca
-WHERE id_biblioteca = @id_biblioteca_teste;
+WHERE id_usuario = @id_usuario_teste AND id_livro = @isbn_teste;
 
-CALL sp_atualizar_biblioteca(
-    @id_biblioteca_teste,
-    'lido',
-    0
-);
-
-SELECT *
-FROM biblioteca
-WHERE id_biblioteca = @id_biblioteca_teste;
-
-CALL sp_filtrar_biblioteca_por_status(
-    @id_usuario_teste,
-    'lido'
-);
-
-CALL sp_verificar_livro_na_biblioteca(
-    @id_usuario_teste,
-    @isbn_teste
-);
+CALL atualizarStatusBiblioteca(@id_usuario_teste, @isbn_teste, 'lido');
+CALL atualizarFavoritoBiblioteca(@id_usuario_teste, @isbn_teste, 1);
+CALL filtrarBibliotecaStatus(@id_usuario_teste, 'lido');
+CALL filtrarBibliotecaStatus(@id_usuario_teste, NULL);
+CALL filtrarBibliotecaFavoritos(@id_usuario_teste);
+CALL sp_verificar_livro_na_biblioteca(@id_usuario_teste, @isbn_teste);
 
 
 -- SEGUIDOR

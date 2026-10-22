@@ -20,12 +20,11 @@ if ($metodo != 'POST')
 }
 
 try {
-	// Código da sua API
-
-	$corpo = json_decode(file_get_contents("php://input"), true);
+	$corpo = json_decode(file_get_contents("php://input"));
 	if (!validaCorpoRequisicao($corpo)) {
 		return;
 	}
+	$corpo = (array) $corpo;
 	$chaves = ['codigoUsuario','codigoLivro','status'];
 	if (!validaChaves($corpo, $chaves)) {
 		return;
@@ -34,7 +33,18 @@ try {
 	$codigoLivro = $corpo['codigoLivro'];
 	$status = $corpo['status'];
 
-	BibliotecaController::atualizarStatusBiblioteca($codigoUsuario, $codigoLivro, $status);
+	if (!validaCodigo($codigoLivro, '9223372036854775807') || !validaCodigo($codigoUsuario, '2147483647')) {
+		http_response_code(400);
+		echo json_encode(['mensagem' => 'Os códigos do livro e do usuário devem ser inteiros positivos válidos.']);
+		return;
+	}
+	if (!in_array($status, ['lido', 'lendo', 'quero ler', 'desisti'], true)) {
+		http_response_code(400);
+		echo json_encode(['mensagem' => 'Status inválido. Use lido, lendo, quero ler ou desisti.']);
+		return;
+	}
+
+	BibliotecaController::atualizarStatusBiblioteca((int) $codigoUsuario, (int) $codigoLivro, $status);
 
 	http_response_code(200);
 	echo json_encode(['status' => 'true', 'resposta' => 'Status atualizado com sucesso!']);
@@ -44,7 +54,7 @@ try {
 }
 
 function validaCorpoRequisicao($corpo) {
-	if (is_null($corpo))
+	if (!($corpo instanceof stdClass))
 	{
 		http_response_code(400);
 		echo json_encode(['mensagem'=>'Dados Inválidos!']);
@@ -61,12 +71,20 @@ function validaChaves($corpo, $campos) {
 			echo json_encode(['mensagem'=>'Dados incorretos. Verifique a documentação da API e tente novamente!']);
 			return false;
 		}
-		if ($corpo[$campos[$i]] == ''){
+		if ($corpo[$campos[$i]] === '' || $corpo[$campos[$i]] === null){
 			http_response_code(400);
 			echo json_encode(['mensagem'=>'Dados incorretos. Verifique a documentação da API e tente novamente!']);
 			return false;
 		}
 	}
 	return true;
+}
+
+function validaCodigo($valor, $maximo) {
+	if (!is_int($valor) && !is_string($valor)) return false;
+	$codigo = (string) $valor;
+	if (!preg_match('/^[1-9][0-9]*$/D', $codigo)) return false;
+	return strlen($codigo) < strlen($maximo) ||
+		(strlen($codigo) === strlen($maximo) && strcmp($codigo, $maximo) <= 0);
 }
 ?>

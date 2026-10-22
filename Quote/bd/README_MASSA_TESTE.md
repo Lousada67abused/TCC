@@ -62,11 +62,23 @@ atual do projeto. Exemplos:
 
 As contas e suas interações são fictícias. Todos os e-mails, inclusive os das
 15 contas originais, usam o domínio reservado `example.com`; o SQL calcula
-`MD5('123')` para uma senha de demonstração conhecida. Há bibliotecas públicas e privadas, os cinco
-status (`lido`, `lendo`, `quero ler`, `desisti`, `favorito`), avaliações de 0 a 5,
+`MD5('123')` para uma senha de demonstração conhecida. Há bibliotecas públicas e privadas, os quatro
+status (`lido`, `lendo`, `quero ler`, `desisti`), o campo independente
+`favorito` (`1` para favorito e `0` para não favorito), avaliações de 0 a 5,
 curtidas de outros usuários, comentários posteriores às avaliações, seguidores,
 preferências e metas para 2025 e 2026. Os livros têm editora, autor principal,
 vínculos em `autor_livro` e gêneros; há também coautoria e múltiplos gêneros.
+
+Os 396 itens que usavam o antigo status `favorito` agora usam `status = 'lido'`
+e `favorito = 1`. Os outros 2.574 itens têm `favorito = 0`, conservando seus
+status, visibilidade e relacionamentos. Assim, a massa tem 1.980 itens lidos,
+297 em leitura, 495 em "quero ler" e 198 abandonados; as 2.970 entradas foram
+preservadas. Contagens e metas usam somente o status `lido`, independentemente
+do campo `favorito`.
+
+Para atualizar uma base existente sem recriar as tabelas, consulte
+[a migração da biblioteca](../../quote/bd/README_BIBLIOTECA.md). Nesse caso,
+execute a migração e recarregue as procedures, em vez do script de estrutura.
 
 As datas de publicação dos títulos novos representam a edição do ISBN, não a
 primeira publicação da obra. Quando só o ano era conhecido, foi usado 1º de
@@ -125,3 +137,7 @@ metas, detalhe de livro, comentários e curtidas consultados com sucesso;
 exatamente aos 196 ISBNs importados: 45 respostas JPEG e 151 redirecionamentos
 de capa reconhecidos. A execução em MySQL não foi testada neste ambiente.
 
+Após separar o favorito, em 22/10/2026, a importação foi repetida em MariaDB
+11.8.6 isolado com as mesmas restrições: as 21 verificações atuais passaram,
+incluindo as duas novas de status e favorito. A migração também preservou os
+2.970 registros nos formatos antigo e novo, inclusive após reexecução.

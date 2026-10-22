@@ -3,9 +3,19 @@ const conteudosAba = document.querySelectorAll(".conteudoAba");
 const filtrosEstante = document.querySelectorAll("#estante .filtros button");
 const avatar = document.getElementById("avatar");
 const avatarMenu = document.querySelector(".cabecalhoDropdown img");
-console.log(sessionStorage.getItem("codigo"));
-avatar.src=`../img/${sessionStorage.getItem("codigo")}.png`;
-avatarMenu.src=`../img/${sessionStorage.getItem("codigo")}.png`;
+let usuarioLogado = null;
+let codigoUsuarioPerfil = null;
+try {
+    usuarioLogado = JSON.parse(sessionStorage.getItem("usuario") || "null");
+    codigoUsuarioPerfil = sessionStorage.getItem("codigo");
+} catch (_) {}
+[avatar, avatarMenu].forEach(imagem => {
+    if (!imagem) return;
+    imagem.addEventListener("error", () => { imagem.src = "../img/avatar.png"; }, { once: true });
+    imagem.src = /^[1-9]\d*$/.test(codigoUsuarioPerfil || "")
+        ? "../img/" + codigoUsuarioPerfil + ".png"
+        : "../img/avatar.png";
+});
 
 function abrirAba(nomeAba) {
     // Se a aba não existir (ex.: #qualquercoisa), abre a principal.
@@ -47,8 +57,10 @@ for (let i = 0; i < filtrosEstante.length; i++) {
 
 // Nome e biografia do usuário logado (salvos no login).
 if (usuarioLogado) {
-    document.querySelector(".nomePerfil").textContent = usuarioLogado.nm_usuario;
-    if (usuarioLogado.bio) {
-        document.querySelector(".bioPerfil").textContent = "“" + usuarioLogado.bio + "”";
+    const nomePerfil = document.querySelector(".nomePerfil");
+    const bioPerfil = document.querySelector(".bioPerfil");
+    if (nomePerfil) nomePerfil.textContent = usuarioLogado.nm_usuario || "Leitor";
+    if (bioPerfil && usuarioLogado.bio) {
+        bioPerfil.textContent = "“" + usuarioLogado.bio + "”";
     }
 }

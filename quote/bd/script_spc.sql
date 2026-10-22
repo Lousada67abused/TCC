@@ -1650,13 +1650,29 @@ END $$ */
 DROP PROCEDURE IF EXISTS cadastrarBiblioteca$$
 CREATE PROCEDURE cadastrarBiblioteca(
     IN p_id_livro BIGINT,
-    IN p_status ENUM('lido', 'lendo', 'quero ler', 'desisti', 'favorito'),
+    IN p_status VARCHAR(20),
+    IN p_favorito TINYINT,
     IN p_visivel TINYINT,
     IN p_id_usuario INT
 )
 BEGIN
     DECLARE v_qtd INT DEFAULT 0;
     DECLARE v_id_biblioteca INT DEFAULT NULL;
+
+    IF p_status IS NULL OR BINARY p_status NOT IN ('lido', 'lendo', 'quero ler', 'desisti') THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Status invalido.';
+    END IF;
+
+    IF p_favorito IS NULL OR p_favorito NOT IN (0, 1) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Favorito invalido. Use 0 ou 1.';
+    END IF;
+
+    IF p_visivel IS NULL OR p_visivel NOT IN (0, 1) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Visibilidade invalida. Use 0 ou 1.';
+    END IF;
 
     -- usuário existe?
     SELECT COUNT(*) INTO v_qtd
@@ -1702,8 +1718,8 @@ BEGIN
         FROM biblioteca;
     END IF;
 
-    INSERT INTO biblioteca (id_livro, id_biblioteca, status, visivel, id_usuario)
-    VALUES (p_id_livro, v_id_biblioteca, p_status, p_visivel, p_id_usuario);
+    INSERT INTO biblioteca (id_livro, id_biblioteca, status, favorito, visivel, id_usuario)
+    VALUES (p_id_livro, v_id_biblioteca, p_status, p_favorito, p_visivel, p_id_usuario);
 END $$
 
 
@@ -1717,6 +1733,7 @@ BEGIN
         b.id_livro,
         l.titulo,
         b.status,
+        b.favorito,
         b.visivel,
         b.id_usuario
     FROM biblioteca b
@@ -1729,15 +1746,21 @@ END $$
 DROP PROCEDURE IF EXISTS filtrarBibliotecaStatus$$
 CREATE PROCEDURE filtrarBibliotecaStatus(
     IN p_id_usuario INT,
-    IN p_status ENUM('lido','lendo','quero ler','desisti','favorito')
+    IN p_status VARCHAR(20)
 )
 BEGIN
+    IF p_status IS NOT NULL AND BINARY p_status NOT IN ('lido', 'lendo', 'quero ler', 'desisti') THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Status invalido.';
+    END IF;
+
     SELECT
         b.id_biblioteca,
         b.id_livro,
         l.titulo,
         GROUP_CONCAT(a.nm_autor ORDER BY a.nm_autor SEPARATOR ', ') AS autores,
         b.status,
+        b.favorito,
         b.visivel
     FROM biblioteca b
     INNER JOIN livro l
@@ -1748,7 +1771,33 @@ BEGIN
         ON al.id_autor = a.id_autor
     WHERE b.id_usuario = p_id_usuario
       AND (p_status IS NULL OR b.status = p_status)
-    GROUP BY b.id_biblioteca, b.id_livro, l.titulo, b.status, b.visivel
+    GROUP BY b.id_biblioteca, b.id_livro, l.titulo, b.status, b.favorito, b.visivel
+    ORDER BY l.titulo;
+END $$
+
+DROP PROCEDURE IF EXISTS filtrarBibliotecaFavoritos$$
+CREATE PROCEDURE filtrarBibliotecaFavoritos(
+    IN p_id_usuario INT
+)
+BEGIN
+    SELECT
+        b.id_biblioteca,
+        b.id_livro,
+        l.titulo,
+        GROUP_CONCAT(a.nm_autor ORDER BY a.nm_autor SEPARATOR ', ') AS autores,
+        b.status,
+        b.favorito,
+        b.visivel
+    FROM biblioteca b
+    INNER JOIN livro l
+        ON b.id_livro = l.id_livro
+    LEFT JOIN autor_livro al
+        ON l.id_livro = al.id_livro
+    LEFT JOIN autor a
+        ON al.id_autor = a.id_autor
+    WHERE b.id_usuario = p_id_usuario
+      AND b.favorito = 1
+    GROUP BY b.id_biblioteca, b.id_livro, l.titulo, b.status, b.favorito, b.visivel
     ORDER BY l.titulo;
 END $$
 
@@ -1788,6 +1837,7 @@ BEGIN
         b.id_livro,
         l.titulo,
         b.status,
+        b.favorito,
         b.visivel,
         b.id_usuario
     FROM biblioteca b
@@ -1801,12 +1851,12 @@ DROP PROCEDURE IF EXISTS atualizarStatusBiblioteca$$
 CREATE PROCEDURE atualizarStatusBiblioteca(
     IN p_id_usuario INT,
     IN p_id_livro BIGINT,
-    IN p_status ENUM('lido', 'lendo', 'quero ler', 'desisti', 'favorito')
+    IN p_status VARCHAR(20)
 )
 BEGIN
     DECLARE v_qtd INT DEFAULT 0;
 
-    IF p_status IS NULL THEN
+    IF p_status IS NULL OR BINARY p_status NOT IN ('lido', 'lendo', 'quero ler', 'desisti') THEN
         SIGNAL SQLSTATE '45000'
         SET MESSAGE_TEXT = 'Status invalido.';
     END IF;
@@ -1824,6 +1874,36 @@ BEGIN
 
     UPDATE biblioteca
     SET status = p_status
+    WHERE id_usuario = p_id_usuario
+      AND id_livro = p_id_livro;
+END $$
+
+DROP PROCEDURE IF EXISTS atualizarFavoritoBiblioteca$$
+CREATE PROCEDURE atualizarFavoritoBiblioteca(
+    IN p_id_usuario INT,
+    IN p_id_livro BIGINT,
+    IN p_favorito TINYINT
+)
+BEGIN
+    DECLARE v_qtd INT DEFAULT 0;
+
+    IF p_favorito IS NULL OR p_favorito NOT IN (0, 1) THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Favorito invalido. Use 0 ou 1.';
+    END IF;
+
+    SELECT COUNT(*) INTO v_qtd
+    FROM biblioteca
+    WHERE id_usuario = p_id_usuario
+      AND id_livro = p_id_livro;
+
+    IF v_qtd = 0 THEN
+        SIGNAL SQLSTATE '45000'
+        SET MESSAGE_TEXT = 'Este livro nao esta na sua biblioteca.';
+    END IF;
+
+    UPDATE biblioteca
+    SET favorito = p_favorito
     WHERE id_usuario = p_id_usuario
       AND id_livro = p_id_livro;
 END $$

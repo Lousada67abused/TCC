@@ -75,6 +75,12 @@ UNION ALL
 SELECT 'biblioteca_com_visibilidade_invalida', COUNT(*) FROM biblioteca
 WHERE visivel IS NULL OR visivel NOT IN (0, 1)
 UNION ALL
+SELECT 'biblioteca_com_favorito_invalido', COUNT(*) FROM biblioteca
+WHERE favorito IS NULL OR favorito NOT IN (0, 1)
+UNION ALL
+SELECT 'biblioteca_com_status_invalido', COUNT(*) FROM biblioteca
+WHERE status IS NULL OR status NOT IN ('lido', 'lendo', 'quero ler', 'desisti')
+UNION ALL
 SELECT 'usuario_com_mais_de_uma_biblioteca', COUNT(*) FROM (
     SELECT id_usuario FROM biblioteca GROUP BY id_usuario HAVING COUNT(DISTINCT id_biblioteca) <> 1
 ) divergentes
@@ -89,7 +95,7 @@ SELECT 'senha_incompativel_com_login', COUNT(*) FROM usuario
 WHERE senha IS NULL OR senha <> MD5('123');
 
 -- Distribuição dos cenários disponíveis para testar a interface.
-SELECT status, visivel, COUNT(*) AS quantidade FROM biblioteca GROUP BY status, visivel;
+SELECT status, favorito, visivel, COUNT(*) AS quantidade FROM biblioteca GROUP BY status, favorito, visivel;
 SELECT nota, COUNT(*) AS quantidade FROM avaliacao GROUP BY nota ORDER BY nota;
 SELECT tipo_usuario, COUNT(*) AS quantidade FROM usuario GROUP BY tipo_usuario;
 

@@ -67,16 +67,17 @@
                 
                 <div class="botoesAcaoInterativa desktopOnly">
                     <div class="selectWrapper">
-                        <select class="selectStatus" aria-label="Estado de leitura">
-                            <option value="lido" selected>lido</option>
+                        <select class="selectStatus" aria-label="Estado de leitura" disabled>
+                            <option value="" selected disabled>Adicionar à estante</option>
+                            <option value="lido">Lido</option>
                             <option value="lendo">Lendo</option>
-                            <option value="quero-ler">Quero ler</option>
+                            <option value="quero ler">Quero ler</option>
                             <option value="desisti">Desisti</option>
                         </select>
                     </div>
-                    <button type="button" class="btnFavorito" aria-label="Favoritar">
-                        <span>favoritar</span>
-                        <span class="material-symbols-outlined">bookmark</span>
+                    <button type="button" class="btnFavorito" aria-label="Adicionar aos favoritos" aria-pressed="false" disabled>
+                        <span class="rotuloFavorito">Favoritar</span>
+                        <span class="material-symbols-outlined" aria-hidden="true">bookmark_border</span>
                     </button>
                 </div>
             </div>
@@ -113,16 +114,17 @@
 
                 <div class="botoesAcaoInterativa mobileOnly">
                     <div class="selectWrapper">
-                        <select class="selectStatus" aria-label="Estado de leitura">
-                            <option value="lido" selected>lido</option>
+                        <select class="selectStatus" aria-label="Estado de leitura" disabled>
+                            <option value="" selected disabled>Adicionar à estante</option>
+                            <option value="lido">Lido</option>
                             <option value="lendo">Lendo</option>
-                            <option value="quero-ler">Quero ler</option>
+                            <option value="quero ler">Quero ler</option>
                             <option value="desisti">Desisti</option>
                         </select>
                     </div>
-                    <button type="button" class="btnFavorito" aria-label="Favoritar">
-                        <span class="material-symbols-outlined">bookmark_border</span>
-                        <span>Favoritar</span>
+                    <button type="button" class="btnFavorito" aria-label="Adicionar aos favoritos" aria-pressed="false" disabled>
+                        <span class="material-symbols-outlined" aria-hidden="true">bookmark_border</span>
+                        <span class="rotuloFavorito">Favoritar</span>
                     </button>
                 </div>
 
@@ -132,6 +134,10 @@
             </div>
         </article>
 
+        <div class="feedbackBibliotecaLivro" hidden>
+            <p id="estadoBibliotecaLivro" role="status"></p>
+            <button id="tentarBibliotecaLivro" type="button" hidden>Tentar novamente</button>
+        </div>
         
         <section class="cardNovaResenha">
             <div class="cabecalhoNovaResenha">
@@ -204,6 +210,7 @@
     <script src="../js/resenhas.js"></script>
     <script src="../js/avaliar.js"></script>
     <script src="../js/livros.js"></script>
+    <script src="../js/bibliotecaLivro.js"></script>
     <script src="../js/perfil.js"></script>
 </body>
 </html>

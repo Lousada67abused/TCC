@@ -566,6 +566,7 @@ function salvarLivros() {
                 codigoUsuario: codigoUsuario,
                 codigoLivro: codigoLivro,
                 status: "lido",
+                favorito: 0,
                 visivel: 1
             })
         })
