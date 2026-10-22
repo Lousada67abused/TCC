@@ -38,13 +38,16 @@ try {
 
 	http_response_code(200);
 	echo json_encode(['status' => 'true', 'resposta' => 'Meta de leitura cadastrada com sucesso!']);
+} catch (InvalidArgumentException $erro) {
+	http_response_code(400);
+	echo json_encode(['status' => 'false', 'erro' => $erro->getMessage()]);
 } catch (Exception $erro) {
 	http_response_code(500);
 	echo json_encode(['status' => 'false', 'erro' => $erro->getMessage()]);
 }
 
 function validaCorpoRequisicao($corpo) {
-	if (is_null($corpo))
+	if (!is_array($corpo))
 	{
 		http_response_code(400);
 		echo json_encode(['mensagem'=>'Dados Inválidos!']);

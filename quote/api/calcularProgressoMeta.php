@@ -28,6 +28,9 @@ try {
 
 	http_response_code(200);
 	echo json_encode(['status' => 'true', 'resposta' => $progresso]);
+} catch (InvalidArgumentException $erro) {
+	http_response_code(400);
+	echo json_encode(['status' => 'false', 'erro' => $erro->getMessage()]);
 } catch (Exception $erro) {
 	http_response_code(500);
 	echo json_encode(['status' => 'false', 'erro' => $erro->getMessage()]);

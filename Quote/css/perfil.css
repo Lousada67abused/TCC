@@ -1,28 +1,68 @@
-body {
-    padding-bottom: 50px;
+body.paginaPerfil {
+    min-height: 100vh;
+    padding-bottom: 40px;
     background-color: var(--background);
+    color: var(--black);
 }
 
-main {
-    width: 70%;
-    max-width: 1024px;
+.paginaPerfil [hidden] {
+    display: none !important;
+}
+
+.paginaPerfil .rotuloAcessivel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.conteudoPerfil {
     display: flex;
     flex-direction: column;
     gap: 30px;
+    width: 80%;
+    min-width: 0;
+    max-width: 1100px;
+    margin: 0 auto;
 }
 
-/* ===== Topo do perfil ===== */
+.estadoCarregamentoPerfil:has(.estadoPerfil:empty):has(button[hidden]) {
+    display: none;
+}
+
+.estadoPerfil,
+.estadoSecao {
+    color: #5b6472;
+    font-size: 14px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.estadoPerfil:empty,
+.estadoSecao:empty {
+    display: none;
+}
+
+.estadoCarregamentoPerfil button {
+    margin-top: 12px;
+}
 
 .cabecalhoPerfil {
     display: flex;
     align-items: center;
-    gap: 60px;
+    gap: clamp(28px, 4vw, 60px);
+    min-width: 0;
 }
 
 .fotoPerfil {
-    width: 228px;
-    height: 228px;
-    border-radius: 100%;
+    width: 200px;
+    height: 200px;
+    flex-shrink: 0;
+    border-radius: 50%;
     object-fit: cover;
 }
 
@@ -30,474 +70,484 @@ main {
     display: flex;
     flex-direction: column;
     gap: 14px;
+    min-width: 0;
+}
+
+.nomePerfil {
+    font-size: 28px;
+    overflow-wrap: anywhere;
 }
 
 .bioPerfil {
-    font-size: 18px;
-    font-weight: 600;
-    color: #B3AFAF;
+    max-width: 700px;
+    color: #747272;
+    font-size: 17px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.bioPerfil:empty {
+    display: none;
 }
 
 .numerosPerfil {
-    list-style: none;
     display: flex;
-    gap: 60px;
+    flex-wrap: wrap;
+    gap: clamp(24px, 4vw, 60px);
     margin-top: 10px;
+    list-style: none;
 }
 
 .numerosPerfil li {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 8px;
-    font-size: 22px;
-    font-weight: 600;
-    color: var(--gray);
+    gap: 6px;
+    color: #747272;
+    font-size: 17px;
+    font-weight: 500;
 }
 
 .numerosPerfil strong {
-    font-size: 24px;
     color: var(--black);
+    font-size: 24px;
 }
-
-/* ===== Abas ===== */
 
 .abasPerfil {
     display: flex;
-    justify-content: space-around;
-    height: 80px;
+    width: 100%;
+    min-width: 0;
+    min-height: 68px;
     background-color: var(--white);
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.09);
 }
 
 .abasPerfil button {
     flex: 1;
-    border: none;
-    background: none;
-    font-size: 24px;
+    min-width: 0;
+    padding: 14px 8px;
+    border: 0;
+    border-bottom: 3px solid transparent;
+    background: transparent;
+    color: #747272;
+    font-size: 20px;
     font-weight: 600;
-    color: var(--gray);
     cursor: pointer;
 }
 
-.abasPerfil button:hover {
-    color: var(--mediumBlue);
+.abasPerfil button:hover,
+.abasPerfil button.ativo {
+    color: var(--royalBlue);
 }
 
 .abasPerfil button.ativo {
-    color: var(--mediumBlue);
-    font-size: 26px;
+    border-bottom-color: var(--royalBlue);
 }
 
-.conteudoAba {
+.conteudoAba,
+.blocoPerfil,
+.listaResenhas {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 24px;
+    min-width: 0;
 }
 
 .conteudoAba.escondido {
     display: none;
 }
 
-/* ===== Aba principal ===== */
+.blocoPerfil > h2,
+.tituloGrande {
+    font-size: 24px;
+    line-height: 1.3;
+}
 
-.blocoPerfil {
+.fileiraCapas,
+.areaLivros {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    align-items: stretch;
+    gap: 28px;
+    min-width: 0;
+}
+
+.livro {
     display: flex;
     flex-direction: column;
-    gap: 22px;
+    min-width: 0;
+    gap: 8px;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 6px;
 }
 
-.blocoPerfil > h2 {
-    font-size: 24px;
+.fileiraCapas > a {
+    display: block;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 6px;
 }
 
-.tituloGrande {
-    font-size: 32px !important;
+.fileiraCapas > a.livro {
+    display: flex;
 }
 
-.fileiraCapas {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 40px;
-}
-
-.fileiraCapas img {
+.fileiraCapas img,
+.livro img {
+    display: block;
     width: 100%;
+    height: auto;
     aspect-ratio: 161 / 237;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
-/* ===== Resenhas ===== */
+.textoLivro {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+}
+
+.textoLivro h2,
+.textoLivro h3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    min-height: 2.6em;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    font-size: 16px;
+    line-height: 1.3;
+}
+
+.textoLivro p {
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #747272;
+    font-size: 12px;
+    line-height: 1.4;
+}
+
+.livro .areaEstrelas {
+    margin-top: auto;
+}
+
+.livro .estrelas {
+    margin-top: auto;
+}
+
+.livro .estrelas span {
+    font-size: 20px;
+}
+
+.capaIndisponivel {
+    display: grid;
+    place-items: center;
+    width: 100%;
+    aspect-ratio: 161 / 237;
+    padding: 8px;
+    border-radius: 6px;
+    background-color: #edf2f8;
+    color: #5b6472;
+    font-size: 11px;
+    text-align: center;
+}
+
+.filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.filtros button,
+.botaoSecundario,
+.botaoPrimario,
+.acoesMeta button {
+    min-height: 38px;
+    padding: 7px 16px;
+    border: 1px solid var(--royalBlue);
+    border-radius: 5px;
+    background-color: var(--white);
+    color: var(--royalBlue);
+    font-size: 14px;
+    line-height: 1.3;
+    cursor: pointer;
+}
+
+.filtros button {
+    flex: 1;
+}
+
+.filtros button.ativo,
+.botaoPrimario {
+    color: var(--white);
+    background-color: var(--royalBlue);
+}
+
+.paginaPerfil button:disabled,
+.paginaPerfil select:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+.paginaPerfil button:focus-visible,
+.paginaPerfil a:focus-visible,
+.paginaPerfil select:focus-visible,
+.paginaPerfil input:focus-visible,
+.paginaPerfil [role="tabpanel"]:focus-visible {
+    outline: 3px solid var(--brightLightBlue);
+    outline-offset: 3px;
+}
 
 .resenha {
     display: flex;
-    gap: 30px;
-    padding: 0 10px;
+    align-items: flex-start;
+    gap: 24px;
+    min-width: 0;
+    padding-bottom: 24px;
+    border-bottom: 1px solid #e6edf7;
 }
 
-.resenha > img {
-    width: 161px;
-    height: 237px;
+.resenha:last-child {
+    border-bottom: 0;
+    padding-bottom: 0;
+}
+
+.resenha > img,
+.resenha > a {
+    width: 140px;
     flex-shrink: 0;
+}
+
+.resenha > .linkCapa {
+    display: block;
+    color: inherit;
+    text-decoration: none;
+}
+
+.resenha > img,
+.resenha > a img {
+    display: block;
+    width: 140px;
+    height: auto;
+    aspect-ratio: 161 / 237;
     object-fit: cover;
-    border-radius: 8px;
+    border-radius: 6px;
 }
 
 .textoResenha {
     display: flex;
     flex-direction: column;
     gap: 6px;
-    padding-top: 22px;
+    min-width: 0;
+    padding-top: 8px;
 }
 
-.textoResenha h2 {
+.textoResenha h2,
+.textoResenha h3,
+.textoResenha a {
+    color: inherit;
     font-size: 20px;
-    font-weight: 600;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+.textoResenha a,
+.melhoresAno a {
+    text-decoration: none;
+    color: inherit;
 }
 
 .textoResenha p {
-    font-size: 16px;
-    line-height: 1.3;
+    font-size: 15px;
+    line-height: 1.5;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
 }
 
 .textoResenha .autorResenha {
-    font-size: 14px;
-    color: var(--gray);
+    color: #747272;
+    font-size: 13px;
 }
 
 .notaResenha {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 14px;
-    margin-bottom: 16px;
+    gap: 12px;
+    margin-bottom: 8px;
 }
 
-.notaResenha p {
-    font-size: 14px;
+.notaResenha p,
+.notaResenha time {
+    color: #747272;
+    font-size: 12px;
+}
+
+.estrelas {
+    display: inline-flex;
+    gap: 1px;
+    color: #b3afaf;
+    line-height: 1;
+}
+
+.estrelas span {
+    font-family: Arial, sans-serif;
+}
+
+.estrelas .cheia,
+.estrelas .estrelaCheia {
+    color: #ffc107;
+    font-variation-settings: 'FILL' 1;
 }
 
 .notaResenha .estrelas span {
-    font-size: 32px;
+    font-size: 26px;
 }
-
-/* ===== Estante ===== */
-
-.areaLivros {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 40px;
-}
-
-.livro {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    cursor: pointer;
-}
-
-.livro img {
-    width: 100%;
-    aspect-ratio: 161 / 237;
-    object-fit: cover;
-    border-radius: 8px;
-}
-
-.textoLivro {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-}
-
-.textoLivro h2 {
-    font-size: 16px;
-    display: -webkit-box;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
-    overflow: hidden;
-}
-
-.textoLivro p {
-    font-size: 12px;
-    color: var(--gray);
-}
-
-/* ===== Atividade ===== */
 
 .listaAtividades {
     list-style: none;
+    min-width: 0;
 }
 
 .listaAtividades li {
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
-    gap: 10px;
-    min-height: 70px;
-    padding: 0 18px 0 4px;
-    border-bottom: 1px solid var(--black);
-}
-
-.listaAtividades li:last-child {
-    border-bottom: none;
+    gap: 12px;
+    min-height: 72px;
+    padding: 16px 4px;
+    border-bottom: 1px solid #dce6f5;
 }
 
 .listaAtividades p {
-    font-size: 18px;
-    color: var(--gray);
+    flex: 1;
+    min-width: 0;
+    color: #747272;
+    font-size: 16px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
 }
 
-.listaAtividades strong {
+.listaAtividades strong,
+.listaAtividades a {
     color: var(--black);
     font-weight: 600;
 }
 
-.listaAtividades .estrelas span {
-    font-size: 26px;
-}
-
-.listaAtividades .tempo {
+.listaAtividades .tempo,
+.listaAtividades time {
     margin-left: auto;
-    font-size: 18px;
-    color: var(--gray);
+    color: #747272;
+    font-size: 13px;
 }
 
-/* ===== Metas ===== */
-
-.tituloMetas {
+.tituloMetas,
+.acoesMetas {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
     align-items: center;
+    gap: 12px;
 }
 
 .seletorAno {
-    width: 188px;
-    height: 45px;
-    padding: 0 16px;
-    border: none;
-    border-radius: 8px;
-    background-color: var(--royalBlue);
-    color: var(--white);
-    font-size: 20px;
-    text-align: center;
+    min-width: 110px;
+    min-height: 38px;
+    padding: 6px 14px;
+    border: 1px solid var(--royalBlue);
+    border-radius: 5px;
+    background-color: var(--white);
+    color: var(--royalBlue);
+    font-size: 15px;
     cursor: pointer;
 }
 
 .gradeMetas {
     display: grid;
-    grid-template-columns: 1fr 261px;
-    gap: 50px;
+    grid-template-columns: minmax(0, 1fr) minmax(210px, 0.4fr);
     align-items: start;
+    gap: 28px;
+    min-width: 0;
 }
 
 .colunaMetas,
 .colunaLateral {
     display: flex;
     flex-direction: column;
-    gap: 30px;
+    gap: 28px;
+    min-width: 0;
 }
 
 .cardMeta {
-    background-color: var(--white);
-    border: 2px solid var(--softBlue);
+    min-width: 0;
+    border: 1px solid var(--softBlue);
     border-radius: 8px;
-}
-
-.metaAnual {
-    display: flex;
-    align-items: center;
-    gap: 36px;
-    padding: 60px 30px;
-}
-
-/* Roda de progresso feita com conic-gradient. O valor vem do --progresso. */
-.roda {
-    width: 157px;
-    height: 157px;
-    flex-shrink: 0;
-    border-radius: 100%;
-    background: conic-gradient(var(--royalBlue) var(--progresso), #F2F3F6 0);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.roda > div {
-    width: 133px;
-    height: 133px;
-    border-radius: 100%;
     background-color: var(--white);
+}
+
+.acoesMeta,
+.acoesFormularioMeta {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: rgba(22, 26, 65, 0.78);
-}
-
-.roda strong {
-    font-size: 32px;
-}
-
-.roda span {
-    font-size: 20px;
-    font-weight: 500;
-}
-
-.detalheMeta {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.detalheMeta h3 {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 24px;
-    font-weight: 600;
-}
-
-.detalheMeta h3 span {
-    font-size: 32px;
-    color: var(--royalBlue);
-}
-
-.detalheMeta p {
-    font-size: 16px;
-}
-
-.detalheMeta .faltam {
-    font-size: 14px;
-    color: #363333;
-}
-
-.linhaProgresso {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-top: 40px;
-}
-
-.barraProgresso {
-    flex: 1;
-    height: 12px;
-    border-radius: 50px;
-    background-color: #F2F3F6;
-    overflow: hidden;
-}
-
-.barraProgresso > div {
-    height: 100%;
-    border-radius: 50px;
-    background-color: var(--royalBlue);
-}
-
-.numerosMeta {
-    list-style: none;
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    border-top: 2px solid var(--softBlue);
-}
-
-.numerosMeta li {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 6px;
-    padding: 14px 0;
-    font-size: 16px;
-}
-
-.numerosMeta li + li {
-    border-left: 2px solid var(--softBlue);
-}
-
-.numerosMeta span {
-    font-size: 32px;
-    color: var(--mediumBlue);
-}
-
-.numerosMeta .estrelaMeta {
-    color: var(--yellow);
-    font-variation-settings: 'FILL' 1;
-}
-
-.numerosMeta strong {
-    font-size: 24px;
-    font-weight: 600;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 0 20px 20px;
 }
 
 .historicoMetas {
     list-style: none;
 }
 
+.historicoMetas:empty {
+    display: none;
+}
+
 .historicoMetas li {
-    display: grid;
-    grid-template-columns: 50px 100px 110px 1fr 50px 130px;
+    display: flex;
+    flex-wrap: wrap;
     align-items: center;
     gap: 10px;
-    height: 64px;
-    padding: 0 12px;
-    font-size: 16px;
-    font-weight: 500;
-    color: #716E6E;
+    min-width: 0;
+    padding: 16px;
+    color: #747272;
+    font-size: 13px;
 }
 
 .historicoMetas li + li {
-    border-top: 2px solid var(--softBlue);
-}
-
-.historicoMetas li > span:nth-child(2),
-.historicoMetas strong {
-    color: var(--black);
-    font-weight: 500;
+    border-top: 1px solid var(--softBlue);
 }
 
 .historicoMetas .anoMeta {
-    font-weight: 400;
+    color: var(--black);
+    font-weight: 600;
 }
 
 .historicoMetas .barraProgresso {
-    height: 6px;
+    flex-basis: 100%;
+    order: 1;
 }
 
-.historicoMetas .concluida .barraProgresso > div {
-    background-color: #22C55E;
-}
-
-.historicoMetas .naoConcluida .barraProgresso {
-    background-color: #D9D9D9;
-}
-
-.historicoMetas .naoConcluida .barraProgresso > div {
-    background-color: var(--unsuccessful);
-}
-
-.situacaoMeta {
-    padding: 4px 0;
-    border-radius: 8px;
-    text-align: center;
-}
-
-.concluida .situacaoMeta {
-    background-color: #DAF5E4;
-    color: #22C55E;
-}
-
-.naoConcluida .situacaoMeta {
-    background-color: #FDEBEB;
-    color: var(--unsuccessful);
+.historicoMetas .acoesMeta {
+    padding: 0;
+    margin-left: auto;
 }
 
 .colunaLateral h3 {
-    font-size: 20px;
-    font-weight: 600;
     margin-bottom: 14px;
+    font-size: 18px;
+    line-height: 1.4;
 }
 
 .resumoAno,
 .melhoresAno {
-    padding: 16px 8px;
+    padding: 18px 14px;
 }
 
 .resumoAno ul,
@@ -509,76 +559,242 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 8px 0;
-    font-size: 16px;
+    gap: 10px;
+    padding: 10px 0;
+    font-size: 13px;
+    line-height: 1.4;
 }
 
-.resumoAno li + li {
-    border-top: 2px solid var(--softBlue);
+.resumoAno li + li,
+.melhoresAno li + li {
+    border-top: 1px solid #e6edf7;
 }
 
-.resumoAno .estrelas span {
-    font-size: 20px;
+.resumoAno li > :last-child {
+    text-align: right;
+}
+
+.melhoresAno li,
+.melhoresAno li > a {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
 }
 
 .melhoresAno li {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 12px 6px;
+    padding: 12px 0;
 }
 
-.melhoresAno li + li {
-    border-top: 2px solid var(--softBlue);
+.melhoresAno li > .linkCapa {
+    display: block;
+    width: 65px;
+    flex: 0 0 65px;
 }
 
 .melhoresAno img {
+    display: block;
+    width: 65px;
+    height: auto;
+    aspect-ratio: 161 / 237;
     flex-shrink: 0;
-    width: 81px;
-    height: 104px;
+    border-radius: 4px;
     object-fit: cover;
-    border-radius: 5px;
+}
+
+.melhoresAno li > div,
+.melhoresAno li > a > div {
+    min-width: 0;
 }
 
 .melhoresAno h3 {
-    font-size: 16px;
     margin-bottom: 4px;
+    font-size: 14px;
+    overflow-wrap: anywhere;
 }
 
 .melhoresAno p {
-    font-size: 14px;
-    color: var(--lightGray);
+    color: #747272;
+    font-size: 11px;
 }
 
 .melhoresAno .estrelas span {
+    font-size: 18px;
+}
+
+.formularioMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 24px;
+}
+
+.formularioMeta h3 {
     font-size: 20px;
 }
 
-/* ===== Telas menores ===== */
+.camposMeta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+}
 
-@media (max-width: 1100px) {
-    main {
-        width: 85%;
-    }
+.camposMeta label {
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    min-width: 0;
+    font-size: 14px;
+}
 
-    .gradeMetas {
-        grid-template-columns: 1fr;
-    }
+.camposMeta input {
+    width: 100%;
+    min-height: 40px;
+    padding: 8px 10px;
+    border: 1px solid #b9c6d8;
+    border-radius: 5px;
+    font-size: 16px;
+}
 
-    .historicoMetas li {
-        grid-template-columns: 45px 1fr 100px 1fr 45px 120px;
+.formularioMeta .acoesFormularioMeta {
+    padding: 0;
+}
+
+#metaAtual {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
+
+#metaAtual > .cardMeta {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 24px;
+}
+
+#metaAtual h3 {
+    font-size: 21px;
+}
+
+.prazoMeta,
+.faltam,
+.vazioPerfil {
+    color: #5b6472;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.porcentagem {
+    color: var(--royalBlue);
+    font-weight: 600;
+}
+
+.cardMeta progress {
+    display: block;
+    width: 100%;
+    height: 12px;
+    overflow: hidden;
+    border: 0;
+    border-radius: 12px;
+    accent-color: var(--royalBlue);
+}
+
+.cardMeta progress::-webkit-progress-bar {
+    border-radius: 12px;
+    background-color: #edf2f8;
+}
+
+.cardMeta progress::-webkit-progress-value {
+    border-radius: 12px;
+    background-color: var(--royalBlue);
+}
+
+.cardMeta progress::-moz-progress-bar {
+    border-radius: 12px;
+    background-color: var(--royalBlue);
+}
+
+#metaAtual .acoesMeta {
+    padding: 4px 0 0;
+}
+
+.historicoMetas .itemHistoricoMeta {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px 16px;
+}
+
+.itemHistoricoMeta h3,
+.itemHistoricoMeta progress,
+.itemHistoricoMeta .acoesMeta {
+    grid-column: 1 / -1;
+}
+
+.historicoMetas .itemHistoricoMeta .acoesMeta {
+    width: 100%;
+    margin-left: 0;
+}
+
+.confirmacaoMeta {
+    display: flex;
+    flex-basis: 100%;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 12px;
+    border: 1px solid var(--softBlue);
+    border-radius: 5px;
+    background-color: #f5f8fc;
+}
+
+.confirmacaoMeta p {
+    flex-basis: 100%;
+    line-height: 1.5;
+}
+
+.acoesMeta .excluirMeta {
+    color: #a52a2a;
+    border-color: #d9a0a0;
+}
+
+@media (min-width: 768px) {
+    .paginaPerfil .navegacaoMobile {
+        display: none;
     }
 }
 
-@media (max-width: 768px) {
-    body {
-        padding-bottom: 80px;
+@media (max-width: 1100px) {
+    .conteudoPerfil {
+        width: 88%;
     }
 
-    main {
+    .gradeMetas {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    .colunaLateral {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 767px) {
+    body.paginaPerfil {
+        padding-bottom: 90px;
+    }
+
+    .paginaPerfil .cabecalhoPrincipal {
+        margin-bottom: 28px;
+        padding: 12px 16px;
+    }
+
+    .conteudoPerfil {
         width: 100%;
         padding: 0 16px;
-        gap: 22px;
+        gap: 24px;
     }
 
     .cabecalhoPerfil {
@@ -594,73 +810,94 @@ main {
 
     .infoPerfil {
         align-items: center;
-        gap: 8px;
+        width: 100%;
+        gap: 10px;
     }
 
     .nomePerfil {
-        font-size: 18px;
+        font-size: 22px;
     }
 
     .bioPerfil {
-        font-size: 15px;
+        font-size: 14px;
     }
 
     .numerosPerfil {
-        gap: 30px;
+        justify-content: center;
+        gap: 28px;
+        margin-top: 4px;
     }
 
     .numerosPerfil li {
-        font-size: 15px;
-        gap: 2px;
+        gap: 4px;
+        font-size: 13px;
     }
 
     .numerosPerfil strong {
-        font-size: 16px;
+        font-size: 20px;
     }
 
     .abasPerfil {
-        height: 50px;
-        overflow-x: auto;
+        min-height: 48px;
     }
 
-    .abasPerfil button,
-    .abasPerfil button.ativo {
-        flex: 0 0 auto;
-        padding: 0 14px;
-        font-size: 16px;
+    .abasPerfil button {
+        padding: 12px 3px;
+        font-size: 12px;
     }
 
     .blocoPerfil > h2,
     .tituloGrande {
-        font-size: 18px !important;
-        border-bottom: 1px solid var(--black);
+        font-size: 20px;
     }
 
-    .fileiraCapas {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 14px;
+    .fileiraCapas,
+    .areaLivros {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px 12px;
     }
 
-    .fileiraCapas img:nth-child(n+4) {
-        display: none;
+    .textoLivro h2,
+    .textoLivro h3 {
+        font-size: 13px;
+    }
+
+    .textoLivro p {
+        font-size: 10px;
+    }
+
+    .livro .estrelas span {
+        font-size: 16px;
+    }
+
+    .filtros {
+        gap: 6px;
+    }
+
+    .filtros button {
+        padding: 7px 6px;
+        font-size: 12px;
     }
 
     .resenha {
         gap: 14px;
-        padding: 0;
+        padding-bottom: 20px;
     }
 
-    .resenha > img {
-        width: 90px;
-        height: 133px;
+    .resenha > img,
+    .resenha > a,
+    .resenha > a img {
+        width: 82px;
     }
 
     .textoResenha {
         padding-top: 0;
     }
 
-    .textoResenha h2 {
-        font-size: 16px;
+    .textoResenha h2,
+    .textoResenha h3,
+    .textoResenha a {
+        font-size: 15px;
     }
 
     .textoResenha p {
@@ -668,78 +905,54 @@ main {
     }
 
     .notaResenha {
-        margin-bottom: 6px;
+        gap: 6px;
+        margin-bottom: 4px;
     }
 
     .notaResenha .estrelas span {
         font-size: 18px;
     }
 
-    .areaLivros {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 16px;
-    }
-
-    .listaAtividades li {
-        flex-wrap: wrap;
-        padding: 12px 4px;
-    }
-
-    .listaAtividades p,
-    .listaAtividades .tempo {
+    .listaAtividades p {
         font-size: 14px;
     }
 
-    .listaAtividades .estrelas span {
-        font-size: 18px;
+    .tituloMetas {
+        align-items: flex-start;
     }
 
-    .seletorAno {
-        width: 110px;
-        height: 36px;
-        font-size: 16px;
+    .tituloMetas h2 {
+        width: 100%;
     }
 
-    .metaAnual {
-        flex-direction: column;
-        padding: 24px 16px;
+    .acoesMetas {
+        width: 100%;
+    }
+
+    .colunaLateral {
+        display: flex;
+    }
+
+    .formularioMeta {
+        padding: 20px 16px;
+    }
+
+    .camposMeta {
+        grid-template-columns: minmax(0, 1fr);
+    }
+}
+
+@media (max-width: 359px) {
+    .areaLivros,
+    .fileiraCapas {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .numerosPerfil {
         gap: 20px;
     }
 
-    .detalheMeta h3 {
-        font-size: 18px;
-    }
-
-    .linhaProgresso {
-        margin-top: 10px;
-    }
-
-    .numerosMeta li {
-        font-size: 12px;
-        text-align: center;
-    }
-
-    .numerosMeta strong {
-        font-size: 18px;
-    }
-
-    .historicoMetas li {
-        grid-template-columns: 40px 1fr 45px;
-        height: auto;
-        padding: 10px;
-        font-size: 13px;
-    }
-
-    .historicoMetas li > span:nth-child(2) {
-        display: none;
-    }
-
-    .historicoMetas .barraProgresso {
-        grid-column: 1 / -1;
-        grid-row: 2;
-    }
-
-    .historicoMetas .porcentagem {
-        display: none;
+    .abasPerfil button {
+        font-size: 11px;
     }
 }

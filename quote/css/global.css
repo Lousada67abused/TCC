@@ -160,6 +160,33 @@ form.barraPesquisa button:focus-visible {
     display: none;
 }
 
+.botaoAvatarPerfil {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: transparent;
+    cursor: pointer;
+}
+
+.botaoAvatarPerfil:focus-visible,
+.btnAvatar:focus-visible {
+    outline: 2px solid var(--brightLightBlue);
+    outline-offset: 4px;
+}
+
+[data-menu-perfil] .menuDropdownPerfil[hidden],
+[data-menu-perfil] .menuPerfil[hidden] {
+    display: none !important;
+}
+
+[data-menu-perfil] .menuDropdownPerfil:not([hidden]),
+[data-menu-perfil] .menuPerfil:not([hidden]) {
+    display: block;
+}
+
 .botao {
     background-color: var(--royalBlue);
     color: var(--white);
@@ -325,6 +352,15 @@ form.barraPesquisa button:focus-visible {
         box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
         padding: 12px 0;
         z-index: 200;
+    }
+
+    .menuDropdownPerfil::before {
+        content: '';
+        position: absolute;
+        top: -10px;
+        right: 0;
+        width: 100%;
+        height: 10px;
     }
 
     .cabecalhoDropdown {

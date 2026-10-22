@@ -1,6 +1,13 @@
 const areaLivros = document.querySelector(".areaLivros");
 const containerDetalhesLivro = document.querySelector(".containerDetalhesLivro");
 
+if (containerDetalhesLivro) {
+    const codigoEndereco = new URLSearchParams(location.search).get('codigoLivro');
+    if (/^[1-9]\d{0,18}$/.test(codigoEndereco || '')) {
+        try { sessionStorage.setItem('codigoLivro', codigoEndereco); } catch (_) {}
+    }
+}
+
 if (areaLivros){
     fetch("../api/recomendarLivroUsuario.php?codigoUsuario=" + sessionStorage.getItem("codigo"), {
         method: "GET",
