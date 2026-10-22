@@ -451,3 +451,44 @@ body {
     .paginaSeguirAmigos .barraPesquisaDesktop button span { font-size: 20px; }
     .paginaSeguirAmigos .botaoFinalizar { height: 32px; min-height: 32px; padding: 0 24px; font-size: 14px; gap: 8px; }
 }
+
+/* Estados dos botões conforme a referência enviada. */
+.paginaSeguirAmigos .botaoSeguir {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 144px;
+    width: 144px;
+    height: 36px;
+    min-height: 36px;
+    box-sizing: border-box;
+    padding: 0 12px;
+    gap: 8px;
+    border: 1px solid #1254b5;
+    border-radius: 6px;
+    background-color: #ffffff;
+    color: #1254b5;
+    font-size: 20px;
+    font-weight: 400;
+    line-height: 1;
+    white-space: nowrap;
+}
+.paginaSeguirAmigos .botaoSeguir.seguindo {
+    border: 2px solid #1597ff;
+    background-color: #d6e6fa;
+    color: #4176c4;
+}
+.paginaSeguirAmigos .botaoSeguir .material-symbols-outlined {
+    font-size: 20px;
+    line-height: 1;
+    font-variation-settings: 'FILL' 0, 'wght' 300;
+}
+@media (max-width: 360px) {
+    .paginaSeguirAmigos .botaoSeguir {
+        flex-basis: 120px;
+        width: 120px;
+        padding: 0 8px;
+        gap: 6px;
+        font-size: 18px;
+    }
+}
