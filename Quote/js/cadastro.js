@@ -17,6 +17,9 @@ let contaCriada = false;
 let usuario = null;
 let generosSalvos = [];
 let livrosSelecionados = [];
+let generosDisponiveis = [];
+const preferenciasGravadas = new Set();
+let ultimaBuscaLivros = 0;
 
 function mostrarErro(elemento, mensagem) {
     elemento.textContent = mensagem;
@@ -130,8 +133,7 @@ function cadastrarUsuario() {
             [txtNome, txtDataNascimento, txtBiografia, txtEmail, txtSenha1, txtSenha2].forEach(function (campo) {
                 campo.readOnly = true;
             });
-            entrar();
-            buscarGeneros();
+            entrar().then(buscarGeneros).catch(function () { erroNoCadastro(ERRO_CONEXAO); });
         } else {
             console.error(resultado);
             erroNoCadastro(mensagemDaApi(resultado));
@@ -147,7 +149,7 @@ function entrar() {
     const senha = txtSenha1.value.trim();
     const email = txtEmail.value.trim();
 
-    fetch("../api/acessar.php", {
+    return fetch("../api/acessar.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email: email, senha: senha})
@@ -156,18 +158,17 @@ function entrar() {
         return resposta.json();
     })
     .then(function (resultado) {
-        if (resultado.status === "true") {
+        if ((resultado.status === "true" || resultado.status === true) && resultado.resultado && resultado.resultado[0]) {
             usuario = resultado.resultado[0];
             sessionStorage.setItem("codigo", usuario.id_usuario);
             sessionStorage.setItem("usuario", JSON.stringify(usuario));
         } else {
-            console.error(resultado);
-            mostrarErro(mensagemErro, mensagemDaApi(resultado));
+            throw new Error(mensagemDaApi(resultado));
         }
     })
     .catch(function (erro) {
         console.error(erro);
-        mostrarErro(mensagemErro, ERRO_CONEXAO);
+        throw erro;
     });
 }
 
@@ -195,7 +196,7 @@ function buscarGeneros() {
 }
 
 if (formulario) {
-    btnProximo.addEventListener("click", function (e) {
+    formulario.addEventListener("submit", function (e) {
         e.preventDefault();
         if (btnProximo.disabled || !validarFormulario()) {
             return;
@@ -207,7 +208,7 @@ if (formulario) {
         if (!contaCriada) {
             cadastrarUsuario();
         } else {
-            buscarGeneros();
+            entrar().then(buscarGeneros).catch(function () { erroNoCadastro(ERRO_CONEXAO); });
         }
     });
 
@@ -227,103 +228,64 @@ if (formulario) {
 }
 
 function criarTelaGeneros(generos) {
-    const secao = document.createElement("section");
-    secao.id = "cadastroPasso2";
-
-    const card = document.createElement("div");
-    card.id = "cardCadastroPasso2";
-
-    const cabecalho = document.createElement("div");
-
-    const btnVoltar = document.createElement("a");
-    btnVoltar.href = "../index.html";
-    btnVoltar.classList.add("btnVoltar");
-    btnVoltar.setAttribute("aria-label", "Voltar para a página anterior");
-
-    const setaVoltar = document.createElement("span");
-    setaVoltar.classList.add("material-symbols-outlined", "line_start_arrow_notch");
-    setaVoltar.id = "line_start_arrow_notch";
-    setaVoltar.textContent = "line_start_arrow_notch";
-
-    btnVoltar.append(setaVoltar);
-
-    const titulo = document.createElement("h1");
-    titulo.textContent = "Selecione seus gêneros favoritos";
-
-    cabecalho.append(btnVoltar, titulo);
-
-    const selecaoGenero = document.createElement("section");
-    selecaoGenero.classList.add("selecaoGenero");
-    for (let i = 0; i < generos.length; i++) {
-        const genero = generos[i];
-        const botaoGenero = document.createElement("button");
-        botaoGenero.type = "button";
-        botaoGenero.textContent = genero.nm_genero;
-        // "Ficção Científica" -> classe "cardFicçãoCientífica"
-        botaoGenero.classList.add("card" + genero.nm_genero.replaceAll(" ", ""));
-        // Guarda o código do gênero no botão, para salvar depois.
-        botaoGenero.dataset.codigo = genero.id_genero;
-        botaoGenero.setAttribute("aria-pressed", "false");
-
-        botaoGenero.addEventListener("click", function () {
-            // toggle: o primeiro clique marca, o segundo desmarca.
-            const marcado = botaoGenero.classList.toggle("ativo");
-            botaoGenero.setAttribute("aria-pressed", String(marcado));
-            if (marcado) {
-                generosSalvos.push(genero.id_genero);
-            } else {
-                generosSalvos = generosSalvos.filter(function (id) {
-                    return id !== genero.id_genero;
-                });
-            }
+    generosDisponiveis = generos;
+    const tela = document.getElementById("templateGeneros").content.cloneNode(true);
+    const selecaoGenero = tela.querySelector(".selecaoGenero");
+    const erroGeneros = tela.querySelector(".mensagemErro");
+    const proximo = tela.querySelector("#btnIrPasso3");
+    const imagens = {
+        romance: "Romance", suspense: "Suspense", fantasia: "Fantasia", biografia: "Biografia",
+        ficcaohistorica: "FiccaoHistorica", ficcaocientifica: "FiccaoCientifica", poesia: "Poesia",
+        terror: "Terror", aventura: "Aventura", autoajuda: "AutoAjuda", filosofia: "Filosofia", drama: "Drama"
+    };
+    generos.forEach(function (genero) {
+        const botao = document.createElement("button");
+        botao.type = "button";
+        botao.className = "botaoGenero";
+        botao.dataset.codigo = genero.id_genero;
+        botao.setAttribute("aria-label", genero.nm_genero);
+        const marcado = generosSalvos.includes(genero.id_genero);
+        botao.classList.toggle("ativo", marcado);
+        botao.setAttribute("aria-pressed", String(marcado));
+        botao.disabled = preferenciasGravadas.has(genero.id_genero);
+        if (botao.disabled) botao.title = "Preferência já salva";
+        const chave = genero.nm_genero.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().replace(/[^a-z]/g, "");
+        if (imagens[chave]) {
+            const imagem = document.createElement("img");
+            imagem.src = "../img/genero" + imagens[chave] + ".png";
+            imagem.alt = genero.nm_genero;
+            imagem.addEventListener("error", function () { imagem.remove(); botao.textContent = genero.nm_genero; }, { once: true });
+            botao.append(imagem);
+        } else {
+            botao.textContent = genero.nm_genero;
+        }
+        botao.addEventListener("click", function () {
+            const selecionado = botao.classList.toggle("ativo");
+            botao.setAttribute("aria-pressed", String(selecionado));
+            if (selecionado) generosSalvos.push(genero.id_genero);
+            else generosSalvos = generosSalvos.filter(function (id) { return id !== genero.id_genero; });
         });
-
-        selecaoGenero.append(botaoGenero);
-    }
-
-    const erroGeneros = document.createElement("span");
-    erroGeneros.classList.add("mensagemErro", "escondido");
-
-    const btnIrPasso3 = document.createElement("button");
-    btnIrPasso3.type = "button";
-    btnIrPasso3.id = "btnIrPasso3";
-
-    const setaAvancar = document.createElement("span");
-    setaAvancar.classList.add("material-symbols-outlined");
-    setaAvancar.id = "line_end_arrow_notch";
-    setaAvancar.textContent = "line_end_arrow_notch";
-
-    btnIrPasso3.append("próximo", setaAvancar);
-
-    btnIrPasso3.addEventListener("click", function () {
-        if (generosSalvos.length === 0) {
-            mostrarErro(erroGeneros, "Selecione pelo menos um gênero.");
-                return;
-        }
-        if (!sessionStorage.getItem("codigo")) {
-            mostrarErro(erroGeneros, ERRO_SERVIDOR);
-            return;
-        }
-        btnIrPasso3.disabled = true;
-        salvarGeneros().then(function (todosSalvos) {
-            if (todosSalvos) {
-                criarTelaPasso3();
-            } else {
-                mostrarErro(erroGeneros, ERRO_SERVIDOR);
-                btnIrPasso3.disabled = false;
-            }
+        selecaoGenero.append(botao);
+    });
+    tela.querySelector(".voltarConta").addEventListener("click", function () {
+        main.className = "containerCadastro";
+        main.replaceChildren(formulario);
+        btnProximo.disabled = false;
+        document.querySelector(".cabecalhoCadastro h1").focus();
+    });
+    proximo.addEventListener("click", function () {
+        if (proximo.disabled) return;
+        if (!generosSalvos.length) { mostrarErro(erroGeneros, "Selecione pelo menos um gênero."); return; }
+        if (!sessionStorage.getItem("codigo")) { mostrarErro(erroGeneros, ERRO_SERVIDOR); return; }
+        proximo.disabled = true;
+        salvarGeneros().then(function (sucesso) {
+            if (sucesso) criarTelaPasso3();
+            else { mostrarErro(erroGeneros, ERRO_SERVIDOR); proximo.disabled = false; }
         });
     });
-
-
-    card.append(cabecalho, selecaoGenero, erroGeneros, btnIrPasso3);
-    secao.append(card);
-
-    // Só limpa o formulário quando a tela nova está pronta. Se limpar antes e der erro
-    // no meio do caminho, a mensagem de erro some junto e a página fica em branco.
-    container.textContent = "";
-    container.append(secao);
-    return secao;
+    main.className = "cadastroEtapas";
+    main.replaceChildren(tela);
+    document.getElementById("tituloGeneros").focus();
 }
 
 function salvarGeneros() {
@@ -332,6 +294,7 @@ function salvarGeneros() {
 
     for (let i = 0; i < generosSalvos.length; i++) {
         const codigoGenero = generosSalvos[i];
+        if (preferenciasGravadas.has(codigoGenero)) continue;
         // O cadastrarPreferencia.php lê $_GET, então os dados vão na URL.
         const url = "../api/cadastrarPreferencia.php?codigoUsuario=" + codigoUsuario + "&codigoGenero=" + codigoGenero;
 
@@ -341,7 +304,9 @@ function salvarGeneros() {
         })
         .then(function (resultado) {
             console.log("Gênero", codigoGenero, resultado);
-            return resultado.status === "true";
+            const sucesso = resultado.status === "true" || resultado.status === true;
+            if (sucesso) preferenciasGravadas.add(codigoGenero);
+            return sucesso;
         })
         .catch(function (erro) {
             console.error("Erro no gênero", codigoGenero, erro);
@@ -363,114 +328,50 @@ function salvarGeneros() {
 
 // Terceira tela do cadastro: aparece depois que os gêneros foram salvos.
 function criarTelaPasso3() {
-    main.textContent = "";
-    const secao = document.createElement("section");
-    secao.id = "cadastroPasso3";
-
-    // Topo: seta de voltar + barra de pesquisa
-    const topo = document.createElement("div");
-    topo.classList.add("versaoDesktop");
-
-    const btnVoltar = document.createElement("a");
-    btnVoltar.href = "../index.html";
-    btnVoltar.classList.add("btnVoltar");
-    btnVoltar.setAttribute("aria-label", "Voltar para a página anterior");
-
-    const setaVoltar = document.createElement("span");
-    setaVoltar.classList.add("material-symbols-outlined", "line_start_arrow_notch");
-    setaVoltar.id = "line_start_arrow_notch";
-    setaVoltar.textContent = "line_start_arrow_notch";
-    btnVoltar.append(setaVoltar);
-
-    const barraPesquisa = document.createElement("div");
-    barraPesquisa.classList.add("barraPesquisa");
-
-    const txtPesquisa = document.createElement("input");
-    txtPesquisa.type = "text";
-    txtPesquisa.placeholder = "Busque por suas últimas leituras";
-
-    const iconePesquisa = document.createElement("span");
-    iconePesquisa.classList.add("material-symbols-outlined");
-    iconePesquisa.textContent = "search";
-
-    barraPesquisa.append(txtPesquisa, iconePesquisa);
-    topo.append(btnVoltar, barraPesquisa);
-
-    // Resultados
-    const resultados = document.createElement("section");
-    resultados.classList.add("resultadosPesquisaLivros");
-
-    const tituloResultados = document.createElement("h1");
-    tituloResultados.textContent = "Busque os livros que você já leu";
-
-    const listaLivros = document.createElement("div");
-    listaLivros.classList.add("listaLivros");
-
-    resultados.append(tituloResultados, listaLivros);
-
-    const erroLivros = document.createElement("span");
-    erroLivros.classList.add("mensagemErro", "escondido");
-
-    // Botão próximo
-    const btnIrPasso4 = document.createElement("button");
-    btnIrPasso4.type = "button";
-    btnIrPasso4.id = "btnIrPasso4";
-
-    const setaAvancar = document.createElement("span");
-    setaAvancar.classList.add("material-symbols-outlined");
-    setaAvancar.id = "line_end_arrow_notch";
-    setaAvancar.textContent = "line_end_arrow_notch";
-
-    btnIrPasso4.append("próximo", setaAvancar);
-
-    // Pesquisa ao apertar Enter ou clicar na lupa
-    function pesquisar() {
-        const texto = txtPesquisa.value.trim();
-        if (texto === "") {
-            mostrarErro(erroLivros, "Digite o nome de um livro para pesquisar.");
-            return;
-        }
-        buscarLivrosTitulo(texto, tituloResultados, listaLivros, erroLivros);
-    }
-
-    txtPesquisa.addEventListener("keydown", function (e) {
-        if (e.key === "Enter") {
-            pesquisar();
-        }
+    const tela = document.getElementById("templateLeituras").content.cloneNode(true);
+    const pesquisa = tela.querySelector(".barraPesquisaInterna");
+    const campo = pesquisa.querySelector("input");
+    const titulo = tela.querySelector(".tituloResultados");
+    const lista = tela.querySelector(".listaLivros");
+    const erro = tela.querySelector(".mensagemErro");
+    const proximo = tela.querySelector("#btnIrPasso4");
+    tela.querySelector(".voltarGeneros").addEventListener("click", function () { criarTelaGeneros(generosDisponiveis); });
+    pesquisa.addEventListener("submit", function (event) {
+        event.preventDefault();
+        if (!campo.value.trim()) { mostrarErro(erro, "Digite o nome de um livro para pesquisar."); return; }
+        buscarLivrosTitulo(campo.value.trim(), titulo, lista, erro);
     });
-    iconePesquisa.addEventListener("click", pesquisar);
-
-    btnIrPasso4.addEventListener("click", function () {
-        // Essa etapa é opcional: sem livro marcado, só segue em frente.
-        if (livrosSelecionados.length === 0) {
-            criarTelaPasso4();
-            return;
-        }
-        btnIrPasso4.disabled = true;
-        salvarLivros().then(function (todosSalvos) {
-            if (todosSalvos) {
-                criarTelaPasso4();
-            } else {
-                mostrarErro(erroLivros, ERRO_SERVIDOR);
-                btnIrPasso4.disabled = false;
-            }
+    proximo.addEventListener("click", function () {
+        if (proximo.disabled) return;
+        if (!livrosSelecionados.length) { criarTelaPasso4(); return; }
+        proximo.disabled = true;
+        salvarLivros().then(function (sucesso) {
+            if (sucesso) criarTelaPasso4();
+            else { mostrarErro(erro, ERRO_SERVIDOR); proximo.disabled = false; }
         });
     });
+    main.className = "cadastroEtapas";
+    main.replaceChildren(tela);
+    atualizarQuantidadeLivros();
+    document.getElementById("tituloLeituras").focus();
+}
 
-    main
-    .append(topo, resultados, erroLivros, btnIrPasso4);
-
-    txtPesquisa.focus();
-    return;
+function atualizarQuantidadeLivros() {
+    const quantidade = document.querySelector(".quantidadeSelecionada");
+    if (quantidade) quantidade.textContent = livrosSelecionados.length + (livrosSelecionados.length === 1 ? " livro selecionado" : " livros selecionados");
 }
 
 function buscarLivrosTitulo(texto, tituloResultados, listaLivros, erroLivros) {
+    const buscaAtual = ++ultimaBuscaLivros;
+    erroLivros.classList.add("escondido");
+    listaLivros.setAttribute("aria-busy", "true");
+    tituloResultados.textContent = "Buscando livros...";
     fetch("../api/buscarLivroTitulo.php?titulo=" + encodeURIComponent(texto))
     .then(function (resposta) {
         return resposta.json();
     })
     .then(function (resultado) {
-        console.log(resultado);
+        if (buscaAtual !== ultimaBuscaLivros) return;
         if (resultado.status !== "true") {
             console.error(resultado);
             mostrarErro(erroLivros, ERRO_SERVIDOR);
@@ -493,9 +394,11 @@ function buscarLivrosTitulo(texto, tituloResultados, listaLivros, erroLivros) {
         }
     })
     .catch(function (erro) {
+        if (buscaAtual !== ultimaBuscaLivros) return;
         console.error(erro);
         mostrarErro(erroLivros, ERRO_CONEXAO);
-    });
+    })
+    .finally(function () { if (buscaAtual === ultimaBuscaLivros) listaLivros.setAttribute("aria-busy", "false"); });
 }
 
 function criarCardLivro(livro) {
@@ -506,6 +409,7 @@ function criarCardLivro(livro) {
 
     // Se o livro já foi marcado numa pesquisa anterior, aparece marcado de novo.
     const jaSelecionado = livrosSelecionados.includes(livro.id_livro);
+    card.setAttribute("aria-label", "Selecionar " + livro.titulo);
     card.classList.toggle("selecionado", jaSelecionado);
     card.setAttribute("aria-pressed", String(jaSelecionado));
 
@@ -513,6 +417,13 @@ function criarCardLivro(livro) {
     // Mesmo esquema do livros.js: o id do livro é o ISBN.
     capa.src = "https://covers.openlibrary.org/b/isbn/" + livro.id_livro + "-L.jpg";
     capa.alt = "Capa do livro " + livro.titulo;
+    capa.className = "capaLivroCard";
+    capa.addEventListener("error", function () {
+        const aviso = document.createElement("div");
+        aviso.className = "capaLivroCard capaIndisponivel";
+        aviso.textContent = "Capa indisponível";
+        capa.replaceWith(aviso);
+    }, { once: true });
 
     const info = document.createElement("div");
     info.classList.add("infoLivro");
@@ -521,7 +432,7 @@ function criarCardLivro(livro) {
     titulo.textContent = livro.titulo;
 
     const autor = document.createElement("p");
-    autor.textContent = livro.nm_autor || "";
+    autor.textContent = livro.autores || livro.nm_autor || "";
 
     info.append(titulo, autor);
     card.append(capa, info);
@@ -536,6 +447,7 @@ function criarCardLivro(livro) {
                 return id !== livro.id_livro;
             });
         }
+        atualizarQuantidadeLivros();
     }
 
     card.addEventListener("click", alternarSelecao);

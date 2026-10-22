@@ -239,3 +239,331 @@
         margin-bottom: 24px;
     }
 }
+
+/* Cadastro, gêneros e últimas leituras compartilham a mesma página. */
+.paginaCadastro {
+    --textoSuave: #64748b;
+    min-height: 100vh;
+    background: var(--white);
+    color: #111111;
+}
+
+.paginaCadastro header {
+    flex-shrink: 0;
+    margin-bottom: 32px;
+}
+
+.paginaCadastro .containerCadastro {
+    margin-inline: auto;
+}
+
+.paginaCadastro [hidden] {
+    display: none !important;
+}
+
+.paginaCadastro button:disabled {
+    opacity: 0.6;
+    cursor: wait;
+}
+
+.paginaCadastro .btnVoltar {
+    background: transparent;
+    border: 0;
+    cursor: pointer;
+    flex-shrink: 0;
+    min-width: 44px;
+    min-height: 44px;
+    justify-content: center;
+}
+
+.cadastroEtapas {
+    width: calc(100% - 48px);
+    max-width: 1100px;
+    min-width: 0;
+    margin: 0 auto;
+    padding-bottom: 48px;
+}
+
+.cadastroEtapa {
+    width: 100%;
+    min-width: 0;
+}
+
+.cadastroEtapas .textoGuia {
+    margin-bottom: 24px;
+}
+
+.cabecalhoEtapa {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 8px;
+}
+
+.cadastroEtapas h1 {
+    font-size: 22px;
+    line-height: 1.4;
+    font-weight: 800;
+    overflow-wrap: anywhere;
+}
+
+.cadastroEtapas .textoGuia p,
+.subtituloEtapa,
+.quantidadeSelecionada {
+    color: #64748b;
+    font-size: 14px;
+    line-height: 1.5;
+}
+
+.cadastroEtapas .selecaoGenero {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.cadastroEtapas .botaoGenero {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    aspect-ratio: 256 / 69;
+    min-height: 44px;
+    padding: 0;
+    border: 0;
+    border-radius: 8px;
+    background: var(--softBlue);
+    color: var(--deepNavyBlue);
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: box-shadow 0.2s, transform 0.2s;
+}
+
+.cadastroEtapas .botaoGenero img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: inherit;
+}
+
+.cadastroEtapas .botaoGenero.ativo {
+    outline: 3px solid var(--royalBlue);
+    outline-offset: 3px;
+}
+
+.cadastroEtapas .botaoGenero.ativo::after,
+.cadastroEtapas .cardLivro.selecionado::after {
+    content: '✓';
+    position: absolute;
+    top: 6px;
+    right: 6px;
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: var(--royalBlue);
+    color: var(--white);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.cadastroEtapas .containerPaginacao {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 28px;
+}
+
+.cadastroEtapas .btnProximo {
+    width: auto;
+    min-width: 140px;
+    margin-top: 0;
+    padding: 10px 20px;
+    font-size: 14px;
+}
+
+.cadastroEtapas .topoResultadoDesktop {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.cadastroEtapas .barraPesquisaInterna {
+    display: flex;
+    align-items: center;
+    width: min(100%, 400px);
+    min-width: 0;
+    border: 1px solid var(--royalBlue);
+    border-radius: 8px;
+    padding: 4px 8px 4px 16px;
+    background: var(--white);
+}
+
+.cadastroEtapas .barraPesquisaInterna input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    background: transparent;
+    outline: none;
+    font-size: 14px;
+}
+
+.cadastroEtapas .barraPesquisaInterna button {
+    display: grid;
+    place-items: center;
+    min-width: 40px;
+    min-height: 40px;
+    border: 0;
+    background: transparent;
+    color: var(--royalBlue);
+    cursor: pointer;
+}
+
+.cadastroEtapas .tituloResultados {
+    margin-bottom: 8px;
+}
+
+.cadastroEtapas .quantidadeSelecionada {
+    margin: 12px 0 24px;
+    color: var(--royalBlue);
+}
+
+.cadastroEtapas .listaLivros {
+    display: grid;
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+    gap: 24px 16px;
+}
+
+.cadastroEtapas .cardLivro {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.cadastroEtapas .capaLivroCard {
+    display: block;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 8px;
+    box-shadow: 0 4px 10px rgb(0 0 0 / 8%);
+}
+
+.cadastroEtapas .capaIndisponivel {
+    display: grid;
+    place-items: center;
+    background: #edf2f8;
+    color: #64748b;
+    font-size: 13px;
+    text-align: center;
+    padding: 12px;
+}
+
+.cadastroEtapas .infoLivro h2,
+.cadastroEtapas .infoLivro p {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.cadastroEtapas .infoLivro h2 {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    font-size: 13px;
+    line-height: 1.4;
+    margin-bottom: 4px;
+}
+
+.cadastroEtapas .infoLivro p {
+    white-space: nowrap;
+    color: #64748b;
+    font-size: 12px;
+}
+
+.cadastroEtapas .cardLivro.selecionado {
+    outline: 3px solid var(--royalBlue);
+    outline-offset: 4px;
+}
+
+.cadastroEtapas .mensagemErro {
+    display: block;
+    margin: 20px 0 0;
+    color: #b42318;
+}
+
+.cadastroEtapas .mensagemErro.escondido {
+    display: none;
+}
+
+.paginaCadastro :is(button, a, article[role='button']):focus-visible,
+.cadastroEtapas .barraPesquisaInterna:focus-within {
+    outline: 3px solid var(--mediumBlue);
+    outline-offset: 4px;
+}
+
+@media (hover: hover) {
+    .cadastroEtapas .botaoGenero:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgb(0 41 102 / 18%);
+    }
+}
+
+@media (max-width: 1024px) {
+    .cadastroEtapas .listaLivros {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 900px) {
+    .cadastroEtapas .selecaoGenero {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (max-width: 600px) {
+    .paginaCadastro header {
+        height: 64px;
+        padding: 0 20px;
+        margin-bottom: 24px;
+    }
+
+    .cadastroEtapas {
+        width: calc(100% - 32px);
+        padding-bottom: 32px;
+    }
+
+    .cadastroEtapas h1 {
+        font-size: 18px;
+    }
+
+    .cadastroEtapas .selecaoGenero {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px 12px;
+    }
+
+    .cadastroEtapas .listaLivros {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 20px 12px;
+    }
+
+    .cadastroEtapas .infoLivro h2 {
+        font-size: 12px;
+    }
+
+    .cadastroEtapas .infoLivro p {
+        font-size: 11px;
+    }
+}
+
+.cadastroEtapas .botaoGenero:disabled {
+    opacity: 1;
+    cursor: default;
+}

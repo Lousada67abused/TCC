@@ -8,32 +8,32 @@
     <link rel="stylesheet" href="../css/cadastro.css">
     <title>Quote</title>
 </head>
-<body>
+<body class="paginaCadastro">
     <header>
         <figure>
-            <a>
+            <a href="../index.html" aria-label="Página inicial">
                 <img src="../img/logoBranco.svg" alt="Logotipo do quote">
             </a>
         </figure>
     </header>
     
     <main class="containerCadastro">
-        <form action=" " method="post" class="formularioCadastro">
+        <form method="post" class="formularioCadastro" novalidate>
             <div class="cabecalhoCadastro">
                 <a href="../index.html" class="btnVoltar" aria-label="Voltar para a página anterior">
                     <span class="material-symbols-outlined line_start_arrow_notch" id="line_start_arrow_notch">line_start_arrow_notch</span>
                 </a>
-                <h1>Criar conta</h1>
+                <h1 tabindex="-1">Criar conta</h1>
             </div>
             
             <div class="campoCadastro">
                 <label for="txtNome">Nome de usuário</label>
-                <input value="Beta da Silva" type="text" id="txtNome" name="nome" placeholder="Digite seu nome de usuário">
+                <input type="text" id="txtNome" name="nome" placeholder="Digite seu nome de usuário">
             </div>
 
             <div class="campoCadastro">
                 <label for="txtDataNascimento">Data de nascimento</label>
-                <input value="2001-09-11" type="date" id="txtDataNascimento" name="dataNascimento" placeholder="Data">
+                <input type="date" id="txtDataNascimento" name="dataNascimento" placeholder="Data">
             </div>
 
              <div class="campoCadastro">
@@ -43,13 +43,13 @@
 
             <div class="campoCadastro">
                 <label for="txtEmail">Email</label>
-                <input value="beta@gmail.com" type="email" id="txtEmail" name="email" placeholder="Digite seu email">
+                <input type="email" id="txtEmail" name="email" placeholder="Digite seu email">
             </div>
 
             <div class="campoCadastro">
                 <label for="txtSenha1">Senha</label>
                 <div class="inputSenhaContainer">
-                    <input value="bandido67" type="password" id="txtSenha1" name="senha1" placeholder="Mínimo de 6 caracteres">
+                    <input type="password" id="txtSenha1" name="senha1" placeholder="Mínimo de 6 caracteres">
                     <button type="button" class="btnMostrarSenha" aria-label="Mostrar ou ocultar senha">
                         <span class="material-symbols-outlined" aria-hidden="true">visibility_off</span>
                     </button>
@@ -59,14 +59,14 @@
             <div class="campoCadastro">
                 <label for="txtSenha2">Confirme sua senha</label>
                 <div class="inputSenhaContainer">
-                    <input value="bandido67" type="password" id="txtSenha2" name="senha2" placeholder="Digite sua senha novamente">
+                    <input type="password" id="txtSenha2" name="senha2" placeholder="Digite sua senha novamente">
                     <button type="button" class="btnMostrarSenha" aria-label="Mostrar ou ocultar senha">
                         <span class="material-symbols-outlined" aria-hidden="true">visibility_off</span>
                     </button>
                 </div>
             </div>
             
-            <span class="mensagemErro escondido"></span>
+            <span class="mensagemErro escondido" role="status"></span>
 
             <div class="elementoDecorativo">
                 <div class="linha"></div>
@@ -111,6 +111,41 @@
             </button>
         </form>          
     </main>
+    <template id="templateGeneros">
+        <section id="cadastroPasso2" class="cadastroEtapa" aria-labelledby="tituloGeneros">
+            <div class="textoGuia">
+                <div class="cabecalhoEtapa">
+                    <button type="button" class="btnVoltar voltarConta" aria-label="Voltar para seus dados"><span class="material-symbols-outlined">arrow_back</span></button>
+                    <h1 id="tituloGeneros" tabindex="-1">Selecione seus gêneros favoritos</h1>
+                </div>
+                <p>Encontre sua próxima leitura entre vários gêneros literários.</p>
+            </div>
+            <div class="selecaoGenero" aria-label="Gêneros disponíveis"></div>
+            <p class="mensagemErro escondido" role="status"></p>
+            <div class="containerPaginacao">
+                <button type="button" id="btnIrPasso3" class="btnProximo">próximo <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></button>
+            </div>
+        </section>
+    </template>
+    <template id="templateLeituras">
+        <section id="cadastroPasso3" class="cadastroEtapa" aria-labelledby="tituloLeituras">
+            <div class="topoResultadoDesktop">
+                <button type="button" class="btnVoltar voltarGeneros" aria-label="Voltar para os gêneros"><span class="material-symbols-outlined">arrow_back</span></button>
+                <form class="barraPesquisaInterna" role="search">
+                    <input type="search" aria-label="Pesquisar suas últimas leituras" placeholder="Busque por suas últimas leituras">
+                    <button type="submit" aria-label="Pesquisar livros"><span class="material-symbols-outlined">search</span></button>
+                </form>
+            </div>
+            <h1 id="tituloLeituras" class="tituloResultados" tabindex="-1">Quais foram suas últimas leituras?</h1>
+            <p class="subtituloEtapa">Busque e selecione os livros que você já leu. Esta etapa é opcional.</p>
+            <p class="quantidadeSelecionada" role="status">Nenhum livro selecionado</p>
+            <div class="listaLivros gridResultadosLivros"></div>
+            <p class="mensagemErro escondido" role="status"></p>
+            <div class="containerPaginacao">
+                <button type="button" id="btnIrPasso4" class="btnProximo">próximo <span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></button>
+            </div>
+        </section>
+    </template>
     <script src="../js/cadastro.js"></script>
 </body>
 </html>
