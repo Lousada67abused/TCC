@@ -8,7 +8,7 @@ body {
 .conteudoPrincipal {
     min-width: 0;
     max-width: 1200px;
-    padding: 16px 8px;
+    padding: 0px 16px 8px 16px;
 }
 
 .cabecalhoDropdown > div {
@@ -104,10 +104,12 @@ body {
 
 .cardLivro .areaEstrelas {
     margin-top: auto;
+    display: flex;
+    align-items: center;
 }
 
 .areaEstrelas span {
-    font-size: 12px;
+    font-size: 24px;
 }
 
 .estrelaAvaliacao {
@@ -116,7 +118,7 @@ body {
 }
 
 .areaEstrelas .notaLivro {
-    font-size: 11px;
+    font-size: 23px;
     margin-left: 4px;
     white-space: nowrap;
     color: #475569;
