@@ -67,7 +67,9 @@
 .paginaSeguirAmigos .conteudoPrincipal .containerBotaoFinalizar {
     display: flex;
     justify-content: flex-end;
-    margin: 32px 0 0;
+    flex: 0 0 auto;
+    margin: 0 0 0 auto;
+    padding: 0;
 }
 @media (max-width: 767px) {
     .paginaCadastro.etapaLeiturasAtiva > header,
@@ -86,27 +88,4 @@
     }
     #cadastroPasso3 .tituloResultados,
     .paginaSeguirAmigos .conteudoPrincipal .tituloAmigos { font-size: 14px; }
-}
-
-/* O rodapé ocupa a base da tela mesmo quando a busca não tem resultados. */
-body.paginaSeguirAmigos {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    min-height: 100dvh;
-}
-.paginaSeguirAmigos > header {
-    flex-shrink: 0;
-}
-.paginaSeguirAmigos main.conteudoPrincipal {
-    display: flex;
-    flex-direction: column;
-    flex: 1 0 auto;
-}
-.paginaSeguirAmigos main.conteudoPrincipal > * {
-    flex-shrink: 0;
-}
-.paginaSeguirAmigos .conteudoPrincipal .containerBotaoFinalizar {
-    margin-top: auto;
-    padding-top: 32px;
 }
