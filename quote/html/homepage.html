@@ -34,10 +34,10 @@
                 
                 <div class="menuDropdownPerfil">
                     <div class="cabecalhoDropdown">
-                        <img id="avatar" class="avatarHeader">
+                        <img id="avatarMenu" class="avatarHeader" alt="Foto de perfil do usuário">
                         <div>
-                            <strong>Nívia Oliveira</strong>
-                            <small>nivia_oliveira</small>
+                            <strong id="nomeUsuarioHeader">Seu perfil</strong>
+                            <small id="emailUsuarioHeader"></small>
                         </div>
                     </div>
                     <ul class="listaMenuDropdown">
@@ -58,88 +58,39 @@
     <main class="conteudoPrincipal">
 
         
-        <section class="secaoGridLivros">
-            <h2 class="tituloSecao">Baseado no seu gosto</h2>
-            <div class="areaLivros">
-                
-                
-            </div>
+        <section class="secaoGridLivros" aria-labelledby="tituloRecomendacoes">
+            <h2 id="tituloRecomendacoes" class="tituloSecao">Baseado no seu gosto</h2>
+            <p id="statusLivros" class="mensagemEstado" role="status"></p>
+            <div class="areaLivros"></div>
 
-            <div class="containerBotaoVerMais">
-                <button class="botaoVerMais">ver mais</button>
+            <div id="paginacaoLivros" class="containerBotaoVerMais paginacaoLivros" hidden>
+                <span id="intervaloLivros" class="intervaloLivros" role="status"></span>
+                <button id="livrosAnteriores" class="botaoVerMais botaoSecundario" type="button" hidden>anteriores</button>
+                <button id="verMaisLivros" class="botaoVerMais" type="button" hidden>ver mais</button>
             </div>
         </section>
 
-        
-        <section class="secaoAmigos">
-            <h2 class="tituloSecao">Amigos</h2>
-
-            <div class="listaResenhasAmigos">
-                <article class="cardResenhaAmigo">
-                    <img src="../img/capa11.jpg" alt="Um poeta falido" class="capaResenha">
-                    <div class="conteudoResenha">
-                        <div class="cabecalhoResenha">
-                            <h3 class="tituloLivroResenha">Um poeta falido</h3>
-                            <span class="autorLivroResenha">Gabriel Torres</span>
-                        </div>
-                        <div class="usuarioAvaliacao">
-                            <img src="../img/usuario.jpg" alt="Avatar Usuário" class="avatarUsuarioResenha">
-                            <span class="handleUsuario">@advenrucas</span>
-                            <div class="areaEstrelas">
-                                <span class="material-symbols-outlined estrelaCheia">star</span>
-                                <span class="material-symbols-outlined estrelaCheia">star</span>
-                                <span class="material-symbols-outlined estrelaCheia">star</span>
-                                <span class="material-symbols-outlined estrelaCheia">star</span>
-                                <span class="material-symbols-outlined estrelaCheia">star</span>
-                            </div>
-                        </div>
-                        <p class="textoResenha">
-                            Simples, direto e profundo. Recomendo para todos que procuram uma leitura profunda e sentimental.
-                        </p>
-                    </div>
-                </article>
-
-                <article class="cardResenhaAmigo">
-                    <img src="../img/capa10.jpg" alt="Vermelho Branco e Sangue Azul" class="capaResenha">
-                    <div class="conteudoResenha">
-                        <div class="cabecalhoResenha">
-                            <h3 class="tituloLivroResenha">Vermelho Branco e Sangue Azul</h3>
-                            <span class="autorLivroResenha">Casey McQuiston</span>
-                        </div>
-                        <div class="usuarioAvaliacao">
-                            <img src="../img/usuario.jpg" alt="Avatar Usuário" class="avatarUsuarioResenha">
-                            <span class="handleUsuario">@leiturasFromLily</span>
-                            <div class="areaEstrelas">
-                                <span class="material-symbols-outlined estrelaCheia">star</span>
-                                <span class="material-symbols-outlined estrelaCheia">star</span>
-                                <span class="material-symbols-outlined estrelaCheia">star</span>
-                                <span class="material-symbols-outlined estrelaCheia">star</span>
-                                <span class="material-symbols-outlined estrelaCheia">star</span>
-                            </div>
-                        </div>
-                        <p class="textoResenha">
-                            Um dos melhores livros que já li. Recomendo demais para quem gosta de um romance cheio de reviravoltas, fofo e leve de se ler.
-                        </p>
-                    </div>
-                </article>
-            </div>
+        <section class="secaoAmigos" aria-labelledby="tituloAmigos">
+            <h2 id="tituloAmigos" class="tituloSecao">Amigos</h2>
+            <p id="statusFeed" class="mensagemEstado" role="status"></p>
+            <div class="listaResenhasAmigos"></div>
 
             <div class="containerBotaoVerMais">
-                <button class="botaoVerMais">ver mais</button>
+                <button id="verMaisFeed" class="botaoVerMais" type="button" hidden>ver mais</button>
             </div>
         </section>
 
     </main>
 
     <nav class="navegacaoMobile">
-        <a href="homepage.html" class="itemNavegacao ativo"><span class="material-symbols-outlined">home</span></a>
-        <a href="ranking.html" class="itemNavegacao"><span class="material-symbols-outlined">emoji_events</span></a>
-        <a href="pesquisa.html" class="itemNavegacao"><span class="material-symbols-outlined">search</span></a>
-        <a href="biblioteca.html" class="itemNavegacao"><span class="material-symbols-outlined">collections_bookmark</span></a>
-        <a href="perfil.html" class="itemNavegacao"><span class="material-symbols-outlined">person</span></a>
+        <a href="homepage.html" class="itemNavegacao ativo" aria-label="Início" aria-current="page"><span class="material-symbols-outlined" aria-hidden="true">home</span></a>
+        <a href="ranking.html" class="itemNavegacao" aria-label="Ranking"><span class="material-symbols-outlined" aria-hidden="true">emoji_events</span></a>
+        <a href="pesquisa.html" class="itemNavegacao" aria-label="Pesquisar"><span class="material-symbols-outlined" aria-hidden="true">search</span></a>
+        <a href="biblioteca.html" class="itemNavegacao" aria-label="Biblioteca"><span class="material-symbols-outlined" aria-hidden="true">collections_bookmark</span></a>
+        <a href="perfil.html" class="itemNavegacao" aria-label="Perfil"><span class="material-symbols-outlined" aria-hidden="true">person</span></a>
     </nav>
 
-    <script src="../js/perfil.js"></script>
-    <script src="../js/livros.js"></script>
+    <script src="../js/homepage.js"></script>
+    <script src="../js/feed.js"></script>
 </body>
 </html>
