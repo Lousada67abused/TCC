@@ -116,6 +116,27 @@ header figure img {
     cursor: pointer;
 }
 
+form.barraPesquisa button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+form.barraPesquisa button:focus-visible {
+    outline: 2px solid var(--brightLightBlue);
+    outline-offset: 3px;
+}
+
+.estadoEntradaPesquisa {
+    margin-bottom: 16px;
+    color: #475569;
+    font-size: 13px;
+    line-height: 1.5;
+}
+
 .acoesHeaderDesktop {
     display: flex;
     align-items: center;

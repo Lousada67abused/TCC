@@ -6,6 +6,7 @@
     const stars = document.querySelectorAll('.avaliadorEstrelasInput span');
     const list = document.querySelector('.listaResenhasComunidade');
     if (!card || !form || !text || !button || !list) return;
+    const container = card.closest('.containerDetalhesLivro');
 
     const codigoUsuario = sessionStorage.getItem('codigo');
     const codigoLivro = sessionStorage.getItem('codigoLivro');
@@ -39,7 +40,7 @@
     function atualizarTela() {
         card.hidden = !carregado || Boolean(minhaResenha) || !codigoUsuario;
         button.disabled = !carregado || enviando || Boolean(minhaResenha);
-        document.querySelector('.containerDetalhesLivro')?.classList.toggle('resenhaPublicada', Boolean(minhaResenha));
+        container?.classList.toggle('resenhaPublicada', Boolean(minhaResenha));
     }
     function elemento(tag, classe, conteudo) {
         const el = document.createElement(tag);
@@ -185,7 +186,7 @@
         }
     });
     list.replaceChildren();
-    document.querySelectorAll('.secaoResenhasComunidade .contadorTotal').forEach(el => el.textContent = '(...)');
+    container?.querySelectorAll('.secaoResenhasComunidade .contadorTotal').forEach(el => el.textContent = '(...)');
     atualizarTela();
     iniciar();
 })();

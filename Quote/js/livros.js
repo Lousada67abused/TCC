@@ -55,14 +55,14 @@ if (containerDetalhesLivro) {
         if (deuCerto && resultado.resposta && resultado.resposta.length > 0) {
             const dados = resultado.resposta[0];
             console.log(resultado)
-            const titulo = document.querySelector(".tituloLivroDestaque");
-            const autorNome = document.querySelector(".autorNome");
-            const paginas = document.getElementById("qtdPaginas");
-            const ano = document.getElementById("ano");
-            const genero = document.getElementById("genero");
-            const editora = document.getElementById("editora");
-            const sinopse = document.querySelector(".sinopseLivro p");
-            const capa = document.querySelector(".capaDestaque");
+            const titulo = containerDetalhesLivro.querySelector(".tituloLivroDestaque");
+            const autorNome = containerDetalhesLivro.querySelector(".autorNome");
+            const paginas = containerDetalhesLivro.querySelector("#qtdPaginas");
+            const ano = containerDetalhesLivro.querySelector("#ano");
+            const genero = containerDetalhesLivro.querySelector("#genero");
+            const editora = containerDetalhesLivro.querySelector("#editora");
+            const sinopse = containerDetalhesLivro.querySelector(".sinopseLivro p");
+            const capa = containerDetalhesLivro.querySelector(".capaDestaque");
 
             capa.src = "https://covers.openlibrary.org/b/isbn/" + dados.id_livro + "-L.jpg";
             titulo.textContent = dados.titulo;
@@ -73,7 +73,7 @@ if (containerDetalhesLivro) {
             genero.textContent = dados.nm_genero;
             sinopse.textContent = dados.sinopse;
 
-            const areaEstrelas = document.querySelector(".avaliacaoResumo .estrelasExibicao");
+            const areaEstrelas = containerDetalhesLivro.querySelector(".avaliacaoResumo .estrelasExibicao");
             areaEstrelas.innerHTML = "";
 
             const nota = Number(String(dados.nota_media ?? 0).replace(",", ".")) || 0;

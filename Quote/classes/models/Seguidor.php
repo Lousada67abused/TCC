@@ -27,7 +27,7 @@ class Seguidor extends Banco {
 
 	public static function BuscarSeguidoresUsuario($codigoUsuario) {
 		$codigoUsuario = ['pCodigoUsuario'=>$codigoUsuario];
-		return self::Consultar("buscarSeguidoresUsuario", $codigoUsuario);
+		return self::Consultar("sp_buscar_seguidores_por_usuario", $codigoUsuario);
 	}
 
 	public static function buscarSeguidosUsuario($codigoUsuario) {

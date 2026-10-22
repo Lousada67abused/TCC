@@ -1,132 +1,398 @@
 body {
-    padding-bottom: 50px;
+    min-height: 100vh;
+    color: var(--black);
     background-color: var(--background);
+    padding-bottom: 84px;
 }
 
-main {
-    width: 70%;
-    max-width: 1024px;
-    display: flex;
-    flex-direction: column;
-    gap: 36px;
+.rotuloAcessivel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
 }
 
-.pesquisaMobile {
+.cabecalhoPrincipal {
     display: none;
 }
 
+.barraPesquisa button,
+.pesquisaMobile button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+}
+
+.barraPesquisa button span,
+.pesquisaMobile button span {
+    margin: 0;
+}
+
+.pesquisaMobile {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    min-width: 0;
+    height: 36px;
+    margin-bottom: 28px;
+    padding: 2px 4px 2px 8px;
+    border: 1px solid var(--mediumBlue);
+    border-radius: 4px;
+    background-color: var(--white);
+}
+
+.pesquisaMobile input {
+    flex: 1;
+    width: 100%;
+    min-width: 0;
+    padding: 4px 0;
+    font-size: 12px;
+    color: var(--black);
+    background: transparent;
+    border: 0;
+    outline: none;
+}
+
+.pesquisaMobile button {
+    width: 32px;
+    height: 30px;
+    color: var(--royalBlue);
+}
+
+.pesquisaMobile button span {
+    font-size: 22px;
+}
+
+.pesquisaMobile:focus-within {
+    outline: 2px solid var(--brightLightBlue);
+    outline-offset: 2px;
+}
+
+.navegacaoMobile .itemNavegacao {
+    display: flex;
+    justify-content: center;
+    flex: 1;
+    min-width: 0;
+}
+
+.navegacaoMobile .material-symbols-outlined {
+    width: 26px;
+    height: 26px;
+    overflow: hidden;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+@media (min-width: 768px) {
+    body {
+        padding-bottom: 40px;
+    }
+
+    .cabecalhoPrincipal {
+        display: flex;
+    }
+
+    .cabecalhoPrincipal .barraPesquisa {
+        max-width: 606px;
+    }
+
+    .cabecalhoDropdown > div {
+        min-width: 0;
+        overflow-wrap: anywhere;
+    }
+
+    .cabecalhoDropdown .avatarHeader {
+        flex-shrink: 0;
+    }
+
+    .perfilMenuContainer:focus-within .menuDropdownPerfil {
+        display: block;
+    }
+
+    .pesquisaMobile,
+    .navegacaoMobile {
+        display: none;
+    }
+}
+
+.conteudoBusca {
+    width: 100%;
+    min-width: 0;
+    max-width: 1024px;
+    margin: 0 auto;
+    padding: 24px 16px 32px;
+}
+
 .tituloBusca {
-    font-size: 24px;
+    font-size: 20px;
+    line-height: 1.4;
+    margin-bottom: 24px;
+    overflow-wrap: anywhere;
+}
+
+.filtros {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 6px;
+    width: 100%;
+    margin-bottom: 28px;
+}
+
+.filtros button {
+    min-width: 0;
+    min-height: 32px;
+    padding: 5px 2px;
+    border: 1px solid var(--royalBlue);
+    border-radius: 4px;
+    background-color: var(--white);
+    color: var(--royalBlue);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.filtros button.ativo {
+    color: var(--white);
+    background-color: var(--royalBlue);
+}
+
+.filtros button:hover {
+    box-shadow: inset 0 0 0 1px var(--royalBlue);
+}
+
+.estadoPesquisa p {
+    margin-bottom: 16px;
+    font-size: 14px;
+    line-height: 1.5;
+    color: #475569;
+    overflow-wrap: anywhere;
+}
+
+.estadoPesquisa p:empty {
+    display: none;
+}
+
+#tentarBusca {
+    margin-bottom: 20px;
+    padding: 8px 14px;
+    color: var(--royalBlue);
+    background-color: var(--white);
+    border: 1px solid var(--royalBlue);
+    border-radius: 4px;
+    font-size: 13px;
+    cursor: pointer;
 }
 
 .resultadoLivros,
 .resultadoLeitores {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    margin-bottom: 36px;
 }
 
 .subtituloBusca {
-    font-size: 20px;
+    margin-bottom: 20px;
     color: var(--darkOceanBlue);
+    font-size: 18px;
 }
 
 .areaLivros {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 40px 20px;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 1fr;
+    align-items: stretch;
+    gap: 24px 12px;
 }
 
-.livro {
+.cardLivro {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    cursor: pointer;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 4px;
 }
 
-.livro img {
+.capaLivro {
+    display: block;
     width: 100%;
+    height: auto;
     aspect-ratio: 161 / 237;
     object-fit: cover;
-    border-radius: 3px;
+    border-radius: 4px;
+    margin-bottom: 8px;
 }
 
-.textoLivro {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+.capaLivroIndisponivel {
+    display: grid;
+    place-items: center;
+    padding: 8px;
+    background-color: #edf2f8;
+    color: #475569;
+    font-size: 11px;
+    text-align: center;
 }
 
-.textoLivro h2 {
-    font-size: 18px;
-    font-weight: 600;
+.tituloLivro {
     display: -webkit-box;
-    -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
     overflow: hidden;
-}
-
-.textoLivro p {
+    overflow-wrap: anywhere;
     font-size: 14px;
-    color: var(--gray);
+    font-weight: 600;
+    line-height: 1.3;
+    margin-bottom: 2px;
 }
 
-.resultadoLivros.escondido,
-.resultadoLeitores.escondido,
-.subtituloBusca.escondido {
-    display: none;
+.autorLivro {
+    display: block;
+    min-height: 1.4em;
+    margin-bottom: 6px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 11px;
+    line-height: 1.4;
+    color: #747272;
 }
 
-@media (max-width: 1100px) {
-    main {
-        width: 85%;
+.cardLivro .areaEstrelas {
+    margin-top: auto;
+    flex-shrink: 0;
+}
+
+.estrelaAvaliacao {
+    font-family: Arial, sans-serif;
+    font-size: 16px;
+    line-height: 1;
+}
+
+.cardLivro:focus-visible,
+.filtros button:focus-visible,
+#tentarBusca:focus-visible,
+.pesquisaMobile button:focus-visible {
+    outline: 3px solid var(--brightLightBlue);
+    outline-offset: 3px;
+}
+
+@media (max-width: 767px) {
+    .tituloBusca {
+        margin-bottom: 24px;
     }
-}
 
-@media (max-width: 768px) {
-    body {
-        padding-bottom: 80px;
-    }
-
-    main {
-        width: 100%;
-        padding: 0 16px;
-        gap: 18px;
+    .filtros {
+        margin-top: -10px;
     }
 
     .pesquisaMobile {
-        display: flex;
-        width: 100%;
-        transform: none;
-        border: 1px solid var(--royalBlue);
-        background-color: var(--white);
+        margin-bottom: 20px;
     }
 
-    .pesquisaMobile span {
-        color: var(--royalBlue);
+    .conteudoBusca {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .pesquisaMobile {
+        order: 0;
+    }
+
+    .filtros {
+        order: 1;
     }
 
     .tituloBusca {
-        order: 1;
-        font-size: 20px;
-    }
-
-    .resultadoLivros,
-    .resultadoLeitores,
-    .mensagemErro {
         order: 2;
     }
 
-    .areaLivros {
-        grid-template-columns: repeat(3, 1fr);
-        gap: 20px 12px;
+    .estadoPesquisa {
+        order: 3;
     }
 
-    .textoLivro h2 {
+    .resultadoLivros,
+    .resultadoLeitores {
+        order: 4;
+    }
+}
+
+@media (min-width: 360px) {
+    .areaLivros {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 768px) {
+    .conteudoBusca {
+        width: 72%;
+        padding: 0 0 40px;
+    }
+
+    .tituloBusca {
+        margin-bottom: 40px;
+        font-size: 24px;
+    }
+
+    .filtros {
+        gap: 18px;
+        margin-bottom: 40px;
+    }
+
+    .filtros button {
+        min-height: 44px;
+        font-size: 18px;
+        padding: 6px 8px;
+        border-radius: 6px;
+    }
+
+    .areaLivros {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+        gap: 28px 24px;
+    }
+
+    .subtituloBusca {
+        font-size: 20px;
+    }
+
+    .tituloLivro {
+        font-size: 18px;
+    }
+
+    .autorLivro {
         font-size: 14px;
     }
 
-    .textoLivro p {
+    .estrelaAvaliacao {
+        font-size: 22px;
+    }
+}
+
+@media (min-width: 768px) and (max-width: 1000px) {
+    .tituloLivro {
+        font-size: 15px;
+    }
+
+    .autorLivro {
         font-size: 12px;
+    }
+
+    .estrelaAvaliacao {
+        font-size: 17px;
+    }
+
+    .filtros {
+        gap: 10px;
+    }
+
+    .filtros button {
+        font-size: 15px;
     }
 }
