@@ -118,7 +118,7 @@ body {
 }
 
 .areaEstrelas .notaLivro {
-    font-size: 20px;
+    font-size: 18px;
     margin-left: 4px;
     white-space: nowrap;
     color: #475569;
@@ -324,7 +324,7 @@ body {
     }
 
     .areaEstrelas span {
-        font-size: 15px;
+        font-size: 20px;
     }
 
     .cardResenhaAmigo {
