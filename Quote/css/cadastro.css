@@ -741,3 +741,35 @@
     }
     .paginaCadastro .etapaLeituras .topoResultadoDesktop > .btnVoltar { color: #002663; }
 }
+
+/* Alinhamento explícito da busca: seta, campo à esquerda e avanço à direita. */
+#cadastroPasso3 .topoResultadoDesktop {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    width: 100%;
+    gap: 16px;
+}
+#cadastroPasso3 .topoResultadoDesktop > .btnVoltar {
+    flex: 0 0 44px;
+}
+#cadastroPasso3 .barraPesquisaInterna {
+    flex: 0 1 450px;
+    width: 450px;
+    max-width: 450px;
+    min-width: 0;
+    margin: 0;
+}
+#cadastroPasso3 #btnIrPasso4 {
+    flex-shrink: 0;
+    margin-left: auto;
+}
+@media (max-width: 767px) {
+    #cadastroPasso3 .topoResultadoDesktop { gap: 8px; }
+    #cadastroPasso3 .barraPesquisaInterna {
+        flex-basis: 280px;
+        width: 280px;
+        max-width: 280px;
+    }
+}
