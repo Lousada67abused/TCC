@@ -94,7 +94,8 @@ CREATE TABLE biblioteca
 (
   id_livro BIGINT,
   id_biblioteca INT,
-  status ENUM('lido','lendo','quero ler','desisti','favorito'),
+  status ENUM('lido', 'lendo', 'quero ler', 'desisti'),
+  favorito TINYINT,
   visivel TINYINT,
   id_usuario INT,
   PRIMARY KEY (id_biblioteca, id_livro),
