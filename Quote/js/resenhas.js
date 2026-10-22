@@ -6,7 +6,7 @@
     let avaliacoesAtuais = [];
     let criarAcoesAtuais = null;
     function foto(img, codigo) {
-        img.onerror = function () { this.onerror = null; this.src = '../img/avatar.png'; };
+        img.onerror = function () { this.onerror = null; this.src = '../img/avatar.jpg'; };
         img.src = '../img/' + encodeURIComponent(codigo) + '.png';
     }
     function elemento(tag, classe, conteudo) {
