@@ -7,7 +7,7 @@ body {
 
 .conteudoPrincipal {
     min-width: 0;
-    padding: 16px;
+    padding: 16px 12px;
 }
 
 .cabecalhoDropdown > div {
@@ -40,7 +40,8 @@ body {
 .areaLivros {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(min(100%, 100px), 1fr));
-    gap: 20px 12px;
+    align-items: start;
+    gap: 28px 16px;
 }
 
 .cardLivro {
@@ -87,8 +88,7 @@ body {
 .tituloLivro {
     font-size: 12px;
     font-weight: bold;
-    min-height: 2.8em;
-    margin-bottom: 4px;
+    margin-bottom: 2px;
 }
 
 .autorLivro {
@@ -99,7 +99,7 @@ body {
 }
 
 .cardLivro .areaEstrelas {
-    margin-top: auto;
+    margin-top: 0;
 }
 
 .areaEstrelas span {
@@ -296,7 +296,7 @@ body {
 @media (min-width: 600px) {
     .areaLivros {
         grid-template-columns: repeat(auto-fill, minmax(min(100%, 130px), 1fr));
-        gap: 24px 16px;
+        gap: 32px 20px;
     }
 }
 
@@ -306,7 +306,7 @@ body {
     }
 
     .conteudoPrincipal {
-        padding: 24px 48px;
+        padding: 24px 32px;
     }
 
     .tituloLivro {
@@ -342,7 +342,7 @@ body {
 @media (min-width: 900px) {
     .areaLivros {
         grid-template-columns: repeat(auto-fill, minmax(min(100%, 150px), 1fr));
-        column-gap: 20px;
+        column-gap: 24px;
     }
 
     .listaResenhasAmigos {
