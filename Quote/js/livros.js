@@ -54,7 +54,7 @@ if (containerDetalhesLivro) {
 
         if (deuCerto && resultado.resposta && resultado.resposta.length > 0) {
             const dados = resultado.resposta[0];
-
+            console.log(resultado)
             const titulo = document.querySelector(".tituloLivroDestaque");
             const autorNome = document.querySelector(".autorNome");
             const paginas = document.getElementById("qtdPaginas");
@@ -66,9 +66,11 @@ if (containerDetalhesLivro) {
 
             capa.src = "https://covers.openlibrary.org/b/isbn/" + dados.id_livro + "-L.jpg";
             titulo.textContent = dados.titulo;
+            autorNome.textContent = dados.nm_autor;
             paginas.textContent = dados.qnt_paginas;
             ano.textContent = dados.ano_publicacao;
             editora.textContent = dados.nm_editora;
+            genero.textContent = dados.nm_genero;
             sinopse.textContent = dados.sinopse;
 
             const areaEstrelas = document.querySelector(".avaliacaoResumo .estrelasExibicao");
@@ -110,7 +112,7 @@ function criarLivro(livro) {
 
     const autor = document.createElement("p");
     autor.className = "autorLivro";
-    autor.textContent = livro.nm_autor;
+    autor.textContent = livro.autores;
 
     const areaEstrelas = document.createElement("div");
     areaEstrelas.className = "areaEstrelas";
