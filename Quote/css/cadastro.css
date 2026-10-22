@@ -671,12 +671,15 @@
     display: grid;
     grid-template-columns: 44px minmax(0, 280px) auto;
     align-items: center;
+    justify-content: start;
     gap: 8px;
 }
 .paginaCadastro .etapaLeituras .barraPesquisaInterna {
     width: 100%;
     max-width: 280px;
     min-width: 0;
+    justify-self: start;
+    margin: 0;
     height: 30px;
     padding: 6px 12px;
     border-radius: 6px;
@@ -698,7 +701,14 @@
     width: auto;
     min-width: 0;
     margin: 0;
-    padding: 8px 10px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 30px;
+    min-height: 30px;
+    box-sizing: border-box;
+    padding: 0 10px;
+    line-height: 1;
     gap: 4px;
     font-size: 12px;
     white-space: nowrap;
@@ -710,5 +720,24 @@
     .paginaCadastro .etapaLeituras .barraPesquisaInterna input { font-size: 13px; }
     .paginaCadastro .etapaLeituras .barraPesquisaInterna button { width: 20px; height: 20px; min-width: 20px; min-height: 20px; }
     .paginaCadastro .etapaLeituras .barraPesquisaInterna button span { font-size: 20px; }
-    .paginaCadastro .etapaLeituras .btnProximo { padding: 10px 24px; font-size: 14px; gap: 8px; }
+    .paginaCadastro .etapaLeituras .btnProximo { height: 32px; min-height: 32px; padding: 0 24px; font-size: 14px; gap: 8px; }
+}
+
+/* A busca começa logo após a seta, como em seguir amigos. */
+.paginaCadastro .etapaLeituras .topoResultadoDesktop {
+    width: 100%;
+    margin-inline: 0;
+}
+.paginaCadastro .etapaLeituras {
+    max-width: 1100px;
+    padding: 40px 48px 60px;
+}
+@media (max-width: 767px) {
+    .paginaCadastro .etapaLeituras { padding: 16px 16px 32px; }
+    .paginaCadastro .etapaLeituras .topoResultadoDesktop {
+        padding: 0;
+        margin: 0 0 24px;
+        background: transparent;
+    }
+    .paginaCadastro .etapaLeituras .topoResultadoDesktop > .btnVoltar { color: #002663; }
 }
