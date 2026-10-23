@@ -316,6 +316,7 @@ body.paginaPerfil {
     display: grid;
     grid-template-columns: minmax(0, 1fr) 220px;
     grid-template-areas: 'meta lateral' 'historico lateral';
+    grid-template-rows: min-content 1fr;
     align-items: start;
     gap: 24px 22px;
     min-width: 0;
@@ -507,7 +508,7 @@ body.paginaPerfil {
     .acoesMetas { gap: 7px; }
     .acoesMetas button { min-height: 30px; padding: 5px 8px; font-size: 11px; }
     .seletorAno { min-width: 76px; min-height: 30px; font-size: 12px; }
-    .gradeMetas { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'meta' 'lateral' 'historico'; gap: 20px; }
+    .gradeMetas { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'meta' 'lateral' 'historico'; grid-template-rows: none; gap: 20px; }
     .colunaLateral { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
     .metaAnual { gap: 18px; padding: 20px 16px; }
     .roda { width: 84px; height: 84px; flex-basis: 84px; }
