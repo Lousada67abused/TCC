@@ -18,224 +18,319 @@ body.paginaRanking {
     border: 0;
 }
 
-.paginaRanking .cabecalhoPrincipal { margin-bottom: 28px; }
+.paginaRanking .cabecalhoPrincipal { margin-bottom: 36px; }
 .paginaRanking .cabecalhoDropdown > div { min-width: 0; overflow-wrap: anywhere; }
 .paginaRanking .cabecalhoDropdown .avatarHeader { flex-shrink: 0; }
 
 .conteudoRanking {
     width: calc(100% - 32px);
-    max-width: 1100px;
+    max-width: 1024px;
     min-width: 0;
     margin: 0 auto;
 }
 
-.cabecalhoRanking {
-    display: flex;
-    align-items: flex-start;
-    gap: 10px;
-    margin-bottom: 24px;
-}
-
-.iconeRanking { color: var(--royalBlue); font-size: 25px; }
-.cabecalhoRanking > div { min-width: 0; }
+.cabecalhoRanking { margin-bottom: 26px; }
 
 #tituloRanking {
     font-size: 20px;
+    font-weight: 700;
     line-height: 1.3;
     overflow-wrap: anywhere;
 }
 
 #descricaoRanking {
-    margin-top: 7px;
-    color: #647082;
-    font-size: 12px;
+    margin-top: 6px;
+    color: #747272;
+    font-size: 13px;
     line-height: 1.5;
     overflow-wrap: anywhere;
 }
 
-.gradeRanking { display: grid; gap: 22px; min-width: 0; }
-.filtrosRanking,
-.resultadosRanking { min-width: 0; }
-.filtrosRanking h2 { display: none; }
-.listaFiltrosGeneros { display: none; }
-.seletorGeneroMobile { display: flex; flex-direction: column; gap: 8px; }
-.seletorGeneroMobile label { color: #475569; font-size: 12px; font-weight: 600; }
-
-#generoRanking {
-    width: 100%;
-    min-height: 40px;
+.gradeRanking {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 220px;
+    grid-template-areas: 'resultados filtros';
+    align-items: start;
+    gap: 40px;
     min-width: 0;
-    padding: 7px 10px;
-    border: 1px solid var(--softBlue);
-    border-radius: 5px;
-    color: var(--deepNavyBlue);
-    background-color: var(--white);
-    font-size: 14px;
 }
 
-#generoRanking:disabled { opacity: 0.65; }
+.resultadosRanking { grid-area: resultados; min-width: 0; }
+
+.filtrosRanking {
+    grid-area: filtros;
+    min-width: 0;
+    margin-top: 8px;
+    border: 1px solid var(--softBlue);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.filtrosRanking h2 {
+    padding: 11px 12px;
+    color: var(--deepNavyBlue);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.seletorGeneroMobile { display: none; }
+.listaFiltrosGeneros { display: flex; flex-direction: column; min-width: 0; }
+
+.filtroGenero {
+    display: block;
+    padding: 8px 12px;
+    border-top: 1px solid var(--softBlue);
+    color: #747272;
+    font-size: 11px;
+    line-height: 1.4;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+.filtroGenero:hover { background-color: #edf4ff; color: var(--royalBlue); }
+.filtroGenero.ativo,
+.filtroGenero[aria-current='page'] { background-color: #d9e6fc; color: var(--deepNavyBlue); font-weight: 600; }
 
 .estadoRanking {
-    margin-top: 14px;
+    margin-bottom: 12px;
     color: #647082;
     font-size: 12px;
     line-height: 1.5;
     overflow-wrap: anywhere;
 }
 
+.filtrosRanking > .estadoRanking { margin: 0; padding: 10px 12px; }
 .estadoRanking:empty { display: none; }
-.resultadosRanking > .estadoRanking { margin-top: 0; margin-bottom: 14px; }
 
 .tentarRanking {
-    margin-top: 10px;
     padding: 7px 12px;
-    min-height: 34px;
+    min-height: 32px;
+    margin-bottom: 12px;
     border: 1px solid var(--royalBlue);
-    border-radius: 5px;
+    border-radius: 4px;
     background-color: var(--white);
     color: var(--royalBlue);
     font-size: 12px;
     cursor: pointer;
 }
 
-.resultadosRanking > .tentarRanking { margin-top: 0; margin-bottom: 16px; }
-.listaRanking { list-style: none; min-width: 0; }
+.filtrosRanking > .tentarRanking { margin-left: 12px; }
 
-.itemRanking {
+.podioRanking {
     display: grid;
-    grid-template-columns: 22px minmax(0, 1fr) 72px;
-    align-items: center;
-    gap: 10px;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: end;
     min-width: 0;
-    padding: 16px 0;
-    border-bottom: 1px solid #e6edf7;
+    padding-top: 8px;
+    list-style: none;
 }
 
-.itemRanking:first-child { padding-top: 0; }
-.itemRanking:last-child { border-bottom: 0; }
+.podioRanking:empty,
+.listaRanking:empty { display: none; }
+.itemPodio { min-width: 0; grid-row: 1; }
+.itemPodio.posicao1 { grid-column: 2; }
+.itemPodio.posicao2 { grid-column: 1; }
+.itemPodio.posicao3 { grid-column: 3; }
 
-.posicaoRanking {
-    color: #6c7686;
-    font-size: 17px;
-    font-weight: 700;
-    text-align: center;
-}
-
-.itemRanking:nth-child(-n + 3) .posicaoRanking { color: var(--royalBlue); }
-
-.livroRanking {
+.livroPodio {
     display: flex;
+    flex-direction: column;
     align-items: center;
-    gap: 10px;
     min-width: 0;
-    border-radius: 4px;
     color: inherit;
     text-decoration: none;
 }
 
-.capaRanking {
+.capaPodio {
     display: block;
-    width: 48px;
-    height: 72px;
-    flex: 0 0 48px;
+    width: min(144px, 84%);
+    height: 216px;
     object-fit: cover;
-    border-radius: 4px;
-    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.14);
+    border-radius: 6px;
+    flex-shrink: 0;
 }
 
-.capaRankingIndisponivel {
-    display: grid;
-    place-items: center;
-    padding: 3px;
-    overflow: hidden;
-    overflow-wrap: anywhere;
-    background-color: #edf2f8;
-    color: #647082;
-    font-size: 8px;
-    line-height: 1.4;
+.detalhesPodio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    min-width: 0;
+    min-height: 132px;
+    padding: 18px 12px;
+    border: 1px solid var(--softBlue);
+    border-radius: 4px 4px 0 0;
+    background-color: var(--white);
     text-align: center;
-    box-shadow: none;
 }
 
-.informacoesLivro { min-width: 0; }
+.posicao1 .detalhesPodio { min-height: 164px; }
+.posicao3 .detalhesPodio { min-height: 116px; }
 
-.livroRanking .tituloLivro {
+.tituloLivro {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
     overflow-wrap: anywhere;
-    font-size: 12px;
-    font-weight: 700;
-    line-height: 1.4;
+    color: var(--deepNavyBlue);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
 }
 
-.livroRanking .autorLivro {
-    margin-top: 3px;
+.autorLivro {
+    display: block;
+    max-width: 100%;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    color: #555555;
+    color: #747272;
     font-size: 11px;
     line-height: 1.4;
 }
 
-.generosLivro { display: none; }
-.avaliacaoRanking { display: flex; flex-direction: column; align-items: flex-end; gap: 5px; min-width: 0; }
-.linhaNota { display: flex; align-items: center; justify-content: flex-end; gap: 4px; color: #475569; font-size: 10px; white-space: nowrap; }
-.estrelaRanking { color: #ffc107; font-family: Arial, sans-serif; font-size: 15px; }
-.notaMedia { color: #111111; font-size: 13px; font-weight: 700; }
-.totalAvaliacoes { color: #647082; font-size: 10px; line-height: 1.4; text-align: right; overflow-wrap: anywhere; }
+.avaliacaoPodio { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; }
+.linhaNota { display: inline-flex; align-items: center; gap: 5px; min-width: 0; color: var(--deepNavyBlue); }
+.estrelaRanking { color: #ffc107; font-family: Arial, sans-serif; font-size: 19px; line-height: 1; }
+.notaMedia { color: var(--deepNavyBlue); font-size: 15px; font-weight: 700; line-height: 1.3; white-space: nowrap; }
+.totalAvaliacoes { color: #555555; font-size: 11px; line-height: 1.4; overflow-wrap: anywhere; }
+
+.listaRanking {
+    min-width: 0;
+    list-style: none;
+    border: 1px solid var(--softBlue);
+    border-top: 0;
+    border-radius: 0 0 4px 4px;
+    overflow: hidden;
+}
+
+.podioRanking:empty + .listaRanking { border-top: 1px solid var(--softBlue); border-radius: 4px; }
+
+.itemRanking {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+    padding: 15px 20px;
+}
+
+.itemRanking + .itemRanking { border-top: 1px solid var(--softBlue); }
+.posicaoRanking { color: var(--deepNavyBlue); font-size: 24px; font-weight: 700; text-align: center; }
+
+.livroRanking {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+}
+
+.capaRanking {
+    display: block;
+    width: 52px;
+    height: 78px;
+    flex: 0 0 52px;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+.capaRankingIndisponivel,
+.capaPodioIndisponivel {
+    display: grid;
+    place-items: center;
+    padding: 4px;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    background-color: #edf2f8;
+    color: #647082;
+    font-size: 10px;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.informacoesLivro { display: flex; flex: 1; flex-direction: column; gap: 3px; min-width: 0; }
+.avaliacaoRanking { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; min-width: 0; }
+.avaliacaoRanking .linhaNota { gap: 4px; }
+.avaliacaoRanking .estrelaRanking { font-size: 15px; }
+.avaliacaoRanking .notaMedia { font-size: 12px; }
+.avaliacaoRanking .totalAvaliacoes { font-size: 11px; }
+.generosLivro { color: #555555; font-size: 11px; line-height: 1.4; overflow-wrap: anywhere; }
 
 .paginaRanking button:focus-visible,
 .paginaRanking a:focus-visible,
-.paginaRanking select:focus-visible {
-    outline: 3px solid var(--brightLightBlue);
-    outline-offset: 3px;
-}
+.paginaRanking select:focus-visible { outline: 3px solid var(--brightLightBlue); outline-offset: 3px; }
 
 @media (min-width: 768px) {
     body.paginaRanking { padding-bottom: 36px; }
-    .paginaRanking .cabecalhoPrincipal { margin-bottom: 36px; }
     .paginaRanking .navegacaoMobile { display: none; }
     .conteudoRanking { width: calc(100% - 48px); }
-    .cabecalhoRanking { gap: 12px; margin-bottom: 32px; }
-    .iconeRanking { font-size: 29px; }
-    #tituloRanking { font-size: 24px; }
-    #descricaoRanking { font-size: 13px; }
-    .gradeRanking { grid-template-columns: 190px minmax(0, 1fr); gap: 32px; align-items: start; }
-    .filtrosRanking { padding-right: 20px; border-right: 1px solid #e6edf7; }
-    .filtrosRanking h2 { display: block; margin-bottom: 14px; font-size: 14px; }
-    .seletorGeneroMobile { display: none; }
-    .listaFiltrosGeneros { display: flex; flex-direction: column; gap: 4px; }
-    .filtroGenero { display: block; padding: 9px 10px; border-radius: 5px; color: #647082; font-size: 12px; line-height: 1.4; text-decoration: none; overflow-wrap: anywhere; }
-    .filtroGenero:hover { background-color: #f3f7fd; color: var(--royalBlue); }
-    .filtroGenero.ativo,
-    .filtroGenero[aria-current="page"] { background-color: #edf4ff; color: var(--royalBlue); font-weight: 600; }
-    .itemRanking { grid-template-columns: 30px minmax(0, 1fr) 92px; gap: 18px; padding: 18px 0; }
-    .posicaoRanking { font-size: 21px; }
+}
+
+@media (min-width: 768px) and (max-width: 1000px) {
+    .gradeRanking { grid-template-columns: minmax(0, 1fr) 190px; gap: 24px; }
+    .capaPodio { width: min(116px, 84%); height: 174px; }
+    .detalhesPodio { padding: 14px 8px; }
+    .itemRanking { padding: 14px; gap: 12px; }
     .livroRanking { gap: 16px; }
-    .capaRanking { width: 72px; height: 108px; flex-basis: 72px; }
-    .capaRankingIndisponivel { padding: 4px; font-size: 10px; }
-    .livroRanking .tituloLivro { font-size: 14px; }
-    .livroRanking .autorLivro { font-size: 12px; }
-    .generosLivro { display: -webkit-box; -webkit-line-clamp: 2; line-clamp: 2; -webkit-box-orient: vertical; margin-top: 7px; overflow: hidden; overflow-wrap: anywhere; color: #77818f; font-size: 11px; line-height: 1.4; }
-    .linhaNota { font-size: 11px; gap: 5px; }
-    .estrelaRanking { font-size: 18px; }
-    .notaMedia { font-size: 15px; }
-    .totalAvaliacoes { font-size: 11px; }
 }
 
 @media (max-width: 767px) {
-    .paginaRanking .perfilMenuContainer { position: relative; }
-    .paginaRanking .menuDropdownPerfil { position: absolute; top: 42px; right: 0; z-index: 200; width: 200px; max-width: calc(100vw - 32px); padding: 12px 0; border-radius: 8px; background-color: var(--white); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15); }
-    .paginaRanking .cabecalhoDropdown { display: flex; align-items: center; gap: 10px; padding: 0 14px 12px; border-bottom: 1px solid #f0f4f8; }
-    .paginaRanking .cabecalhoDropdown > div { min-width: 0; overflow-wrap: anywhere; }
-    .paginaRanking .cabecalhoDropdown img { flex-shrink: 0; }
-    .paginaRanking .cabecalhoDropdown strong { display: block; color: #111111; font-size: 12px; }
-    .paginaRanking .cabecalhoDropdown small { color: #777777; font-size: 10px; }
-    .paginaRanking .listaMenuDropdown { list-style: none; padding-top: 8px; }
-    .paginaRanking .listaMenuDropdown a { display: flex; align-items: center; gap: 10px; padding: 8px 14px; color: #444444; font-size: 12px; text-decoration: none; }
-    .paginaRanking .listaMenuDropdown span { font-size: 18px; }
+    body.paginaRanking { padding-bottom: 78px; }
+    .paginaRanking:not(.pesquisaEmEdicao) > .cabecalhoPrincipal { display: none; }
+    .conteudoRanking { width: calc(100% - 24px); padding-top: 14px; }
+    .cabecalhoRanking { margin-bottom: 16px; }
+    #tituloRanking { font-size: 18px; }
+    #descricaoRanking { margin-top: 5px; font-size: 12px; }
+    .gradeRanking { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'filtros' 'resultados'; gap: 20px; }
+    .filtrosRanking { margin-top: 0; border: 0; border-radius: 0; overflow: visible; }
+    .filtrosRanking h2 { display: none; }
+    .filtrosRanking > .estadoRanking { padding: 0 0 8px; }
+    .filtrosRanking > .tentarRanking { margin-left: 0; }
+    .listaFiltrosGeneros { flex-direction: row; gap: 10px; padding: 2px 0 7px; overflow-x: auto; scrollbar-width: thin; }
+    .filtroGenero { flex: 0 0 auto; min-width: 82px; padding: 5px 10px; border: 1px solid var(--royalBlue); border-radius: 4px; color: var(--royalBlue); font-size: 12px; line-height: 1.3; text-align: center; white-space: nowrap; }
+    .filtroGenero.ativo,
+    .filtroGenero[aria-current='page'] { background-color: var(--royalBlue); color: var(--white); }
+    .podioRanking { padding-top: 8px; }
+    .capaPodio { width: 58px; height: 87px; border-radius: 4px; }
+    .detalhesPodio { gap: 4px; min-height: 112px; padding: 12px 7px; }
+    .posicao1 .detalhesPodio { min-height: 138px; }
+    .posicao3 .detalhesPodio { min-height: 104px; }
+    .tituloLivro { font-size: 12px; }
+    .autorLivro { font-size: 10px; }
+    .avaliacaoPodio { gap: 3px; }
+    .linhaNota { gap: 4px; }
+    .estrelaRanking { font-size: 16px; }
+    .notaMedia { font-size: 13px; }
+    .totalAvaliacoes { font-size: 10px; }
+    .itemRanking { grid-template-columns: 28px minmax(0, 1fr); gap: 10px; padding: 12px 10px; }
+    .posicaoRanking { font-size: 21px; }
+    .livroRanking { gap: 12px; }
+    .capaRanking { width: 40px; height: 60px; flex-basis: 40px; }
+    .capaRankingIndisponivel { padding: 3px; font-size: 8px; }
+    .capaPodioIndisponivel { font-size: 8px; }
+    .informacoesLivro { gap: 2px; }
+    .avaliacaoRanking { gap: 7px; }
+    .avaliacaoRanking .estrelaRanking { font-size: 13px; }
+    .avaliacaoRanking .notaMedia { font-size: 11px; }
+    .avaliacaoRanking .totalAvaliacoes { font-size: 10px; }
+    .generosLivro { font-size: 10px; }
+}
+
+@media (max-width: 359px) {
+    .tituloLivro { font-size: 11px; }
+    .autorLivro { font-size: 9px; }
+    .detalhesPodio { padding: 10px 5px; }
+    .totalAvaliacoes { font-size: 9px; }
+    .notaMedia { font-size: 12px; }
+    .itemRanking { gap: 8px; padding: 11px 8px; }
+    .avaliacaoRanking { gap: 6px; }
+    .avaliacaoRanking .totalAvaliacoes,
+    .generosLivro { font-size: 9px; }
 }

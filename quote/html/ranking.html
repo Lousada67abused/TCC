@@ -41,15 +41,14 @@
 
     <main class="conteudoRanking">
         <div class="cabecalhoRanking">
-            <span class="material-symbols-outlined iconeRanking" aria-hidden="true">emoji_events</span>
             <div>
-                <h1 id="tituloRanking">Ranking de livros</h1>
-                <p id="descricaoRanking">Conheça os livros mais bem avaliados de cada gênero.</p>
+                <h1 id="tituloRanking">Ranking dos livros mais bem avaliados</h1>
+                <p id="descricaoRanking">Baseado nas avaliações da comunidade</p>
             </div>
         </div>
         <div class="gradeRanking">
             <aside class="filtrosRanking" aria-labelledby="tituloFiltroGeneros">
-                <h2 id="tituloFiltroGeneros">Gêneros</h2>
+                <h2 id="tituloFiltroGeneros">Mostrar resultados de</h2>
                 <div class="seletorGeneroMobile">
                     <label for="generoRanking">Escolha um gênero</label>
                     <select id="generoRanking" name="genero" disabled></select>
@@ -61,7 +60,8 @@
             <section class="resultadosRanking" aria-labelledby="tituloRanking">
                 <p id="estadoRanking" class="estadoRanking" role="status"></p>
                 <button id="tentarRanking" class="tentarRanking" type="button" hidden>Tentar novamente</button>
-                <ol id="listaRanking" class="listaRanking" role="list" aria-label="Livros em ordem de classificação" aria-busy="false"></ol>
+                <ol id="podioRanking" class="podioRanking" role="list" aria-label="Três primeiros colocados" aria-busy="false"></ol>
+                <ol id="listaRanking" class="listaRanking" start="4" role="list" aria-label="Livros do quarto ao décimo lugar" aria-busy="false"></ol>
             </section>
         </div>
     </main>

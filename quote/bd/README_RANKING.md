@@ -1,10 +1,15 @@
 # Ranking de livros por gênero
 
 A página `ranking.html` usa as APIs, classes e procedures existentes. O filtro
-lateral e o seletor do celular são preenchidos exclusivamente por
-`buscarGenero.php`. O primeiro gênero retornado pelo banco é selecionado ao
-abrir a página sem filtro. Um link como `ranking.html?genero=3` abre diretamente
-o gênero correspondente; um código inexistente volta ao primeiro disponível.
+começa em **Geral**, consultando `buscarRankingGenero.php?codigoGenero=0`.
+Os demais filtros vêm exclusivamente de `buscarGenero.php`. Um link como
+`ranking.html?genero=3` abre diretamente o gênero correspondente; um código
+inexistente volta para Geral.
+
+Os três primeiros livros aparecem em um pódio, com o primeiro ao centro e mais
+alto, o segundo à esquerda e o terceiro à direita. A lista seguinte começa no
+quarto lugar e vai até o décimo. O filtro fica à direita no computador e em
+botões com rolagem horizontal no celular.
 
 ## Dados exibidos
 
@@ -15,8 +20,8 @@ o gênero correspondente; um código inexistente volta ao primeiro disponível.
   `rankingLivroGenero`.
 - A procedure ordena por nota média decrescente, quantidade de avaliações
   decrescente e título crescente, com `LIMIT 10`. A interface preserva essa
-  ordem e mostra posição, capa, título, autores, gêneros, nota média em duas
-  casas e quantidade de avaliações.
+  ordem e mostra posição, capa, título, autores, gêneros, ano de publicação,
+  nota média com até duas casas e quantidade de avaliações.
 - Apenas livros avaliados participam da consulta existente. Se houver menos
   de dez, a tela mostra a quantidade disponível; um gênero sem avaliações
   apresenta uma mensagem vazia, sem preencher posições com livros fictícios.
@@ -31,7 +36,8 @@ com essas duas consultas pode usar a página diretamente.
 Selecionar outro gênero atualiza a URL e os resultados; Voltar/Avançar restaura
 os filtros. Uma troca rápida cancela a requisição anterior e ignora respostas
 antigas. Falhas nos gêneros ou no ranking oferecem nova tentativa independente.
-Os gêneros continuam disponíveis quando a consulta de livros falha.
+Os gêneros continuam disponíveis quando a consulta de livros falha. O ranking
+Geral pode carregar mesmo se a lista de gêneros estiver lenta ou indisponível.
 
 A página usa o cabeçalho, menu do avatar, pesquisa e navegação compartilhados.
 Abrir a pesquisa mantém o campo editável; respostas pendentes continuam
@@ -43,3 +49,9 @@ As respostas de todos os gêneros e do ranking geral da API foram comparadas a
 uma consulta SQL independente em MariaDB isolado, com modo estrito e
 `ONLY_FULL_GROUP_BY`. Também foi verificada uma fixture transacional com
 múltiplos autores, gêneros e avaliações, removida por rollback.
+
+A interface foi conferida em 320, 375, 768 e 1440 px: seleção inicial Geral,
+pódio na ordem visual 2–1–3, lista do quarto ao décimo lugar, filtros do banco,
+navegação Voltar/Avançar e ausência de transbordamento horizontal. Também foram
+verificados resultados com zero a três livros, falhas com nova tentativa e
+trocas rápidas de filtro.
