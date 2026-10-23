@@ -47,7 +47,7 @@
     }
 
     function atualizarQuantidade() {
-        container.querySelectorAll('.secaoResenhasComunidade .contadorTotal').forEach(el => {
+        container.querySelectorAll('.contadorTotal').forEach(el => {
             el.textContent = '(' + avaliacoesAtuais.length + ')';
         });
     }
