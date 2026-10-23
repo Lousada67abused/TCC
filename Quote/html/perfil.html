@@ -43,6 +43,12 @@
         </div>
     </header>
 
+    <div class="cabecalhoMetasMobile" role="navigation" aria-label="Navegação das metas">
+        <button type="button" id="voltarMetas" aria-label="Voltar ao perfil"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span></button>
+        <strong>Metas</strong>
+        <img class="fotoUsuarioLogado" src="../img/avatar.png" alt="Foto de perfil do usuário">
+    </div>
+
     <main class="conteudoPerfil" aria-busy="true">
         <div class="estadoCarregamentoPerfil">
             <p id="estadoPerfil" class="estadoPerfil" role="status">Carregando perfil...</p>
@@ -120,6 +126,7 @@
                     <button type="button" id="novaMeta" class="botaoPrimario" disabled>Nova meta</button>
                 </div>
             </div>
+            <p class="notaMeta">O progresso considera os livros marcados como lidos na sua estante.</p>
             <p id="estadoMetas" class="estadoSecao" role="status"></p>
             <p id="estadoMeta" class="estadoSecao" role="status"></p>
             <form id="formMeta" class="cardMeta formularioMeta" hidden>
@@ -129,20 +136,13 @@
                     <label for="anoMeta">Ano<input type="number" id="anoMeta" name="ano" min="1000" max="9999" step="1" required></label>
                     <label for="quantidadeMeta">Quantidade de livros<input type="number" id="quantidadeMeta" name="quantidade" min="1" max="2147483647" step="1" required></label>
                 </div>
-                <p class="notaMeta">O progresso considera os livros que estão marcados como lidos na sua estante.</p>
                 <div class="acoesFormularioMeta">
                     <button type="button" id="cancelarMeta" class="botaoSecundario">Cancelar</button>
                     <button type="submit" id="salvarMeta" class="botaoPrimario">Salvar meta</button>
                 </div>
             </form>
             <div class="gradeMetas">
-                <div class="colunaMetas">
-                    <div id="metaAtual"></div>
-                    <section class="blocoPerfil" aria-labelledby="tituloHistoricoMetas">
-                        <h2 id="tituloHistoricoMetas">Histórico de metas</h2>
-                        <ul id="historicoMetas" class="cardMeta historicoMetas"></ul>
-                    </section>
-                </div>
+                <div id="metaAtual"></div>
                 <aside class="colunaLateral">
                     <section class="cardMeta resumoAno" aria-labelledby="tituloResumoLeituras">
                         <h3 id="tituloResumoLeituras">Resumo das leituras</h3>
@@ -153,6 +153,10 @@
                         <ul id="melhoresAno"></ul>
                     </section>
                 </aside>
+                <section class="blocoPerfil historicoMetasSecao" aria-labelledby="tituloHistoricoMetas">
+                    <h2 id="tituloHistoricoMetas">Histórico de metas</h2>
+                    <ul id="historicoMetas" class="cardMeta historicoMetas"></ul>
+                </section>
             </div>
         </section>
     </main>

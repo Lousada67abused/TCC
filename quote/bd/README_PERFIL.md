@@ -44,6 +44,17 @@ O menu do avatar mantém a prévia ao passar o mouse. Clicar fixa o menu; clicar
 novamente, clicar fora ou usar Escape fecha. Os links das seções abrem a aba
 correspondente do perfil. A navegação também funciona por teclado.
 
+Todas as abas usam proporções compactas. Os livros apresentam capa, título em
+até duas linhas e autor em uma linha, sem nota individual, inclusive nos
+favoritos, na atividade e nas resenhas. Textos maiores têm reticências.
+
+A tela de metas mostra o progresso circular e em barra, os lidos acumulados,
+a média das avaliações do ano da meta e os dias até o prazo. O histórico usa
+linhas compactas; o menu `⋯` permite editar ou excluir cada meta. Percentuais
+acima de 100% permanecem no texto, com o preenchimento limitado ao círculo ou
+barra completos. No celular, Metas tem cabeçalho próprio e botão para voltar
+ao perfil.
+
 Falhas parciais preservam as seções que carregaram e oferecem nova tentativa.
 Durante o envio de uma meta os controles ficam bloqueados. Se a resposta de
 uma gravação falhar, a interface reconsulta as metas antes de permitir outro

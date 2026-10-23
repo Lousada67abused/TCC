@@ -42,17 +42,6 @@
             listaResenhas: 'estadoResenhas', listaAtividades: 'estadoAtividades' };
         if (estados[id]) mensagem(estados[id], itens.length ? '' : vazio);
     }
-    function estrelas(nota) {
-        const area = elemento('div', 'estrelas');
-        const valor = Math.min(5, numero(nota));
-        area.setAttribute('aria-label', 'Nota ' + valor.toLocaleString('pt-BR') + ' de 5');
-        for (let i = 1; i <= 5; i++) {
-            const estrela = elemento('span', i <= Math.round(valor) ? 'cheia' : '', '★');
-            estrela.setAttribute('aria-hidden', 'true');
-            area.append(estrela);
-        }
-        return area;
-    }
     function linkLivro(livro, classe = '') {
         const link = elemento('a', classe);
         link.href = 'livro.html?codigoLivro=' + encodeURIComponent(livro.id_livro);
@@ -75,11 +64,6 @@
         }, { once: true });
         return imagem;
     }
-    function capaComLink(livro) {
-        const link = linkLivro(livro, 'linkCapa');
-        link.append(capa(livro));
-        return link;
-    }
     function criarLivro(livro) {
         const link = linkLivro(livro, 'livro');
         const texto = elemento('div', 'textoLivro');
@@ -88,25 +72,24 @@
         const autor = elemento('p', '', livro.autores || 'Autor não informado');
         autor.title = livro.autores || '';
         texto.append(titulo, autor);
-        link.append(capa(livro), texto, estrelas(livro.nota_media));
+        link.append(capa(livro), texto);
         return link;
     }
     function criarResenha(avaliacao) {
         const artigo = elemento('article', 'resenha');
         const texto = elemento('div', 'textoResenha');
-        const link = linkLivro(avaliacao);
-        link.append(elemento('h2', '', avaliacao.titulo));
         const nota = elemento('div', 'notaResenha');
         const data = elemento('time', '', formatarData(avaliacao.dt_avaliacao));
         if (data.textContent) data.dateTime = String(avaliacao.dt_avaliacao).slice(0, 10);
-        nota.append(estrelas(avaliacao.nota), data);
-        texto.append(link, elemento('p', 'autorResenha', avaliacao.autores || 'Autor não informado'), nota,
+        nota.append(data);
+        texto.append(nota,
             elemento('p', 'conteudoResenha', avaliacao.txt_resenha || 'Avaliação sem resenha.'));
-        artigo.append(capaComLink(avaliacao), texto);
+        artigo.append(criarLivro(avaliacao), texto);
         return artigo;
     }
     function abrirAba(nome) {
         if (!secoes.some(secao => secao.id === nome)) nome = 'principal';
+        document.body.classList.toggle('abaMetasAtiva', nome === 'metas');
         abas.forEach(botao => {
             const ativa = botao.dataset.aba === nome;
             botao.classList.toggle('ativo', ativa);
@@ -139,6 +122,11 @@
     window.addEventListener('hashchange', lerAba);
     window.addEventListener('popstate', lerAba);
     abrirAba(location.hash.slice(1));
+    document.getElementById('voltarMetas')?.addEventListener('click', () => {
+        history.pushState(null, '', '#principal');
+        abrirAba('principal');
+        buscar('#aba-principal').focus();
+    });
 
     async function consultar(api) {
         const resposta = await fetch('../api/' + api + '.php?codigoUsuario=' + encodeURIComponent(codigo), {
@@ -170,7 +158,7 @@
         const livros = dados.biblioteca.filter(livro => filtroEstante === 'favoritos' ? Number(livro.favorito) === 1 : livro.status === filtroEstante);
         lista('listaEstante', livros, criarLivro, 'Nenhum livro nesta categoria da sua estante.');
         const favoritos = dados.biblioteca.filter(livro => Number(livro.favorito) === 1);
-        lista('listaFavoritos', favoritos.slice(0, 5), capaComLink, 'Você ainda não marcou livros como favoritos.');
+        lista('listaFavoritos', favoritos.slice(0, 5), criarLivro, 'Você ainda não marcou livros como favoritos.');
     }
     todos('#estante [data-status]').forEach(botao => botao.addEventListener('click', () => {
         filtroEstante = botao.dataset.status;
@@ -187,17 +175,16 @@
         lista('listaResenhas', avaliacoes, criarResenha, 'Você ainda não avaliou nenhum livro.');
         lista('resenhasRecentes', avaliacoes.slice(0, 2), criarResenha, 'Suas resenhas recentes aparecerão aqui.');
         const livros = [...new Map(avaliacoes.map(avaliacao => [String(avaliacao.id_livro), avaliacao])).values()];
-        lista('livrosRecentes', livros.slice(0, 5), capaComLink, 'Suas avaliações mais recentes aparecerão aqui.');
+        lista('livrosRecentes', livros.slice(0, 5), criarLivro, 'Suas avaliações mais recentes aparecerão aqui.');
         lista('listaAtividades', avaliacoes, avaliacao => {
             const item = elemento('li');
+            const detalhes = elemento('div', 'detalhesAtividade');
             const texto = elemento('p');
-            texto.append(elemento('strong', '', dados.usuario?.nm_usuario || 'Você'), ' avaliou ');
-            const link = linkLivro(avaliacao);
-            link.textContent = avaliacao.titulo;
-            texto.append(link);
+            texto.append(elemento('strong', '', dados.usuario?.nm_usuario || 'Você'), ' publicou uma avaliação.');
             const data = elemento('time', 'tempo', formatarData(avaliacao.dt_avaliacao));
             if (data.textContent) data.dateTime = String(avaliacao.dt_avaliacao).slice(0, 10);
-            item.append(texto, estrelas(avaliacao.nota), data);
+            detalhes.append(texto, data);
+            item.append(criarLivro(avaliacao), detalhes);
             return item;
         }, 'Você ainda não tem avaliações para exibir na atividade.');
     }
@@ -214,10 +201,14 @@
         seletorAno.value = anoAtual;
     }
     function acoesMeta(meta) {
+        const opcoes = elemento('details', 'opcoesMeta');
+        const resumo = elemento('summary', '', '⋯');
+        resumo.setAttribute('aria-label', 'Opções da meta de ' + anoData(meta.data));
+        opcoes.append(resumo);
         const acoes = elemento('div', 'acoesMeta');
         const editar = elemento('button', '', 'Editar');
         editar.type = 'button';
-        editar.addEventListener('click', () => abrirFormulario(meta));
+        editar.addEventListener('click', () => { opcoes.open = false; abrirFormulario(meta); });
         const excluir = elemento('button', 'excluirMeta', 'Excluir');
         excluir.type = 'button';
         excluir.addEventListener('click', () => {
@@ -237,22 +228,87 @@
         });
         editar.disabled = excluir.disabled = carregando || enviandoMeta || falhouMeta || !dados.usuario;
         acoes.append(editar, excluir);
-        return acoes;
+        opcoes.append(acoes);
+        opcoes.addEventListener('keydown', evento => {
+            if (evento.key !== 'Escape') return;
+            opcoes.open = false;
+            resumo.focus();
+        });
+        return opcoes;
+    }
+    function diasRestantes(data) {
+        const partes = /^(\d{4})-(\d{2})-(\d{2})$/.exec(String(data || '').slice(0, 10));
+        if (!partes) return null;
+        const hoje = new Date();
+        const prazo = Date.UTC(Number(partes[1]), Number(partes[2]) - 1, Number(partes[3]));
+        const inicioHoje = Date.UTC(hoje.getFullYear(), hoje.getMonth(), hoje.getDate());
+        return Math.max(0, Math.ceil((prazo - inicioHoje) / 86400000));
+    }
+    function mediaDoAno(ano) {
+        if (!dados.avaliacoes) return '—';
+        const avaliacoes = dados.avaliacoes.filter(avaliacao => anoData(avaliacao.dt_avaliacao) === ano);
+        if (!avaliacoes.length) return '—';
+        const media = avaliacoes.reduce((total, avaliacao) => total + numero(avaliacao.nota), 0) / avaliacoes.length;
+        return media.toLocaleString('pt-BR', { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+    }
+    function icone(nome) {
+        const span = elemento('span', 'material-symbols-outlined', nome);
+        span.setAttribute('aria-hidden', 'true');
+        return span;
     }
     function cardMeta(meta, historico = false) {
         const card = elemento(historico ? 'li' : 'article', historico ? 'itemHistoricoMeta' : 'cardMeta');
         const lidos = numero(meta.livros_lidos);
         const quantidade = numero(meta.qnt_livros);
-        const porcentagem = quantidade ? Math.min(100, Math.round(lidos / quantidade * 100)) : 0;
-        card.append(elemento('h3', '', 'Meta de ' + anoData(meta.data)),
-            elemento('p', '', lidos + ' de ' + quantidade + ' livros'),
-            elemento('p', 'prazoMeta', 'Prazo: ' + formatarData(meta.data)));
+        const porcentagem = quantidade ? Math.round(lidos / quantidade * 100) : 0;
+        const dias = diasRestantes(meta.data);
+        const atingida = quantidade > 0 && lidos >= quantidade;
         const progresso = elemento('progress');
         progresso.max = quantidade || 1;
         progresso.value = Math.min(lidos, quantidade);
         progresso.setAttribute('aria-label', 'Progresso da meta: ' + porcentagem + '%');
-        card.append(progresso, elemento('p', 'porcentagem', porcentagem + '%'),
-            elemento('p', 'faltam', lidos >= quantidade ? 'Meta atingida.' : 'Faltam ' + (quantidade - lidos) + ' livros.'), acoesMeta(meta));
+        if (historico) {
+            card.classList.add(atingida ? 'metaAtingida' : 'metaPendente');
+            const situacao = elemento('span', 'situacaoMeta', atingida ? 'atingida' : dias === 0 ? 'prazo encerrado' : 'em andamento');
+            card.append(elemento('span', 'anoMeta', anoData(meta.data)),
+                elemento('span', 'nomeMeta', 'Meta de leitura'),
+                elemento('span', 'contagemMeta', lidos + '/' + quantidade + ' livros'), progresso,
+                elemento('span', 'porcentagem', porcentagem + '%'), situacao, acoesMeta(meta));
+            return card;
+        }
+        const corpo = elemento('div', 'metaAnual');
+        const roda = elemento('div', 'roda');
+        roda.style.setProperty('--progresso', Math.min(100, porcentagem) + '%');
+        const contagem = elemento('div');
+        contagem.append(elemento('strong', '', lidos), elemento('span', '', '/' + quantidade));
+        roda.append(contagem);
+        roda.setAttribute('role', 'progressbar');
+        roda.setAttribute('aria-label', 'Livros da meta');
+        roda.setAttribute('aria-valuemin', '0');
+        roda.setAttribute('aria-valuemax', String(quantidade || 1));
+        roda.setAttribute('aria-valuenow', String(Math.min(lidos, quantidade)));
+        roda.setAttribute('aria-valuetext', lidos + ' de ' + quantidade + ' livros');
+        const detalhe = elemento('div', 'detalheMeta');
+        const titulo = elemento('h3');
+        titulo.append(icone('track_changes'), 'Meta Anual ' + anoData(meta.data));
+        const linha = elemento('div', 'linhaProgresso');
+        linha.append(progresso, elemento('span', 'porcentagem', porcentagem + '%'));
+        detalhe.append(titulo, elemento('p', '', atingida ? 'Você atingiu sua meta!' : dias === 0 ?
+            'O prazo desta meta foi encerrado.' : 'Você está no caminho certo!'), linha,
+            elemento('p', 'faltam', atingida ? 'Meta atingida.' : 'Faltam ' + (quantidade - lidos) + ' livros'),
+            elemento('p', 'prazoMeta', 'Prazo: ' + formatarData(meta.data)));
+        corpo.append(roda, detalhe);
+        const numeros = elemento('ul', 'numerosMeta');
+        [['menu_book', formatoNumero.format(lidos), 'lidos na estante'],
+            ['star', mediaDoAno(anoData(meta.data)), 'média em ' + anoData(meta.data)],
+            ['schedule', dias === null ? '—' : formatoNumero.format(dias), 'dias restantes']].forEach(([nome, valor, rotulo]) => {
+            const item = elemento('li');
+            const simbolo = icone(nome);
+            if (nome === 'star') simbolo.classList.add('estrelaMeta');
+            item.append(simbolo, elemento('strong', '', valor), elemento('span', '', rotulo));
+            numeros.append(item);
+        });
+        card.append(corpo, numeros, acoesMeta(meta));
         return card;
     }
     function mostrarResumo() {
@@ -265,13 +321,19 @@
         }
         if (dados.biblioteca) {
             const lidos = dados.biblioteca.filter(livro => livro.status === 'lido');
-            adicionar('Livros lidos na estante', formatoNumero.format(lidos.length));
-            adicionar('Páginas desses livros', formatoNumero.format(lidos.reduce((total, livro) => total + numero(livro.qnt_paginas), 0)));
+            adicionar('Livros lidos', formatoNumero.format(lidos.length));
+            adicionar('Páginas lidas', formatoNumero.format(lidos.reduce((total, livro) => total + numero(livro.qnt_paginas), 0)));
+            const generos = new Map();
+            lidos.forEach(livro => {
+                new Set(String(livro.generos || '').split(', ').map(nome => nome.trim()).filter(Boolean))
+                    .forEach(nome => generos.set(nome, (generos.get(nome) || 0) + 1));
+            });
+            const maisLido = [...generos].sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0], 'pt-BR'))[0];
+            adicionar('Gênero mais lido', maisLido?.[0] || '—');
         }
         if (dados.avaliacoes) {
-            adicionar('Avaliações publicadas', formatoNumero.format(dados.avaliacoes.length));
-            const media = dados.avaliacoes.length ? dados.avaliacoes.reduce((soma, avaliacao) => soma + numero(avaliacao.nota), 0) / dados.avaliacoes.length : null;
-            adicionar('Média das suas notas', media === null ? '—' : media.toLocaleString('pt-BR', { maximumFractionDigits: 1 }));
+            const melhorNota = dados.avaliacoes.length ? Math.max(...dados.avaliacoes.map(avaliacao => numero(avaliacao.nota))) : null;
+            adicionar('Melhor avaliação', melhorNota === null ? '—' : melhorNota.toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' / 5');
         }
         resumo.replaceChildren(...itens);
         const melhores = (dados.avaliacoes || []).filter(avaliacao => anoData(avaliacao.dt_avaliacao) === anoAtual)
@@ -279,13 +341,12 @@
         const area = buscar('#melhoresAno');
         area.replaceChildren(...melhores.map(avaliacao => {
             const item = elemento('li');
-            const texto = elemento('div');
-            const link = linkLivro(avaliacao);
-            link.append(elemento('h3', '', avaliacao.titulo));
-            texto.append(link, elemento('p', '', avaliacao.autores || 'Autor não informado'), estrelas(avaliacao.nota));
-            item.append(capaComLink(avaliacao), texto);
+            const livro = criarLivro(avaliacao);
+            livro.classList.add('livroResumo');
+            item.append(livro);
             return item;
         }));
+        buscar('#tituloMelhoresAvaliacoes').textContent = 'Melhores avaliados em ' + anoAtual;
         if (!melhores.length) area.append(elemento('li', 'vazioPerfil', dados.avaliacoes ? 'Nenhuma avaliação neste ano.' : 'Não foi possível carregar as avaliações.'));
     }
     function mostrarMetas() {
