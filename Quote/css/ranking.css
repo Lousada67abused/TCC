@@ -1,0 +1,336 @@
+body.paginaRanking {
+    min-height: 100vh;
+    padding-bottom: 80px;
+    background-color: var(--background);
+    color: var(--black);
+}
+
+.paginaRanking [hidden] { display: none !important; }
+
+.paginaRanking .rotuloAcessivel {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+.paginaRanking .cabecalhoPrincipal { margin-bottom: 36px; }
+.paginaRanking .cabecalhoDropdown > div { min-width: 0; overflow-wrap: anywhere; }
+.paginaRanking .cabecalhoDropdown .avatarHeader { flex-shrink: 0; }
+
+.conteudoRanking {
+    width: calc(100% - 32px);
+    max-width: 1024px;
+    min-width: 0;
+    margin: 0 auto;
+}
+
+.cabecalhoRanking { margin-bottom: 26px; }
+
+#tituloRanking {
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 1.3;
+    overflow-wrap: anywhere;
+}
+
+#descricaoRanking {
+    margin-top: 6px;
+    color: #747272;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.gradeRanking {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 220px;
+    grid-template-areas: 'resultados filtros';
+    align-items: start;
+    gap: 40px;
+    min-width: 0;
+}
+
+.resultadosRanking { grid-area: resultados; min-width: 0; }
+
+.filtrosRanking {
+    grid-area: filtros;
+    min-width: 0;
+    margin-top: 8px;
+    border: 1px solid var(--softBlue);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.filtrosRanking h2 {
+    padding: 11px 12px;
+    color: var(--deepNavyBlue);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.4;
+}
+
+.seletorGeneroMobile { display: none; }
+.listaFiltrosGeneros { display: flex; flex-direction: column; min-width: 0; }
+
+.filtroGenero {
+    display: block;
+    padding: 8px 12px;
+    border-top: 1px solid var(--softBlue);
+    color: #747272;
+    font-size: 11px;
+    line-height: 1.4;
+    text-decoration: none;
+    overflow-wrap: anywhere;
+}
+
+.filtroGenero:hover { background-color: #edf4ff; color: var(--royalBlue); }
+.filtroGenero.ativo,
+.filtroGenero[aria-current='page'] { background-color: #d9e6fc; color: var(--deepNavyBlue); font-weight: 600; }
+
+.estadoRanking {
+    margin-bottom: 12px;
+    color: #647082;
+    font-size: 12px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.filtrosRanking > .estadoRanking { margin: 0; padding: 10px 12px; }
+.estadoRanking:empty { display: none; }
+
+.tentarRanking {
+    padding: 7px 12px;
+    min-height: 32px;
+    margin-bottom: 12px;
+    border: 1px solid var(--royalBlue);
+    border-radius: 4px;
+    background-color: var(--white);
+    color: var(--royalBlue);
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.filtrosRanking > .tentarRanking { margin-left: 12px; }
+
+.podioRanking {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    align-items: end;
+    min-width: 0;
+    padding-top: 8px;
+    list-style: none;
+}
+
+.podioRanking:empty,
+.listaRanking:empty { display: none; }
+.itemPodio { min-width: 0; grid-row: 1; }
+.itemPodio.posicao1 { grid-column: 2; }
+.itemPodio.posicao2 { grid-column: 1; }
+.itemPodio.posicao3 { grid-column: 3; }
+
+.livroPodio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+}
+
+.capaPodio {
+    display: block;
+    width: min(144px, 84%);
+    height: 216px;
+    object-fit: cover;
+    border-radius: 6px;
+    flex-shrink: 0;
+}
+
+.detalhesPodio {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    width: 100%;
+    min-width: 0;
+    min-height: 132px;
+    padding: 18px 12px;
+    border: 1px solid var(--softBlue);
+    border-radius: 4px 4px 0 0;
+    background-color: var(--white);
+    text-align: center;
+}
+
+.posicao1 .detalhesPodio { min-height: 164px; }
+.posicao3 .detalhesPodio { min-height: 116px; }
+
+.tituloLivro {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    color: var(--deepNavyBlue);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.35;
+}
+
+.autorLivro {
+    display: block;
+    max-width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: #747272;
+    font-size: 11px;
+    line-height: 1.4;
+}
+
+.avaliacaoPodio { display: flex; flex-direction: column; align-items: center; gap: 4px; min-width: 0; }
+.linhaNota { display: inline-flex; align-items: center; gap: 5px; min-width: 0; color: var(--deepNavyBlue); }
+.estrelaRanking { color: #ffc107; font-family: Arial, sans-serif; font-size: 19px; line-height: 1; }
+.notaMedia { color: var(--deepNavyBlue); font-size: 15px; font-weight: 700; line-height: 1.3; white-space: nowrap; }
+.totalAvaliacoes { color: #555555; font-size: 11px; line-height: 1.4; overflow-wrap: anywhere; }
+
+.listaRanking {
+    min-width: 0;
+    list-style: none;
+    border: 1px solid var(--softBlue);
+    border-top: 0;
+    border-radius: 0 0 4px 4px;
+    overflow: hidden;
+}
+
+.podioRanking:empty + .listaRanking { border-top: 1px solid var(--softBlue); border-radius: 4px; }
+
+.itemRanking {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    align-items: center;
+    gap: 16px;
+    min-width: 0;
+    padding: 15px 20px;
+}
+
+.itemRanking + .itemRanking { border-top: 1px solid var(--softBlue); }
+.posicaoRanking { color: var(--deepNavyBlue); font-size: 24px; font-weight: 700; text-align: center; }
+
+.livroRanking {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+}
+
+.capaRanking {
+    display: block;
+    width: 52px;
+    height: 78px;
+    flex: 0 0 52px;
+    object-fit: cover;
+    border-radius: 3px;
+}
+
+.capaRankingIndisponivel,
+.capaPodioIndisponivel {
+    display: grid;
+    place-items: center;
+    padding: 4px;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    background-color: #edf2f8;
+    color: #647082;
+    font-size: 10px;
+    line-height: 1.4;
+    text-align: center;
+}
+
+.informacoesLivro { display: flex; flex: 1; flex-direction: column; gap: 3px; min-width: 0; }
+.avaliacaoRanking { display: flex; flex-wrap: wrap; align-items: center; gap: 10px; min-width: 0; }
+.avaliacaoRanking .linhaNota { gap: 4px; }
+.avaliacaoRanking .estrelaRanking { font-size: 15px; }
+.avaliacaoRanking .notaMedia { font-size: 12px; }
+.avaliacaoRanking .totalAvaliacoes { font-size: 11px; }
+.generosLivro { color: #555555; font-size: 11px; line-height: 1.4; overflow-wrap: anywhere; }
+
+.paginaRanking button:focus-visible,
+.paginaRanking a:focus-visible,
+.paginaRanking select:focus-visible { outline: 3px solid var(--brightLightBlue); outline-offset: 3px; }
+
+@media (min-width: 768px) {
+    body.paginaRanking { padding-bottom: 36px; }
+    .paginaRanking .navegacaoMobile { display: none; }
+    .conteudoRanking { width: calc(100% - 48px); }
+}
+
+@media (min-width: 768px) and (max-width: 1000px) {
+    .gradeRanking { grid-template-columns: minmax(0, 1fr) 190px; gap: 24px; }
+    .capaPodio { width: min(116px, 84%); height: 174px; }
+    .detalhesPodio { padding: 14px 8px; }
+    .itemRanking { padding: 14px; gap: 12px; }
+    .livroRanking { gap: 16px; }
+}
+
+@media (max-width: 767px) {
+    body.paginaRanking { padding-bottom: 78px; }
+    .paginaRanking:not(.pesquisaEmEdicao) > .cabecalhoPrincipal { display: none; }
+    .conteudoRanking { width: calc(100% - 24px); padding-top: 14px; }
+    .cabecalhoRanking { margin-bottom: 16px; }
+    #tituloRanking { font-size: 18px; }
+    #descricaoRanking { margin-top: 5px; font-size: 12px; }
+    .gradeRanking { grid-template-columns: minmax(0, 1fr); grid-template-areas: 'filtros' 'resultados'; gap: 20px; }
+    .filtrosRanking { margin-top: 0; border: 0; border-radius: 0; overflow: visible; }
+    .filtrosRanking h2 { display: none; }
+    .filtrosRanking > .estadoRanking { padding: 0 0 8px; }
+    .filtrosRanking > .tentarRanking { margin-left: 0; }
+    .listaFiltrosGeneros { flex-direction: row; gap: 10px; padding: 2px 0 7px; overflow-x: auto; scrollbar-width: thin; }
+    .filtroGenero { flex: 0 0 auto; min-width: 82px; padding: 5px 10px; border: 1px solid var(--royalBlue); border-radius: 4px; color: var(--royalBlue); font-size: 12px; line-height: 1.3; text-align: center; white-space: nowrap; }
+    .filtroGenero.ativo,
+    .filtroGenero[aria-current='page'] { background-color: var(--royalBlue); color: var(--white); }
+    .podioRanking { padding-top: 8px; }
+    .capaPodio { width: 58px; height: 87px; border-radius: 4px; }
+    .detalhesPodio { gap: 4px; min-height: 112px; padding: 12px 7px; }
+    .posicao1 .detalhesPodio { min-height: 138px; }
+    .posicao3 .detalhesPodio { min-height: 104px; }
+    .tituloLivro { font-size: 12px; }
+    .autorLivro { font-size: 10px; }
+    .avaliacaoPodio { gap: 3px; }
+    .linhaNota { gap: 4px; }
+    .estrelaRanking { font-size: 16px; }
+    .notaMedia { font-size: 13px; }
+    .totalAvaliacoes { font-size: 10px; }
+    .itemRanking { grid-template-columns: 28px minmax(0, 1fr); gap: 10px; padding: 12px 10px; }
+    .posicaoRanking { font-size: 21px; }
+    .livroRanking { gap: 12px; }
+    .capaRanking { width: 40px; height: 60px; flex-basis: 40px; }
+    .capaRankingIndisponivel { padding: 3px; font-size: 8px; }
+    .capaPodioIndisponivel { font-size: 8px; }
+    .informacoesLivro { gap: 2px; }
+    .avaliacaoRanking { gap: 7px; }
+    .avaliacaoRanking .estrelaRanking { font-size: 13px; }
+    .avaliacaoRanking .notaMedia { font-size: 11px; }
+    .avaliacaoRanking .totalAvaliacoes { font-size: 10px; }
+    .generosLivro { font-size: 10px; }
+}
+
+@media (max-width: 359px) {
+    .tituloLivro { font-size: 11px; }
+    .autorLivro { font-size: 9px; }
+    .detalhesPodio { padding: 10px 5px; }
+    .totalAvaliacoes { font-size: 9px; }
+    .notaMedia { font-size: 12px; }
+    .itemRanking { gap: 8px; padding: 11px 8px; }
+    .avaliacaoRanking { gap: 6px; }
+    .avaliacaoRanking .totalAvaliacoes,
+    .generosLivro { font-size: 9px; }
+}
