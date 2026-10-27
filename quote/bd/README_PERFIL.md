@@ -42,6 +42,29 @@ As abas aceitam links como `perfil.html#estante` e `perfil.html#metas` e acompan
 o histórico do navegador. As capas usam o ISBN em
 `https://covers.openlibrary.org/b/isbn/{id_livro}-L.jpg`.
 
+## Perfil público de um leitor
+
+Os nomes e avatares nas resenhas do livro e no feed da homepage abrem
+`perfilPublico.html?codigoUsuario=ID`. O identificador da conta conectada no
+`sessionStorage` permanece inalterado. Ao visitar a própria conta, a página
+redireciona para `perfil.html`.
+
+`buscarPerfilPublico.php` retorna nome, biografia, contagens, resenhas e somente
+livros com `visivel = 1`, inclusive ao selecionar favoritos. Não retorna e-mail,
+data de nascimento ou senha. O perfil público é de leitura: não exibe edição de
+metas nem controles para alterar ou excluir resenhas de outro leitor.
+
+O botão permite seguir e deixar de seguir, atualizando a contagem de seguidores
+após a confirmação do servidor. Visitantes recebem o link para entrar na conta.
+As APIs `seguirUsuario.php` e `deixarDeSeguir.php` usam o usuário autenticado na
+sessão PHP, aceitam `codigoSeguido` e continuam aceitando `codigoSeguidor` quando
+ele corresponde à sessão. Pedidos repetidos são idempotentes; seguir a si mesmo
+ou alterar os seguidos de outra conta é rejeitado.
+
+Não há migração adicional de banco: são reutilizadas as tabelas e procedures
+existentes do projeto. Após uma resposta de gravação perdida, a página consulta
+novamente o perfil para confirmar a relação antes de permitir outra alteração.
+
 O menu do avatar mantém a prévia ao passar o mouse. Clicar fixa o menu; clicar
 novamente, clicar fora ou usar Escape fecha. Os links das seções abrem a aba
 correspondente do perfil. A navegação também funciona por teclado.

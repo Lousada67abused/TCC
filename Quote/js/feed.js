@@ -45,6 +45,13 @@
         return link;
     }
 
+    function linkPerfil(codigo, classe) {
+        const valido = /^[1-9]\d{0,9}$/.test(String(codigo || '')) && Number(codigo) <= 2147483647;
+        const link = elemento(valido ? 'a' : 'span', classe);
+        if (valido) link.href = 'perfilPublico.html?codigoUsuario=' + encodeURIComponent(codigo);
+        return link;
+    }
+
     function criarData(valor) {
         const data = elemento('time', 'dataResenha');
         const iso = texto(valor).slice(0, 10);
@@ -116,7 +123,12 @@
         avatar.src = /^[1-9]\d*$/.test(codigoAutor)
             ? '../img/' + encodeURIComponent(codigoAutor) + '.png'
             : '../img/avatar.jpg';
-        usuario.append(avatar, elemento('span', 'handleUsuario', nome), criarEstrelas(avaliacao.nota));
+        const linkAvatar = linkPerfil(codigoAutor, 'linkPerfilAvatar');
+        linkAvatar.setAttribute('aria-label', 'Ver perfil de ' + nome);
+        linkAvatar.append(avatar);
+        const linkNome = linkPerfil(codigoAutor, 'handleUsuario linkPerfilUsuario');
+        linkNome.textContent = nome;
+        usuario.append(linkAvatar, linkNome, criarEstrelas(avaliacao.nota));
 
         conteudo.append(cabecalho, usuario, criarData(avaliacao.dt_avaliacao),
             elemento('p', 'textoResenha', texto(avaliacao.txt_resenha)));
