@@ -488,6 +488,11 @@ body {
     line-height: 1.5;
 }
 
+.containerDetalhesLivro .mensagemSucesso,
+#estadoFeedbackLivro.mensagemSucesso {
+    color: #15803d;
+}
+
 .feedbackBibliotecaLivro[hidden],
 #tentarBibliotecaLivro[hidden] {
     display: none !important;

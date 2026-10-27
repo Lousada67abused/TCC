@@ -28,10 +28,14 @@
         container.dispatchEvent(new Event('biblioteca:alterada'));
     }
 
-    function mensagem(texto, repetir = false) {
+    let temporizadorMensagem;
+    function mensagem(texto, repetir = false, sucesso = false) {
+        clearTimeout(temporizadorMensagem);
         estado.textContent = texto;
+        estado.classList.toggle('mensagemSucesso', sucesso);
         tentar.hidden = !repetir;
         feedback.hidden = !texto && !repetir;
+        if (sucesso) temporizadorMensagem = setTimeout(() => mensagem(''), 2000);
     }
 
     function atualizarControles() {
@@ -144,7 +148,7 @@
                 entrada = { status: novoStatus, favorito: 0 };
             }
             confirmarSelecao(novoStatus);
-            mensagem(existente ? 'Estado de leitura atualizado.' : 'Livro adicionado à estante.');
+            mensagem(existente ? 'Estado de leitura atualizado.' : 'Livro adicionado à estante.', false, true);
             return true;
         } catch (_) {
             await conferirAposFalha('Não foi possível salvar o estado de leitura.');
@@ -182,7 +186,7 @@
         try {
             await enviar('atualizarFavoritoBiblioteca', { codigoUsuario, codigoLivro, favorito });
             entrada = { ...entrada, favorito };
-            mensagem(favorito ? 'Livro adicionado aos favoritos.' : 'Livro removido dos favoritos.');
+            mensagem(favorito ? 'Livro adicionado aos favoritos.' : 'Livro removido dos favoritos.', false, true);
         } catch (_) {
             await conferirAposFalha('Não foi possível atualizar os favoritos.');
         } finally {

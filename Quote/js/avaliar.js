@@ -28,6 +28,7 @@
     const message = document.createElement('p');
     message.className = 'mensagemErro';
     message.setAttribute('role', 'status');
+    message.hidden = true;
     card.before(message);
     const retry = document.createElement('button');
     retry.type = 'button';
@@ -37,6 +38,18 @@
     const style = document.createElement('style');
     style.textContent = '.cardNovaResenha[hidden]{display:none!important}.containerDetalhesLivro.resenhaPublicada .cardResenhaUsuario{border:1px solid #bdd7ff;box-shadow:none}.avaliadorEstrelasInput span{cursor:pointer}.avaliadorEstrelasInput .estrelaCheia,.listaResenhasComunidade .estrelaCheia{color:#ffc107;font-variation-settings:"FILL" 1}.avaliadorEstrelasInput .estrelaVazia,.listaResenhasComunidade .estrelaVazia{color:#b3afaf;font-variation-settings:"FILL" 1}.textoResenhaUsuario{white-space:pre-wrap}.acoesMinhaResenha{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}.acoesMinhaResenha button{display:inline-flex;align-items:center;border:0;border-radius:6px;padding:6px;background:#f0f4f8;cursor:pointer}.acoesMinhaResenha button:disabled{opacity:.5;cursor:default}.acoesMinhaResenha .excluirResenha{color:#dc2626}';
     document.head.appendChild(style);
+
+    const temporizadoresMensagens = new WeakMap();
+    function mostrarMensagem(alvo, texto, sucesso = false) {
+        clearTimeout(temporizadoresMensagens.get(alvo));
+        temporizadoresMensagens.delete(alvo);
+        alvo.textContent = texto;
+        alvo.hidden = !texto;
+        alvo.classList.toggle('mensagemSucesso', sucesso);
+        if (sucesso) {
+            temporizadoresMensagens.set(alvo, setTimeout(() => mostrarMensagem(alvo, ''), 2000));
+        }
+    }
 
     function foto(img, codigo) {
         img.onerror = function () { this.onerror = null; this.src = '../img/avatar.jpg'; };
@@ -110,9 +123,9 @@
                         el.classList.add('estrelaVazia');
                         el.setAttribute('aria-pressed', 'false');
                     });
-                    message.textContent = 'Resenha excluída. Você pode publicar outra avaliação.';
+                    mostrarMensagem(message, 'Resenha excluída. Você pode publicar outra avaliação.', true);
                 } catch (erro) {
-                    message.textContent = erro.message || 'Não foi possível excluir. Tente novamente.';
+                    mostrarMensagem(message, erro.message || 'Não foi possível excluir. Tente novamente.');
                     remove.disabled = false;
                 } finally {
                     enviando = false;
@@ -134,17 +147,17 @@
     }
     async function iniciar() {
         retry.hidden = true;
-        message.textContent = 'Verificando as resenhas do livro...';
+        mostrarMensagem(message, 'Verificando as resenhas do livro...');
         try {
             if (!codigoLivro) throw new Error('Selecione um livro antes de avaliar.');
             const avaliacoes = await consultar();
             carregado = true;
             mostrarResenhas(avaliacoes);
-            message.textContent = codigoUsuario ? '' : 'Entre na sua conta para publicar uma resenha.';
-            if (popup?.open) popupMessage.textContent = minhaResenha ? 'Você já avaliou este livro. Confirme para marcá-lo como lido.' : '';
+            mostrarMensagem(message, codigoUsuario ? '' : 'Entre na sua conta para publicar uma resenha.');
+            if (popup?.open) mostrarMensagem(popupMessage, minhaResenha ? 'Você já avaliou este livro. Confirme para marcá-lo como lido.' : '');
         } catch (erro) {
-            message.textContent = erro.message;
-            if (popup?.open) popupMessage.textContent = 'Não foi possível consultar as avaliações. Feche e tente novamente.';
+            mostrarMensagem(message, erro.message);
+            if (popup?.open) mostrarMensagem(popupMessage, 'Não foi possível consultar as avaliações. Feche e tente novamente.');
             retry.hidden = false;
         }
         atualizarTela();
@@ -172,17 +185,17 @@
 
     async function publicar(notaSelecionada, resenha, status, marcarLido = false) {
         if (!carregado || enviando) return false;
-        if (!codigoUsuario) { status.textContent = 'Entre na sua conta para avaliar.'; return false; }
+        if (!codigoUsuario) { mostrarMensagem(status, 'Entre na sua conta para avaliar.'); return false; }
         enviando = true;
         atualizarTela();
-        status.textContent = 'Publicando...';
+        mostrarMensagem(status, 'Publicando...');
         try {
             // Requery before writing to avoid a duplicate from another tab or a lost response.
             const avaliacoes = await consultar();
             const existente = avaliacoes.some(a => String(a.id_usuario) === String(codigoUsuario));
             if (existente) mostrarResenhas(avaliacoes);
             if (existente && !marcarLido) {
-                status.textContent = 'Você já publicou uma resenha deste livro.';
+                mostrarMensagem(status, 'Você já publicou uma resenha deste livro.');
                 return false;
             }
             if (!marcarLido && (!resenhaLiberada() || bibliotecaPendente())) {
@@ -192,8 +205,9 @@
                 throw new Error('Não foi possível marcar o livro como lido. Confira a mensagem da estante e tente novamente.');
             }
             if (existente) {
-                status.textContent = 'Livro marcado como lido. Sua avaliação foi preservada.';
-                message.textContent = status.textContent;
+                const sucesso = 'Livro marcado como lido. Sua avaliação foi preservada.';
+                mostrarMensagem(status, sucesso, true);
+                if (status !== message) mostrarMensagem(message, sucesso, true);
                 return true;
             }
             const response = await fetch('../api/avaliarLivro.php', {
@@ -207,14 +221,15 @@
             }
             const local = { id_usuario: codigoUsuario, nm_usuario: usuario.nm_usuario || 'Você', nota: notaSelecionada, txt_resenha: resenha, dt_avaliacao: new Date().toLocaleDateString('sv-SE') };
             mostrarResenhas([local, ...avaliacoes]);
-            message.textContent = status.textContent = 'Avaliação publicada com sucesso!';
+            mostrarMensagem(message, 'Avaliação publicada com sucesso!', true);
+            if (status !== message) mostrarMensagem(status, 'Avaliação publicada com sucesso!', true);
             try {
                 const atualizadas = await consultar();
                 if (atualizadas.some(a => String(a.id_usuario) === String(codigoUsuario))) mostrarResenhas(atualizadas);
             } catch (_) { /* Keep the confirmed review visible if refresh fails. */ }
             return true;
         } catch (erro) {
-            status.textContent = erro.message || 'Não foi possível publicar. Tente novamente.';
+            mostrarMensagem(status, erro.message || 'Não foi possível publicar. Tente novamente.');
             return false;
         } finally {
             enviando = false;
@@ -225,10 +240,10 @@
     form.addEventListener('submit', async event => {
         event.preventDefault();
         if (!carregado || enviando || minhaResenha || !resenhaLiberada() || bibliotecaPendente() || popup?.open) return;
-        if (nota < 1 || nota > 5) { message.textContent = 'Selecione uma nota de 1 a 5.'; return; }
+        if (nota < 1 || nota > 5) { mostrarMensagem(message, 'Selecione uma nota de 1 a 5.'); return; }
         const resenha = text.value.trim();
-        if (!resenha) { message.textContent = 'Escreva sua resenha antes de publicar.'; text.focus(); return; }
-        if (resenha.length > 500) { message.textContent = 'A resenha deve ter no máximo 500 caracteres.'; return; }
+        if (!resenha) { mostrarMensagem(message, 'Escreva sua resenha antes de publicar.'); text.focus(); return; }
+        if (resenha.length > 500) { mostrarMensagem(message, 'A resenha deve ter no máximo 500 caracteres.'); return; }
         await publicar(nota, resenha, message);
     });
 
@@ -278,13 +293,13 @@
             event.preventDefault();
             if (!popup.open || enviando || !carregado) return;
             if (!minhaResenha && (notaPopup < 1 || notaPopup > 5)) {
-                popupMessage.textContent = 'Selecione uma nota de 1 a 5.';
+                mostrarMensagem(popupMessage, 'Selecione uma nota de 1 a 5.');
                 popupStars[0]?.focus();
                 return;
             }
             const resenha = popupText.value.trim();
             if (!minhaResenha && resenha.length > 200) {
-                popupMessage.textContent = 'A resenha deve ter no máximo 200 caracteres.';
+                mostrarMensagem(popupMessage, 'A resenha deve ter no máximo 200 caracteres.');
                 return;
             }
             if (await publicar(notaPopup, resenha, popupMessage, true)) popup.close();
@@ -298,7 +313,7 @@
                 atualizarNotaPopup();
                 atualizarContador();
                 if (minhaResenha) preencherMinhaAvaliacao();
-                popupMessage.textContent = minhaResenha ? 'Você já avaliou este livro. Confirme para marcá-lo como lido.' : '';
+                mostrarMensagem(popupMessage, minhaResenha ? 'Você já avaliou este livro. Confirme para marcá-lo como lido.' : '');
                 popup.showModal();
                 atualizarTela();
                 if (!carregado) iniciar();
