@@ -51,6 +51,17 @@ class Avaliacao extends Banco {
 		];
 		self::Executar("atualizarAvaliacao", $parametros);
 	}
+    public static function AtualizarDoUsuario($codigoAvaliacao, $codigoLivro, $codigoUsuario, $nota, $resenha) {
+        return self::Transacao(function ($conexao) use ($codigoAvaliacao, $codigoLivro, $codigoUsuario, $nota, $resenha) {
+            $consulta = $conexao->prepare("SELECT id_avaliacao FROM avaliacao WHERE id_avaliacao = ? AND id_livro = ? AND id_usuario = ? FOR UPDATE");
+            $consulta->execute([$codigoAvaliacao, $codigoLivro, $codigoUsuario]);
+            if (!$consulta->fetch()) return false;
+            $atualizacao = $conexao->prepare("CALL atualizarAvaliacao(?, ?, ?)");
+            $atualizacao->execute([$codigoAvaliacao, $nota, $resenha]);
+            $atualizacao->closeCursor();
+            return true;
+        });
+    }
     public static function ExcluirDoUsuario($codigoAvaliacao, $codigoLivro, $codigoUsuario) {
         return self::Transacao(function ($conexao) use ($codigoAvaliacao, $codigoLivro, $codigoUsuario) {
             $consulta = $conexao->prepare("SELECT id_avaliacao FROM avaliacao WHERE id_avaliacao = ? AND id_livro = ? AND id_usuario = ? FOR UPDATE");

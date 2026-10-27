@@ -22,6 +22,7 @@
     let carregado = false;
     let enviando = false;
     let minhaResenha = null;
+    let editando = null;
     let usuario = {};
     try { usuario = JSON.parse(sessionStorage.getItem('usuario')) || {}; } catch (_) {}
 
@@ -70,11 +71,11 @@
         container?.classList.toggle('resenhaPublicada', Boolean(minhaResenha));
         if (popupButton) {
             popupButton.disabled = !carregado || enviando || !codigoUsuario;
-            popupButton.textContent = minhaResenha ? 'marcar como lido' : 'enviar avaliação';
+            popupButton.textContent = editando ? 'salvar alterações' : (minhaResenha ? 'marcar como lido' : 'enviar avaliação');
         }
         if (popupClose) popupClose.disabled = enviando;
-        popupStars.forEach(star => { star.disabled = enviando || Boolean(minhaResenha); });
-        if (popupText) popupText.disabled = enviando || Boolean(minhaResenha);
+        popupStars.forEach(star => { star.disabled = enviando || (Boolean(minhaResenha) && !editando); });
+        if (popupText) popupText.disabled = enviando || (Boolean(minhaResenha) && !editando);
         popupForm?.setAttribute('aria-busy', String(enviando));
     }
     container?.addEventListener('biblioteca:alterada', atualizarTela);
@@ -90,10 +91,14 @@
             const actions = elemento('div', 'acoesMinhaResenha');
             const edit = document.createElement('button');
             edit.type = 'button';
-            edit.disabled = true;
-            edit.title = 'Editar resenha (em breve)';
-            edit.setAttribute('aria-label', 'Editar resenha (em breve)');
+            edit.className = 'editarResenha';
+            edit.disabled = !avaliacao.id_avaliacao || !popup;
+            edit.title = 'Editar resenha';
+            edit.setAttribute('aria-label', 'Editar resenha');
             edit.append(elemento('span', 'material-symbols-outlined', 'edit'));
+            edit.addEventListener('click', () => {
+                if (!enviando && avaliacao.id_avaliacao) abrirFeedback(avaliacao);
+            });
             const remove = document.createElement('button');
             remove.type = 'button';
             remove.className = 'excluirResenha';
@@ -139,7 +144,7 @@
     function mostrarResenhas(avaliacoes) {
         minhaResenha = avaliacoes.find(a => String(a.id_usuario) === String(codigoUsuario)) || null;
         window.ResenhasLivro.mostrar(avaliacoes, criarAcoes);
-        if (popup?.open && minhaResenha) preencherMinhaAvaliacao();
+        if (popup?.open && minhaResenha && !editando) preencherMinhaAvaliacao();
         atualizarTela();
     }
     function consultar() {
@@ -247,6 +252,34 @@
         await publicar(nota, resenha, message);
     });
 
+    async function salvarEdicao(resenha) {
+        if (!editando || enviando) return;
+        const atualizada = { ...editando, nota: notaPopup, txt_resenha: resenha };
+        enviando = true;
+        atualizarTela();
+        mostrarMensagem(popupMessage, 'Salvando alterações...');
+        try {
+            const response = await fetch('../api/atualizarAvaliacao.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ codigo: atualizada.id_avaliacao, codigoLivro, nota: atualizada.nota, resenha })
+            });
+            const resultado = await response.json();
+            if (!response.ok || !(resultado.status === true || resultado.status === 'true')) {
+                throw new Error(resultado.mensagem || resultado.resposta || 'Não foi possível editar a resenha.');
+            }
+            minhaResenha = atualizada;
+            window.ResenhasLivro.atualizar(atualizada);
+            mostrarMensagem(message, 'Resenha atualizada com sucesso!', true);
+            popup.close();
+        } catch (erro) {
+            mostrarMensagem(popupMessage, erro.message || 'Não foi possível editar. Tente novamente.');
+        } finally {
+            enviando = false;
+            atualizarTela();
+        }
+    }
+
     function atualizarNotaPopup() {
         popupStars.forEach((star, index) => {
             star.classList.toggle('estrelaCheia', index < notaPopup);
@@ -258,11 +291,12 @@
     }
     function atualizarContador() {
         const counter = popup?.querySelector('.contadorCaracteres');
-        if (counter) counter.textContent = popupText.value.length + '/200';
+        if (counter) counter.textContent = popupText.value.length + '/' + popupText.maxLength;
     }
     function preencherMinhaAvaliacao() {
-        notaPopup = Number(minhaResenha.nota) || 0;
-        popupText.value = minhaResenha.txt_resenha || '';
+        const avaliacao = editando || minhaResenha;
+        notaPopup = Number(avaliacao.nota) || 0;
+        popupText.value = avaliacao.txt_resenha || '';
         atualizarNotaPopup();
         atualizarContador();
     }
@@ -277,10 +311,28 @@
         popup.querySelector('.infoLivroModal p').textContent = container.querySelector('.autorNome').textContent;
     }
     container?.addEventListener('livro:carregado', () => { if (popup?.open) atualizarLivroPopup(); });
+
+    function abrirFeedback(avaliacao = null) {
+        if (enviando || !codigoUsuario || !popup) return;
+        editando = avaliacao ? { ...avaliacao } : null;
+        atualizarLivroPopup();
+        popup.querySelector('.tituloModal').textContent = editando ? 'Editar sua resenha' : 'Dê seu feedback sobre o livro';
+        popupText.maxLength = editando ? 500 : 200;
+        notaPopup = 0;
+        popupText.value = '';
+        atualizarNotaPopup();
+        atualizarContador();
+        if (editando || minhaResenha) preencherMinhaAvaliacao();
+        mostrarMensagem(popupMessage, !editando && minhaResenha ? 'Você já avaliou este livro. Confirme para marcá-lo como lido.' : '');
+        popup.showModal();
+        atualizarTela();
+        if (!carregado) iniciar();
+    }
+
     if (popup && popupForm && popupText && popupButton && popupMessage) {
         popupStars.forEach((star, index) => {
             star.addEventListener('click', () => {
-                if (enviando || minhaResenha) return;
+                if (enviando || (minhaResenha && !editando)) return;
                 notaPopup = index + 1;
                 atualizarNotaPopup();
             });
@@ -288,37 +340,30 @@
         popupText.addEventListener('input', atualizarContador);
         popupClose?.addEventListener('click', () => { if (!enviando) popup.close(); });
         popup.addEventListener('cancel', event => { if (enviando) event.preventDefault(); });
-        popup.addEventListener('close', atualizarTela);
+        popup.addEventListener('close', () => {
+            editando = null;
+            atualizarTela();
+        });
         popupForm.addEventListener('submit', async event => {
             event.preventDefault();
             if (!popup.open || enviando || !carregado) return;
-            if (!minhaResenha && (notaPopup < 1 || notaPopup > 5)) {
+            if ((editando || !minhaResenha) && (notaPopup < 1 || notaPopup > 5)) {
                 mostrarMensagem(popupMessage, 'Selecione uma nota de 1 a 5.');
                 popupStars[0]?.focus();
                 return;
             }
             const resenha = popupText.value.trim();
-            if (!minhaResenha && resenha.length > 200) {
-                mostrarMensagem(popupMessage, 'A resenha deve ter no máximo 200 caracteres.');
+            if ((editando || !minhaResenha) && resenha.length > popupText.maxLength) {
+                mostrarMensagem(popupMessage, 'A resenha deve ter no máximo ' + popupText.maxLength + ' caracteres.');
+                return;
+            }
+            if (editando) {
+                await salvarEdicao(resenha);
                 return;
             }
             if (await publicar(notaPopup, resenha, popupMessage, true)) popup.close();
         });
-        window.FeedbackLivro = {
-            abrir() {
-                if (enviando || !codigoUsuario) return;
-                atualizarLivroPopup();
-                notaPopup = 0;
-                popupText.value = '';
-                atualizarNotaPopup();
-                atualizarContador();
-                if (minhaResenha) preencherMinhaAvaliacao();
-                mostrarMensagem(popupMessage, minhaResenha ? 'Você já avaliou este livro. Confirme para marcá-lo como lido.' : '');
-                popup.showModal();
-                atualizarTela();
-                if (!carregado) iniciar();
-            }
-        };
+        window.FeedbackLivro = { abrir: () => abrirFeedback() };
     }
     list.replaceChildren();
     container?.querySelectorAll('.secaoResenhasComunidade .contadorTotal').forEach(el => el.textContent = '(...)');

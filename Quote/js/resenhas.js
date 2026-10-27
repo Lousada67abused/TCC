@@ -79,7 +79,10 @@
     function remover(codigoAvaliacao) {
         mostrar(avaliacoesAtuais.filter(a => String(a.id_avaliacao) !== String(codigoAvaliacao)));
     }
-    window.ResenhasLivro = { consultar, mostrar, remover };
+    function atualizar(avaliacao) {
+        mostrar(avaliacoesAtuais.map(a => String(a.id_avaliacao) === String(avaliacao.id_avaliacao) ? { ...a, ...avaliacao } : a));
+    }
+    window.ResenhasLivro = { consultar, mostrar, remover, atualizar };
     // avaliar.js coordinates the initial query when the review form is present.
     if (!container.querySelector('.formularioAvaliacao')) {
         const status = elemento('p', 'statusResenhas', 'Carregando resenhas...');
