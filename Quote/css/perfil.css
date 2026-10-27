@@ -256,8 +256,7 @@ body.paginaPerfil {
 .resenha:last-child { border-bottom: 0; padding-bottom: 0; }
 .resenha > .livro { width: 104px; flex: 0 0 104px; }
 
-.textoResenha,
-.detalhesAtividade {
+.textoResenha {
     display: flex;
     flex: 1;
     flex-direction: column;
@@ -272,20 +271,34 @@ body.paginaPerfil {
     overflow-wrap: anywhere;
 }
 
-.textoResenha time,
-.detalhesAtividade time { color: #747272; font-size: 11px; line-height: 1.4; }
+.textoResenha time { color: #747272; font-size: 11px; line-height: 1.4; }
 
 .listaAtividades { list-style: none; min-width: 0; }
 
 .listaAtividades li {
-    display: flex;
-    align-items: flex-start;
-    gap: 18px;
-    padding: 16px 0;
-    border-bottom: 1px solid #dce6f5;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 16px;
+    min-height: 36px;
+    padding: 9px 0;
+    border-bottom: 1px solid #999999;
 }
 
-.listaAtividades li > .livro { width: 84px; flex: 0 0 84px; }
+.listaAtividades li:last-child { border-bottom: 0; }
+.textoAtividade { min-width: 0; color: #747272; font-size: 12px; line-height: 1.6; overflow-wrap: anywhere; }
+.nomeAtividade,
+.livroAtividade { color: var(--black); font-weight: 600; }
+.livroAtividade { text-decoration: none; }
+.livroAtividade:hover { text-decoration: underline; }
+.estrelasAtividade { display: inline-flex; gap: 1px; margin-left: 5px; color: #ffc107; font-size: 16px; line-height: 1; vertical-align: -1px; white-space: nowrap; }
+.estrelasAtividade .estrelaVazia { color: #cbd2dc; }
+.tempoAtividade { color: #747272; font-size: 11px; line-height: 1.4; text-align: right; white-space: nowrap; }
+.acoesAtividades { display: flex; justify-content: flex-end; padding-top: 22px; }
+.acoesAtividades:has(button[hidden]) { display: none; }
+.verMaisAtividades { min-width: 96px; min-height: 32px; padding: 6px 16px; border: 0; border-radius: 4px; background: var(--royalBlue); color: var(--white); font: inherit; font-size: 12px; cursor: pointer; }
+.verMaisAtividades:hover { background-color: var(--darkOceanBlue); }
+#atividade { gap: 0; }
 .listaAtividades p { color: #747272; font-size: 13px; line-height: 1.5; overflow-wrap: anywhere; }
 .listaAtividades strong { color: var(--black); font-weight: 600; }
 
@@ -503,7 +516,7 @@ body.paginaPerfil {
     .textoResenha p,
     .listaAtividades p { font-size: 12px; }
     .listaAtividades li { gap: 14px; }
-    .listaAtividades li > .livro { width: 74px; flex-basis: 74px; }
+    .verMaisAtividades { min-height: 44px; }
     .tituloMetas { gap: 8px; }
     .acoesMetas { gap: 7px; }
     .acoesMetas button { min-height: 30px; padding: 5px 8px; font-size: 11px; }

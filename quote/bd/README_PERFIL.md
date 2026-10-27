@@ -33,8 +33,10 @@ consultas. Não é necessário importar a massa novamente.
 A estante não registra a data em que um livro foi concluído. Por isso, o
 progresso das metas e o resumo de leituras consideram os livros atualmente
 marcados como `lido`, inclusive ao selecionar metas de anos anteriores. A
-atividade apresenta avaliações com suas datas; não cria eventos de leitura ou
-favoritos sem registro no banco. As melhores avaliações usam o ano da avaliação.
+atividade apresenta avaliações com suas datas e, depois, os status e favoritos
+atuais da estante. Como a estante não guarda a data dessas escolhas, essas linhas
+exibem `—`, com uma indicação acessível de que a data não foi registrada. Não
+há histórico novo nem alteração no banco. As melhores avaliações usam o ano da avaliação.
 
 As abas aceitam links como `perfil.html#estante` e `perfil.html#metas` e acompanham
 o histórico do navegador. As capas usam o ISBN em
@@ -46,7 +48,10 @@ correspondente do perfil. A navegação também funciona por teclado.
 
 Todas as abas usam proporções compactas. Os livros apresentam capa, título em
 até duas linhas e autor em uma linha, sem nota individual, inclusive nos
-favoritos, na atividade e nas resenhas. Textos maiores têm reticências.
+favoritos e nas resenhas. A aba Atividade usa linhas compactas sem capas, com
+usuário e título em destaque, estrelas nas avaliações e tempo relativo à direita.
+O botão `ver mais` exibe cinco linhas adicionais. Os títulos levam ao livro.
+Textos maiores nos cards de livros têm reticências.
 
 A tela de metas mostra o progresso circular e em barra, os lidos acumulados,
 a média das avaliações do ano da meta e os dias até o prazo. O histórico usa
