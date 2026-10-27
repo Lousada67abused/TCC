@@ -13,7 +13,6 @@
     let pendente = false;
     let confirmado = false;
     let filtro = 'todos';
-    let temporizador;
     const buscar = seletor => main.querySelector(seletor);
     const abas = [...main.querySelectorAll('[role="tab"]')];
     const paineis = [...main.querySelectorAll('[role="tabpanel"]')];
@@ -25,13 +24,10 @@
         return no;
     }
     function contagem(valor) { return numero.format(Math.max(0, Number(valor) || 0)); }
-    function mensagem(texto, sucesso = false) {
-        clearTimeout(temporizador);
+    function mensagem(texto) {
         mensagemSeguir.textContent = texto;
         mensagemSeguir.hidden = !texto;
-        mensagemSeguir.classList.toggle('sucesso', sucesso);
-        mensagemSeguir.classList.toggle('erro', Boolean(texto) && !sucesso);
-        if (sucesso) temporizador = setTimeout(() => mensagem(''), 2000);
+        mensagemSeguir.classList.toggle('erro', Boolean(texto));
     }
     function abrirAba(nome) {
         if (!paineis.some(painel => painel.id === nome)) nome = 'principal';
@@ -214,7 +210,6 @@
             }
             dados.seguindo = resultado.resposta.seguindo;
             dados.usuario.qtd_seguidores = resultado.resposta.qtd_seguidores;
-            mensagem(dados.seguindo ? 'Agora você segue este leitor.' : 'Você deixou de seguir este leitor.', true);
         } catch (erro) {
             // Uma resposta perdida pode ter confirmado a ação no servidor.
             try {

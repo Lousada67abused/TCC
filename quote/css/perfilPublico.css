@@ -10,7 +10,6 @@
 .iconeConfirmarSeguir,
 #seguirPerfil.seguindo .iconeMaisSeguir { display: none; }
 #seguirPerfil.seguindo .iconeConfirmarSeguir { display: block; }
-#estadoSeguirPerfil.sucesso { color: #15803d; }
 #estadoSeguirPerfil.erro { color: #b91c1c; }
 #secoesPerfilPublico { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
 .notaPublica { display: inline-flex; gap: 2px; color: #ffc107; font-size: 16px; white-space: nowrap; }
