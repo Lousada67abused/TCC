@@ -17,8 +17,8 @@
     }
     const codigoValido = /^[1-9]\d*$/.test(codigoUsuario || '');
     document.querySelectorAll('.avatarHeader').forEach(avatar => {
-        avatar.addEventListener('error', () => { avatar.src = '../img/avatar.png'; }, { once: true });
-        avatar.src = codigoValido ? '../img/' + codigoUsuario + '.png' : '../img/avatar.png';
+        avatar.addEventListener('error', () => { avatar.src = '../img/avatar.jpg'; }, { once: true });
+        avatar.src = codigoValido ? '../img/' + codigoUsuario + '.png' : '../img/avatar.jpg';
     });
     if (usuario && typeof usuario === 'object') {
         document.getElementById('nomeUsuarioHeader').textContent = usuario.nm_usuario || 'Seu perfil';
