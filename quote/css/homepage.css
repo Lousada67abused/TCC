@@ -144,6 +144,10 @@ body {
 }
 
 .botaoVerMais {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
     background-color: var(--royalBlue);
     color: #ffffff;
     border: 1px solid var(--royalBlue);
@@ -153,6 +157,13 @@ body {
     font-size: 13px;
     font-weight: bold;
     cursor: pointer;
+}
+
+.botaoVerMais .iconeBotao {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    fill: currentColor;
 }
 
 .botaoVerMais:hover {
