@@ -123,7 +123,7 @@
         seguir.hidden = !dados.autenticado;
         buscar('#entrarParaSeguir').hidden = dados.autenticado;
         seguir.disabled = pendente || !confirmado;
-        seguir.textContent = seguindo ? 'Deixar de seguir' : 'Seguir';
+        seguir.querySelector('.rotuloSeguirPerfil').textContent = seguindo ? 'seguindo' : 'seguir';
         seguir.classList.toggle('seguindo', seguindo);
         seguir.setAttribute('aria-pressed', String(seguindo));
         seguir.setAttribute('aria-label', (seguindo ? 'Deixar de seguir ' : 'Seguir ') + dados.usuario.nm_usuario);

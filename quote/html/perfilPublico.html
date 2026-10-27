@@ -54,7 +54,15 @@
             <div class="infoPerfil">
                 <div class="nomeEAcoesPerfil">
                     <h1 id="nomePerfilPublico" class="nomePerfil"></h1>
-                    <button type="button" id="seguirPerfil" class="botaoSeguirPerfil" aria-pressed="false" hidden disabled>Seguir</button>
+                    <button type="button" id="seguirPerfil" class="botaoSeguirPerfil" aria-pressed="false" hidden disabled>
+                        <svg class="iconeSeguirPerfil" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                            <circle cx="9" cy="6" r="3.5"/>
+                            <path d="M2.5 20v-2a6.5 6.5 0 0 1 13 0v2"/>
+                            <path class="iconeMaisSeguir" d="M19 13v7m-3.5-3.5h7"/>
+                            <path class="iconeConfirmarSeguir" d="m16 17 2 2 4-5"/>
+                        </svg>
+                        <span class="rotuloSeguirPerfil">seguir</span>
+                    </button>
                     <a href="login.html" id="entrarParaSeguir" class="botaoSeguirPerfil" hidden>Entre para seguir</a>
                 </div>
                 <p id="bioPerfilPublico" class="bioPerfil"></p>
