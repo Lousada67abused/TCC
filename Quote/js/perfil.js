@@ -149,7 +149,7 @@
         todos('[data-contagem]').forEach(no => { no.textContent = formatoNumero.format(numero(valores[no.dataset.contagem])); });
         fotos.forEach(imagem => {
             imagem.alt = 'Foto de perfil de ' + usuario.nm_usuario;
-            imagem.addEventListener('error', () => { imagem.src = '../img/avatar.png'; }, { once: true });
+            imagem.addEventListener('error', () => { imagem.src = '../img/avatar.jpg'; }, { once: true });
             imagem.src = '../img/' + encodeURIComponent(codigo) + '.png';
         });
     }
