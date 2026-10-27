@@ -467,6 +467,11 @@ body {
 
 .btnFavorito .material-symbols-outlined {
     font-size: 16px;
+    font-variation-settings: 'FILL' 0;
+}
+
+.btnFavorito.favoritoAtivo .material-symbols-outlined {
+    font-variation-settings: 'FILL' 1;
 }
 
 .btnFavorito.favoritoAtivo {
