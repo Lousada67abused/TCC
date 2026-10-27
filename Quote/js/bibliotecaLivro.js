@@ -19,7 +19,7 @@
     let carregado = false;
     let pendente = false;
     let statusEmEnvio = null;
-    // A consulta evita cadastros duplicados, mas a escolha da página começa vazia.
+    // A consulta recupera o status salvo; livros fora da estante ficam sem seleção.
     let statusSelecionado = '';
 
     function confirmarSelecao(status) {
@@ -97,6 +97,7 @@
         try {
             entrada = await consultar();
             if (statusSelecionado && entrada?.status !== statusSelecionado) confirmarSelecao('');
+            statusSelecionado = entrada?.status || '';
             carregado = true;
             mensagem(entrada ? '' : 'Adicione o livro à estante para favoritar.');
         } catch (_) {
@@ -114,6 +115,7 @@
         try {
             entrada = await consultar();
             if (statusSelecionado && entrada?.status !== statusSelecionado) confirmarSelecao('');
+            statusSelecionado = entrada?.status || '';
             carregado = true;
             mensagem(texto + ' Confira o estado atual e tente novamente.', true);
         } catch (_) {
