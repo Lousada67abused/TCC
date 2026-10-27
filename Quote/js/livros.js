@@ -96,6 +96,7 @@ if (containerDetalhesLivro) {
 
                 areaEstrelas.appendChild(estrela);
             }
+            containerDetalhesLivro.dispatchEvent(new Event('livro:carregado'));
         }
     })
     .catch(function (erro) {

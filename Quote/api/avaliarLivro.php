@@ -34,11 +34,16 @@ try {
 	$codigoUsuario = $corpo['codigoUsuario'];
 	$codigoLivro = $corpo['codigoLivro'];
 	$nota = $corpo['nota'];
-	$resenha = trim((string) $corpo['resenha']);
-
-	if (filter_var($nota, FILTER_VALIDATE_INT) === false || $nota < 1 || $nota > 5 || $resenha === '') {
+	if (!is_string($corpo['resenha'])) {
 		http_response_code(400);
-		echo json_encode(['status' => false, 'mensagem' => 'Selecione uma nota de 1 a 5 e escreva sua resenha.']);
+		echo json_encode(['status' => false, 'mensagem' => 'A resenha deve ser um texto.']);
+		return;
+	}
+	$resenha = trim($corpo['resenha']);
+
+	if (filter_var($nota, FILTER_VALIDATE_INT) === false || $nota < 1 || $nota > 5) {
+		http_response_code(400);
+		echo json_encode(['status' => false, 'mensagem' => 'Selecione uma nota de 1 a 5.']);
 		return;
 	}
 
@@ -61,7 +66,7 @@ try {
 }
 
 function validaCorpoRequisicao($corpo) {
-	if (is_null($corpo))
+	if (!is_array($corpo))
 	{
 		http_response_code(400);
 		echo json_encode(['mensagem'=>'Dados Inválidos!']);
@@ -78,7 +83,7 @@ function validaChaves($corpo, $campos) {
 			echo json_encode(['mensagem'=>'Dados incorretos. Verifique a documentação da API e tente novamente!']);
 			return false;
 		}
-		if ($corpo[$campos[$i]] == ''){
+		if ($campos[$i] !== 'resenha' && ($corpo[$campos[$i]] === '' || $corpo[$campos[$i]] === null)){
 			http_response_code(400);
 			echo json_encode(['mensagem'=>'Dados incorretos. Verifique a documentação da API e tente novamente!']);
 			return false;

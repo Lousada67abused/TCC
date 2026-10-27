@@ -519,6 +519,210 @@ body {
     border: 1px solid #f0f0f0;
 }
 
+.cardNovaResenha[hidden] {
+    display: none !important;
+}
+
+.overlayModal {
+    margin: auto;
+    padding: 0;
+    width: min(500px, calc(100% - 32px));
+    max-height: calc(100dvh - 32px);
+    border: none;
+    border-radius: 16px;
+    color: #212529;
+    background: #ffffff;
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
+}
+
+.overlayModal::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+}
+
+body:has(#popupFeedbackLivro[open]) {
+    overflow: hidden;
+}
+
+.modalFeedback {
+    position: relative;
+    padding: 28px;
+}
+
+.btnFecharModal {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 40px;
+    height: 40px;
+    border: 0;
+    background: transparent;
+    color: #475569;
+    font-size: 28px;
+    cursor: pointer;
+}
+
+.tituloModal {
+    margin: 8px 24px 24px 0;
+    font-size: 20px;
+    line-height: 1.35;
+}
+
+.headerLivroModal {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 24px;
+}
+
+.capaModal {
+    width: 64px;
+    height: 96px;
+    object-fit: cover;
+    border-radius: 6px;
+    background: #f0f0f0;
+}
+
+.infoLivroModal {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.infoLivroModal h3 {
+    margin-bottom: 6px;
+    font-size: 16px;
+}
+
+.infoLivroModal p,
+.rotuloModal {
+    font-size: 14px;
+}
+
+.infoLivroModal p,
+.rotuloModal small {
+    color: #666666;
+}
+
+.rotuloModal {
+    display: block;
+    margin-bottom: 10px;
+}
+
+.secaoAvaliacaoModal {
+    margin-bottom: 24px;
+}
+
+.estrelasAvaliacaoModal {
+    display: flex;
+    justify-content: space-between;
+}
+
+.estrelasAvaliacaoModal button {
+    width: 44px;
+    height: 44px;
+    border: 0;
+    background: transparent;
+    color: #b3afaf;
+    cursor: pointer;
+}
+
+.estrelasAvaliacaoModal span {
+    font-size: 36px;
+}
+
+.estrelasAvaliacaoModal button[aria-pressed="true"] {
+    color: #ffc107;
+}
+
+.legendaEstrelas {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 4px;
+    font-size: 12px;
+    color: #666666;
+}
+
+.badgeNota {
+    width: fit-content;
+    margin: 12px auto 0;
+    padding: 6px 12px;
+    border-radius: 16px;
+    background: #edf4ff;
+    color: #1a56b0;
+    font-size: 13px;
+}
+
+.textareaContainerModal {
+    position: relative;
+}
+
+.textareaContainerModal textarea {
+    width: 100%;
+    padding: 12px 12px 28px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font: inherit;
+    font-size: 14px;
+    resize: vertical;
+}
+
+.contadorCaracteres {
+    position: absolute;
+    right: 12px;
+    bottom: 12px;
+    color: #666666;
+    font-size: 12px;
+}
+
+.bannerAjudaModal {
+    margin: 20px 0;
+    padding: 12px;
+    border-radius: 8px;
+    background: #edf4ff;
+    color: #1a56b0;
+    font-size: 12px;
+    line-height: 1.5;
+}
+
+.footerModal {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12px;
+}
+
+#estadoFeedbackLivro {
+    align-self: stretch;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+.btnEnviarAvaliacao {
+    padding: 10px 20px;
+    border: 0;
+    border-radius: 6px;
+    background: #1a56b0;
+    color: #ffffff;
+    font: inherit;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.modalFeedback button:disabled {
+    opacity: 0.6;
+    cursor: default;
+}
+
+@media (max-width: 480px) {
+    .modalFeedback {
+        padding: 20px;
+    }
+
+    .tituloModal {
+        font-size: 18px;
+    }
+}
+
 .cabecalhoNovaResenha {
     display: flex;
     align-items: center;

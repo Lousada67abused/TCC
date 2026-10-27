@@ -19,6 +19,14 @@
     let carregado = false;
     let pendente = false;
     let statusEmEnvio = null;
+    // A consulta evita cadastros duplicados, mas a escolha da página começa vazia.
+    let statusSelecionado = '';
+
+    function confirmarSelecao(status) {
+        statusSelecionado = status;
+        container.dataset.resenhaLiberada = String(['lido', 'lendo', 'desisti'].includes(status));
+        container.dispatchEvent(new Event('biblioteca:alterada'));
+    }
 
     function mensagem(texto, repetir = false) {
         estado.textContent = texto;
@@ -29,7 +37,7 @@
     function atualizarControles() {
         const favorito = entrada?.favorito === 1;
         seletores.forEach(seletor => {
-            seletor.value = statusEmEnvio || entrada?.status || '';
+            seletor.value = statusEmEnvio || statusSelecionado;
             seletor.disabled = !carregado || pendente;
         });
         botoes.forEach(botao => {
@@ -47,6 +55,7 @@
             area.setAttribute('aria-busy', String(pendente));
         });
         tentar.disabled = pendente;
+        container.dispatchEvent(new Event('biblioteca:alterada'));
     }
 
     async function consultar() {
@@ -83,9 +92,11 @@
         atualizarControles();
         try {
             entrada = await consultar();
+            if (statusSelecionado && entrada?.status !== statusSelecionado) confirmarSelecao('');
             carregado = true;
             mensagem(entrada ? '' : 'Adicione o livro à estante para favoritar.');
         } catch (_) {
+            confirmarSelecao('');
             mensagem('Não foi possível carregar sua estante. Tente novamente.', true);
         } finally {
             pendente = false;
@@ -98,21 +109,26 @@
         // Reconsultar evita apresentar uma alteração como confirmada sem saber o estado atual.
         try {
             entrada = await consultar();
+            if (statusSelecionado && entrada?.status !== statusSelecionado) confirmarSelecao('');
             carregado = true;
             mensagem(texto + ' Confira o estado atual e tente novamente.', true);
         } catch (_) {
             carregado = false;
+            confirmarSelecao('');
             mensagem('Não foi possível confirmar o estado da sua estante. Tente novamente.', true);
         }
     }
 
-    seletores.forEach(seletor => seletor.addEventListener('change', async () => {
-        const novoStatus = seletor.value;
+    async function salvarStatus(novoStatus) {
         if (!carregado || pendente || !statusValidos.has(novoStatus)) {
             atualizarControles();
-            return;
+            return false;
         }
-        if (entrada?.status === novoStatus) return;
+        if (entrada?.status === novoStatus) {
+            confirmarSelecao(novoStatus);
+            atualizarControles();
+            return true;
+        }
         pendente = true;
         statusEmEnvio = novoStatus;
         const existente = entrada !== null;
@@ -127,14 +143,34 @@
                 await enviar('cadastrarBiblioteca', { ...dados, visivel: 1, favorito: 0 });
                 entrada = { status: novoStatus, favorito: 0 };
             }
+            confirmarSelecao(novoStatus);
             mensagem(existente ? 'Estado de leitura atualizado.' : 'Livro adicionado à estante.');
+            return true;
         } catch (_) {
             await conferirAposFalha('Não foi possível salvar o estado de leitura.');
+            return false;
         } finally {
             statusEmEnvio = null;
             pendente = false;
             atualizarControles();
         }
+    }
+
+    window.BibliotecaLivro = { marcarLido: () => salvarStatus('lido') };
+
+    seletores.forEach(seletor => seletor.addEventListener('change', () => {
+        const novoStatus = seletor.value;
+        if (!carregado || pendente || !statusValidos.has(novoStatus)) {
+            atualizarControles();
+            return;
+        }
+        if (novoStatus === 'lido') {
+            // Cancelar o feedback preserva a seleção anterior e não grava na estante.
+            atualizarControles();
+            window.FeedbackLivro?.abrir();
+            return;
+        }
+        salvarStatus(novoStatus);
     }));
 
     botoes.forEach(botao => botao.addEventListener('click', async () => {
@@ -155,6 +191,7 @@
         }
     }));
 
+    confirmarSelecao('');
     atualizarControles();
     if (!/^[1-9]\d*$/.test(codigoUsuario || '')) {
         mensagem('Entre na sua conta para organizar sua estante.');

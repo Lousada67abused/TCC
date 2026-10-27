@@ -139,7 +139,7 @@
             <button id="tentarBibliotecaLivro" type="button" hidden>Tentar novamente</button>
         </div>
         
-        <section class="cardNovaResenha">
+        <section class="cardNovaResenha" hidden>
             <div class="cabecalhoNovaResenha">
                 <img alt="Sua foto de perfil" class="fotoUsuarioResenha">
                 <div class="infoNovaResenha">
@@ -210,43 +210,43 @@
 
     <!--  POPUP 1: DÊ SEU FEEDBACK SOBRE O LIVRO (DESKTOP E MOBILE) -->
     
-    <!-- <div class="overlayModal">
-        <div class="modalFeedback">
-            <button class="btnFecharModal" aria-label="Fechar">&times;</button>
+    <dialog id="popupFeedbackLivro" class="overlayModal" aria-labelledby="tituloFeedbackLivro">
+        <form class="modalFeedback formularioFeedback">
+            <button type="button" class="btnFecharModal" aria-label="Fechar">&times;</button>
             
-            <h2 class="tituloModal">Dê seu feedback sobre o livro</h2>
+            <h2 id="tituloFeedbackLivro" class="tituloModal">Dê seu feedback sobre o livro</h2>
 
             <div class="headerLivroModal">
-                <img src="../img/capa3.jpg" alt="Capa do livro" class="capaModal">
+                <img alt="Capa do livro" class="capaModal">
                 <div class="infoLivroModal">
-                    <h3>É assim que acaba</h3>
-                    <p>Colleen Hoover</p>
+                    <h3></h3>
+                    <p></p>
                 </div>
             </div>
 
             <div class="secaoAvaliacaoModal">
-                <p class="rotuloModal">Como você avalia?</p>
-                <div class="estrelasAvaliacaoModal">
-                    <span class="material-symbols-outlined estrelaCheia">star</span>
-                    <span class="material-symbols-outlined estrelaCheia">star</span>
-                    <span class="material-symbols-outlined estrelaCheia">star</span>
-                    <span class="material-symbols-outlined estrelaCheia">star</span>
-                    <span class="material-symbols-outlined">star</span>
+                <p id="rotuloNotaFeedback" class="rotuloModal">Como você avalia?</p>
+                <div class="estrelasAvaliacaoModal" role="group" aria-labelledby="rotuloNotaFeedback">
+                    <button type="button" aria-label="Dar nota 1" aria-pressed="false"><span aria-hidden="true">★</span></button>
+                    <button type="button" aria-label="Dar nota 2" aria-pressed="false"><span aria-hidden="true">★</span></button>
+                    <button type="button" aria-label="Dar nota 3" aria-pressed="false"><span aria-hidden="true">★</span></button>
+                    <button type="button" aria-label="Dar nota 4" aria-pressed="false"><span aria-hidden="true">★</span></button>
+                    <button type="button" aria-label="Dar nota 5" aria-pressed="false"><span aria-hidden="true">★</span></button>
                 </div>
                 <div class="legendaEstrelas">
-                    <span>pessimo</span>
+                    <span>péssimo</span>
                     <span>excelente</span>
                 </div>
                 <div class="badgeNota">
-                    <span>★ 4 - muito bom</span>
+                    <span>Selecione uma nota</span>
                 </div>
             </div>
 
             <div class="secaoOpinaoModal">
-                <p class="rotuloModal">Quer contar o que achou? <small>(opcional)</small></p>
+                <label for="txtFeedback" class="rotuloModal">Quer contar o que achou? <small>(opcional)</small></label>
                 <div class="textareaContainerModal">
-                    <textarea maxlength="200" placeholder="Escreva sua resenha..."></textarea>
-                    <span class="contadorCaracteres">0/200</span>
+                    <textarea id="txtFeedback" maxlength="200" rows="4" placeholder="Escreva sua resenha..." aria-describedby="contadorFeedback"></textarea>
+                    <span id="contadorFeedback" class="contadorCaracteres">0/200</span>
                 </div>
             </div>
 
@@ -255,10 +255,11 @@
             </div>
 
             <div class="footerModal">
-                <button type="button" class="btnEnviarAvaliacao">enviar avaliação</button>
+                <p id="estadoFeedbackLivro" role="status"></p>
+                <button type="submit" class="btnEnviarAvaliacao">enviar avaliação</button>
             </div>
-        </div>
-    </div> -->
+        </form>
+    </dialog>
    
 
     <!-- POPUP 2: COMENTÁRIOS DA RESENHA (DESKTOP E MOBILE) -->
