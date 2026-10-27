@@ -41,7 +41,7 @@
     function atualizarControles() {
         const favorito = entrada?.favorito === 1;
         seletores.forEach(seletor => {
-            seletor.value = statusEmEnvio || statusSelecionado;
+            seletor.value = statusEmEnvio ?? statusSelecionado;
             seletor.disabled = !carregado || pendente;
         });
         botoes.forEach(botao => {
@@ -126,11 +126,11 @@
     }
 
     async function salvarStatus(novoStatus) {
-        if (!carregado || pendente || !statusValidos.has(novoStatus)) {
+        if (!carregado || pendente || (novoStatus !== '' && !statusValidos.has(novoStatus))) {
             atualizarControles();
             return false;
         }
-        if (entrada?.status === novoStatus) {
+        if (entrada?.status === novoStatus || (novoStatus === '' && !entrada)) {
             confirmarSelecao(novoStatus);
             atualizarControles();
             return true;
@@ -138,11 +138,14 @@
         pendente = true;
         statusEmEnvio = novoStatus;
         const existente = entrada !== null;
-        mensagem('Salvando estado de leitura...');
+        mensagem(novoStatus === '' ? 'Cancelando estado de leitura...' : 'Salvando estado de leitura...');
         atualizarControles();
         try {
             const dados = { codigoUsuario, codigoLivro, status: novoStatus };
-            if (existente) {
+            if (novoStatus === '') {
+                await enviar('deletarLivroBiblioteca', { codigoUsuario, codigoLivro });
+                entrada = null;
+            } else if (existente) {
                 await enviar('atualizarStatusBiblioteca', dados);
                 entrada = { ...entrada, status: novoStatus };
             } else {
@@ -150,10 +153,12 @@
                 entrada = { status: novoStatus, favorito: 0 };
             }
             confirmarSelecao(novoStatus);
-            mensagem(existente ? 'Estado de leitura atualizado.' : 'Livro adicionado à estante.', false, true);
+            mensagem(novoStatus === '' ? 'Estado de leitura cancelado.' :
+                (existente ? 'Estado de leitura atualizado.' : 'Livro adicionado à estante.'), false, true);
             return true;
         } catch (_) {
-            await conferirAposFalha('Não foi possível salvar o estado de leitura.');
+            await conferirAposFalha(novoStatus === '' ? 'Não foi possível cancelar o estado de leitura.' :
+                'Não foi possível salvar o estado de leitura.');
             return false;
         } finally {
             statusEmEnvio = null;
@@ -166,7 +171,7 @@
 
     seletores.forEach(seletor => seletor.addEventListener('change', () => {
         const novoStatus = seletor.value;
-        if (!carregado || pendente || !statusValidos.has(novoStatus)) {
+        if (!carregado || pendente || (novoStatus !== '' && !statusValidos.has(novoStatus))) {
             atualizarControles();
             return;
         }
