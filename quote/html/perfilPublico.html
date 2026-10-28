@@ -15,11 +15,10 @@
         <figure class="logotipoContainer">
             <a href="homepage.html"><img src="../img/logoBranco.svg" alt="Logotipo do Quote"></a>
         </figure>
-        <form class="barraPesquisa" action="busca.html" method="get" role="search">
-            <label class="rotuloAcessivel" for="txtPesquisaHeader">Pesquisar livros e leitores</label>
-            <input type="search" id="txtPesquisaHeader" name="termo" placeholder="Encontre sua próxima leitura" maxlength="100" required>
-            <input type="hidden" name="filtro" value="geral" data-filtro-header>
-            <button type="submit" aria-label="Pesquisar"><span class="material-symbols-outlined" aria-hidden="true">search</span></button>
+        <form class="barraPesquisa pesquisaPadrao" action="busca.html" method="get" role="search" aria-label="Pesquisa geral">
+            <input id="txtPesquisaHeader" name="termo" type="search" placeholder="Encontre sua próxima leitura" aria-label="Pesquisar livros, gêneros, autores ou leitores" maxlength="100" required>
+            <input name="filtro" type="hidden" value="geral" data-filtro-header>
+            <button type="submit" aria-label="Pesquisar"><svg class="iconePesquisa" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg></button>
         </form>
         <div class="acoesHeaderDesktop">
             <a href="ranking.html" class="botaoRanking btnRanking"><span class="material-symbols-outlined" aria-hidden="true">trophy</span>Ranking</a>

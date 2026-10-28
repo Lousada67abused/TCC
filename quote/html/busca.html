@@ -14,11 +14,10 @@
         <figure class="logotipoContainer">
             <a href="homepage.html"><img src="../img/logoBranco.svg" alt="Logotipo do Quote"></a>
         </figure>
-        <form class="barraPesquisa" action="busca.html" method="get" role="search">
-            <label class="rotuloAcessivel" for="txtPesquisaHeader">Pesquisar livros, gêneros, autores ou leitores</label>
-            <input id="txtPesquisaHeader" name="termo" type="search" placeholder="Encontre sua próxima leitura" maxlength="100" required>
+        <form class="barraPesquisa pesquisaPadrao" action="busca.html" method="get" role="search" aria-label="Pesquisa geral">
+            <input id="txtPesquisaHeader" name="termo" type="search" placeholder="Encontre sua próxima leitura" aria-label="Pesquisar livros, gêneros, autores ou leitores" maxlength="100" required>
             <input name="filtro" type="hidden" value="geral" data-filtro-header>
-            <button type="submit" aria-label="Pesquisar"><span class="material-symbols-outlined" aria-hidden="true">search</span></button>
+            <button type="submit" aria-label="Pesquisar"><svg class="iconePesquisa" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg></button>
         </form>
         <div class="acoesHeaderDesktop">
             <div class="perfilMenuContainer">
@@ -45,11 +44,11 @@
         </div>
     </header>
     <main class="conteudoBusca">
-        <form class="pesquisaMobile" action="busca.html" method="get" role="search">
+        <form class="pesquisaMobile pesquisaPadrao" action="busca.html" method="get" role="search">
             <label class="rotuloAcessivel" for="txtPesquisaBusca">Pesquisar</label>
             <input id="txtPesquisaBusca" name="termo" type="search" placeholder="Busque por livros" maxlength="100" required>
             <input id="filtroPesquisaMobile" name="filtro" type="hidden" value="geral">
-            <button id="btnPesquisaBusca" type="submit" aria-label="Pesquisar"><span class="material-symbols-outlined" aria-hidden="true">search</span></button>
+            <button id="btnPesquisaBusca" type="submit" aria-label="Pesquisar"><svg class="iconePesquisa" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg></button>
         </form>
         <h1 class="tituloBusca">Resultados da pesquisa</h1>
         <nav class="filtros" aria-label="Filtrar resultados">
@@ -75,7 +74,7 @@
     <nav class="navegacaoMobile" aria-label="Navegação principal">
         <a href="homepage.html" class="itemNavegacao" aria-label="Início"><span class="material-symbols-outlined" aria-hidden="true">home</span></a>
         <a href="ranking.html" class="itemNavegacao" aria-label="Ranking"><span class="material-symbols-outlined" aria-hidden="true">emoji_events</span></a>
-        <a href="pesquisa.html" class="itemNavegacao ativo" aria-label="Pesquisar" aria-current="page"><span class="material-symbols-outlined" aria-hidden="true">search</span></a>
+        <a href="pesquisa.html" class="itemNavegacao ativo" aria-label="Pesquisar" aria-current="page"><svg class="iconePesquisa" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg></a>
         <a href="biblioteca.html" class="itemNavegacao" aria-label="Biblioteca"><span class="material-symbols-outlined" aria-hidden="true">collections_bookmark</span></a>
         <a href="perfil.html" class="itemNavegacao" aria-label="Perfil"><span class="material-symbols-outlined" aria-hidden="true">person</span></a>
     </nav>

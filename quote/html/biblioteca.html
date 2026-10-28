@@ -18,10 +18,11 @@
                 <img src="../img/logoBranco.svg" alt="Logotipo do quote">
             </a>
         </figure>
-        <div class="barraPesquisa">
-            <input type="text" placeholder="Pesquise por autores, livros, gêneros e pessoas.">
-            <span class="material-symbols-outlined">search</span>
-        </div>
+        <form class="barraPesquisa pesquisaPadrao" action="busca.html" method="get" role="search" aria-label="Pesquisa geral">
+            <input id="txtPesquisaHeader" name="termo" type="search" placeholder="Encontre sua próxima leitura" aria-label="Pesquisar livros, gêneros, autores ou leitores" maxlength="100" required>
+            <input name="filtro" type="hidden" value="geral" data-filtro-header>
+            <button type="submit" aria-label="Pesquisar"><svg class="iconePesquisa" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg></button>
+        </form>
         <div class="acoesHeaderDesktop">
             <div class="perfilMenuContainer">
                 <button type="button" class="botaoAvatarPerfil" aria-label="Abrir menu do perfil" aria-expanded="false" aria-controls="menuPerfil">
