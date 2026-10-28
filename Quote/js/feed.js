@@ -132,6 +132,7 @@
 
         conteudo.append(cabecalho, usuario, criarData(avaliacao.dt_avaliacao),
             elemento('p', 'textoResenha', texto(avaliacao.txt_resenha)));
+        conteudo.append(window.CurtidasAvaliacao.criar(avaliacao));
         card.append(linkCapa, conteudo);
         return card;
     }

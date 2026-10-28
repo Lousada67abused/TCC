@@ -69,21 +69,26 @@ O menu do avatar mantém a prévia ao passar o mouse. Clicar fixa o menu; clicar
 novamente, clicar fora ou usar Escape fecha. Os links das seções abrem a aba
 correspondente do perfil. A navegação também funciona por teclado.
 
+As avaliações na homepage, no livro e nos perfis mostram um coração e a contagem
+real de curtidas. Clicar usa `curtirAvaliacao.php`; clicar novamente usa
+`descurtirAvaliacao.php`. Os envios aceitam `codigoAvaliacao` e `codigoLivro`,
+com `codigoUsuario` opcional correspondente à sessão PHP. A operação é
+idempotente e valida se a avaliação pertence ao livro, sem migração de banco.
+`contarCurtidasAvaliacao.php` mantém o array `resposta` existente e acrescenta
+`estado`, também devolvido pelos envios: IDs da avaliação e livro, quantidade,
+`curtida`, `autenticado` e `codigoUsuarioLogado`.
+
+O coração e a contagem mudam após confirmação do servidor. Cópias da mesma
+avaliação no perfil ficam sincronizadas; uma resposta perdida provoca nova
+consulta antes de liberar o botão. Visitantes veem a contagem e recebem o link
+para entrar ao tentar curtir. Falhas de consulta permitem tentar novamente.
+
 Todas as abas usam proporções compactas. Os livros apresentam capa, título em
 até duas linhas e autor em uma linha, sem nota individual, inclusive nos
 favoritos e nas resenhas. A aba Atividade usa linhas compactas sem capas, com
 usuário e título em destaque, estrelas nas avaliações e tempo relativo à direita.
 O botão `ver mais` exibe cinco linhas adicionais. Os títulos levam ao livro.
 Textos maiores nos cards de livros têm reticências.
-
-O lápis ao lado do próprio nome abre a edição, com Salvar, Cancelar e Escape.
-O nome aceita de 1 a 80 caracteres em uma linha e é salvo por
-`POST atualizarNomeUsuario.php` com `{ "codigo": ID, "nome": "Novo nome" }`.
-A API exige sessão PHP e que `codigo` corresponda à conta autenticada. Atualiza
-somente `nm_usuario`, sem migração, e retorna `id_usuario` e `nm_usuario`.
-Após a confirmação, o nome muda no perfil, na atividade, no menu e no cache da
-sessão do navegador. A confirmação verde desaparece em dois segundos; falhas
-mantêm o texto digitado para nova tentativa. O perfil público não oferece edição.
 
 A tela de metas mostra o progresso circular e em barra, os lidos acumulados,
 a média das avaliações do ano da meta e os dias até o prazo. O histórico usa

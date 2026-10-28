@@ -92,6 +92,7 @@
             data.textContent = iso.split('-').reverse().join('/');
         }
         conteudo.append(estrelas, data, elemento('p', '', item.txt_resenha || 'Avaliação sem resenha.'));
+        conteudo.append(window.CurtidasAvaliacao.criar(item));
         card.append(livro(item), conteudo);
         return card;
     }

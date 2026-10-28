@@ -305,6 +305,17 @@ form.barraPesquisa button:focus-visible {
 }
 
 .linkPerfilUsuario { color: inherit; text-decoration: none; }
+.curtidasAvaliacao { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; min-width: 0; margin-top: 8px; }
+.curtidasAvaliacao[hidden], .curtidasAvaliacao [hidden] { display: none !important; }
+.curtidasAvaliacao .botaoCurtirAvaliacao { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 3px 5px; border: 0; border-radius: 4px; background: transparent; color: #747272; font-size: 12px; cursor: pointer; }
+.botaoCurtirAvaliacao svg { width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.curtidasAvaliacao .botaoCurtirAvaliacao.curtida { color: #c72d50; }
+.botaoCurtirAvaliacao.curtida svg { fill: currentColor; }
+.curtidasAvaliacao .botaoCurtirAvaliacao:hover { background: #fff0f3; }
+.curtidasAvaliacao .botaoCurtirAvaliacao:disabled { opacity: 0.6; cursor: wait; }
+.curtidasAvaliacao .botaoCurtirAvaliacao:focus-visible { outline: 2px solid var(--brightLightBlue); outline-offset: 2px; }
+.curtidasAvaliacao .erroCurtidaAvaliacao { color: #b91c1c; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.entrarCurtirAvaliacao { color: var(--royalBlue); font-size: 12px; }
 a.linkPerfilUsuario:hover { text-decoration: underline; }
 .linkPerfilAvatar { display: inline-flex; flex-shrink: 0; border-radius: 50%; line-height: 0; }
 a.linkPerfilUsuario:focus-visible,

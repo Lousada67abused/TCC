@@ -9,11 +9,6 @@
     const repetir = buscar('#tentarPerfil');
     const formulario = buscar('#formMeta');
     const seletorAno = buscar('#seletorAnoMeta');
-    const editarNome = buscar('#editarNomePerfil');
-    const formNome = buscar('#formNomePerfil');
-    const campoNome = buscar('#nomeUsuarioPerfil');
-    const cancelarNome = buscar('#cancelarNomePerfil');
-    const estadoNome = buscar('#estadoNomePerfil');
     const fotos = [...document.querySelectorAll('.fotoUsuarioLogado')];
     const nomeMenu = document.querySelector('.nomeMenu');
     const emailMenu = document.querySelector('.emailMenu');
@@ -22,7 +17,6 @@
     try { codigo = sessionStorage.getItem('codigo'); } catch (_) {}
     const conectado = /^[1-9]\d*$/.test(codigo || '');
     let carregando = false, enviandoMeta = false, falhouMeta = false;
-    let enviandoNome = false, temporizadorNome;
     let filtroEstante = 'todos';
     let anoAtual = String(new Date().getFullYear());
     const formatoNumero = new Intl.NumberFormat('pt-BR');
@@ -90,6 +84,7 @@
         nota.append(data);
         texto.append(nota,
             elemento('p', 'conteudoResenha', avaliacao.txt_resenha || 'Avaliação sem resenha.'));
+        texto.append(window.CurtidasAvaliacao.criar(avaliacao));
         artigo.append(criarLivro(avaliacao), texto);
         return artigo;
     }
@@ -144,104 +139,6 @@
         }
         return resultado.resposta;
     }
-    function mensagemNome(texto, sucesso = false) {
-        clearTimeout(temporizadorNome);
-        estadoNome.textContent = texto;
-        estadoNome.hidden = !texto;
-        estadoNome.classList.toggle('sucesso', sucesso);
-        estadoNome.classList.toggle('erro', Boolean(texto) && !sucesso);
-        if (sucesso) temporizadorNome = setTimeout(() => mensagemNome(''), 2000);
-    }
-    function controlesNome() {
-        editarNome.hidden = !conectado || !dados.usuario || !formNome.hidden;
-        editarNome.disabled = carregando || enviandoNome || !dados.usuario;
-        editarNome.setAttribute('aria-expanded', String(!formNome.hidden));
-        formNome.setAttribute('aria-busy', String(enviandoNome));
-        campoNome.disabled = carregando || enviandoNome || !dados.usuario;
-        const salvar = formNome.querySelector('[type="submit"]');
-        salvar.disabled = campoNome.disabled;
-        salvar.textContent = enviandoNome ? 'Salvando...' : 'Salvar';
-        cancelarNome.disabled = enviandoNome;
-    }
-    function fecharNome() {
-        if (enviandoNome) return;
-        formNome.hidden = true;
-        mensagemNome('');
-        controlesNome();
-        editarNome.focus();
-    }
-    editarNome.addEventListener('click', () => {
-        if (carregando || enviandoNome || !dados.usuario) return;
-        campoNome.value = dados.usuario.nm_usuario;
-        campoNome.setCustomValidity('');
-        campoNome.removeAttribute('aria-invalid');
-        mensagemNome('');
-        formNome.hidden = false;
-        controlesNome();
-        campoNome.focus();
-        campoNome.select();
-    });
-    cancelarNome.addEventListener('click', fecharNome);
-    formNome.addEventListener('keydown', evento => {
-        if (evento.key === 'Escape') {
-            evento.preventDefault();
-            fecharNome();
-        }
-    });
-    campoNome.addEventListener('input', () => {
-        campoNome.setCustomValidity('');
-        campoNome.removeAttribute('aria-invalid');
-        mensagemNome('');
-    });
-    formNome.addEventListener('submit', async evento => {
-        evento.preventDefault();
-        if (carregando || enviandoNome || !conectado || !dados.usuario) return;
-        const nome = campoNome.value.trim();
-        campoNome.value = nome;
-        if (!nome || Array.from(nome).length > 80 || /[\p{Cc}]/u.test(nome)) {
-            const aviso = 'Digite um nome de usuário de 1 a 80 caracteres, em uma única linha.';
-            campoNome.setCustomValidity(aviso);
-            campoNome.setAttribute('aria-invalid', 'true');
-            mensagemNome(aviso);
-            campoNome.reportValidity();
-            return;
-        }
-        if (nome === dados.usuario.nm_usuario) { fecharNome(); return; }
-        enviandoNome = true;
-        mensagemNome('');
-        controlesNome();
-        try {
-            const resposta = await fetch('../api/atualizarNomeUsuario.php', {
-                method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-                body: JSON.stringify({ codigo, nome })
-            });
-            const resultado = await resposta.json();
-            if (!resposta.ok || resultado.status !== true ||
-                String(resultado.resposta?.id_usuario) !== codigo || typeof resultado.resposta?.nm_usuario !== 'string') {
-                throw new Error(resultado.mensagem || 'Não foi possível salvar o nome. Tente novamente.');
-            }
-            dados.usuario.nm_usuario = resultado.resposta.nm_usuario;
-            try {
-                let local = null;
-                try { local = JSON.parse(sessionStorage.getItem('usuario')); } catch (_) {}
-                const usuario = local && typeof local === 'object' && !Array.isArray(local) ? local : dados.usuario;
-                if (sessionStorage.getItem('codigo') === codigo) {
-                    sessionStorage.setItem('usuario', JSON.stringify({ ...usuario, nm_usuario: dados.usuario.nm_usuario }));
-                }
-            } catch (_) { /* O nome confirmado continua visível se o armazenamento estiver indisponível. */ }
-            mostrarUsuario();
-            mostrarAtividades();
-            formNome.hidden = true;
-            mensagemNome('Nome atualizado com sucesso!', true);
-        } catch (erro) {
-            mensagemNome(erro instanceof TypeError || erro instanceof SyntaxError ?
-                'Não foi possível confirmar a alteração. Tente salvar novamente.' : erro.message);
-        } finally {
-            enviandoNome = false;
-            controlesNome();
-            if (formNome.hidden) editarNome.focus();
-        }
-    });
     function mostrarUsuario() {
         const usuario = dados.usuario;
         if (!usuario) return;
@@ -313,7 +210,7 @@
             'quero ler': 'quer ler', desisti: 'desistiu de ler', avaliacao: 'avaliou' };
         const livro = linkLivro(atividade, 'livroAtividade');
         livro.textContent = atividade.titulo;
-        texto.append(elemento('strong', 'nomeAtividade', dados.usuario?.nm_usuario || atividade.nm_usuario || 'Você'),
+        texto.append(elemento('strong', 'nomeAtividade', atividade.nm_usuario || dados.usuario?.nm_usuario || 'Você'),
             ' ' + (acoes[atividade.tipo] || 'atualizou') + ' ', livro);
         if (atividade.tipo === 'favorito') texto.append(' aos favoritos');
         if (atividade.tipo === 'avaliacao') {
@@ -611,9 +508,8 @@
     const estadosPorRecurso = { biblioteca: ['estadoFavoritos', 'estadoEstante'],
         avaliacoes: ['estadoRecentes', 'estadoResenhasRecentes', 'estadoResenhas', 'estadoAtividades'], metas: ['estadoMetas'] };
     async function carregar() {
-        if (carregando || enviandoMeta || enviandoNome || !conectado) return;
+        if (carregando || enviandoMeta || !conectado) return;
         carregando = true;
-        controlesNome();
         buscar('#verMaisAtividades').disabled = true;
         principal.setAttribute('aria-busy', 'true');
         buscar('#novaMeta').disabled = true;
@@ -638,7 +534,6 @@
         atualizarAnos();
         seletorAno.disabled = !dados.metas && !dados.avaliacoes;
         carregando = false;
-        controlesNome();
         buscar('#verMaisAtividades').disabled = false;
         principal.setAttribute('aria-busy', 'false');
         mostrarMetas();

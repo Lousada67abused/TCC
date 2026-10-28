@@ -52,6 +52,7 @@
         details.append(date);
         top.append(linkAvatar, details);
         article.append(top, elemento('p', 'textoResenhaUsuario', avaliacao.txt_resenha || ''));
+        article.append(window.CurtidasAvaliacao.criar({ ...avaliacao, id_livro: codigoLivro }));
         if (criarAcoes) criarAcoes(avaliacao, item, article);
         item.append(article);
         return item;
