@@ -76,18 +76,7 @@ body {
     outline-offset: 2px;
 }
 
-.navegacaoMobile .itemNavegacao {
-    display: flex;
-    justify-content: center;
-    flex: 1;
-    min-width: 0;
-}
 
-.navegacaoMobile .material-symbols-outlined {
-    width: 26px;
-    height: 26px;
-    overflow: hidden;
-}
 
 [hidden] {
     display: none !important;
