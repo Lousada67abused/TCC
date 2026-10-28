@@ -264,12 +264,17 @@ body.paginaPerfil {
     min-width: 0;
 }
 
-.textoResenha p {
+.textoResenha > p {
     font-size: 13px;
     line-height: 1.5;
     white-space: pre-wrap;
     overflow-wrap: anywhere;
 }
+
+.informacoesResenha { display: block; min-width: 0; color: inherit; text-decoration: none; }
+.notaResenha { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; }
+.estrelasResenha { display: inline-flex; gap: 2px; color: #ffc107; font-size: 16px; line-height: 1.4; white-space: nowrap; }
+.estrelasResenha .estrelaVazia { color: #cbd2dc; }
 
 .textoResenha time { color: #747272; font-size: 11px; line-height: 1.4; }
 
@@ -513,7 +518,7 @@ body.paginaPerfil {
     .filtros button { padding: 6px; font-size: 11px; }
     .resenha { gap: 14px; padding-bottom: 18px; }
     .resenha > .livro { width: 82px; flex-basis: 82px; }
-    .textoResenha p,
+    .textoResenha > p,
     .listaAtividades p { font-size: 12px; }
     .listaAtividades li { gap: 14px; }
     .verMaisAtividades { min-height: 44px; }

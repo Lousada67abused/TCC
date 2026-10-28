@@ -77,14 +77,26 @@
     }
     function criarResenha(avaliacao) {
         const artigo = elemento('article', 'resenha');
+        const livro = criarLivro(avaliacao);
         const texto = elemento('div', 'textoResenha');
+        const informacoes = linkLivro(avaliacao, 'informacoesResenha');
+        informacoes.append(livro.querySelector('.textoLivro'));
         const nota = elemento('div', 'notaResenha');
+        const estrelas = elemento('span', 'estrelasResenha');
+        const valor = Math.min(5, numero(avaliacao.nota));
+        estrelas.setAttribute('role', 'img');
+        estrelas.setAttribute('aria-label', 'Avaliação: ' + valor + ' de 5 estrelas');
+        for (let i = 1; i <= 5; i++) {
+            const estrela = elemento('span', i > valor ? 'estrelaVazia' : '', '★');
+            estrela.setAttribute('aria-hidden', 'true');
+            estrelas.append(estrela);
+        }
         const data = elemento('time', '', formatarData(avaliacao.dt_avaliacao));
         if (data.textContent) data.dateTime = String(avaliacao.dt_avaliacao).slice(0, 10);
-        nota.append(data);
-        texto.append(nota,
+        nota.append(estrelas, data);
+        texto.append(informacoes, nota,
             elemento('p', 'conteudoResenha', avaliacao.txt_resenha || 'Avaliação sem resenha.'));
-        artigo.append(criarLivro(avaliacao), texto);
+        artigo.append(livro, texto);
         return artigo;
     }
     function abrirAba(nome) {
