@@ -407,7 +407,7 @@ a.linkPerfilAvatar:focus-visible { outline: 3px solid var(--brightLightBlue); ou
     display: none;
 }
 
-@media (min-width: 425px) {
+@media (max-width: 430px) {
     .cabecalhoPrincipal{
         display: none;
     }
@@ -423,6 +423,10 @@ a.linkPerfilAvatar:focus-visible { outline: 3px solid var(--brightLightBlue); ou
         display: flex;
         padding: 12px 48px;
         gap: 24px;
+    }
+
+    body{
+        padding-top: 0px;
     }
 
     .logotipoContainer img {
