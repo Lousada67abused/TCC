@@ -20,24 +20,26 @@
             <input type="hidden" name="filtro" value="geral" data-filtro-header>
             <button type="submit" aria-label="Pesquisar"><span class="material-symbols-outlined" aria-hidden="true">search</span></button>
         </form>
-        <div class="acoesHeaderDesktop areaUsuario">
+        <div class="acoesHeaderDesktop">
             <a href="ranking.html" class="botaoRanking btnRanking"><span class="material-symbols-outlined" aria-hidden="true">trophy</span>Ranking</a>
             <div class="perfilMenuContainer">
-                <button type="button" class="btnAvatar botaoAvatarPerfil" aria-label="Abrir menu do perfil" aria-expanded="false" aria-controls="menuPerfil">
+                <button type="button" class="botaoAvatarPerfil" aria-label="Abrir menu do perfil" aria-expanded="false" aria-controls="menuPerfil">
                     <img id="avatar" class="avatarHeader fotoUsuarioLogado" src="../img/avatar.jpg" alt="Foto de perfil do usuário">
                 </button>
-                <nav id="menuPerfil" class="menuDropdownPerfil menuPerfil" aria-label="Menu do perfil">
-                    <div class="cabecalhoDropdown infoMenu">
+                <nav id="menuPerfil" class="menuDropdownPerfil" aria-label="Menu do perfil" hidden>
+                    <div class="cabecalhoDropdown">
                         <img id="avatarMenu" class="avatarHeader fotoUsuarioLogado" src="../img/avatar.jpg" alt="Foto de perfil do usuário">
                         <div><strong id="nomeUsuarioHeader" class="nomeMenu">Seu perfil</strong><small id="emailUsuarioHeader" class="emailMenu"></small></div>
                     </div>
                     <ul class="listaMenuDropdown">
-                        <li><a href="perfil.html#principal"><span class="material-symbols-outlined" aria-hidden="true">person</span>Perfil</a></li>
-                        <li><a href="perfil.html#estante"><span class="material-symbols-outlined" aria-hidden="true">library_books</span>Estante</a></li>
+                        <li><a href="perfil.html"><span class="material-symbols-outlined" aria-hidden="true">person</span>Perfil</a></li>
+                        <li><a href="perfil.html#estante"><span class="material-symbols-outlined" aria-hidden="true">collections_bookmark</span>Estante</a></li>
+                        <li><a href="perfil.html#atividade"><span class="material-symbols-outlined" aria-hidden="true">format_list_bulleted</span>Atividade</a></li>
                         <li><a href="perfil.html#resenhas"><span class="material-symbols-outlined" aria-hidden="true">rate_review</span>Resenhas</a></li>
-                        <li><a href="perfil.html#atividade"><span class="material-symbols-outlined" aria-hidden="true">checklist</span>Atividade</a></li>
-                        <li><a href="perfil.html#metas"><span class="material-symbols-outlined" aria-hidden="true">track_changes</span>Metas</a></li>
-                        <li><a href="../index.html" class="btnSair"><span class="material-symbols-outlined" aria-hidden="true">logout</span>Sair</a></li>
+                        <li><a href="perfil.html#metas"><span class="material-symbols-outlined" aria-hidden="true">target</span>Metas</a></li>
+                        <li class="divisorMenu" aria-hidden="true"></li>
+                        <li><a href="#"><span class="material-symbols-outlined" aria-hidden="true">settings</span>Configurações</a></li>
+                        <li><a href="../index.html" class="itemSair"><span class="material-symbols-outlined" aria-hidden="true">logout</span>Sair</a></li>
                     </ul>
                 </nav>
             </div>

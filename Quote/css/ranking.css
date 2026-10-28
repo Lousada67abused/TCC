@@ -19,8 +19,6 @@ body.paginaRanking {
 }
 
 .paginaRanking .cabecalhoPrincipal { margin-bottom: 36px; }
-.paginaRanking .cabecalhoDropdown > div { min-width: 0; overflow-wrap: anywhere; }
-.paginaRanking .cabecalhoDropdown .avatarHeader { flex-shrink: 0; }
 
 .conteudoRanking {
     width: calc(100% - 32px);
