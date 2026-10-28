@@ -352,6 +352,12 @@ a.linkPerfilAvatar:focus-visible { outline: 3px solid var(--brightLightBlue); ou
 }
 
 .itemNavegacao {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
     color: #ffffff;
     opacity: 0.7;
     text-decoration: none;
@@ -359,6 +365,15 @@ a.linkPerfilAvatar:focus-visible { outline: 3px solid var(--brightLightBlue); ou
 
 .itemNavegacao span {
     font-size: 26px;
+    width: 26px;
+    height: 26px;
+    overflow: hidden;
+}
+
+.itemNavegacao:focus-visible {
+    outline: 2px solid var(--brightLightBlue);
+    outline-offset: -4px;
+    border-radius: 4px;
 }
 
 .itemNavegacao.ativo {
@@ -376,10 +391,16 @@ a.linkPerfilAvatar:focus-visible { outline: 3px solid var(--brightLightBlue); ou
     width: 100%;
     background-color: #002663;
     display: flex;
-    justify-content: space-around;
+    min-height: 56px;
     align-items: center;
-    padding: 12px 0;
+    padding: 6px max(8px, env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
     z-index: 100;
+}
+
+@media (max-width: 767px) {
+    body:has(> nav.navegacaoMobile) {
+        padding-bottom: calc(80px + env(safe-area-inset-bottom));
+    }
 }
 
 .secaoUsuario {
@@ -387,6 +408,7 @@ a.linkPerfilAvatar:focus-visible { outline: 3px solid var(--brightLightBlue); ou
 }
 
 @media (min-width: 768px) {
+    .navegacaoMobile { display: none; }
     .cabecalhoPrincipal {
         padding: 12px 48px;
         gap: 24px;

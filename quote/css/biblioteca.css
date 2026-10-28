@@ -79,3 +79,28 @@ main .barraPesquisa input{
     width: 20%;
     height : 35px;
 }
+
+@media (max-width: 767px) {
+    main {
+        width: calc(100% - 32px);
+        min-width: 0;
+    }
+
+    .filtro {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .filtro button {
+        width: 100%;
+        min-height: 44px;
+        font-size: 14px;
+    }
+
+    .filtro .barraPesquisa {
+        grid-column: 1 / -1;
+        width: 100%;
+        min-width: 0;
+    }
+}
