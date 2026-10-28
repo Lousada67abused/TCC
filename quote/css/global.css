@@ -156,8 +156,103 @@ form.barraPesquisa button:focus-visible {
     cursor: pointer;
 }
 
+.perfilMenuContainer {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
 .menuDropdownPerfil {
     display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    width: 200px;
+    max-width: calc(100vw - 32px);
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+    padding: 12px 0;
+    z-index: 200;
+}
+
+.menuDropdownPerfil::before {
+    content: '';
+    position: absolute;
+    top: -8px;
+    right: 0;
+    width: 100%;
+    height: 8px;
+}
+
+.cabecalhoDropdown {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 16px 12px;
+    border-bottom: 1px solid #f0f4f8;
+}
+
+.cabecalhoDropdown > div {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.cabecalhoDropdown .avatarHeader {
+    width: 32px;
+    height: 32px;
+    flex-shrink: 0;
+}
+
+.cabecalhoDropdown strong {
+    display: block;
+    font-size: 12px;
+    color: #111111;
+}
+
+.cabecalhoDropdown small {
+    font-size: 10px;
+    color: #777777;
+}
+
+.listaMenuDropdown {
+    list-style: none;
+    padding-top: 8px;
+}
+
+.listaMenuDropdown a {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px;
+    font-size: 12px;
+    color: #444444;
+    text-decoration: none;
+}
+
+.listaMenuDropdown a:hover,
+.listaMenuDropdown a:focus-visible {
+    background-color: #f8fafc;
+    color: #0056b3;
+}
+
+.menuDropdownPerfil .listaMenuDropdown a:focus-visible {
+    outline: 2px solid var(--brightLightBlue);
+    outline-offset: -2px;
+}
+
+.listaMenuDropdown span {
+    font-size: 16px;
+}
+
+.divisorMenu {
+    height: 1px;
+    background-color: #f0f4f8;
+    margin: 6px 0;
+}
+
+.listaMenuDropdown a.itemSair {
+    color: #dc2626;
 }
 
 .botaoAvatarPerfil {
@@ -171,19 +266,16 @@ form.barraPesquisa button:focus-visible {
     cursor: pointer;
 }
 
-.botaoAvatarPerfil:focus-visible,
-.btnAvatar:focus-visible {
+.perfilMenuContainer .botaoAvatarPerfil:focus-visible {
     outline: 2px solid var(--brightLightBlue);
     outline-offset: 4px;
 }
 
-[data-menu-perfil] .menuDropdownPerfil[hidden],
-[data-menu-perfil] .menuPerfil[hidden] {
+[data-menu-perfil] .menuDropdownPerfil[hidden] {
     display: none !important;
 }
 
-[data-menu-perfil] .menuDropdownPerfil:not([hidden]),
-[data-menu-perfil] .menuPerfil:not([hidden]) {
+[data-menu-perfil] .menuDropdownPerfil:not([hidden]) {
     display: block;
 }
 
@@ -211,6 +303,12 @@ form.barraPesquisa button:focus-visible {
     font-weight: 600;
     text-align: center;
 }
+
+.linkPerfilUsuario { color: inherit; text-decoration: none; }
+a.linkPerfilUsuario:hover { text-decoration: underline; }
+.linkPerfilAvatar { display: inline-flex; flex-shrink: 0; border-radius: 50%; line-height: 0; }
+a.linkPerfilUsuario:focus-visible,
+a.linkPerfilAvatar:focus-visible { outline: 3px solid var(--brightLightBlue); outline-offset: 3px; }
 
 .areaEstrelas {
     display: flex;
@@ -332,94 +430,5 @@ form.barraPesquisa button:focus-visible {
     .avatarHeader {
         width: 40px;
         height: 40px;
-    }
-
-    .perfilMenuContainer {
-        position: relative;
-    }
-
-    .perfilMenuContainer:hover .menuDropdownPerfil {
-        display: block;
-    }
-
-    .menuDropdownPerfil {
-        position: absolute;
-        top: 48px;
-        right: 0;
-        width: 200px;
-        background-color: #ffffff;
-        border-radius: 8px;
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-        padding: 12px 0;
-        z-index: 200;
-    }
-
-    .menuDropdownPerfil::before {
-        content: '';
-        position: absolute;
-        top: -10px;
-        right: 0;
-        width: 100%;
-        height: 10px;
-    }
-
-    .cabecalhoDropdown {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 0 16px 12px;
-        border-bottom: 1px solid #f0f4f8;
-    }
-
-    .cabecalhoDropdown img {
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        object-fit: cover;
-    }
-
-    .cabecalhoDropdown strong {
-        display: block;
-        font-size: 12px;
-        color: #111111;
-    }
-
-    .cabecalhoDropdown small {
-        font-size: 10px;
-        color: #777777;
-    }
-
-    .listaMenuDropdown {
-        list-style: none;
-        padding-top: 8px;
-    }
-
-    .listaMenuDropdown a {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        padding: 8px 16px;
-        font-size: 12px;
-        color: #444444;
-        text-decoration: none;
-    }
-
-    .listaMenuDropdown a:hover {
-        background-color: #f8fafc;
-        color: #0056b3;
-    }
-
-    .listaMenuDropdown span {
-        font-size: 16px;
-    }
-
-    .divisorMenu {
-        height: 1px;
-        background-color: #f0f4f8;
-        margin: 6px 0;
-    }
-
-    .itemSair {
-        color: #dc2626 !important;
     }
 }

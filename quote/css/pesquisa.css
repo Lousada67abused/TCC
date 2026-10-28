@@ -106,19 +106,6 @@ body.paginaPesquisa {
         max-width: 606px;
     }
 
-    .cabecalhoDropdown > div {
-        min-width: 0;
-        overflow-wrap: anywhere;
-    }
-
-    .cabecalhoDropdown .avatarHeader {
-        flex-shrink: 0;
-    }
-
-    .perfilMenuContainer:focus-within .menuDropdownPerfil {
-        display: block;
-    }
-
     .pesquisaMobile,
     .navegacaoMobile {
         display: none;

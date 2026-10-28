@@ -33,12 +33,37 @@ consultas. Não é necessário importar a massa novamente.
 A estante não registra a data em que um livro foi concluído. Por isso, o
 progresso das metas e o resumo de leituras consideram os livros atualmente
 marcados como `lido`, inclusive ao selecionar metas de anos anteriores. A
-atividade apresenta avaliações com suas datas; não cria eventos de leitura ou
-favoritos sem registro no banco. As melhores avaliações usam o ano da avaliação.
+atividade apresenta avaliações com suas datas e, depois, os status e favoritos
+atuais da estante. Como a estante não guarda a data dessas escolhas, essas linhas
+exibem `—`, com uma indicação acessível de que a data não foi registrada. Não
+há histórico novo nem alteração no banco. As melhores avaliações usam o ano da avaliação.
 
 As abas aceitam links como `perfil.html#estante` e `perfil.html#metas` e acompanham
 o histórico do navegador. As capas usam o ISBN em
 `https://covers.openlibrary.org/b/isbn/{id_livro}-L.jpg`.
+
+## Perfil público de um leitor
+
+Os nomes e avatares nas resenhas do livro e no feed da homepage abrem
+`perfilPublico.html?codigoUsuario=ID`. O identificador da conta conectada no
+`sessionStorage` permanece inalterado. Ao visitar a própria conta, a página
+redireciona para `perfil.html`.
+
+`buscarPerfilPublico.php` retorna nome, biografia, contagens, resenhas e somente
+livros com `visivel = 1`, inclusive ao selecionar favoritos. Não retorna e-mail,
+data de nascimento ou senha. O perfil público é de leitura: não exibe edição de
+metas nem controles para alterar ou excluir resenhas de outro leitor.
+
+O botão permite seguir e deixar de seguir, atualizando a contagem de seguidores
+após a confirmação do servidor. Visitantes recebem o link para entrar na conta.
+As APIs `seguirUsuario.php` e `deixarDeSeguir.php` usam o usuário autenticado na
+sessão PHP, aceitam `codigoSeguido` e continuam aceitando `codigoSeguidor` quando
+ele corresponde à sessão. Pedidos repetidos são idempotentes; seguir a si mesmo
+ou alterar os seguidos de outra conta é rejeitado.
+
+Não há migração adicional de banco: são reutilizadas as tabelas e procedures
+existentes do projeto. Após uma resposta de gravação perdida, a página consulta
+novamente o perfil para confirmar a relação antes de permitir outra alteração.
 
 O menu do avatar mantém a prévia ao passar o mouse. Clicar fixa o menu; clicar
 novamente, clicar fora ou usar Escape fecha. Os links das seções abrem a aba
@@ -46,7 +71,10 @@ correspondente do perfil. A navegação também funciona por teclado.
 
 Todas as abas usam proporções compactas. Os livros apresentam capa, título em
 até duas linhas e autor em uma linha, sem nota individual, inclusive nos
-favoritos, na atividade e nas resenhas. Textos maiores têm reticências.
+favoritos e nas resenhas. A aba Atividade usa linhas compactas sem capas, com
+usuário e título em destaque, estrelas nas avaliações e tempo relativo à direita.
+O botão `ver mais` exibe cinco linhas adicionais. Os títulos levam ao livro.
+Textos maiores nos cards de livros têm reticências.
 
 A tela de metas mostra o progresso circular e em barra, os lidos acumulados,
 a média das avaliações do ano da meta e os dias até o prazo. O histórico usa

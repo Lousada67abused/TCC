@@ -16,6 +16,12 @@
         if (conteudo !== undefined) el.textContent = conteudo;
         return el;
     }
+    function linkPerfil(codigo, classe) {
+        const valido = /^[1-9]\d{0,9}$/.test(String(codigo || '')) && Number(codigo) <= 2147483647;
+        const link = elemento(valido ? 'a' : 'span', classe);
+        if (valido) link.href = 'perfilPublico.html?codigoUsuario=' + encodeURIComponent(codigo);
+        return link;
+    }
     function criarResenha(avaliacao, criarAcoes) {
         const item = elemento('li', 'cardResenhaUsuario');
         item.dataset.idAvaliacao = avaliacao.id_avaliacao || '';
@@ -24,8 +30,13 @@
         const img = elemento('img', 'fotoUsuarioCard');
         img.alt = 'Foto de perfil de ' + (avaliacao.nm_usuario || 'Leitor');
         foto(img, avaliacao.id_usuario);
+        const linkAvatar = linkPerfil(avaliacao.id_usuario, 'linkPerfilAvatar');
+        linkAvatar.setAttribute('aria-label', 'Ver perfil de ' + (avaliacao.nm_usuario || 'Leitor'));
+        linkAvatar.append(img);
         const details = elemento('div', 'detalhesAutorCard');
-        details.append(elemento('span', 'nomeUsuarioResenha', avaliacao.nm_usuario || 'Leitor'));
+        const linkNome = linkPerfil(avaliacao.id_usuario, 'nomeUsuarioResenha linkPerfilUsuario');
+        linkNome.textContent = avaliacao.nm_usuario || 'Leitor';
+        details.append(linkNome);
         const rating = elemento('div', 'estrelasExibicao');
         rating.setAttribute('aria-label', 'Avaliação: ' + avaliacao.nota + ' de 5');
         for (let i = 1; i <= 5; i++) {
@@ -39,7 +50,7 @@
             date.textContent = /^\d{4}-\d{2}-\d{2}$/.test(raw) ? raw.split('-').reverse().join('/') : raw;
         }
         details.append(date);
-        top.append(img, details);
+        top.append(linkAvatar, details);
         article.append(top, elemento('p', 'textoResenhaUsuario', avaliacao.txt_resenha || ''));
         if (criarAcoes) criarAcoes(avaliacao, item, article);
         item.append(article);

@@ -176,18 +176,96 @@
         lista('resenhasRecentes', avaliacoes.slice(0, 2), criarResenha, 'Suas resenhas recentes aparecerão aqui.');
         const livros = [...new Map(avaliacoes.map(avaliacao => [String(avaliacao.id_livro), avaliacao])).values()];
         lista('livrosRecentes', livros.slice(0, 5), criarLivro, 'Suas avaliações mais recentes aparecerão aqui.');
-        lista('listaAtividades', avaliacoes, avaliacao => {
-            const item = elemento('li');
-            const detalhes = elemento('div', 'detalhesAtividade');
-            const texto = elemento('p');
-            texto.append(elemento('strong', '', dados.usuario?.nm_usuario || 'Você'), ' publicou uma avaliação.');
-            const data = elemento('time', 'tempo', formatarData(avaliacao.dt_avaliacao));
-            if (data.textContent) data.dateTime = String(avaliacao.dt_avaliacao).slice(0, 10);
-            detalhes.append(texto, data);
-            item.append(criarLivro(avaliacao), detalhes);
-            return item;
-        }, 'Você ainda não tem avaliações para exibir na atividade.');
     }
+    let atividadesExibidas = 5;
+    function tempoAtividade(valor) {
+        const somenteData = /^\d{4}-\d{2}-\d{2}$/.test(valor || '');
+        const data = new Date(somenteData ? valor + 'T00:00:00' : valor);
+        if (Number.isNaN(data.getTime())) return '';
+        const agora = new Date();
+        let dias;
+        if (somenteData) {
+            dias = Math.max(0, Math.round((Date.UTC(agora.getFullYear(), agora.getMonth(), agora.getDate()) -
+                Date.UTC(data.getFullYear(), data.getMonth(), data.getDate())) / 86400000));
+        } else {
+            const minutos = Math.max(0, Math.floor((agora - data) / 60000));
+            if (minutos < 1) return 'agora';
+            if (minutos < 60) return minutos + 'min';
+            if (minutos < 1440) return Math.floor(minutos / 60) + 'h';
+            dias = Math.floor(minutos / 1440);
+        }
+        if (dias < 1) return 'hoje';
+        if (dias < 7) return dias + 'd';
+        if (dias < 30) return Math.floor(dias / 7) + 'sem';
+        if (dias < 365) return Math.floor(dias / 30) + 'm';
+        return Math.floor(dias / 365) + 'a';
+    }
+    function criarAtividade(atividade) {
+        const item = elemento('li');
+        const texto = elemento('p', 'textoAtividade');
+        const acoes = { favorito: 'adicionou', lido: 'leu', lendo: 'está lendo',
+            'quero ler': 'quer ler', desisti: 'desistiu de ler', avaliacao: 'avaliou' };
+        const livro = linkLivro(atividade, 'livroAtividade');
+        livro.textContent = atividade.titulo;
+        texto.append(elemento('strong', 'nomeAtividade', atividade.nm_usuario || dados.usuario?.nm_usuario || 'Você'),
+            ' ' + (acoes[atividade.tipo] || 'atualizou') + ' ', livro);
+        if (atividade.tipo === 'favorito') texto.append(' aos favoritos');
+        if (atividade.tipo === 'avaliacao') {
+            const estrelas = elemento('span', 'estrelasAtividade');
+            const nota = Math.min(5, numero(atividade.nota));
+            estrelas.setAttribute('role', 'img');
+            estrelas.setAttribute('aria-label', 'Avaliação: ' + nota + ' de 5 estrelas');
+            for (let i = 1; i <= 5; i++) {
+                const estrela = elemento('span', i > nota ? 'estrelaVazia' : '', '★');
+                estrela.setAttribute('aria-hidden', 'true');
+                estrelas.append(estrela);
+            }
+            texto.append(estrelas);
+        }
+        const data = elemento(atividade.data ? 'time' : 'span', 'tempoAtividade', tempoAtividade(atividade.data) || '—');
+        if (atividade.data && data.textContent !== '—') {
+            data.dateTime = atividade.data;
+            const somenteData = /^\d{4}-\d{2}-\d{2}$/.test(atividade.data);
+            const instante = new Date(somenteData ? atividade.data + 'T00:00:00' : atividade.data);
+            data.title = somenteData ? instante.toLocaleDateString('pt-BR') : instante.toLocaleString('pt-BR');
+            data.setAttribute('aria-label', 'Em ' + data.title);
+        } else {
+            data.title = 'Data não registrada para este status ou favorito';
+            data.setAttribute('aria-label', data.title);
+        }
+        item.append(texto, data);
+        return item;
+    }
+    function mostrarAtividades() {
+        if (!dados.avaliacoes && !dados.biblioteca) {
+            buscar('#listaAtividades').replaceChildren();
+            mensagem('contagemAtividades', '');
+            buscar('#verMaisAtividades').hidden = true;
+            return;
+        }
+        const avaliacoes = dados.avaliacoes || [];
+        const avaliados = new Set(avaliacoes.map(item => String(item.id_livro)));
+        const atividades = avaliacoes.map(avaliacao => ({ ...avaliacao, tipo: 'avaliacao', data: avaliacao.dt_avaliacao }));
+        // A estante guarda o estado atual, mas não a data em que ele foi escolhido.
+        // Esses itens são exibidos após as avaliações datadas, sem inventar datas.
+        (dados.biblioteca || []).forEach(livro => {
+            if (Number(livro.favorito) === 1) atividades.push({ ...livro, tipo: 'favorito' });
+            if (livro.status !== 'lido' || !avaliados.has(String(livro.id_livro))) {
+                atividades.push({ ...livro, tipo: livro.status });
+            }
+        });
+        lista('listaAtividades', atividades.slice(0, atividadesExibidas), criarAtividade, 'Você ainda não tem atividades para exibir.');
+        mensagem('contagemAtividades', Math.min(atividadesExibidas, atividades.length) + ' de ' + atividades.length + ' atividades exibidas.');
+        if (!dados.avaliacoes || !dados.biblioteca) {
+            mensagem('estadoAtividades', 'Alguns dados não puderam ser carregados. Use Tentar novamente no topo do perfil.');
+        }
+        buscar('#verMaisAtividades').hidden = atividadesExibidas >= atividades.length;
+    }
+    buscar('#verMaisAtividades').addEventListener('click', () => {
+        if (carregando) return;
+        atividadesExibidas += 5;
+        mostrarAtividades();
+    });
     function atualizarAnos() {
         const anos = new Set([String(new Date().getFullYear())]);
         (dados.metas || []).forEach(meta => anos.add(anoData(meta.data)));
@@ -429,6 +507,7 @@
     async function carregar() {
         if (carregando || enviandoMeta || !conectado) return;
         carregando = true;
+        buscar('#verMaisAtividades').disabled = true;
         principal.setAttribute('aria-busy', 'true');
         buscar('#novaMeta').disabled = true;
         formulario.querySelectorAll('input, button').forEach(no => { no.disabled = true; });
@@ -448,9 +527,11 @@
         mostrarUsuario();
         mostrarEstante();
         mostrarAvaliacoes();
+        mostrarAtividades();
         atualizarAnos();
         seletorAno.disabled = !dados.metas && !dados.avaliacoes;
         carregando = false;
+        buscar('#verMaisAtividades').disabled = false;
         principal.setAttribute('aria-busy', 'false');
         mostrarMetas();
         estado.textContent = falhas.length ? 'Alguns dados não puderam ser carregados. Tente novamente.' : '';

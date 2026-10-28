@@ -1,25 +1,16 @@
 (() => {
-    document.querySelectorAll('.perfilMenuContainer, .areaUsuario').forEach((container, indice) => {
-        const menu = container.querySelector('.menuDropdownPerfil, .menuPerfil');
+    document.querySelectorAll('.perfilMenuContainer').forEach((container, indice) => {
+        const menu = container.querySelector(':scope > .menuDropdownPerfil');
         if (!menu || container.hasAttribute('data-menu-perfil')) return;
-        let botao = container.querySelector(':scope > .btnAvatar, :scope > .botaoAvatarPerfil');
-        if (!botao) {
-            const avatar = container.querySelector(':scope > .avatarHeader');
-            if (!avatar) return;
-            botao = document.createElement('button');
-            botao.type = 'button';
-            botao.className = 'botaoAvatarPerfil';
-            avatar.replaceWith(botao);
-            avatar.removeAttribute('tabindex');
-            botao.append(avatar);
-        }
+        const botao = container.querySelector(':scope > .botaoAvatarPerfil');
+        if (!botao) return;
         botao.type = 'button';
         botao.setAttribute('aria-label', 'Abrir menu do perfil');
         if (!menu.id) menu.id = 'menuPerfilHeader' + indice;
         botao.setAttribute('aria-controls', menu.id);
         menu.classList.remove('escondido');
         menu.setAttribute('aria-label', 'Menu do perfil');
-        menu.querySelectorAll('a.btnSair, a.itemSair').forEach(link => {
+        menu.querySelectorAll('a.itemSair').forEach(link => {
             link.href = '../index.html';
             link.addEventListener('click', () => {
                 try {
