@@ -66,6 +66,18 @@ Class Usuario extends Banco{
 		self::Executar("atualizarSenhaUsuario", $parametros);
 	}
 
+    public static function AtualizarNome($codigo, $nome) {
+        return self::Transacao(function ($conexao) use ($codigo, $nome) {
+            $consulta = $conexao->prepare('SELECT id_usuario FROM usuario WHERE id_usuario = ? FOR UPDATE');
+            $consulta->execute([$codigo]);
+            if (!$consulta->fetch()) return null;
+
+            $atualizar = $conexao->prepare('UPDATE usuario SET nm_usuario = ? WHERE id_usuario = ?');
+            $atualizar->execute([$nome, $codigo]);
+            return ['id_usuario' => (int) $codigo, 'nm_usuario' => $nome];
+        });
+    }
+
 	public static function Deletar($codigo) {
 		$parametros = ['pCodigo'=>$codigo];
 		self::Executar("deletarUsuario", $parametros);

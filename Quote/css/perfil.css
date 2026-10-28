@@ -72,6 +72,20 @@ body.paginaPerfil {
     overflow-wrap: anywhere;
 }
 
+.nomePerfilAcoes { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.nomePerfilAcoes .nomePerfil { min-width: 0; }
+.botaoEditarNome { display: inline-flex; align-items: center; justify-content: center; width: 30px; height: 30px; flex-shrink: 0; padding: 5px; border: 0; border-radius: 4px; background: transparent; color: var(--royalBlue); cursor: pointer; }
+.botaoEditarNome:hover { background: #edf4ff; }
+.botaoEditarNome svg { width: 18px; height: 18px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.formNomePerfil { display: flex; flex-direction: column; align-items: flex-start; gap: 8px; width: 100%; max-width: 360px; min-width: 0; }
+.formNomePerfil label { font-size: 12px; color: #444444; }
+.formNomePerfil input { width: 100%; min-width: 0; min-height: 34px; padding: 7px 10px; border: 1px solid var(--mediumBlue); border-radius: 4px; background: var(--white); color: var(--black); font-size: 13px; }
+.formNomePerfil input[aria-invalid="true"] { border-color: #b91c1c; }
+.acoesNomePerfil { display: flex; flex-wrap: wrap; gap: 8px; }
+.estadoNomePerfil { font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+.estadoNomePerfil.sucesso { color: #15803d; }
+.estadoNomePerfil.erro { color: #b91c1c; }
+
 .bioPerfil {
     max-width: 620px;
     color: #747272;

@@ -76,6 +76,15 @@ usuário e título em destaque, estrelas nas avaliações e tempo relativo à di
 O botão `ver mais` exibe cinco linhas adicionais. Os títulos levam ao livro.
 Textos maiores nos cards de livros têm reticências.
 
+O lápis ao lado do próprio nome abre a edição, com Salvar, Cancelar e Escape.
+O nome aceita de 1 a 80 caracteres em uma linha e é salvo por
+`POST atualizarNomeUsuario.php` com `{ "codigo": ID, "nome": "Novo nome" }`.
+A API exige sessão PHP e que `codigo` corresponda à conta autenticada. Atualiza
+somente `nm_usuario`, sem migração, e retorna `id_usuario` e `nm_usuario`.
+Após a confirmação, o nome muda no perfil, na atividade, no menu e no cache da
+sessão do navegador. A confirmação verde desaparece em dois segundos; falhas
+mantêm o texto digitado para nova tentativa. O perfil público não oferece edição.
+
 A tela de metas mostra o progresso circular e em barra, os lidos acumulados,
 a média das avaliações do ano da meta e os dias até o prazo. O histórico usa
 linhas compactas; o menu `⋯` permite editar ou excluir cada meta. Percentuais
