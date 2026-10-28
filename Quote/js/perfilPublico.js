@@ -75,13 +75,17 @@
     }
     function resenha(item) {
         const card = elemento('article', 'resenha');
+        const capaLivro = livro(item);
         const conteudo = elemento('div', 'conteudoResenhaPublica');
-        const estrelas = elemento('span', 'notaPublica');
+        const informacoes = elemento('a', 'informacoesResenha');
+        informacoes.href = capaLivro.href;
+        informacoes.append(capaLivro.querySelector('.textoLivro'));
+        const estrelas = elemento('span', 'estrelasResenha');
         const nota = Math.min(5, Math.max(0, Number(item.nota) || 0));
         estrelas.setAttribute('role', 'img');
         estrelas.setAttribute('aria-label', 'Avaliação: ' + nota + ' de 5 estrelas');
         for (let i = 1; i <= 5; i++) {
-            const estrela = elemento('span', i > nota ? 'vazia' : '', '★');
+            const estrela = elemento('span', i > nota ? 'estrelaVazia' : '', '★');
             estrela.setAttribute('aria-hidden', 'true');
             estrelas.append(estrela);
         }
@@ -91,8 +95,8 @@
             data.dateTime = iso;
             data.textContent = iso.split('-').reverse().join('/');
         }
-        conteudo.append(estrelas, data, elemento('p', '', item.txt_resenha || 'Avaliação sem resenha.'));
-        card.append(livro(item), conteudo);
+        conteudo.append(informacoes, estrelas, data, elemento('p', '', item.txt_resenha || 'Avaliação sem resenha.'));
+        card.append(capaLivro, conteudo);
         return card;
     }
     function lista(seletor, estadoSeletor, itens, criar, vazio) {

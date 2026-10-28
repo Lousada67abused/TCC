@@ -12,11 +12,9 @@
 #seguirPerfil.seguindo .iconeConfirmarSeguir { display: block; }
 #estadoSeguirPerfil.erro { color: #b91c1c; }
 #secoesPerfilPublico { display: flex; flex-direction: column; gap: 24px; min-width: 0; }
-.notaPublica { display: inline-flex; gap: 2px; color: #ffc107; font-size: 16px; white-space: nowrap; }
-.notaPublica .vazia { color: #cbd2dc; }
 .dataResenhaPublica { color: #747272; font-size: 11px; }
 .paginaPerfilPublico .conteudoResenhaPublica { min-width: 0; flex: 1; display: flex; flex-direction: column; gap: 8px; }
-.paginaPerfilPublico .conteudoResenhaPublica p { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13px; line-height: 1.6; }
+.paginaPerfilPublico .conteudoResenhaPublica > p { white-space: pre-wrap; overflow-wrap: anywhere; font-size: 13px; line-height: 1.6; }
 @media (max-width: 767px) {
     .nomeEAcoesPerfil { align-items: flex-start; gap: 10px; }
     .botaoSeguirPerfil { min-height: 44px; padding: 8px 12px; font-size: 12px; }
