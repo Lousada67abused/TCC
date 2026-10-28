@@ -83,6 +83,22 @@ avaliação no perfil ficam sincronizadas; uma resposta perdida provoca nova
 consulta antes de liberar o botão. Visitantes veem a contagem e recebem o link
 para entrar ao tentar curtir. Falhas de consulta permitem tentar novamente.
 
+O botão de comentários ao lado do coração abre um popup compartilhado nas
+quatro páginas, com foto, autor, data e texto de cada comentário. O fechamento
+usa o mesmo `×` cinza transparente do popup de avaliação; Escape e clique fora
+também fecham e devolvem o foco ao botão. A lista tem rolagem e o campo de envio
+permanece no rodapé. Rascunhos são mantidos separadamente por avaliação enquanto
+a página está aberta.
+
+`buscarComentarioAvaliacao.php?avaliacao=ID&codigoLivro=ISBN` retorna os
+comentários em `resposta` e contagem/autenticação em `estado`. A leitura inicial
+dos botões usa `resumo=1`. `cadastrarComentario.php` recebe `texto` (1–500
+caracteres), `codigoAvaliacao`, `codigoLivro`, `codigoUsuario` e `requisicaoId`.
+O usuário é conferido pela sessão PHP; o retorno inclui o comentário com ID e
+data reais. O mesmo identificador de envio pode ser repetido sem duplicação
+durante sua retenção na sessão (até 24 horas, últimos 200 envios). As tabelas e
+procedures existentes são reutilizadas, sem migração de banco.
+
 Todas as abas usam proporções compactas. Os livros apresentam capa, título em
 até duas linhas e autor em uma linha, sem nota individual, inclusive nos
 favoritos e nas resenhas. A aba Atividade usa linhas compactas sem capas, com

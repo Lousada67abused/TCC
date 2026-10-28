@@ -1,34 +1,18 @@
 <?php
-require_once('config.php');
-header('Access-Control-Allow-Origin: *');
-header('Access-Control-Allow-Methods: GET');
-header('Access-Control-Allow-Headers: Content-Type');
-header('Content-Type: application/json');
-
-$metodo = $_SERVER['REQUEST_METHOD'];
-
-if ($metodo != 'GET') 
-{ 
-	http_response_code(400); 
-	echo json_encode(['mensagem' => 'Método Inválido']); 
-	return;
+require_once __DIR__ . '/_comentariosAvaliacao.php';
+comentariosCabecalhos('GET');
+$avaliacao = comentariosCodigo($_GET['avaliacao'] ?? null);
+if (!$avaliacao) comentariosResposta(400, 'Selecione uma avaliação válida.');
+$livro = null;
+if (array_key_exists('codigoLivro', $_GET)) {
+    $livro = comentariosLivro($_GET['codigoLivro']);
+    if ($livro === false) comentariosResposta(400, 'Selecione um livro válido.');
 }
-
+$resumo = $_GET['resumo'] ?? '0';
+if (!is_string($resumo) || !in_array($resumo, ['0', '1'], true)) comentariosResposta(400, 'Resumo inválido.');
+$observador = comentariosCodigo($_SESSION['codigoUsuario'] ?? null);
 try {
-	// Código da sua API
-
-	if (!isset($_GET['avaliacao']) || $_GET['avaliacao'] == '') {
-		http_response_code(400);
-		echo json_encode(['mensagem' => 'Parâmetros obrigatórios insuficientes']);
-		return;
-	}
-	$avaliacao = $_GET['avaliacao'];
-
-	$resposta = ComentarioController::buscarComentarioAvaliacao($avaliacao);
-
-	http_response_code(200);
-	echo json_encode(['status' => 'true', 'resposta' => $resposta]);
-} catch (Exception $erro) {
-	http_response_code(500);
-	echo json_encode(['status' => 'false', 'erro' => $erro->getMessage()]);
+    echo json_encode(['status' => true] + Comentario::Listar($avaliacao, $observador ?: null, $livro, $resumo === '1'));
+} catch (Throwable $erro) {
+    comentariosErro($erro);
 }

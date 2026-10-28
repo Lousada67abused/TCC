@@ -305,6 +305,7 @@ form.barraPesquisa button:focus-visible {
 }
 
 .linkPerfilUsuario { color: inherit; text-decoration: none; }
+.acoesResenhaInteracoes { display: flex; align-items: flex-start; flex-wrap: wrap; gap: 12px; min-width: 0; }
 .curtidasAvaliacao { display: flex; flex-direction: column; align-items: flex-start; gap: 5px; min-width: 0; margin-top: 8px; }
 .curtidasAvaliacao[hidden], .curtidasAvaliacao [hidden] { display: none !important; }
 .curtidasAvaliacao .botaoCurtirAvaliacao { display: inline-flex; align-items: center; gap: 6px; min-height: 30px; padding: 3px 5px; border: 0; border-radius: 4px; background: transparent; color: #747272; font-size: 12px; cursor: pointer; }

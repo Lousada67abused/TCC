@@ -84,7 +84,9 @@
         nota.append(data);
         texto.append(nota,
             elemento('p', 'conteudoResenha', avaliacao.txt_resenha || 'Avaliação sem resenha.'));
-        texto.append(window.CurtidasAvaliacao.criar(avaliacao));
+        const interacoes = elemento('div', 'acoesResenhaInteracoes');
+        interacoes.append(window.CurtidasAvaliacao.criar(avaliacao), window.ComentariosAvaliacao.criar(avaliacao));
+        texto.append(interacoes);
         artigo.append(criarLivro(avaliacao), texto);
         return artigo;
     }
