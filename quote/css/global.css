@@ -386,8 +386,19 @@ a.linkPerfilAvatar:focus-visible { outline: 3px solid var(--brightLightBlue); ou
     display: none;
 }
 
+@media (min-width: 425px) {
+    .cabecalhoPrincipal{
+        display: none;
+    }
+    body{
+        padding-top: 30px;
+    }
+}
+
+
 @media (min-width: 768px) {
     .cabecalhoPrincipal {
+        display: flex;
         padding: 12px 48px;
         gap: 24px;
     }
