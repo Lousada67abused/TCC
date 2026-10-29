@@ -41,6 +41,7 @@
     }
 
     const desktop = window.matchMedia('(min-width: 768px)');
+    const categorias = new Set(['geral', 'livros', 'generos', 'autores', 'leitores']);
     const placeholder = campo.placeholder;
     const filtroDesabilitado = filtro.disabled;
     let modelo = null, estilo = null, preparandoEstilo = null;
@@ -88,6 +89,7 @@
         if (!aberta) return;
         seletor.disabled = desktop.matches;
         filtro.disabled = !desktop.matches;
+        if (!desktop.matches) filtro.value = seletor.value;
         const dicas = { livros: 'Busque por título ou ISBN', generos: 'Busque por gêneros',
             autores: 'Busque por autores', leitores: 'Busque por leitores' };
         campo.placeholder = desktop.matches ? placeholder : dicas[seletor.value];
@@ -100,7 +102,8 @@
             navegacao: document.querySelector('body > nav'),
             classe: document.body.className,
             classeCabecalho: cabecalho.className,
-            titulo: document.title
+            titulo: document.title,
+            valorFiltro: filtro.value
         };
         tela = modelo.principal.cloneNode(true);
         navegacao = modelo.navegacao?.cloneNode(true) || null;
@@ -124,10 +127,12 @@
             seletor.append(opcao);
         });
         const categoriaEndereco = new URLSearchParams(location.search).get('filtro');
-        if ([...seletor.options].some(opcao => opcao.value === categoriaEndereco)) categoriaMobile = categoriaEndereco;
+        if (categorias.has(categoriaEndereco)) filtro.value = categoriaEndereco;
+        categoriaMobile = [...seletor.options].some(opcao => opcao.value === filtro.value) ? filtro.value : 'livros';
         seletor.value = categoriaMobile;
         seletor.addEventListener('change', () => {
             categoriaMobile = seletor.value;
+            filtro.value = categoriaMobile;
             atualizarSeletor();
         });
         formulario.append(seletor);
@@ -147,6 +152,7 @@
         estilo.media = 'not all';
         seletor.remove();
         seletor = null;
+        filtro.value = original.valorFiltro;
         filtro.disabled = filtroDesabilitado;
         campo.placeholder = placeholder;
     }
@@ -160,6 +166,9 @@
             // A digitação e a composição continuam no mesmo elemento durante a carga.
             if (document.activeElement !== campo || location.href !== enderecoInicial) return;
             const endereco = new URL('pesquisa.html', location.href);
+            const categoriaAtual = new URL(enderecoInicial).searchParams.get('filtro');
+            endereco.searchParams.set('filtro', categorias.has(categoriaAtual) ? categoriaAtual :
+                (categorias.has(filtro.value) ? filtro.value : 'geral'));
             history.pushState({ pesquisaEmEdicao: true }, '', endereco);
             mostrarPesquisa();
         } catch (_) {

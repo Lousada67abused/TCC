@@ -52,6 +52,10 @@
         details.append(date);
         top.append(linkAvatar, details);
         article.append(top, elemento('p', 'textoResenhaUsuario', avaliacao.txt_resenha || ''));
+        const interacoes = elemento('div', 'acoesResenhaInteracoes');
+        const dadosInteracao = { ...avaliacao, id_livro: codigoLivro };
+        interacoes.append(window.CurtidasAvaliacao.criar(dadosInteracao), window.ComentariosAvaliacao.criar(dadosInteracao));
+        article.append(interacoes);
         if (criarAcoes) criarAcoes(avaliacao, item, article);
         item.append(article);
         return item;

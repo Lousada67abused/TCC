@@ -132,6 +132,9 @@
 
         conteudo.append(cabecalho, usuario, criarData(avaliacao.dt_avaliacao),
             elemento('p', 'textoResenha', texto(avaliacao.txt_resenha)));
+        const interacoes = elemento('div', 'acoesResenhaInteracoes');
+        interacoes.append(window.CurtidasAvaliacao.criar(avaliacao), window.ComentariosAvaliacao.criar(avaliacao));
+        conteudo.append(interacoes);
         card.append(linkCapa, conteudo);
         return card;
     }

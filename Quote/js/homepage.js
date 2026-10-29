@@ -8,22 +8,12 @@
     if (!area || !estado || !anterior || !proximo || !paginacao || !intervalo) return;
 
     let codigoUsuario = null;
-    let usuario = null;
     try {
         codigoUsuario = sessionStorage.getItem('codigo');
-        usuario = JSON.parse(sessionStorage.getItem('usuario') || 'null');
     } catch (_) {
         // A página continua acessível mesmo sem dados de sessão válidos.
     }
     const codigoValido = /^[1-9]\d*$/.test(codigoUsuario || '');
-    document.querySelectorAll('.avatarHeader').forEach(avatar => {
-        avatar.addEventListener('error', () => { avatar.src = '../img/avatar.jpg'; }, { once: true });
-        avatar.src = codigoValido ? '../img/' + codigoUsuario + '.png' : '../img/avatar.jpg';
-    });
-    if (usuario && typeof usuario === 'object') {
-        document.getElementById('nomeUsuarioHeader').textContent = usuario.nm_usuario || 'Seu perfil';
-        document.getElementById('emailUsuarioHeader').textContent = usuario.email || '';
-    }
 
     let livros = [];
     let inicio = 0;

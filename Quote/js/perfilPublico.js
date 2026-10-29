@@ -95,8 +95,11 @@
             data.dateTime = iso;
             data.textContent = iso.split('-').reverse().join('/');
         }
-        conteudo.append(informacoes, estrelas, data, elemento('p', '', item.txt_resenha || 'Avaliação sem resenha.'));
-        card.append(capaLivro, conteudo);
+        conteudo.append(estrelas, data, elemento('p', '', item.txt_resenha || 'Avaliação sem resenha.'));
+        const interacoes = elemento('div', 'acoesResenhaInteracoes');
+        interacoes.append(window.CurtidasAvaliacao.criar(item), window.ComentariosAvaliacao.criar(item));
+        conteudo.append(interacoes);
+        card.append(livro(item), conteudo);
         return card;
     }
     function lista(seletor, estadoSeletor, itens, criar, vazio) {

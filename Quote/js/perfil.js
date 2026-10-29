@@ -17,7 +17,7 @@
     try { codigo = sessionStorage.getItem('codigo'); } catch (_) {}
     const conectado = /^[1-9]\d*$/.test(codigo || '');
     let carregando = false, enviandoMeta = false, falhouMeta = false;
-    let filtroEstante = 'lido';
+    let filtroEstante = 'todos';
     let anoAtual = String(new Date().getFullYear());
     const formatoNumero = new Intl.NumberFormat('pt-BR');
 
@@ -96,7 +96,10 @@
         nota.append(estrelas, data);
         texto.append(informacoes, nota,
             elemento('p', 'conteudoResenha', avaliacao.txt_resenha || 'Avaliação sem resenha.'));
-        artigo.append(livro, texto);
+        const interacoes = elemento('div', 'acoesResenhaInteracoes');
+        interacoes.append(window.CurtidasAvaliacao.criar(avaliacao), window.ComentariosAvaliacao.criar(avaliacao));
+        texto.append(interacoes);
+        artigo.append(criarLivro(avaliacao), texto);
         return artigo;
     }
     function abrirAba(nome) {
@@ -167,8 +170,10 @@
     }
     function mostrarEstante() {
         if (!dados.biblioteca) return;
-        const livros = dados.biblioteca.filter(livro => filtroEstante === 'favoritos' ? Number(livro.favorito) === 1 : livro.status === filtroEstante);
-        lista('listaEstante', livros, criarLivro, 'Nenhum livro nesta categoria da sua estante.');
+        const livros = dados.biblioteca.filter(livro => filtroEstante === 'todos' ||
+            (filtroEstante === 'favoritos' ? Number(livro.favorito) === 1 : livro.status === filtroEstante));
+        lista('listaEstante', livros, criarLivro, filtroEstante === 'todos' ?
+            'Sua estante ainda não tem livros.' : 'Nenhum livro nesta categoria da sua estante.');
         const favoritos = dados.biblioteca.filter(livro => Number(livro.favorito) === 1);
         lista('listaFavoritos', favoritos.slice(0, 5), criarLivro, 'Você ainda não marcou livros como favoritos.');
     }

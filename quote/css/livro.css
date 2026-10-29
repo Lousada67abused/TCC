@@ -938,28 +938,6 @@ body:has(#popupFeedbackLivro[open]) {
         padding: 0 20px;
     }
 
-    .barraPesquisa {
-        position: relative;
-        width: 320px;
-    }
-
-    .barraPesquisa input {
-        width: 100%;
-        padding: 6px 36px 6px 12px;
-        border-radius: 20px;
-        border: none;
-        font-size: 12px;
-    }
-
-    .barraPesquisa .iconeBusca {
-        position: absolute;
-        right: 10px;
-        top: 50%;
-        transform: translateY(-50%);
-        font-size: 18px;
-        color: #666666;
-    }
-
     .avatarHeader {
         width: 36px;
         height: 36px;
