@@ -47,14 +47,6 @@ body {
     margin-bottom: 12px;
 }
 
-.cardLivro:hover {
-    transition: all 0.3s ease-in-out;
-    transform: translateY(-14px);
-    padding: 5px;
-    outline: 3px solid var(--mediumBlue);
-    outline-offset: 4px;
-}
-
 .capaLivro {
     display: block;
     width: 100%;
@@ -166,19 +158,9 @@ body {
     fill: currentColor;
 }
 
-.botaoVerMais:hover {
-    transition: all 0.3s ease-in-out;
-    background-color: var(--darkOceanBlue);
-}
-
 .botaoSecundario {
     background-color: #ffffff;
     color: var(--royalBlue);
-}
-
-.botaoSecundario:hover {
-    transition: all 0.3s ease-in-out;
-    background-color: rgb(220, 220, 220);
 }
 
 .cardLivro:focus-visible,

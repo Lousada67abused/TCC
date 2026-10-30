@@ -212,6 +212,7 @@ form.pesquisaPadrao button:focus-visible { outline: none; }
 }
 
 .botaoRanking {
+    transition: background-color 0.3s ease-in-out;
     display: inline-flex;
     align-items: center;
     justify-content: center;
@@ -239,7 +240,6 @@ form.pesquisaPadrao button:focus-visible { outline: none; }
 }
 
 .botaoRanking:hover { 
-    transition: all 0.3s ease-in-out;
     background-color: #051630;
 }
 

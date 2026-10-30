@@ -206,7 +206,7 @@ body.paginaRanking {
     border: 1px solid var(--softBlue);
     border-top: 0;
     border-radius: 0 0 4px 4px;
-    overflow: hidden;
+    overflow: visible;
 }
 
 .podioRanking:empty + .listaRanking { border-top: 1px solid var(--softBlue); border-radius: 4px; }

@@ -1,0 +1,66 @@
+/* Efeitos compartilhados a partir da homepage. */
+body :is(.cardLivro, .fileiraCapas .livro, .areaLivros .livro, .melhoresAno .livro, .livroRanking, .livroPodio) {
+    transition: transform 0.3s ease-in-out, padding 0.3s ease-in-out, outline-color 0.3s ease-in-out;
+}
+
+body :is(
+    #btnEntrar, #btnCadastrar, .botaoVerMais, .botaoSecundario, .botaoPrimario,
+    .verMaisAtividades, .btnVerMais, .btnPublicar, .btnEnviarAvaliacao, .btnEnviarComentario,
+    .enviarComentarioAvaliacao, .btnProximo, .botaoFinalizar, .botao,
+    .botaoSeguirPerfil, #seguirPerfil, .botaoSeguir, .btnFavorito,
+    .tentarRanking, #tentarBusca, #tentarGeneros, .tentarComentariosAvaliacao,
+    .filtros button, .filtro button, .filtroGenero, .acoesMeta button,
+    .botaoSocial, .botoesSocial button, form.pesquisaPadrao button,
+    .acoesMinhaResenha button, .fecharComentariosAvaliacao, .btnFecharModal,
+    .btnFecharIcone, .btnMostrarSenha
+) {
+    transition: background-color 0.3s ease-in-out, color 0.3s ease-in-out;
+}
+
+/* O hover fica reservado aos dispositivos com ponteiro, sem prender o efeito ao toque. */
+@media (hover: hover) and (pointer: fine) {
+    body :is(.cardLivro, .fileiraCapas .livro, .areaLivros .livro, .melhoresAno .livro, .livroRanking, .livroPodio):not([aria-disabled="true"]):hover {
+        transform: translateY(-14px);
+        padding: 5px;
+        outline: 3px solid var(--mediumBlue);
+        outline-offset: 4px;
+    }
+
+    body :is(
+        #btnEntrar, .botaoVerMais, .botaoPrimario, .verMaisAtividades,
+        .btnVerMais, .btnPublicar, .btnEnviarAvaliacao, .btnEnviarComentario,
+        .enviarComentarioAvaliacao, .btnProximo, .botaoFinalizar, .botao,
+        .botaoSeguirPerfil, .filtros button.ativo
+    ):not(:disabled):not([aria-disabled="true"]):hover {
+        background-color: var(--darkOceanBlue);
+    }
+
+    body :is(
+        #btnCadastrar, .botaoSecundario, #seguirPerfil, .botaoSeguir, .btnFavorito,
+        .tentarRanking, #tentarBusca, #tentarGeneros, .tentarComentariosAvaliacao,
+        .filtros button:not(.ativo), .filtro button, .filtroGenero, .acoesMeta button,
+        .botaoSocial, .botoesSocial button, form.pesquisaPadrao button,
+        .acoesMinhaResenha button, .fecharComentariosAvaliacao, .btnFecharModal,
+        .btnFecharIcone, .btnMostrarSenha
+    ):not(:disabled):not([aria-disabled="true"]):hover {
+        background-color: rgb(220, 220, 220);
+    }
+}
+
+@media (max-width: 767px) and (hover: hover) and (pointer: fine) {
+    body #filtrosGeneros .filtroGenero.ativo:hover {
+        background-color: var(--darkOceanBlue);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    body :is(.cardLivro, .fileiraCapas .livro, .areaLivros .livro, .melhoresAno .livro, .livroRanking, .livroPodio),
+    body :is(.cardLivro, .fileiraCapas .livro, .areaLivros .livro, .melhoresAno .livro, .livroRanking, .livroPodio):not([aria-disabled="true"]):hover {
+        transition: none;
+        transform: none;
+    }
+
+    body :is(button, .botaoVerMais, .botaoRanking, .botaoFinalizar, .filtroGenero, #btnEntrar, #btnCadastrar) {
+        transition: none;
+    }
+}
