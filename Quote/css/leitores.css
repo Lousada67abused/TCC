@@ -5,6 +5,7 @@
 }
 
 .cardLeitor {
+    position: relative;
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
@@ -25,10 +26,18 @@
     border-radius: 4px;
 }
 
+a.linkPerfilLeitor::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+}
+
 a.linkPerfilLeitor:hover .nomeLeitor { text-decoration: underline; }
-a.linkPerfilLeitor:focus-visible {
+a.linkPerfilLeitor:focus-visible { outline: none; }
+a.linkPerfilLeitor:focus-visible::after {
     outline: 3px solid var(--brightLightBlue, #7bb0ff);
-    outline-offset: 4px;
+    outline-offset: -3px;
 }
 
 .fotoLeitor {
@@ -85,6 +94,8 @@ a.linkPerfilLeitor:focus-visible {
 }
 
 .acoesLeitor {
+    position: relative;
+    z-index: 1;
     display: flex;
     flex-direction: column;
     align-items: flex-end;
