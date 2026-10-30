@@ -99,7 +99,7 @@
         const interacoes = elemento('div', 'acoesResenhaInteracoes');
         interacoes.append(window.CurtidasAvaliacao.criar(avaliacao), window.ComentariosAvaliacao.criar(avaliacao));
         texto.append(interacoes);
-        artigo.append(criarLivro(avaliacao), texto);
+        artigo.append(livro, texto);
         return artigo;
     }
     function abrirAba(nome) {
