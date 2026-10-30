@@ -216,18 +216,15 @@ form.pesquisaPadrao button:focus-visible { outline: none; }
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    gap: 8px;
-    width: 112px;
+    gap: 5px;
+    width: 100px;
     min-height: 44px;
-    padding: 0 10px;
     border: 1px solid var(--white);
     border-radius: 8px;
     background-color: transparent;
     color: var(--white);
     font-size: 13px;
     font-weight: 500;
-    line-height: 1.2;
-    white-space: nowrap;
     text-decoration: none;
 }
 
@@ -241,8 +238,13 @@ form.pesquisaPadrao button:focus-visible { outline: none; }
     line-height: 1;
 }
 
-.botaoRanking:hover { background-color: rgba(255, 255, 255, 0.1); }
-.cabecalhoPrincipal .botaoRanking:focus-visible { outline: 3px solid var(--brightLightBlue); outline-offset: 3px; }
+.botaoRanking:hover { 
+    background-color: rgba(255, 255, 255, 0.1); 
+}
+
+.cabecalhoPrincipal .botaoRanking:focus-visible { 
+    outline: 3px solid var(--brightLightBlue); outline-offset: 3px; 
+}
 
 .avatarHeader {
     width: 32px;
@@ -556,7 +558,7 @@ a.linkPerfilAvatar:focus-visible { outline: 3px solid var(--brightLightBlue); ou
 
     .botaoRanking {
         gap: 17px;
-        width: 165px;
+        width: 135px;
         min-height: 34px;
         padding: 0 12px;
         font-size: 16px;
