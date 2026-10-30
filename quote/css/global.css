@@ -239,7 +239,8 @@ form.pesquisaPadrao button:focus-visible { outline: none; }
 }
 
 .botaoRanking:hover { 
-    background-color: rgba(255, 255, 255, 0.1); 
+    transition: all 0.3s ease-in-out;
+    background-color: #051630;
 }
 
 .cabecalhoPrincipal .botaoRanking:focus-visible { 
@@ -410,7 +411,7 @@ form.pesquisaPadrao button:focus-visible { outline: none; }
 .botaoCurtirAvaliacao svg { width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .curtidasAvaliacao .botaoCurtirAvaliacao.curtida { color: #c72d50; }
 .botaoCurtirAvaliacao.curtida svg { fill: currentColor; }
-.curtidasAvaliacao .botaoCurtirAvaliacao:hover { background: #fff0f3; }
+.curtidasAvaliacao .botaoCurtirAvaliacao:hover { background: #FEFEFF; }
 .curtidasAvaliacao .botaoCurtirAvaliacao:disabled { opacity: 0.6; cursor: wait; }
 .curtidasAvaliacao .botaoCurtirAvaliacao:focus-visible { outline: 2px solid var(--brightLightBlue); outline-offset: 2px; }
 .curtidasAvaliacao .erroCurtidaAvaliacao { color: #b91c1c; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
