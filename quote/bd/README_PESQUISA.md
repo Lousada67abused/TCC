@@ -14,15 +14,15 @@ pesquisa também funciona.
 
 ## Atualização do banco
 
-Recarregue as procedures para que os resultados incluam a nota média:
+Atualize as consultas para que os resultados incluam a nota média:
 
 ```sh
-mysql --default-character-set=utf8mb4 -u root -p < quote/bd/script_spc.sql
+mysql --default-character-set=utf8mb4 -u SEU_USUARIO -p quote < quote/bd/migracao_notas_livros.sql
 ```
 
 Não é necessário recriar a estrutura nem importar a massa novamente.
-`filtroLivro` mantém a assinatura anterior, acrescenta `nota_media` e preserva
-todos os coautores e gêneros mesmo ao pesquisar por um desses campos. A média
+`filtroLivro` mantém a assinatura anterior e os campos de autores e gêneros,
+acrescentando `nota_media` com duas casas de precisão e zero sem avaliações. A média
 é calculada uma vez por livro na consulta; não há uma chamada HTTP por capa.
 
 O modelo `Seguidor` agora consulta `sp_buscar_seguidos_por_usuario` e
@@ -47,9 +47,10 @@ pesquisa; a coluna que armazena o nome do usuário não foi alterada.
 
 Os nomes completos continuam disponíveis no atributo `title` quando houver
 reticências. A própria conta não pode ser seguida e visitantes podem pesquisar,
-mas os botões de seguir ficam desabilitados. A tela de perfil atual continua
-sendo a tela própria existente; os resultados não inventam links de perfil
-público.
+mas os botões de seguir ficam desabilitados. Avatar, nome e contagens abrem
+`perfilPublico.html?codigoUsuario=ID` por um link real, acessível por teclado
+e toque. O botão de seguir fica fora desse link e não navega para o perfil.
+O perfil público redireciona a própria conta para `perfil.html`.
 
 ## Verificação realizada
 

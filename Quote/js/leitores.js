@@ -1,7 +1,7 @@
 (() => {
     let codigoUsuario = null;
     try { codigoUsuario = sessionStorage.getItem('codigo'); } catch (_) {}
-    if (!/^[1-9]\d*$/.test(codigoUsuario || '')) codigoUsuario = null;
+    if (!codigoValido(codigoUsuario)) codigoUsuario = null;
 
     let seguidos = new Set();
     let preparado = false;
@@ -14,6 +14,10 @@
     const cards = new Set();
     const seguidores = new Map();
     const fontesSeguidores = new WeakMap();
+
+    function codigoValido(codigo) {
+        return /^[1-9]\d{0,9}$/.test(String(codigo || '')) && Number(codigo) <= 2147483647;
+    }
 
     function elemento(tag, classe, texto) {
         const novo = document.createElement(tag);
@@ -43,7 +47,7 @@
     function atualizarCard(card) {
         const { codigo, botao, icone, rotulo, estado, numeroSeguidores, numeroSeguindo } = card;
         const seguindo = seguidos.has(codigo);
-        const indisponivel = !/^[1-9]\d*$/.test(codigo);
+        const indisponivel = !codigoValido(codigo);
         botao.classList.toggle('seguindo', preparado && seguindo);
         botao.disabled = processando || Boolean(preparando) || indisponivel || !codigoUsuario || codigo === codigoUsuario;
         botao.removeAttribute('aria-pressed');
@@ -172,6 +176,11 @@
         const nome = String(usuario?.nm_usuario || 'Leitor');
         const item = elemento('li', 'cardLeitor');
         item.dataset.idUsuario = codigo;
+        const identidade = elemento(codigoValido(codigo) ? 'a' : 'div', 'linkPerfilLeitor');
+        if (codigoValido(codigo)) {
+            identidade.href = 'perfilPublico.html?codigoUsuario=' + encodeURIComponent(codigo);
+            identidade.setAttribute('aria-label', 'Ver perfil de ' + nome);
+        }
 
         const foto = elemento('img', 'fotoLeitor');
         foto.alt = 'Foto de perfil de ' + nome;
@@ -179,7 +188,7 @@
         foto.width = 80;
         foto.height = 80;
         foto.addEventListener('error', () => { foto.src = '../img/avatar.jpg'; }, { once: true });
-        foto.src = /^[1-9]\d*$/.test(codigo) ? '../img/' + codigo + '.png' : '../img/avatar.jpg';
+        foto.src = codigoValido(codigo) ? '../img/' + codigo + '.png' : '../img/avatar.jpg';
 
         const informacoes = elemento('div', 'infoLeitor');
         const titulo = elemento('h3', 'nomeLeitor', nome);
@@ -198,6 +207,7 @@
                 contagens.append(grupo);
             });
         informacoes.append(titulo, contagens);
+        identidade.append(foto, informacoes);
 
         const acoes = elemento('div', 'acoesLeitor');
         const botao = elemento('button', 'botaoSeguir');
@@ -212,7 +222,7 @@
         mensagem.setAttribute('aria-live', 'polite');
         botao.setAttribute('aria-describedby', mensagem.id);
         acoes.append(botao, mensagem);
-        item.append(foto, informacoes, acoes);
+        item.append(identidade, acoes);
 
         const seguidoresRecebidos = quantidade(usuario?.qtd_seguidores);
         // Trocar de aba reutiliza os objetos da consulta; uma nova resposta

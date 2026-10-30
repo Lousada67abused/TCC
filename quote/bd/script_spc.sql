@@ -42,7 +42,7 @@ BEGIN
         GROUP BY lg.id_livro
     ) generos ON generos.id_livro = l.id_livro
     LEFT JOIN (
-        SELECT av.id_livro, ROUND(AVG(av.nota), 1) AS nota_media
+        SELECT av.id_livro, ROUND(AVG(av.nota), 2) AS nota_media
         FROM avaliacao av
         GROUP BY av.id_livro
     ) notas ON notas.id_livro = l.id_livro
@@ -124,8 +124,8 @@ BEGIN
         e.nm_editora,
         GROUP_CONCAT(DISTINCT au.nm_autor SEPARATOR ', ') AS nm_autor,
         GROUP_CONCAT(DISTINCT g.nm_genero SEPARATOR ', ') AS nm_genero,
-        ROUND(AVG(a.nota), 2) AS nota_media,
-        COUNT(DISTINCT a.id_avaliacao) AS quantidade_avaliacoes
+        COALESCE(ROUND(notas.nota_media_real, 2), 0) AS nota_media,
+        notas.quantidade_avaliacoes
     FROM livro l
     INNER JOIN livro_genero lg
         ON l.id_livro = lg.id_livro
@@ -133,8 +133,14 @@ BEGIN
         ON lg.id_genero = g.id_genero
     INNER JOIN editora e
         ON l.cd_editora = e.id_editora
-    INNER JOIN avaliacao a
-        ON l.id_livro = a.id_livro
+    INNER JOIN (
+        -- Agregar antes dos vínculos evita multiplicar avaliações por autores/gêneros.
+        SELECT av.id_livro,
+            AVG(av.nota) AS nota_media_real,
+            COUNT(DISTINCT av.id_avaliacao) AS quantidade_avaliacoes
+        FROM avaliacao av
+        GROUP BY av.id_livro
+    ) notas ON notas.id_livro = l.id_livro
     LEFT JOIN autor_livro al
         ON l.id_livro = al.id_livro
     LEFT JOIN autor au
@@ -145,11 +151,14 @@ BEGIN
         l.id_livro,
         l.titulo,
         l.ano_publicacao,
-        e.nm_editora
+        e.nm_editora,
+        notas.nota_media_real,
+        notas.quantidade_avaliacoes
     ORDER BY
-        nota_media DESC,
-        quantidade_avaliacoes DESC,
-        l.titulo ASC
+        notas.nota_media_real DESC,
+        notas.quantidade_avaliacoes DESC,
+        l.titulo ASC,
+        l.id_livro ASC
     LIMIT 10;
 END $$
 
@@ -865,7 +874,12 @@ BEGIN
         l.ano_publicacao,
         l.qnt_paginas,
         e.id_editora,
-        e.nm_editora
+        e.nm_editora,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = l.id_livro
+        ) AS nota_media
     FROM livro l
     INNER JOIN editora e
         ON l.cd_editora = e.id_editora
@@ -888,7 +902,12 @@ BEGIN
         e.id_editora,
         e.nm_editora,
         GROUP_CONCAT(DISTINCT a.nm_autor ORDER BY a.nm_autor SEPARATOR ', ') AS autores,
-        GROUP_CONCAT(DISTINCT g.nm_genero ORDER BY g.nm_genero SEPARATOR ', ') AS generos
+        GROUP_CONCAT(DISTINCT g.nm_genero ORDER BY g.nm_genero SEPARATOR ', ') AS generos,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = l.id_livro
+        ) AS nota_media
     FROM livro l
     INNER JOIN editora e
         ON l.cd_editora = e.id_editora
@@ -934,7 +953,7 @@ BEGIN
         GROUP_CONCAT(DISTINCT a.nm_autor SEPARATOR ', ') AS nm_autor,
         GROUP_CONCAT(DISTINCT g.nm_genero SEPARATOR ', ') AS nm_genero,
         (
-            SELECT COALESCE(ROUND(AVG(av.nota), 1), 0)
+            SELECT COALESCE(ROUND(AVG(av.nota), 2), 0)
             FROM avaliacao av
             WHERE av.id_livro = l.id_livro
         ) AS nota_media
@@ -974,7 +993,12 @@ BEGIN
         e.id_editora,
         e.nm_editora,
         GROUP_CONCAT(DISTINCT a.nm_autor SEPARATOR ', ') AS nm_autor,
-        GROUP_CONCAT(DISTINCT g.nm_genero SEPARATOR ', ') AS nm_genero
+        GROUP_CONCAT(DISTINCT g.nm_genero SEPARATOR ', ') AS nm_genero,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = l.id_livro
+        ) AS nota_media
     FROM livro l
     INNER JOIN editora e      ON l.cd_editora = e.id_editora
     LEFT JOIN autor_livro al  ON l.id_livro = al.id_livro
@@ -1011,7 +1035,12 @@ BEGIN
             WHERE lg.id_livro = l.id_livro
         ) AS generos,
         l.ano_publicacao,
-        l.qnt_paginas
+        l.qnt_paginas,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = l.id_livro
+        ) AS nota_media
     FROM livro l
     WHERE l.id_livro IN (
         SELECT lg2.id_livro
@@ -1033,7 +1062,12 @@ BEGIN
         l.titulo,
         GROUP_CONCAT(a.nm_autor ORDER BY a.nm_autor SEPARATOR ', ') AS autores,
         l.ano_publicacao,
-        l.qnt_paginas
+        l.qnt_paginas,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = l.id_livro
+        ) AS nota_media
     FROM livro l
     INNER JOIN autor_livro al
         ON l.id_livro = al.id_livro
@@ -1061,7 +1095,12 @@ BEGIN
         l.sinopse,
         l.ano_publicacao,
         l.qnt_paginas,
-        e.nm_editora
+        e.nm_editora,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = l.id_livro
+        ) AS nota_media
     FROM livro l
     INNER JOIN editora e
         ON l.cd_editora = e.id_editora
@@ -1207,7 +1246,12 @@ BEGIN
         l.sinopse,
         l.ano_publicacao,
         l.qnt_paginas,
-        e.nm_editora
+        e.nm_editora,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = l.id_livro
+        ) AS nota_media
     FROM livro l
     INNER JOIN autor_livro al
         ON l.id_livro = al.id_livro
@@ -1293,7 +1337,12 @@ BEGIN
         l.sinopse,
         l.ano_publicacao,
         l.qnt_paginas,
-        e.nm_editora
+        e.nm_editora,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = l.id_livro
+        ) AS nota_media
     FROM livro l
     INNER JOIN livro_genero lg
         ON l.id_livro = lg.id_livro
@@ -1481,7 +1530,7 @@ CREATE PROCEDURE calcularNotaMediaLivro(
 BEGIN
     SELECT
         p_id_livro AS id_livro,
-        COALESCE(ROUND(AVG(nota), 1), 0) AS nota_media,
+        COALESCE(ROUND(AVG(nota), 2), 0) AS nota_media,
         COUNT(*) AS quantidade_avaliacoes
     FROM avaliacao
     WHERE id_livro = p_id_livro;
@@ -1643,7 +1692,7 @@ BEGIN
         ) AS generos,
         COUNT(DISTINCT lg.id_genero) AS generos_compativeis,
         (
-            SELECT COALESCE(ROUND(AVG(av.nota), 1), 0)
+            SELECT COALESCE(ROUND(AVG(av.nota), 2), 0)
             FROM avaliacao av
             WHERE av.id_livro = l.id_livro
         ) AS nota_media
@@ -1868,7 +1917,7 @@ BEGIN
         GROUP BY lg.id_livro
     ) generos ON generos.id_livro = l.id_livro
     LEFT JOIN (
-        SELECT av.id_livro, ROUND(AVG(av.nota), 1) AS nota_media
+        SELECT av.id_livro, ROUND(AVG(av.nota), 2) AS nota_media
         FROM avaliacao av
         GROUP BY av.id_livro
     ) notas ON notas.id_livro = l.id_livro
@@ -1894,7 +1943,12 @@ BEGIN
         GROUP_CONCAT(a.nm_autor ORDER BY a.nm_autor SEPARATOR ', ') AS autores,
         b.status,
         b.favorito,
-        b.visivel
+        b.visivel,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = b.id_livro
+        ) AS nota_media
     FROM biblioteca b
     INNER JOIN livro l
         ON b.id_livro = l.id_livro
@@ -1920,7 +1974,12 @@ BEGIN
         GROUP_CONCAT(a.nm_autor ORDER BY a.nm_autor SEPARATOR ', ') AS autores,
         b.status,
         b.favorito,
-        b.visivel
+        b.visivel,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = b.id_livro
+        ) AS nota_media
     FROM biblioteca b
     INNER JOIN livro l
         ON b.id_livro = l.id_livro

@@ -6,12 +6,29 @@
 
 .cardLeitor {
     display: grid;
-    grid-template-columns: 44px minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) auto;
     align-items: center;
     gap: 12px;
     min-width: 0;
     padding: 22px 0;
     border-bottom: 1px solid var(--softBlue, #bdd7ff);
+}
+
+.linkPerfilLeitor {
+    display: grid;
+    grid-template-columns: 44px minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 4px;
+}
+
+a.linkPerfilLeitor:hover .nomeLeitor { text-decoration: underline; }
+a.linkPerfilLeitor:focus-visible {
+    outline: 3px solid var(--brightLightBlue, #7bb0ff);
+    outline-offset: 4px;
 }
 
 .fotoLeitor {
@@ -140,7 +157,12 @@
 
 @media (max-width: 359px) {
     .cardLeitor {
-        grid-template-columns: 38px minmax(0, 1fr) 78px;
+        grid-template-columns: minmax(0, 1fr) 78px;
+        gap: 8px;
+    }
+
+    .linkPerfilLeitor {
+        grid-template-columns: 38px minmax(0, 1fr);
         gap: 8px;
     }
 
@@ -160,10 +182,15 @@
 
 @media (min-width: 768px) {
     .cardLeitor {
-        grid-template-columns: 80px minmax(0, 1fr) 160px;
+        grid-template-columns: minmax(0, 1fr) 160px;
         gap: 36px;
         padding: 24px 6px;
         min-height: 124px;
+    }
+
+    .linkPerfilLeitor {
+        grid-template-columns: 80px minmax(0, 1fr);
+        gap: 36px;
     }
 
     .fotoLeitor {
