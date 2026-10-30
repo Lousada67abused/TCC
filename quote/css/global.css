@@ -207,12 +207,43 @@ form.pesquisaPadrao button:focus-visible { outline: none; }
 .acoesHeaderDesktop {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: clamp(12px, calc(13.25vw - 86px), 105px);
     flex-shrink: 0;
 }
 
 .botaoRanking {
-    display: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    gap: 5px;
+    width: 100px;
+    min-height: 44px;
+    border: 1px solid var(--white);
+    border-radius: 8px;
+    background-color: transparent;
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.botaoRanking .material-symbols-outlined {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    overflow: hidden;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.botaoRanking:hover { 
+    background-color: rgba(255, 255, 255, 0.1); 
+}
+
+.cabecalhoPrincipal .botaoRanking:focus-visible { 
+    outline: 3px solid var(--brightLightBlue); outline-offset: 3px; 
 }
 
 .avatarHeader {
@@ -525,22 +556,12 @@ a.linkPerfilAvatar:focus-visible { outline: 3px solid var(--brightLightBlue); ou
         font-size: 20px;
     }
 
-    .acoesHeaderDesktop {
-        gap: 16px;
-    }
-
     .botaoRanking {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background-color: transparent;
-        color: #ffffff;
-        border: 1px solid #ffffff;
-        border-radius: 6px;
-        padding: 6px 16px;
-        font-size: 13px;
-        font-weight: bold;
-        text-decoration: none;
+        gap: 17px;
+        width: 135px;
+        min-height: 34px;
+        padding: 0 12px;
+        font-size: 16px;
     }
 
     .avatarHeader {
