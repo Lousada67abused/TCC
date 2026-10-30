@@ -15,7 +15,7 @@ As assinaturas e os campos que as APIs já recebiam permanecem disponíveis.
 ## Contrato dos retornos
 
 As consultas de livros retornam `nota_media`, calculada com
-`COALESCE(ROUND(AVG(nota), 2), 0)`: duas casas decimais de precisão e zero quando
+`COALESCE(ROUND(AVG(nota), 1), 0)`: uma casa decimal de precisão e zero quando
 não há notas. O cálculo usa as avaliações do livro, independentemente da
 quantidade de autores ou gêneros vinculados. Notas iguais de avaliações
 diferentes entram normalmente na média; não se usa `AVG(DISTINCT nota)`.

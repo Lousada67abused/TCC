@@ -14,7 +14,7 @@ BEGIN
         e.id_editora,
         e.nm_editora,
         (
-            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
             FROM avaliacao av_media
             WHERE av_media.id_livro = l.id_livro
         ) AS nota_media
@@ -42,7 +42,7 @@ BEGIN
         GROUP_CONCAT(DISTINCT a.nm_autor ORDER BY a.nm_autor SEPARATOR ', ') AS autores,
         GROUP_CONCAT(DISTINCT g.nm_genero ORDER BY g.nm_genero SEPARATOR ', ') AS generos,
         (
-            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
             FROM avaliacao av_media
             WHERE av_media.id_livro = l.id_livro
         ) AS nota_media
@@ -90,7 +90,7 @@ BEGIN
         GROUP_CONCAT(DISTINCT a.nm_autor SEPARATOR ', ') AS nm_autor,
         GROUP_CONCAT(DISTINCT g.nm_genero SEPARATOR ', ') AS nm_genero,
         (
-            SELECT COALESCE(ROUND(AVG(av.nota), 2), 0)
+            SELECT COALESCE(ROUND(AVG(av.nota), 1), 0)
             FROM avaliacao av
             WHERE av.id_livro = l.id_livro
         ) AS nota_media
@@ -132,7 +132,7 @@ BEGIN
         GROUP_CONCAT(DISTINCT a.nm_autor SEPARATOR ', ') AS nm_autor,
         GROUP_CONCAT(DISTINCT g.nm_genero SEPARATOR ', ') AS nm_genero,
         (
-            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
             FROM avaliacao av_media
             WHERE av_media.id_livro = l.id_livro
         ) AS nota_media
@@ -174,7 +174,7 @@ BEGIN
         l.ano_publicacao,
         l.qnt_paginas,
         (
-            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
             FROM avaliacao av_media
             WHERE av_media.id_livro = l.id_livro
         ) AS nota_media
@@ -201,7 +201,7 @@ BEGIN
         l.ano_publicacao,
         l.qnt_paginas,
         (
-            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
             FROM avaliacao av_media
             WHERE av_media.id_livro = l.id_livro
         ) AS nota_media
@@ -234,7 +234,7 @@ BEGIN
         l.qnt_paginas,
         e.nm_editora,
         (
-            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
             FROM avaliacao av_media
             WHERE av_media.id_livro = l.id_livro
         ) AS nota_media
@@ -258,7 +258,7 @@ BEGIN
         l.qnt_paginas,
         e.nm_editora,
         (
-            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
             FROM avaliacao av_media
             WHERE av_media.id_livro = l.id_livro
         ) AS nota_media
@@ -284,7 +284,7 @@ BEGIN
         l.qnt_paginas,
         e.nm_editora,
         (
-            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
             FROM avaliacao av_media
             WHERE av_media.id_livro = l.id_livro
         ) AS nota_media
@@ -317,7 +317,7 @@ BEGIN
         ) AS generos,
         COUNT(DISTINCT lg.id_genero) AS generos_compativeis,
         (
-            SELECT COALESCE(ROUND(AVG(av.nota), 2), 0)
+            SELECT COALESCE(ROUND(AVG(av.nota), 1), 0)
             FROM avaliacao av
             WHERE av.id_livro = l.id_livro
         ) AS nota_media
@@ -399,7 +399,7 @@ BEGIN
         GROUP BY lg.id_livro
     ) generos ON generos.id_livro = l.id_livro
     LEFT JOIN (
-        SELECT av.id_livro, ROUND(AVG(av.nota), 2) AS nota_media
+        SELECT av.id_livro, ROUND(AVG(av.nota), 1) AS nota_media
         FROM avaliacao av
         GROUP BY av.id_livro
     ) notas ON notas.id_livro = l.id_livro
@@ -427,7 +427,7 @@ BEGIN
         b.favorito,
         b.visivel,
         (
-            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
             FROM avaliacao av_media
             WHERE av_media.id_livro = b.id_livro
         ) AS nota_media
@@ -458,7 +458,7 @@ BEGIN
         b.favorito,
         b.visivel,
         (
-            SELECT COALESCE(ROUND(AVG(av_media.nota), 2), 0)
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
             FROM avaliacao av_media
             WHERE av_media.id_livro = b.id_livro
         ) AS nota_media
@@ -488,7 +488,7 @@ BEGIN
         e.nm_editora,
         GROUP_CONCAT(DISTINCT au.nm_autor SEPARATOR ', ') AS nm_autor,
         GROUP_CONCAT(DISTINCT g.nm_genero SEPARATOR ', ') AS nm_genero,
-        COALESCE(ROUND(notas.nota_media_real, 2), 0) AS nota_media,
+        COALESCE(ROUND(notas.nota_media_real, 1), 0) AS nota_media,
         notas.quantidade_avaliacoes
     FROM livro l
     INNER JOIN livro_genero lg
@@ -533,7 +533,7 @@ CREATE PROCEDURE calcularNotaMediaLivro(
 BEGIN
     SELECT
         p_id_livro AS id_livro,
-        COALESCE(ROUND(AVG(nota), 2), 0) AS nota_media,
+        COALESCE(ROUND(AVG(nota), 1), 0) AS nota_media,
         COUNT(*) AS quantidade_avaliacoes
     FROM avaliacao
     WHERE id_livro = p_id_livro;

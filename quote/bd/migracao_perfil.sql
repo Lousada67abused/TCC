@@ -37,7 +37,7 @@ BEGIN
         GROUP BY lg.id_livro
     ) generos ON generos.id_livro = l.id_livro
     LEFT JOIN (
-        SELECT av.id_livro, ROUND(AVG(av.nota), 2) AS nota_media
+        SELECT av.id_livro, ROUND(AVG(av.nota), 1) AS nota_media
         FROM avaliacao av
         GROUP BY av.id_livro
     ) notas ON notas.id_livro = l.id_livro

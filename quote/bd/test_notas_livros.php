@@ -25,8 +25,8 @@ function consulta($db, $procedure, $parametros = []) {
     return $linhas;
 }
 $primeiroLivro = 9890000000001;
-$notas = [[5], [5, 4], [5, 5, 4, 4], [], array_merge([5], array_fill(0, 300, 4)), array_merge([5], array_fill(0, 249, 4))];
-$esperadas = [5, 4.5, 4.5, 0, 4, 4];
+$notas = [[5], [5, 5, 4], [5, 5, 5, 5, 4, 4], [], array_merge([5], array_fill(0, 300, 4)), array_merge([5], array_fill(0, 249, 4))];
+$esperadas = [5, 4.7, 4.7, 0, 4, 4];
 $casos = 0;
 try {
     $db->beginTransaction();
@@ -72,13 +72,14 @@ try {
             $i = (int)$linha['id_livro'] - $primeiroLivro;
             if ($i < 0 || $i >= count($esperadas)) continue;
             conferir(array_key_exists('nota_media', $linha), $nome . ': falta nota_media');
+            conferir(preg_match('/^\d+\.\d$/', (string)$linha['nota_media']) === 1, $nome . ': média deve ter uma casa decimal');
             conferir(abs((float)$linha['nota_media'] - $esperadas[$i]) < 0.00001, $nome . ': média incorreta');
             $encontrados[$i] = true;
         }
         conferir(count($encontrados) === $quantidade, $nome . ': livros ausentes ou filtro alterado');
         $casos++;
     }
-    foreach ([$multiplo => 4.5, $semNota => 0] as $id => $media) {
+    foreach ([$multiplo => 4.7, $semNota => 0] as $id => $media) {
         $linhas = consulta($db, 'calcularNotaMediaLivro', [$id]);
         conferir(abs((float)$linhas[0]['nota_media'] - $media) < 0.00001, 'Cálculo individual divergente');
         $casos++;
@@ -86,11 +87,11 @@ try {
     $ranking = consulta($db, 'rankingLivroGenero', [980001]);
     $ordem = array_map('strval', [$primeiroLivro, $multiplo, $primeiroLivro + 1, $primeiroLivro + 5, $primeiroLivro + 4]);
     conferir(array_column($ranking, 'id_livro') == $ordem, 'Ranking: ordem ou livros sem nota incorretos');
-    conferir(array_map('intval', array_column($ranking, 'quantidade_avaliacoes')) === [1, 4, 2, 250, 301],
+    conferir(array_map('intval', array_column($ranking, 'quantidade_avaliacoes')) === [1, 6, 3, 250, 301],
         'Contagem multiplicada por vínculos ou desempate incorreto');
     conferir(count(explode(', ', $ranking[1]['nm_autor'])) === 2 && count(explode(', ', $ranking[1]['nm_genero'])) === 2,
         'Autores ou gêneros omitidos no ranking');
-    // As últimas duas médias arredondam a 4,00; a maior média real tem menos avaliações.
+    // As últimas duas médias arredondam a 4,0; a maior média real tem menos avaliações.
     conferir((float)$ranking[3]['nota_media'] === 4.0 && (float)$ranking[4]['nota_media'] === 4.0, 'Fixture de arredondamento inválida');
     $geral = consulta($db, 'rankingLivroGenero', [0]);
     conferir(count($geral) >= 5 && count($geral) <= 10, 'Ranking geral/LIMIT incorreto');

@@ -22,7 +22,7 @@ mysql --default-character-set=utf8mb4 -u SEU_USUARIO -p quote < quote/bd/migraca
 
 Não é necessário recriar a estrutura nem importar a massa novamente.
 `filtroLivro` mantém a assinatura anterior e os campos de autores e gêneros,
-acrescentando `nota_media` com duas casas de precisão e zero sem avaliações. A média
+acrescentando `nota_media` com uma casa decimal de precisão e zero sem avaliações. A média
 é calculada uma vez por livro na consulta; não há uma chamada HTTP por capa.
 
 O modelo `Seguidor` agora consulta `sp_buscar_seguidos_por_usuario` e

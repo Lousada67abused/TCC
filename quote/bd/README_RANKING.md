@@ -22,7 +22,7 @@ botões com rolagem horizontal no celular.
   decrescente, título e código crescentes, com `LIMIT 10`. Usa a média real
   antes do arredondamento de apresentação. A interface preserva essa
   ordem e mostra posição, capa, título, autores, gêneros, ano de publicação,
-  nota média com até duas casas e quantidade de avaliações.
+  nota média com uma casa decimal e quantidade de avaliações.
 - Apenas livros avaliados participam da consulta existente. Se houver menos
   de dez, a tela mostra a quantidade disponível; um gênero sem avaliações
   apresenta uma mensagem vazia, sem preencher posições com livros fictícios.
