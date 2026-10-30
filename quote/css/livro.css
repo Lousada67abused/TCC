@@ -938,7 +938,7 @@ body:has(#popupFeedbackLivro[open]) {
         padding: 0 20px;
     }
 
-    .avatarHeader {
+    .headerDesktop .avatarHeader {
         width: 36px;
         height: 36px;
         border-radius: 50%;
