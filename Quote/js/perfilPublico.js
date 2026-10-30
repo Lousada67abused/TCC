@@ -95,7 +95,9 @@
             data.dateTime = iso;
             data.textContent = iso.split('-').reverse().join('/');
         }
-        conteudo.append(informacoes, estrelas, data, elemento('p', '', item.txt_resenha || 'Avaliação sem resenha.'));
+        const notaResenha = elemento('div', 'notaResenha');
+        notaResenha.append(estrelas, data);
+        conteudo.append(informacoes, notaResenha, elemento('p', '', item.txt_resenha || 'Avaliação sem resenha.'));
         const interacoes = elemento('div', 'acoesResenhaInteracoes');
         interacoes.append(window.CurtidasAvaliacao.criar(item), window.ComentariosAvaliacao.criar(item));
         conteudo.append(interacoes);
