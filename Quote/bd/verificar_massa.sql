@@ -47,8 +47,13 @@ SELECT 'avaliacao_duplicada_usuario_livro', COUNT(*) FROM (
     GROUP BY id_usuario, id_livro HAVING COUNT(*) > 1
 ) duplicadas
 UNION ALL
-SELECT 'nota_fora_de_zero_a_cinco', COUNT(*) FROM avaliacao
-WHERE nota IS NULL OR nota NOT BETWEEN 0 AND 5
+SELECT 'nota_fora_de_um_a_cinco', COUNT(*) FROM avaliacao
+WHERE nota IS NULL OR nota NOT BETWEEN 1 AND 5
+UNION ALL
+SELECT 'avaliacao_sem_data', COUNT(*) FROM avaliacao WHERE dt_avaliacao IS NULL
+UNION ALL
+SELECT 'resenha_com_prefixo_sobre', COUNT(*) FROM avaliacao
+WHERE TRIM(txt_resenha) REGEXP '^Sobre([[:space:]]|[.])'
 UNION ALL
 SELECT 'avaliacao_sem_livro_na_biblioteca', COUNT(*) FROM avaliacao a
 WHERE NOT EXISTS (SELECT 1 FROM biblioteca b
@@ -69,6 +74,8 @@ FROM comentario c JOIN avaliacao a ON a.id_avaliacao = c.id_avaliacao
 WHERE c.dt_comentario < a.dt_avaliacao
 UNION ALL
 SELECT 'comentario_futuro', COUNT(*) FROM comentario WHERE dt_comentario > CURRENT_DATE()
+UNION ALL
+SELECT 'comentario_sem_data', COUNT(*) FROM comentario WHERE dt_comentario IS NULL
 UNION ALL
 SELECT 'usuario_seguindo_a_si_mesmo', COUNT(*) FROM seguidor WHERE id_seguidor = id_seguido
 UNION ALL
@@ -91,6 +98,11 @@ SELECT 'biblioteca_compartilhada_por_usuarios', COUNT(*) FROM (
 UNION ALL
 SELECT 'meta_nao_positiva', COUNT(*) FROM meta_leitura WHERE qnt_livros IS NULL OR qnt_livros <= 0
 UNION ALL
+SELECT 'meta_duplicada_usuario_ano', COUNT(*) FROM (
+    SELECT id_usuario, YEAR(data) AS ano FROM meta_leitura
+    GROUP BY id_usuario, YEAR(data) HAVING COUNT(*) > 1
+) duplicadas
+UNION ALL
 SELECT 'senha_incompativel_com_login', COUNT(*) FROM usuario
 WHERE senha IS NULL OR senha <> MD5('123');
 
@@ -98,6 +110,15 @@ WHERE senha IS NULL OR senha <> MD5('123');
 SELECT status, favorito, visivel, COUNT(*) AS quantidade FROM biblioteca GROUP BY status, favorito, visivel;
 SELECT nota, COUNT(*) AS quantidade FROM avaliacao GROUP BY nota ORDER BY nota;
 SELECT tipo_usuario, COUNT(*) AS quantidade FROM usuario GROUP BY tipo_usuario;
+
+-- Livros lidos por conta e ano, com o mesmo critério das metas de leitura.
+SELECT b.id_usuario, YEAR(a.dt_avaliacao) AS ano,
+       COUNT(DISTINCT b.id_livro) AS livros_lidos
+FROM biblioteca b
+INNER JOIN avaliacao a ON a.id_usuario = b.id_usuario AND a.id_livro = b.id_livro
+WHERE b.status = 'lido' AND a.dt_avaliacao IS NOT NULL
+GROUP BY b.id_usuario, YEAR(a.dt_avaliacao)
+ORDER BY b.id_usuario, ano;
 
 -- O app monta as capas diretamente a partir do ISBN, sem uma coluna adicional.
 SELECT id_livro, titulo,

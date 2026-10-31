@@ -8,27 +8,29 @@ usando a mesma expressão do aplicativo:
 "https://covers.openlibrary.org/b/isbn/" + livro.id_livro + "-L.jpg"
 ```
 
-| Tabela | Antes | Nova massa |
+| Tabela | Massa anterior | Massa ampliada |
 | --- | ---: | ---: |
-| usuario | 15 | 100 |
-| genero | 15 | 20 |
-| editora | 22 | 71 |
-| autor | 62 | 111 |
-| livro | 93 | 196 |
-| autor_livro | 94 | 202 |
-| livro_genero | 159 | 364 |
-| preferencia_usuario | 35 | 297 |
-| seguidor | 43 | 794 |
-| biblioteca | 126 | 2.970 |
-| meta_leitura | 21 | 198 |
-| avaliacao | 88 | 2.178 |
-| curtida_avaliacao | 174 | 6.534 |
-| comentario | 33 | 2.178 |
+| usuario | 100 | 200 |
+| genero | 20 | 29 |
+| editora | 71 | 94 |
+| autor | 111 | 180 |
+| livro | 196 | 263 |
+| autor_livro | 202 | 286 |
+| livro_genero | 364 | 548 |
+| preferencia_usuario | 297 | 693 |
+| seguidor | 794 | 2.180 |
+| biblioteca | 2.970 | 7.722 |
+| meta_leitura | 198 | 495 |
+| avaliacao | 2.178 | 5.742 |
+| curtida_avaliacao | 6.534 | 20.790 |
+| comentario | 2.178 | 9.306 |
 
-Dos 93 ISBNs originais, 78 passaram na consulta de capa; os outros 15 foram
-excluídos. Foram acrescentados 118 ISBNs com capa confirmada, após verificar
-122 candidatos adicionais. Os relacionamentos e as interações foram gerados
-para o catálogo final de 196 livros.
+Os 196 livros anteriores foram preservados. A ampliação acrescenta 67 ISBNs
+com capa confirmada entre 69 candidatos consultados em 31/10/2026; os dois sem
+capa foram excluídos. Os novos títulos incluem literatura infantil, mistérios,
+contos, memórias e livros técnicos, com autores, editoras e gêneros vinculados.
+As 297 avaliações que tinham nota zero passam a ter nota 1; seus IDs,
+resenhas, datas, curtidas e comentários permanecem preservados.
 
 ## Importação
 
@@ -58,27 +60,26 @@ atual do projeto. Exemplos:
 
 - `leitor001@example.com`: usuário comum, ID 1, com biblioteca e atividade.
 - `leitor016@example.com`: administrador, ID 16.
-- `leitor100@example.com`: usuário comum, ID 100, sem atividade, para telas vazias.
+- `leitor100@example.com` e `leitor200@example.com`: contas sem atividade, para telas vazias.
+- `leitor101@example.com`: conta com 20 livros lidos em 2024, 3 em 2025 e 5 em
+  2026, para conferir a separação das metas por ano.
 
 As contas e suas interações são fictícias. Todos os e-mails, inclusive os das
 15 contas originais, usam o domínio reservado `example.com`; o SQL calcula
 `MD5('123')` para uma senha de demonstração conhecida. Há bibliotecas públicas e privadas, os quatro
 status (`lido`, `lendo`, `quero ler`, `desisti`), o campo independente
-`favorito` (`1` para favorito e `0` para não favorito), avaliações de 0 a 5,
+`favorito` (`1` para favorito e `0` para não favorito), avaliações de **1 a 5**,
 curtidas de outros usuários, comentários posteriores às avaliações, seguidores,
-preferências e metas para 2025 e 2026. Os livros têm editora, autor principal,
+preferências e metas para 2024, 2025 e 2026. Os livros têm editora, autor principal,
 vínculos em `autor_livro` e gêneros; há também coautoria e múltiplos gêneros.
 
-Os 396 itens que usavam o antigo status `favorito` agora usam `status = 'lido'`
-e `favorito = 1`. Os outros 2.574 itens têm `favorito = 0`, conservando seus
-status, visibilidade e relacionamentos. Assim, a massa tem 1.980 itens lidos,
-297 em leitura, 495 em "quero ler" e 198 abandonados; as 2.970 entradas foram
-preservadas. Contagens e metas usam somente o status `lido`, independentemente
-do campo `favorito`.
-
-Para atualizar uma base existente sem recriar as tabelas, consulte
-[a migração da biblioteca](../../quote/bd/README_BIBLIOTECA.md). Nesse caso,
-execute a migração e recarregue as procedures, em vez do script de estrutura.
+A massa ampliada tem 4.752 itens lidos, 1.089 em leitura, 1.287 em "quero ler"
+e 594 abandonados, somando 7.722 entradas. Há 891 favoritos, sempre com
+`favorito = 1`; os outros itens usam `favorito = 0`. Os livros lidos e avaliados
+contam somente para a meta do ano de `dt_avaliacao`, independentemente de serem
+favoritos. As novas avaliações e comentários têm datas entre 2024 e outubro
+de 2026, sem registros futuros nem comentários anteriores à avaliação.
+Os textos das resenhas começam diretamente pela opinião, sem o prefixo "Sobre...".
 
 As datas de publicação dos títulos novos representam a edição do ISBN, não a
 primeira publicação da obra. Quando só o ano era conhecido, foi usado 1º de
@@ -129,15 +130,18 @@ Os testes do verificador não acessam a rede:
 python3 -m unittest discover -s Quote/bd -p 'test_verificar_capas.py' -v
 ```
 
-Validação realizada em 21/10/2026: importação em MariaDB 11.8.6 isolado, com
-modo estrito, `ONLY_FULL_GROUP_BY` e chaves estrangeiras ativas; 19 verificações
-de consistência sem falhas; login, ranking, recomendações, biblioteca, feed,
-metas, detalhe de livro, comentários e curtidas consultados com sucesso;
-14 testes automatizados do verificador aprovados. O manifesto corresponde
-exatamente aos 196 ISBNs importados: 45 respostas JPEG e 151 redirecionamentos
-de capa reconhecidos. A execução em MySQL não foi testada neste ambiente.
+Validação da ampliação realizada em 31/10/2026: importação em MariaDB 11.8.6
+isolado com modo estrito, `ONLY_FULL_GROUP_BY` e chaves estrangeiras ativas.
+Todas as 14 tabelas aumentaram; as 25 verificações de consistência passaram,
+incluindo notas de 1 a 5, datas obrigatórias, ausência de prefixo nas resenhas e
+metas únicas por usuário/ano. Os dados anteriores foram preservados, com a
+única correção das 297 notas zero para 1.
 
-Após separar o favorito, em 22/10/2026, a importação foi repetida em MariaDB
-11.8.6 isolado com as mesmas restrições: as 21 verificações atuais passaram,
-incluindo as duas novas de status e favorito. A migração também preservou os
-2.970 registros nos formatos antigo e novo, inclusive após reexecução.
+Login de conta antiga, nova e vazia, biblioteca, avaliações, feed, ranking,
+recomendações, comentários, curtidas e metas foram consultados pelas procedures.
+A conta 101 retorna 3 leituras na meta de 2025 e 5 na de 2026. O manifesto
+corresponde exatamente aos 263 ISBNs: 49 respostas JPEG e 214 redirecionamentos
+de capa reconhecidos. Os 67 ISBNs novos foram consultados individualmente;
+as verificações dos livros anteriores mantêm as datas registradas no CSV.
+Os 14 testes automatizados do verificador de capas passaram. A execução em
+MySQL não foi testada neste ambiente. Nenhum banco remoto foi alterado.
