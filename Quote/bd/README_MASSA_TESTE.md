@@ -1,40 +1,41 @@
 # Massa de teste do Quote
 
-`script_insert.sql` preenche as 14 tabelas do banco com dados de desenvolvimento.
-Os livros usam ISBNs reais de 13 dígitos em `livro.id_livro`. As capas continuam
-usando a mesma expressão do aplicativo:
+`script_insert.sql` preenche as 14 tabelas com dados de desenvolvimento.
+O catálogo contém **51 livros com imagem JPEG efetivamente validada** pela
+mesma URL usada no aplicativo:
 
 ```js
 "https://covers.openlibrary.org/b/isbn/" + livro.id_livro + "-L.jpg"
 ```
 
-| Tabela | Massa anterior | Massa ampliada |
+| Tabela | Antes do filtro de capas | Massa atual |
 | --- | ---: | ---: |
-| usuario | 100 | 200 |
-| genero | 20 | 29 |
-| editora | 71 | 94 |
-| autor | 111 | 180 |
-| livro | 196 | 263 |
-| autor_livro | 202 | 286 |
-| livro_genero | 364 | 548 |
-| preferencia_usuario | 297 | 693 |
-| seguidor | 794 | 2.180 |
-| biblioteca | 2.970 | 7.722 |
-| meta_leitura | 198 | 495 |
-| avaliacao | 2.178 | 5.742 |
-| curtida_avaliacao | 6.534 | 20.790 |
-| comentario | 2.178 | 9.306 |
+| usuario | 200 | 200 |
+| genero | 29 | 29 |
+| editora | 94 | 94 |
+| autor | 180 | 180 |
+| livro | 263 | 51 |
+| autor_livro | 286 | 53 |
+| livro_genero | 548 | 91 |
+| preferencia_usuario | 693 | 693 |
+| seguidor | 2.180 | 2.180 |
+| biblioteca | 7.722 | 1.658 |
+| meta_leitura | 495 | 495 |
+| avaliacao | 5.742 | 1.232 |
+| curtida_avaliacao | 20.790 | 4.407 |
+| comentario | 9.306 | 1.943 |
 
-Os 196 livros anteriores foram preservados. A ampliação acrescenta 67 ISBNs
-com capa confirmada entre 69 candidatos consultados em 31/10/2026; os dois sem
-capa foram excluídos. Os novos títulos incluem literatura infantil, mistérios,
-contos, memórias e livros técnicos, com autores, editoras e gêneros vinculados.
-As 297 avaliações que tinham nota zero passam a ter nota 1; seus IDs,
-resenhas, datas, curtidas e comentários permanecem preservados.
+O filtro mantém somente os ISBNs cuja URL retornou HTTP 200 com JPEG completo
+e dimensões de pelo menos 100 × 100 pixels. Os 212 ISBNs que retornaram apenas
+redirecionamentos ficaram fora da seleção, pois a imagem final não foi validada.
+Foram removidos também seus vínculos com autores/gêneros, itens de estante,
+avaliações, curtidas e comentários dependentes. Os registros mantidos conservam
+seus IDs e valores; usuários, autores, editoras, gêneros, preferências, seguidores
+e metas permanecem preservados.
 
 ## Importação
 
-Na raiz do repositório, importe os arquivos nesta ordem em MySQL ou MariaDB:
+Na raiz do repositório, importe nesta ordem em MySQL ou MariaDB:
 
 ```sh
 mysql --default-character-set=utf8mb4 -u root -p < quote/bd/script_estrutura.sql
@@ -44,104 +45,78 @@ mysql --default-character-set=utf8mb4 -u root -p < Quote/bd/verificar_massa.sql
 ```
 
 O arquivo de estrutura existente **apaga e recria o schema `quote`**. Use uma
-instância separada de desenvolvimento, sem dados a preservar. O seed exige as
-tabelas vazias; ele não apaga registros, não desativa chaves estrangeiras e não
-deve ser executado duas vezes na mesma base. Sua importação usa uma transação.
+instância separada de desenvolvimento, sem dados a preservar. O arquivo de
+inserts exige tabelas vazias; não apaga registros, não desativa chaves
+estrangeiras e não deve ser executado duas vezes na mesma base. A importação
+usa uma transação. Não é uma migração incremental de uma base já preenchida.
 
-Observe a diferença entre `Quote/` e `quote/` nos caminhos do repositório,
-especialmente em Linux. É possível abrir os mesmos arquivos no MySQL Workbench
-e executar na ordem indicada. `script_test_spc.sql` é um roteiro antigo de
-procedures e não faz parte desta importação.
+Observe `Quote/` e `quote/` nos caminhos, especialmente em Linux. Os mesmos
+arquivos podem ser executados no MySQL Workbench na ordem indicada.
+`script_test_spc.sql` é um roteiro antigo e não faz parte desta importação.
 
 ## Contas e cenários
 
-As contas de demonstração usam a senha **`123`**, com o MD5 exigido pelo login
-atual do projeto. Exemplos:
+Todas as contas do arquivo usam a senha **`123`**, calculada com `MD5('123')`
+para o login atual do projeto. Exemplos:
 
-- `leitor001@example.com`: usuário comum, ID 1, com biblioteca e atividade.
-- `leitor016@example.com`: administrador, ID 16.
-- `leitor100@example.com` e `leitor200@example.com`: contas sem atividade, para telas vazias.
-- `leitor101@example.com`: conta com 20 livros lidos em 2024, 3 em 2025 e 5 em
-  2026, para conferir a separação das metas por ano.
+- `leitor001@example.com`: conta comum com biblioteca e atividade.
+- `leitor101@example.com`: administrador com metas em 2024, 2025 e 2026.
+- `leitor100@example.com` e `leitor200@example.com`: contas sem atividade.
 
-As contas e suas interações são fictícias. Todos os e-mails, inclusive os das
-15 contas originais, usam o domínio reservado `example.com`; o SQL calcula
-`MD5('123')` para uma senha de demonstração conhecida. Há bibliotecas públicas e privadas, os quatro
-status (`lido`, `lendo`, `quero ler`, `desisti`), o campo independente
-`favorito` (`1` para favorito e `0` para não favorito), avaliações de **1 a 5**,
-curtidas de outros usuários, comentários posteriores às avaliações, seguidores,
-preferências e metas para 2024, 2025 e 2026. Os livros têm editora, autor principal,
-vínculos em `autor_livro` e gêneros; há também coautoria e múltiplos gêneros.
+As 1.658 entradas de estante incluem 1.020 livros lidos, 226 em leitura,
+278 em "quero ler" e 134 abandonados. Há 190 favoritos, identificados por
+`favorito = 1`; os demais usam `favorito = 0`. A visibilidade também varia
+entre 0 e 1. As 1.232 avaliações usam somente notas de **1 a 5**, sem o prefixo
+"Sobre..." nas resenhas. As datas vão de 2024 a outubro de 2026, com comentários
+na data da avaliação ou depois dela, sem registros futuros.
 
-A massa ampliada tem 4.752 itens lidos, 1.089 em leitura, 1.287 em "quero ler"
-e 594 abandonados, somando 7.722 entradas. Há 891 favoritos, sempre com
-`favorito = 1`; os outros itens usam `favorito = 0`. Os livros lidos e avaliados
-contam somente para a meta do ano de `dt_avaliacao`, independentemente de serem
-favoritos. As novas avaliações e comentários têm datas entre 2024 e outubro
-de 2026, sem registros futuros nem comentários anteriores à avaliação.
-Os textos das resenhas começam diretamente pela opinião, sem o prefixo "Sobre...".
+Metas contam somente os livros atualmente marcados como lidos e avaliados no
+ano da meta, independentemente de serem favoritos. Depois do filtro, a conta
+101 tem uma leitura em 2024, uma em 2025 e três em 2026. As quantidades das
+metas foram preservadas, e o progresso é recalculado pelas procedures.
 
-As datas de publicação dos títulos novos representam a edição do ISBN, não a
-primeira publicação da obra. Quando só o ano era conhecido, foi usado 1º de
-janeiro; páginas desconhecidas ficam em branco. As sinopses novas são resumos
-curtos para demonstração. O catálogo contém edições em português e em inglês,
-mantendo o título da edição correspondente ao ISBN.
+As datas de publicação representam a edição do ISBN. Quando só o ano era
+conhecido, foi usado 1º de janeiro; páginas desconhecidas ficam em branco.
+As sinopses são resumos curtos de demonstração. Há edições em português e inglês.
 
 ## Verificação das capas
 
-`capas_verificadas.csv` registra a consulta individual de cada ISBN incluído,
-com título, URL, data UTC, status HTTP e resultado. ISBNs com HTTP 404, erros,
-respostas inválidas ou imagens pequenas foram excluídos da seleção.
-
-A verificação acrescenta `?default=false` à URL para distinguir ausência de capa
-da imagem vazia que o Open Library retorna por padrão. O aplicativo continua
-usando a URL sem esse parâmetro.
-
-- `ok_jpeg`: o serviço retornou um JPEG com pelo menos 100 × 100 pixels; o
-  relatório registra dimensões e SHA-256 do conteúdo.
-- `ok_redirect`: o serviço associou o ISBN a um endereço conhecido de capa no
-  `archive.org` ou a um ID de capa do próprio Open Library. O destino é
-  registrado; a imagem de destino não foi baixada, pois `archive.org` não estava
-  liberado na rede de validação. Isso confirma a associação informada pelo
-  provedor, sem verificar o download final nem o conteúdo visual dessa capa.
-
-A disponibilidade é a observada no horário registrado; o serviço externo pode
-mudar. Para conferir novamente todos os livros, com Python 3 e sem dependências:
+`capas_verificadas.csv` contém exatamente os 51 ISBNs do catálogo, todos com
+`resultado = ok_jpeg`, HTTP 200, URL sem parâmetros, data UTC, dimensões e
+SHA-256 do conteúdo recebido. Para revalidar:
 
 ```sh
 python3 Quote/bd/verificar_capas.py --output capas_reverificadas.csv
 ```
 
-O verificador usa GET, não segue redirects e permite apenas os formatos de
-destino de capa conhecidos. Falhas temporárias têm novas tentativas com espera
-limitada; respostas inconclusivas fazem o comando falhar. O comando retorna 0
-somente quando todas as capas foram confirmadas. A concorrência padrão é 1;
-`--workers 2` permite duas consultas simultâneas.
+O verificador usa a URL exata do aplicativo, sem `?default=false`, e valida os
+bytes da imagem. JPEGs incompletos, imagens menores que 100 × 100, respostas
+inválidas, erros e redirecionamentos não são aceitos. Um redirecionamento conhecido
+é registrado como `redirect_nao_verificado`, sem seguir seu destino e sem afirmar
+que a capa está ausente. Apenas `ok_jpeg` é sucesso.
+
+O comando retorna 0 somente quando todas as imagens foram validadas. Falhas
+transitórias têm novas tentativas com espera limitada; `--workers 2` permite
+duas consultas simultâneas. A disponibilidade é a observada na data registrada
+no manifesto e pode mudar no serviço externo.
 
 ## Validação
 
-`verificar_massa.sql` apresenta contagens, distribuição dos cenários, URLs de
-capa e verificações de consistência. Todos os valores da coluna `falhas` devem
-ser zero. Chaves estrangeiras permanecem ativas durante a importação.
+A seleção foi reimportada em MariaDB 11.8.6 isolado em 31/10/2026, com modo
+estrito, `ONLY_FULL_GROUP_BY` e chaves estrangeiras ativas. As 25 verificações
+em `verificar_massa.sql` passaram sem falhas. Foram comparados todos os registros
+antes e depois do filtro para confirmar a remoção completa das dependências e
+a preservação dos dados restantes. Nenhum banco remoto foi alterado.
 
-Os testes do verificador não acessam a rede:
+O manifesto corresponde aos 51 ISBNs importados; dimensões e hashes foram
+conferidos contra os JPEGs recebidos. Login, estante, ranking, feed,
+recomendações, metas e avaliações foram consultados pelas procedures.
+
+Os 15 testes do verificador de capas passaram, incluindo a regressão que exige
+falha no CLI quando há apenas um redirecionamento conhecido, sem imagem validada:
 
 ```sh
 python3 -m unittest discover -s Quote/bd -p 'test_verificar_capas.py' -v
 ```
 
-Validação da ampliação realizada em 31/10/2026: importação em MariaDB 11.8.6
-isolado com modo estrito, `ONLY_FULL_GROUP_BY` e chaves estrangeiras ativas.
-Todas as 14 tabelas aumentaram; as 25 verificações de consistência passaram,
-incluindo notas de 1 a 5, datas obrigatórias, ausência de prefixo nas resenhas e
-metas únicas por usuário/ano. Os dados anteriores foram preservados, com a
-única correção das 297 notas zero para 1.
-
-Login de conta antiga, nova e vazia, biblioteca, avaliações, feed, ranking,
-recomendações, comentários, curtidas e metas foram consultados pelas procedures.
-A conta 101 retorna 3 leituras na meta de 2025 e 5 na de 2026. O manifesto
-corresponde exatamente aos 263 ISBNs: 49 respostas JPEG e 214 redirecionamentos
-de capa reconhecidos. Os 67 ISBNs novos foram consultados individualmente;
-as verificações dos livros anteriores mantêm as datas registradas no CSV.
-Os 14 testes automatizados do verificador de capas passaram. A execução em
-MySQL não foi testada neste ambiente. Nenhum banco remoto foi alterado.
+A execução em MySQL não foi testada neste ambiente.
