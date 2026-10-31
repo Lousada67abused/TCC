@@ -59,7 +59,7 @@ class ResponseTests(unittest.TestCase):
         for data in (b"", b"<html>error</html>", jpeg()[:-2], b"\xff\xd8\xff\xe0\xff\xff\xff\xd9"):
             self.assertEqual(covers.classify_response(200, {}, data)["resultado"], "resposta_invalida")
 
-    def test_only_known_cover_redirects_pass(self):
+    def test_known_cover_redirects_remain_unverified(self):
         valid = ["https://archive.org/download/l_covers_0012/l_covers_0012_08.zip/0012089999-L.jpg",
                  "https://archive.org/download/olcovers542/olcovers542-L.zip/5423842-L.jpg",
                  "https://covers.openlibrary.org/b/id/123456-L.jpg"]
@@ -78,7 +78,10 @@ class ResponseTests(unittest.TestCase):
                    "https://covers.openlibrary.org/b/id/1-L.jpg?default=true", ""]
         for url in valid + invalid:
             actual = covers.classify_response(302, {"Location": url})
-            self.assertEqual(actual["resultado"] == "ok_redirect", url in valid, url)
+            expected = "redirect_nao_verificado" if url in valid else "redirecionamento_invalido"
+            self.assertEqual(actual["resultado"], expected, url)
+            self.assertNotIn(actual["resultado"], covers.SUCCESS, url)
+            self.assertEqual(actual["sha256"], "", url)
 
     def test_missing_and_transient_errors_are_distinct(self):
         self.assertEqual(covers.classify_response(404, {})["resultado"], "sem_capa")
@@ -93,11 +96,11 @@ class RequestTests(unittest.TestCase):
         error = HTTPError("test", 302, "Found", {"Location": "https://covers.openlibrary.org/b/id/123-L.jpg"}, BytesIO())
         client.open.side_effect = error
         result = covers.check_isbn("9788535914849", opener=client)
-        self.assertEqual(result["resultado"], "ok_redirect")
+        self.assertEqual(result["resultado"], "redirect_nao_verificado")
         self.assertEqual(client.open.call_count, 1)
         request = client.open.call_args.args[0]
         self.assertEqual(request.get_method(), "GET")
-        self.assertEqual(request.full_url, "https://covers.openlibrary.org/b/isbn/9788535914849-L.jpg?default=false")
+        self.assertEqual(request.full_url, "https://covers.openlibrary.org/b/isbn/9788535914849-L.jpg")
         self.assertIsNone(covers.NoRedirect().redirect_request(None, None, 302, "", {}, "https://example.com"))
 
     def test_retry_after_then_success(self):
@@ -143,10 +146,30 @@ class RequestTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as temp, patch.object(covers, "check_isbn", return_value=row):
             path = Path(temp) / "result.csv"
             self.assertEqual(covers.main(["--isbn", row["isbn"], "--output", str(path)]), 1)
+            self.assertNotIn(b"\r\n", path.read_bytes())
             with path.open(encoding="utf-8", newline="") as file:
                 reader = csv.DictReader(file)
                 self.assertEqual(tuple(reader.fieldnames), covers.FIELDS)
                 self.assertEqual(list(reader)[0]["resultado"], "erro_temporario")
+
+    def test_cli_rejects_known_302_without_downloading_image(self):
+        client = Mock()
+        redirect = response(302, headers={
+            "Location": "https://archive.org/download/olcovers542/olcovers542-L.zip/5423842-L.jpg",
+        })
+        client.open.return_value = redirect
+        with tempfile.TemporaryDirectory() as temp, patch.object(covers, "build_opener", return_value=client) as build:
+            path = Path(temp) / "redirect.csv"
+            self.assertEqual(covers.main(["--isbn", "9788535914849", "--output", str(path)]), 1)
+            with path.open(encoding="utf-8", newline="") as file:
+                row = next(csv.DictReader(file))
+            self.assertEqual(row["resultado"], "redirect_nao_verificado")
+            self.assertEqual(row["url"], "https://covers.openlibrary.org/b/isbn/9788535914849-L.jpg")
+            self.assertEqual(row["sha256"], "")
+            self.assertIsInstance(build.call_args.args[0], covers.NoRedirect)
+            client.open.assert_called_once()
+            redirect.read.assert_not_called()
+            self.assertNotIn(b"\r\n", path.read_bytes())
 
 
 if __name__ == "__main__":

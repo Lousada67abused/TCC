@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Verifica capas do seed no Open Library sem seguir redirecionamentos.
+"""Valida JPEGs de capa pela mesma URL usada no aplicativo, sem redirects.
 
-Somente a biblioteca padrão é necessária. Um redirect conhecido confirma que o
-Open Library associou uma capa ao ISBN; não representa um download dessa imagem.
+Somente a biblioteca padrão é necessária. Apenas uma resposta JPEG válida com
+pelo menos 100 × 100 pixels é sucesso. Redirecionamentos são registrados como
+não verificados, sem baixar o destino nem tratá-los como ausência de capa.
 """
 
 import argparse
@@ -26,7 +27,7 @@ FIELDS = (
     "destino", "largura", "altura", "sha256",
 )
 MAX_BYTES = 10 * 1024 * 1024
-SUCCESS = {"ok_jpeg", "ok_redirect"}
+SUCCESS = {"ok_jpeg"}
 REDIRECTS = {301, 302, 303, 307, 308}
 
 
@@ -102,7 +103,7 @@ def jpeg_dimensions(data):
 
 
 def valid_cover_redirect(destination):
-    """Permite apenas URLs HTTPS conhecidas de capas, sem query/fragment."""
+    """Reconhece URLs HTTPS de capas sem confirmar a imagem do destino."""
     try:
         parsed = urlsplit(destination)
     except ValueError:
@@ -133,7 +134,7 @@ def classify_response(status, headers, body=b""):
     if status in REDIRECTS:
         result["destino"] = normalized.get("location", "")
         result["resultado"] = (
-            "ok_redirect" if valid_cover_redirect(result["destino"])
+            "redirect_nao_verificado" if valid_cover_redirect(result["destino"])
             else "redirecionamento_invalido"
         )
     elif status == 200:
@@ -171,11 +172,11 @@ def retry_delay(headers, attempt):
 
 
 def check_isbn(isbn, titulo="", timeout=25, retries=3, opener=None, sleep_fn=time.sleep):
-    """Verifica um ISBN (3 novas tentativas para falhas transitórias por padrão)."""
+    """Consulta a URL exata do app, com novas tentativas só para falhas transitórias."""
     isbn = str(isbn)
     if not valid_isbn(isbn):
         raise ValueError("ISBN-13 inválido: confira o prefixo 978/979 e o dígito verificador.")
-    url = f"https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg?default=false"
+    url = f"https://covers.openlibrary.org/b/isbn/{isbn}-L.jpg"
     client = opener or build_opener(NoRedirect())
     result = None
     for attempt in range(retries + 1):
@@ -226,14 +227,14 @@ def main(argv=None):
             rows = list(pool.map(lambda book: check_isbn(*book, timeout=args.timeout), books))
         args.output.parent.mkdir(parents=True, exist_ok=True)
         with args.output.open("w", encoding="utf-8", newline="") as file:
-            writer = csv.DictWriter(file, fieldnames=FIELDS)
+            writer = csv.DictWriter(file, fieldnames=FIELDS, lineterminator="\n")
             writer.writeheader()
             writer.writerows(rows)
     except (OSError, ValueError) as error:
         print(f"Erro: {error}", file=sys.stderr)
         return 2
     failures = sum(row["resultado"] not in SUCCESS for row in rows)
-    print(f"{len(rows) - failures}/{len(rows)} capas confirmadas; relatório: {args.output}")
+    print(f"{len(rows) - failures}/{len(rows)} capas com JPEG validado; relatório: {args.output}")
     return 1 if failures else 0
 
 
