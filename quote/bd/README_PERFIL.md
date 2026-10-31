@@ -6,15 +6,15 @@ estante, avaliações e metas são consultados no banco, sem dados de exemplo.
 
 ## Atualização de uma base existente
 
-Execute apenas a migração do perfil:
+Para atualizar as consultas do perfil em uma base existente:
 
 ```sh
 mysql --default-character-set=utf8mb4 -u root -p < quote/bd/migracao_perfil.sql
 ```
 
-Ela atualiza `buscarBibliotecaUsuario`, `buscarAvaliacaoUsuario` e
-`buscarMetaUsuario`, preservando campos e assinaturas. Não altera tabelas nem
-registros. Uma instalação nova pode usar `script_spc.sql`, que contém as mesmas
+Ela atualiza `buscarBibliotecaUsuario`, `buscarAvaliacaoUsuario`,
+`buscarMetaUsuario` e `calcularProgressoMeta`, preservando campos e assinaturas.
+Não altera tabelas nem registros. Uma instalação nova pode usar `script_spc.sql`, que contém as mesmas
 consultas. Não é necessário importar a massa novamente.
 
 ## Dados e navegação
@@ -30,13 +30,30 @@ consultas. Não é necessário importar a massa novamente.
   metas existentes. Quantidade e identificadores precisam ser inteiros positivos
   e a data deve existir no calendário.
 
-A estante não registra a data em que um livro foi concluído. Por isso, o
-progresso das metas e o resumo de leituras consideram os livros atualmente
-marcados como `lido`, inclusive ao selecionar metas de anos anteriores. A
-atividade apresenta avaliações com suas datas e, depois, os status e favoritos
-atuais da estante. Como a estante não guarda a data dessas escolhas, essas linhas
-exibem `—`, com uma indicação acessível de que a data não foi registrada. Não
-há histórico novo nem alteração no banco. As melhores avaliações usam o ano da avaliação.
+As metas e o resumo anual consideram somente livros atualmente marcados como
+`lido` que tenham uma avaliação do mesmo usuário no ano selecionado, usando
+`avaliacao.dt_avaliacao` como referência. Cada livro conta uma vez por ano.
+Por exemplo, três livros avaliados em 2025 e cinco em 2026 geram contagens de
+três e cinco, respectivamente. Livros sem avaliação ou com data nula não entram
+na contagem anual; as datas antigas não são inventadas nem substituídas por hoje.
+
+O cadastro da avaliação já grava `CURDATE()` no banco, sem depender do relógio
+do navegador. Editar nota ou texto preserva a data original. Avaliações de livros
+`lendo`, `quero ler` ou `desisti` não aumentam o progresso da meta. Remover a
+avaliação ou tirar o livro de `lido` faz com que ele deixe de contar.
+
+Para aplicar apenas essa correção anual em uma base que já tem o perfil:
+
+```sh
+mysql --default-character-set=utf8mb4 -u root -p < quote/bd/migracao_metas_por_ano.sql
+```
+
+A migração pode ser reaplicada; atualiza apenas `buscarMetaUsuario` e
+`calcularProgressoMeta`, sem alterar tabelas ou registros. `script_spc.sql` e
+`migracao_perfil.sql` mantêm as mesmas definições. Não é preciso reimportar a massa.
+O total geral de lidos no cabeçalho do perfil continua sendo o total da estante.
+A atividade usa as datas das avaliações; status e favoritos sem data própria
+continuam exibindo `—`. Médias e melhores avaliações usam o ano da avaliação.
 
 As abas aceitam links como `perfil.html#estante` e `perfil.html#metas` e acompanham
 o histórico do navegador. As capas usam o ISBN em
@@ -106,7 +123,7 @@ usuário e título em destaque, estrelas nas avaliações e tempo relativo à di
 O botão `ver mais` exibe cinco linhas adicionais. Os títulos levam ao livro.
 Textos maiores nos cards de livros têm reticências.
 
-A tela de metas mostra o progresso circular e em barra, os lidos acumulados,
+A tela de metas mostra o progresso circular e em barra, os livros lidos no ano da meta,
 a média das avaliações do ano da meta e os dias até o prazo. O histórico usa
 linhas compactas; o menu `⋯` permite editar ou excluir cada meta. Percentuais
 acima de 100% permanecem no texto, com o preenchimento limitado ao círculo ou
@@ -119,6 +136,19 @@ uma gravação falhar, a interface reconsulta as metas antes de permitir outro
 cadastro, evitando repetir uma operação que já pode ter sido salva.
 
 ## Verificação
+
+O teste de regressão anual pode ser executado em uma base isolada com as
+procedures carregadas:
+
+```sh
+php quote/bd/test_metas_por_ano.php /caminho/cliente-teste.cnf
+```
+
+O arquivo de conexão usa a seção `[client]` com `socket`, `user` e `password`.
+As fixtures são revertidas por rollback. O teste cobre três leituras em 2025,
+cinco em 2026, limites de ano, metas sem leituras, contas diferentes, livros
+sem avaliação/data, status não lido, duplicatas históricas, progresso limitado
+à meta e datas de cadastro e edição das avaliações.
 
 Consultas comparadas ao MariaDB isolado para duas contas, incluindo contagens,
 metadados, favoritos e progresso. SQL estrito com `ONLY_FULL_GROUP_BY` verificou

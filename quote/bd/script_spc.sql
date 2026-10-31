@@ -83,7 +83,7 @@ CREATE PROCEDURE buscarMetaUsuario(
     IN p_id_usuario INT
 )
 BEGIN
-    -- A biblioteca não registra a data da leitura: o progresso é acumulado.
+    -- A data da avaliação identifica o ano da leitura dos livros marcados como lidos.
     SELECT
         m.id_meta,
         m.qnt_livros,
@@ -94,11 +94,14 @@ BEGIN
         CONCAT(LEAST(COALESCE(lidos.quantidade, 0), m.qnt_livros), ' de ', m.qnt_livros) AS texto_progresso
     FROM meta_leitura m
     LEFT JOIN (
-        SELECT id_usuario, COUNT(*) AS quantidade
-        FROM biblioteca
-        WHERE status = 'lido'
-        GROUP BY id_usuario
-    ) lidos ON lidos.id_usuario = m.id_usuario
+        SELECT b.id_usuario, YEAR(a.dt_avaliacao) AS ano,
+            COUNT(DISTINCT b.id_livro) AS quantidade
+        FROM biblioteca b
+        INNER JOIN avaliacao a
+            ON a.id_usuario = b.id_usuario AND a.id_livro = b.id_livro
+        WHERE b.status = 'lido' AND a.dt_avaliacao IS NOT NULL
+        GROUP BY b.id_usuario, YEAR(a.dt_avaliacao)
+    ) lidos ON lidos.id_usuario = m.id_usuario AND lidos.ano = YEAR(m.data)
     WHERE m.id_usuario = p_id_usuario
     ORDER BY m.data, m.id_meta;
 END $$
@@ -2348,7 +2351,7 @@ CREATE PROCEDURE buscarMetaUsuario(
     IN p_id_usuario INT
 )
 BEGIN
-    -- A biblioteca não registra a data da leitura: o progresso é acumulado.
+    -- A data da avaliação identifica o ano da leitura dos livros marcados como lidos.
     SELECT
         m.id_meta,
         m.qnt_livros,
@@ -2359,11 +2362,14 @@ BEGIN
         CONCAT(LEAST(COALESCE(lidos.quantidade, 0), m.qnt_livros), ' de ', m.qnt_livros) AS texto_progresso
     FROM meta_leitura m
     LEFT JOIN (
-        SELECT id_usuario, COUNT(*) AS quantidade
-        FROM biblioteca
-        WHERE status = 'lido'
-        GROUP BY id_usuario
-    ) lidos ON lidos.id_usuario = m.id_usuario
+        SELECT b.id_usuario, YEAR(a.dt_avaliacao) AS ano,
+            COUNT(DISTINCT b.id_livro) AS quantidade
+        FROM biblioteca b
+        INNER JOIN avaliacao a
+            ON a.id_usuario = b.id_usuario AND a.id_livro = b.id_livro
+        WHERE b.status = 'lido' AND a.dt_avaliacao IS NOT NULL
+        GROUP BY b.id_usuario, YEAR(a.dt_avaliacao)
+    ) lidos ON lidos.id_usuario = m.id_usuario AND lidos.ano = YEAR(m.data)
     WHERE m.id_usuario = p_id_usuario
     ORDER BY m.data, m.id_meta;
 END $$
@@ -2392,21 +2398,20 @@ BEGIN
     SELECT
         m.id_meta,
         m.qnt_livros AS meta,
-        COUNT(b.id_livro) AS livros_lidos,
-        LEAST(COUNT(b.id_livro), m.qnt_livros) AS progresso,
-        CONCAT(
-            LEAST(COUNT(b.id_livro), m.qnt_livros),
-            ' de ',
-            m.qnt_livros
-        ) AS texto_progresso
+        COALESCE(lidos.quantidade, 0) AS livros_lidos,
+        LEAST(COALESCE(lidos.quantidade, 0), m.qnt_livros) AS progresso,
+        CONCAT(LEAST(COALESCE(lidos.quantidade, 0), m.qnt_livros), ' de ', m.qnt_livros) AS texto_progresso
     FROM meta_leitura m
-    LEFT JOIN biblioteca b
-        ON b.id_usuario = m.id_usuario
-       AND b.status = 'lido'
-    WHERE m.id_meta = p_id_meta
-    GROUP BY
-        m.id_meta,
-        m.qnt_livros;
+    LEFT JOIN (
+        SELECT b.id_usuario, YEAR(a.dt_avaliacao) AS ano,
+            COUNT(DISTINCT b.id_livro) AS quantidade
+        FROM biblioteca b
+        INNER JOIN avaliacao a
+            ON a.id_usuario = b.id_usuario AND a.id_livro = b.id_livro
+        WHERE b.status = 'lido' AND a.dt_avaliacao IS NOT NULL
+        GROUP BY b.id_usuario, YEAR(a.dt_avaliacao)
+    ) lidos ON lidos.id_usuario = m.id_usuario AND lidos.ano = YEAR(m.data)
+    WHERE m.id_meta = p_id_meta;
 END $$
 
 

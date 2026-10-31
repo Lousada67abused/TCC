@@ -394,7 +394,7 @@
             elemento('p', 'prazoMeta', 'Prazo: ' + formatarData(meta.data)));
         corpo.append(roda, detalhe);
         const numeros = elemento('ul', 'numerosMeta');
-        [['menu_book', formatoNumero.format(lidos), 'lidos na estante'],
+        [['menu_book', formatoNumero.format(lidos), 'lidos em ' + anoData(meta.data)],
             ['star', mediaDoAno(anoData(meta.data)), 'média em ' + anoData(meta.data)],
             ['schedule', dias === null ? '—' : formatoNumero.format(dias), 'dias restantes']].forEach(([nome, valor, rotulo]) => {
             const item = elemento('li');
@@ -409,13 +409,15 @@
     function mostrarResumo() {
         const resumo = buscar('#resumoAno');
         const itens = [];
+        const avaliacoesDoAno = (dados.avaliacoes || []).filter(avaliacao => anoData(avaliacao.dt_avaliacao) === anoAtual);
         function adicionar(rotulo, valor) {
             const item = elemento('li');
             item.append(elemento('span', '', rotulo), elemento('strong', '', valor));
             itens.push(item);
         }
-        if (dados.biblioteca) {
-            const lidos = dados.biblioteca.filter(livro => livro.status === 'lido');
+        if (dados.biblioteca && dados.avaliacoes) {
+            const avaliadosNoAno = new Set(avaliacoesDoAno.map(avaliacao => String(avaliacao.id_livro)));
+            const lidos = dados.biblioteca.filter(livro => livro.status === 'lido' && avaliadosNoAno.has(String(livro.id_livro)));
             adicionar('Livros lidos', formatoNumero.format(lidos.length));
             adicionar('Páginas lidas', formatoNumero.format(lidos.reduce((total, livro) => total + numero(livro.qnt_paginas), 0)));
             const generos = new Map();
@@ -427,12 +429,11 @@
             adicionar('Gênero mais lido', maisLido?.[0] || '—');
         }
         if (dados.avaliacoes) {
-            const melhorNota = dados.avaliacoes.length ? Math.max(...dados.avaliacoes.map(avaliacao => numero(avaliacao.nota))) : null;
+            const melhorNota = avaliacoesDoAno.length ? Math.max(...avaliacoesDoAno.map(avaliacao => numero(avaliacao.nota))) : null;
             adicionar('Melhor avaliação', melhorNota === null ? '—' : melhorNota.toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' / 5');
         }
         resumo.replaceChildren(...itens);
-        const melhores = (dados.avaliacoes || []).filter(avaliacao => anoData(avaliacao.dt_avaliacao) === anoAtual)
-            .sort((a, b) => numero(b.nota) - numero(a.nota)).slice(0, 3);
+        const melhores = avaliacoesDoAno.sort((a, b) => numero(b.nota) - numero(a.nota)).slice(0, 3);
         const area = buscar('#melhoresAno');
         area.replaceChildren(...melhores.map(avaliacao => {
             const item = elemento('li');
