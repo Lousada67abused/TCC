@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
     <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../css/perfil.css">
+    <link rel="stylesheet" href="../css/perfil.css?v=2">
     <link rel="stylesheet" href="../css/perfilPublico.css">
     <link rel="stylesheet" href="../css/comentariosAvaliacao.css">
     <title>Perfil do leitor - Quote</title>
@@ -72,9 +72,9 @@
                 </div>
                 <p id="bioPerfilPublico" class="bioPerfil"></p>
                 <ul class="numerosPerfil">
-                    <li><strong id="lidosPerfilPublico">—</strong><span>Lidos</span></li>
-                    <li><strong id="seguidoresPerfilPublico">—</strong><span>Seguidores</span></li>
-                    <li><strong id="seguindoPerfilPublico">—</strong><span>Seguindo</span></li>
+                    <li><a class="linkNumeroPerfil" href="#estante?status=lido"><strong id="lidosPerfilPublico">—</strong><span>Lidos</span></a></li>
+                    <li><a class="linkNumeroPerfil" href="conexoes.html?lista=seguidores" data-lista-perfil="seguidores"><strong id="seguidoresPerfilPublico">—</strong><span>Seguidores</span></a></li>
+                    <li><a class="linkNumeroPerfil" href="conexoes.html?lista=seguindo" data-lista-perfil="seguindo"><strong id="seguindoPerfilPublico">—</strong><span>Seguindo</span></a></li>
                 </ul>
                 <p id="estadoSeguirPerfil" class="estadoSecao" role="status" hidden></p>
             </div>
@@ -128,7 +128,7 @@
     <script src="../js/menuPerfil.js"></script>
     <script src="../js/curtidasAvaliacao.js"></script>
     <script src="../js/comentariosAvaliacao.js"></script>
-    <script src="../js/perfilPublico.js"></script>
+    <script src="../js/perfilPublico.js?v=2"></script>
     <script src="../js/pesquisa.js"></script>
     <script src="../js/entradaPesquisa.js"></script>
 </body>

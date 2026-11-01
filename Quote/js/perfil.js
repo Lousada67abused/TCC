@@ -20,6 +20,9 @@
     let filtroEstante = 'todos';
     let anoAtual = String(new Date().getFullYear());
     const formatoNumero = new Intl.NumberFormat('pt-BR');
+    if (conectado) todos('[data-lista-perfil]').forEach(link => {
+        link.href = 'conexoes.html?codigoUsuario=' + encodeURIComponent(codigo) + '&lista=' + link.dataset.listaPerfil;
+    });
 
     function elemento(tag, classe, texto) {
         const no = document.createElement(tag);
@@ -118,8 +121,10 @@
     }
     abas.forEach((botao, indice) => {
         botao.addEventListener('click', () => {
-            history.pushState(null, '', '#' + botao.dataset.aba);
-            abrirAba(botao.dataset.aba);
+            const nome = botao.dataset.aba;
+            const consulta = nome === 'estante' && filtroEstante !== 'todos' ? '?status=' + encodeURIComponent(filtroEstante) : '';
+            history.pushState(null, '', '#' + nome + consulta);
+            lerAba();
         });
         botao.addEventListener('keydown', evento => {
             const teclas = ['ArrowLeft', 'ArrowRight', 'Home', 'End'];
@@ -132,11 +137,14 @@
         });
     });
     function lerAba() {
-        if (location.pathname.endsWith('/perfil.html')) abrirAba(location.hash.slice(1));
+        if (!location.pathname.endsWith('/perfil.html')) return;
+        const [nome, consulta = ''] = location.hash.slice(1).split('?');
+        if (nome === 'estante') definirFiltroEstante(new URLSearchParams(consulta).get('status') || 'todos');
+        abrirAba(nome);
     }
     window.addEventListener('hashchange', lerAba);
     window.addEventListener('popstate', lerAba);
-    abrirAba(location.hash.slice(1));
+    lerAba();
     document.getElementById('voltarMetas')?.addEventListener('click', () => {
         history.pushState(null, '', '#principal');
         abrirAba('principal');
@@ -177,14 +185,20 @@
         const favoritos = dados.biblioteca.filter(livro => Number(livro.favorito) === 1);
         lista('listaFavoritos', favoritos.slice(0, 5), criarLivro, 'Você ainda não marcou livros como favoritos.');
     }
-    todos('#estante [data-status]').forEach(botao => botao.addEventListener('click', () => {
-        filtroEstante = botao.dataset.status;
+    function definirFiltroEstante(status) {
+        const botoes = todos('#estante [data-status]');
+        filtroEstante = botoes.some(botao => botao.dataset.status === status) ? status : 'todos';
         todos('#estante [data-status]').forEach(outro => {
-            const ativo = outro === botao;
+            const ativo = outro.dataset.status === filtroEstante;
             outro.classList.toggle('ativo', ativo);
             outro.setAttribute('aria-pressed', String(ativo));
         });
         mostrarEstante();
+    }
+    todos('#estante [data-status]').forEach(botao => botao.addEventListener('click', () => {
+        const consulta = botao.dataset.status === 'todos' ? '' : '?status=' + encodeURIComponent(botao.dataset.status);
+        history.pushState(null, '', '#estante' + consulta);
+        lerAba();
     }));
     function mostrarAvaliacoes() {
         if (!dados.avaliacoes) return;

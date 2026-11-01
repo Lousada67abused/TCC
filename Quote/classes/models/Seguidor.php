@@ -45,13 +45,27 @@ class Seguidor extends Banco {
 	}
 
 	public static function BuscarSeguidoresUsuario($codigoUsuario) {
-		$codigoUsuario = ['pCodigoUsuario'=>$codigoUsuario];
-		return self::Consultar("sp_buscar_seguidores_por_usuario", $codigoUsuario);
+		return self::BuscarConexoesUsuario($codigoUsuario, true);
 	}
 
 	public static function buscarSeguidosUsuario($codigoUsuario) {
-		$codigoUsuario = ['pCodigoUsuario'=>$codigoUsuario];
-		return self::Consultar("sp_buscar_seguidos_por_usuario", $codigoUsuario);
+		return self::BuscarConexoesUsuario($codigoUsuario, false);
 	}
+
+    private static function BuscarConexoesUsuario($codigoUsuario, $seguidores) {
+        return self::Transacao(function ($conexao) use ($codigoUsuario, $seguidores) {
+            $usuario = $conexao->prepare('SELECT id_usuario FROM usuario WHERE id_usuario = ?');
+            $usuario->execute([$codigoUsuario]);
+            if (!$usuario->fetch()) return null;
+
+            // As duas procedures expõem somente o código e o nome públicos do leitor.
+            $procedure = $seguidores ? 'sp_buscar_seguidores_por_usuario' : 'sp_buscar_seguidos_por_usuario';
+            $consulta = $conexao->prepare('CALL ' . $procedure . '(?)');
+            $consulta->execute([$codigoUsuario]);
+            $conexoes = $consulta->fetchAll(PDO::FETCH_ASSOC);
+            $consulta->closeCursor();
+            return $conexoes;
+        });
+    }
 }
 ?>

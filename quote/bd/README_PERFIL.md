@@ -59,6 +59,19 @@ As abas aceitam links como `perfil.html#estante` e `perfil.html#metas` e acompan
 o histórico do navegador. As capas usam o ISBN em
 `https://covers.openlibrary.org/b/isbn/{id_livro}-L.jpg`.
 
+Os contadores abaixo da biografia são links nos dois perfis. `Lidos` abre a
+estante com `#estante?status=lido`; os filtros da estante acompanham o histórico
+e permanecem selecionados ao recarregar a página. O perfil público continua
+exibindo apenas livros com `visivel = 1`.
+
+`Seguidores` e `Seguindo` abrem
+`conexoes.html?codigoUsuario=ID&lista=seguidores` ou `lista=seguindo`. A página
+reutiliza `buscarSeguidoresUsuario.php` e `buscarSeguidosUsuario.php`, que
+retornam somente `id_usuario` e `nm_usuario`. A busca filtra os nomes da lista
+aberta, ignorando maiúsculas e acentos, sem consultar a busca geral de usuários.
+Cada resultado leva ao perfil do leitor, e a página acompanha o tema salvo e a
+navegação responsiva do site. Não exige migração de banco.
+
 ## Perfil público de um leitor
 
 Os nomes e avatares nas resenhas do livro e no feed da homepage abrem
