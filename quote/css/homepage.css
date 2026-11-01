@@ -179,6 +179,7 @@ body {
     grid-template-columns: minmax(0, 1fr);
     align-items: start;
     gap: 16px;
+    margin-left: -10px;
 }
 
 .cardResenhaAmigo {
@@ -196,6 +197,7 @@ body {
     flex-shrink: 0;
     width: clamp(56px, 8vw, 80px);
     text-decoration: none;
+    margin-left: 10px;
 }
 
 .capaResenha {
