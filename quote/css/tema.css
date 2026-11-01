@@ -1,0 +1,311 @@
+/* Cores semânticas compartilhadas com a tela de configurações. */
+:root {
+    color-scheme: light;
+    --tema-fundo: #fefeff;
+    --tema-superficie: #ffffff;
+    --tema-elevada: #f6f8fc;
+    --tema-texto: #172033;
+    --tema-secundario: #5b6472;
+    --tema-borda: #dce5f1;
+    --tema-suave: #edf4ff;
+    --tema-link: #1254b5;
+    --tema-erro: #b42318;
+    --tema-sucesso: #227542;
+}
+
+html[data-tema="escuro"] {
+    color-scheme: dark;
+    --tema-fundo: #101722;
+    --tema-superficie: #172231;
+    --tema-elevada: #202e40;
+    --tema-texto: #eef3fb;
+    --tema-secundario: #b4c0d2;
+    --tema-borda: #35465d;
+    --tema-suave: #203653;
+    --tema-link: #91bdff;
+    --tema-erro: #ff9c9c;
+    --tema-sucesso: #92d5a5;
+    --background: var(--tema-fundo);
+    --softBlue: var(--tema-borda);
+    --textoSuave: var(--tema-secundario);
+    background-color: var(--tema-fundo);
+    color: var(--tema-texto);
+}
+
+/* Fundos principais: preserva a cor azul de cabeçalhos e navegação. */
+html[data-tema="escuro"] body {
+    background-color: var(--tema-fundo);
+    color: var(--tema-texto);
+}
+
+html[data-tema="escuro"] :is(
+    .containerDetalhesLivro, .containerPaginaBusca, .containerCadastro,
+    .cabecalhoMobileSeguirAmigos, .cabecalhoMetasMobile
+) {
+    background-color: var(--tema-fundo);
+    color: var(--tema-texto);
+}
+
+/* Superfícies elevadas, menus e janelas usam o mesmo contraste. */
+html[data-tema="escuro"] body :is(
+    .menuDropdownPerfil, .cardResenhaAmigo, .cardNovaResenha,
+    .cardResenhaUsuario, .cardMeta, .abasPerfil, .detalhesPodio,
+    .opcoesMeta > .acoesMeta, .overlayModal, .popupComentariosAvaliacao
+) {
+    background-color: var(--tema-superficie);
+    border-color: var(--tema-borda);
+    color: var(--tema-texto);
+    box-shadow: 0 4px 18px rgb(0 0 0 / 18%);
+}
+
+html[data-tema="escuro"] .paginaPerfil.abaMetasAtiva:not(.pesquisaEmEdicao) .cabecalhoMetasMobile {
+    background-color: var(--tema-superficie);
+}
+html[data-tema="escuro"] .containerDetalhesLivro.resenhaPublicada .cardResenhaUsuario {
+    border-color: var(--tema-borda);
+}
+html[data-tema="escuro"] :is(.overlayModal, .popupComentariosAvaliacao)::backdrop {
+    background: rgb(0 0 0 / 70%);
+}
+html[data-tema="escuro"] :is(.cabecalhoDropdown, .rodapeComentariosAvaliacao) {
+    border-color: var(--tema-borda);
+}
+html[data-tema="escuro"] .divisorMenu { background-color: var(--tema-borda); }
+
+/* Títulos e números não herdam os azuis escuros ou pretos do tema claro. */
+html[data-tema="escuro"] body :is(
+    h1, h2, h3, h4, h5, h6, .nomeLeitor, .contagemLeitor dd,
+    .nomeUsuario, .nomeUsuarioResenha, .itemEstatistica strong,
+    .numerosPerfil strong, .numerosMeta strong, .nomeAtividade,
+    .livroAtividade, .listaAtividades strong, .historicoMetas .anoMeta,
+    .tabelaFichaTecnica td, .cabecalhoDropdown strong,
+    .autorComentarioAvaliacao a, .sinopseLivro p, .textoResenhaUsuario,
+    .textoComentarioAvaliacao, .tituloLivroBusca, .campoCadastro label
+) { color: var(--tema-texto); }
+
+html[data-tema="escuro"] body :is(
+    .autorLivro, .autorLivroResenha, .autorNome, .autorLivroBusca,
+    .textoLivro p, .infoLivro p, .qtdAvaliacoes, .totalAvaliacoes,
+    .generosLivro, .bioPerfil, .numerosPerfil li, .contagemLeitor dt,
+    .itemEstatistica span, .cabecalhoDropdown small, .handleUsuario,
+    .textoResenha, .dataResenha, .dataResenhaPublica, .textoResenha time,
+    .textoAtividade, .tempoAtividade, .listaAtividades p, .notaMeta,
+    .detalheMeta p, .faltam, .prazoMeta, .numerosMeta li,
+    .historicoMetas .itemHistoricoMeta, .opcoesMeta > summary,
+    .mensagemEstado, .intervaloLivros, .notaLivro, .estadoPerfil,
+    .estadoSecao, .vazioPerfil, .estadoRanking, .estadoPesquisa p,
+    .mensagemLeitor, .feedbackBibliotecaLivro, .estadoComentariosAvaliacao,
+    .autorComentarioAvaliacao time, .contadorTotal, .contadorCaracteres,
+    .infoLivroModal p, .rotuloModal small, .legendaEstrelas, .tabelaFichaTecnica th,
+    .subtituloCadastro, .textoGuia p, .subtituloEtapa,
+    .quantidadeSelecionada, .elementoDecorativo p, .temConta p,
+    .txtGuia p, .txtIntroducao h2, .adorno > span,
+    #descricaoRanking, #estadoGeneros, #estadoAmigos, .estadoEntradaPesquisa
+) { color: var(--tema-secundario); }
+
+/* Formulários: controles de texto são escuros sem mudar botões de ação. */
+html[data-tema="escuro"] body :is(
+    input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+    textarea
+) {
+    background-color: var(--tema-superficie);
+    color: var(--tema-texto);
+    border-color: var(--tema-borda);
+    caret-color: var(--tema-texto);
+}
+html[data-tema="escuro"] body :is(input, textarea)::placeholder {
+    color: var(--tema-secundario);
+    opacity: 1;
+}
+html[data-tema="escuro"] body :is(
+    form.pesquisaPadrao, .barraPesquisa, .barraPesquisaDesktop,
+    .barraPesquisaMobile, .barraPesquisaInterna, .formComentarioAvaliacao
+) {
+    background-color: var(--tema-superficie);
+    border-color: var(--tema-borda);
+}
+html[data-tema="escuro"] body :is(
+    form.pesquisaPadrao, .barraPesquisa, .barraPesquisaDesktop,
+    .barraPesquisaMobile, .barraPesquisaInterna
+) :is(input, button, span) {
+    color: var(--tema-texto);
+    background-color: transparent;
+}
+html[data-tema="escuro"] #cadastroPasso3 .barraPesquisaInterna,
+html[data-tema="escuro"] .paginaSeguirAmigos .conteudoPrincipal .barraPesquisaDesktop {
+    background-color: var(--tema-superficie);
+    border-color: var(--tema-borda);
+}
+html[data-tema="escuro"] .paginaSeguirAmigos .barraPesquisaDesktop button {
+    color: var(--tema-link);
+}
+html[data-tema="escuro"] :is(select, input[type="checkbox"], input[type="radio"]) {
+    accent-color: var(--tema-link);
+}
+html[data-tema="escuro"] :is(.selectStatus, .botaoFinalizar) {
+    background-color: #276344;
+    color: #ffffff;
+}
+html[data-tema="escuro"] .btnVoltarMobile {
+    background-color: var(--royalBlue);
+    color: #ffffff;
+}
+html[data-tema="escuro"] select option {
+    background-color: var(--tema-superficie);
+    color: var(--tema-texto);
+}
+
+/* Ações secundárias, filtros e links com contraste próprio sobre o fundo escuro. */
+html[data-tema="escuro"] body :is(
+    .botaoSecundario, .botaoSeguir, .botaoSocial, .botoesSocial button,
+    .btnFavorito, .tentarRanking, .tentarComentariosAvaliacao,
+    .filtros button:not(.ativo), .filtro button, .acoesMeta button,
+    .filtroGenero, #btnCadastrar, #tentarBusca, #tentarGeneros,
+    #tentarBibliotecaLivro, #seguirPerfil
+) {
+    background-color: var(--tema-superficie);
+    color: var(--tema-link);
+    border-color: var(--tema-link);
+}
+html[data-tema="escuro"] body :is(
+    .filtroGenero.ativo, .filtroGenero[aria-current="page"],
+    .botaoSeguir.seguindo, .btnFavorito.favoritoAtivo, #seguirPerfil.seguindo,
+    .cardGenero, .botaoGenero, .confirmacaoMeta,
+    .opcoesMeta[open] > summary, .badgeNota, .bannerAjudaModal
+) {
+    background-color: var(--tema-suave);
+    color: var(--tema-link);
+    border-color: var(--tema-borda);
+}
+html[data-tema="escuro"] body :is(
+    .filtroGenero, .cardGenero, .botaoGenero, .subtituloBusca,
+    .linhaNota, .notaMedia, .posicaoRanking, .porcentagem,
+    .detalheMeta h3 .material-symbols-outlined, .cabecalhoMetasMobile button,
+    .botaoVoltarMobile, .botaoVoltarDesktop, .btnVoltar,
+    .btnVoltarIcone, .btnBusca, .btnMostrarSenha,
+    .entrarCurtirAvaliacao, .entrarComentarioAvaliacao, #line_start_arrow_notch
+) { color: var(--tema-link); }
+html[data-tema="escuro"] #cadastroPasso3 .topoResultadoDesktop > .btnVoltar,
+html[data-tema="escuro"] .paginaSeguirAmigos .containerTopoDesktop > .botaoVoltarDesktop {
+    color: var(--tema-link);
+}
+html[data-tema="escuro"] .listaMenuDropdown a { color: var(--tema-texto); }
+html[data-tema="escuro"] .listaMenuDropdown a.itemSair { color: var(--tema-erro); }
+html[data-tema="escuro"] .abasPerfil button { color: var(--tema-secundario); }
+html[data-tema="escuro"] .abasPerfil button.ativo {
+    color: var(--tema-link);
+    border-bottom-color: var(--tema-link);
+}
+
+/* Bordas e indicadores que antes usavam cinzas claros. */
+html[data-tema="escuro"] body :is(
+    .cardLeitor, .cardUsuario, .resenha, .listaAtividades li,
+    .listaRanking, .itemRanking, .filtrosRanking, .filtroGenero,
+    .tabelaFichaTecnica tr, .numerosMeta, .historicoMetas li,
+    .resumoAno li, .melhoresAno li
+) { border-color: var(--tema-borda); }
+html[data-tema="escuro"] body :is(
+    .capaLivroIndisponivel, .capaResenhaIndisponivel,
+    .capaIndisponivel, .capaRankingIndisponivel, .capaPodioIndisponivel
+) {
+    background-color: var(--tema-elevada);
+    color: var(--tema-secundario);
+}
+html[data-tema="escuro"] .roda {
+    background: conic-gradient(var(--tema-link) var(--progresso, 0%), var(--tema-borda) 0);
+}
+html[data-tema="escuro"] .roda > div {
+    background-color: var(--tema-superficie);
+    color: var(--tema-texto);
+}
+html[data-tema="escuro"] .cardMeta progress::-webkit-progress-bar {
+    background-color: var(--tema-borda);
+}
+html[data-tema="escuro"] .cardMeta progress::-webkit-progress-value {
+    background-color: var(--tema-link);
+}
+html[data-tema="escuro"] .cardMeta progress::-moz-progress-bar {
+    background-color: var(--tema-link);
+}
+html[data-tema="escuro"] .situacaoMeta {
+    background-color: #482a32;
+    color: var(--tema-erro);
+}
+html[data-tema="escuro"] .metaAtingida .situacaoMeta {
+    background-color: #183d30;
+    color: var(--tema-sucesso);
+}
+
+/* Interações dinâmicas mantêm as estrelas amarelas e as curtidas destacadas. */
+html[data-tema="escuro"] body :is(
+    .botaoCurtirAvaliacao, .botaoComentariosAvaliacao,
+    .fecharComentariosAvaliacao, .btnFecharModal
+) { color: var(--tema-secundario); }
+html[data-tema="escuro"] .curtidasAvaliacao .botaoCurtirAvaliacao.curtida {
+    color: #ff96b3;
+}
+html[data-tema="escuro"] .btnAcaoResenha { color: var(--tema-erro); }
+html[data-tema="escuro"] .btnAcaoResenha:last-child { color: var(--tema-link); }
+html[data-tema="escuro"] .acoesMinhaResenha button {
+    background-color: var(--tema-elevada);
+    color: var(--tema-link);
+}
+html[data-tema="escuro"] body :is(
+    .mensagemErro, .erroCurtidaAvaliacao, .mensagemLeitor.erroLeitor,
+    .estadoComentariosAvaliacao.erro, .acoesMeta .excluirMeta,
+    .acoesMinhaResenha .excluirResenha, #estadoSeguirPerfil.erro
+) { color: var(--tema-erro); }
+html[data-tema="escuro"] body :is(
+    .mensagemSucesso, .estadoComentariosAvaliacao.sucesso
+) { color: var(--tema-sucesso); }
+
+/* Acesso e cadastro usam as superfícies do tema, sem filtros em imagens. */
+html[data-tema="escuro"] body:has(#cardHome),
+html[data-tema="escuro"] body:has(#cardLogin) {
+    background-image: linear-gradient(rgb(7 15 28 / 72%), rgb(7 15 28 / 72%)), url('../img/entrar.png');
+}
+html[data-tema="escuro"] main:has(#cardHome),
+html[data-tema="escuro"] main:has(#cardLogin) {
+    background-color: var(--tema-superficie);
+    color: var(--tema-texto);
+}
+html[data-tema="escuro"] :is(#cardHome, #cardLogin) > img[src$="logoAzulEscuro.svg"] {
+    content: url('../img/logoBranco.svg');
+    width: 180px;
+    height: 63px;
+    object-fit: contain;
+}
+html[data-tema="escuro"] .tracado { background-color: var(--tema-borda); }
+
+@media (hover: hover) and (pointer: fine) {
+    html[data-tema="escuro"] body :is(
+        .listaMenuDropdown a, .botaoSecundario, #seguirPerfil,
+        .botaoSeguir, .btnFavorito, .tentarRanking, #tentarBusca,
+        #tentarGeneros, .tentarComentariosAvaliacao, .filtros button:not(.ativo),
+        .filtro button, .filtroGenero, .acoesMeta button, .cardGenero,
+        .botaoSocial, .botoesSocial button, form.pesquisaPadrao button,
+        .acoesMinhaResenha button, .fecharComentariosAvaliacao,
+        .btnFecharModal, .btnMostrarSenha, #btnCadastrar,
+        .botaoCurtirAvaliacao, .botaoComentariosAvaliacao
+    ):not(:disabled):not([aria-disabled="true"]):hover {
+        background-color: var(--tema-elevada);
+        color: var(--tema-link);
+    }
+    html[data-tema="escuro"] .abasPerfil button:hover { color: var(--tema-link); }
+}
+
+html[data-tema="escuro"] :focus-visible { outline-color: var(--tema-link); }
+html[data-tema="escuro"] :is(input, textarea):focus {
+    border-color: var(--tema-link);
+}
+
+/* Os ícones de marcas mantêm uma base clara para preservar suas cores originais. */
+html[data-tema="escuro"] body :is(.botoesSocial button, .botoesSociais .botaoSocial) {
+    background-color: #fefeff;
+    border-color: var(--tema-secundario);
+}
+@media (hover: hover) and (pointer: fine) {
+    html[data-tema="escuro"] body :is(.botoesSocial button, .botoesSociais .botaoSocial):not(:disabled):hover {
+        background-color: #dce8fa;
+    }
+}

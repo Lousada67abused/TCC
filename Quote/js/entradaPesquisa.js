@@ -74,7 +74,8 @@
                 preparandoEstilo = null;
                 reject(new Error('Estilo da pesquisa indisponível'));
             }, { once: true });
-            document.head.append(estilo);
+            const tema = document.querySelector('link[href$="/tema.css"]');
+            document.head.insertBefore(estilo, tema);
         });
         return preparandoEstilo;
     }

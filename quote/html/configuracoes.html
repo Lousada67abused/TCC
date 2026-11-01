@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <script src="../js/tema.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Configurações - Quote</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet" href="../css/global.css">
+    <link rel="stylesheet" href="../css/configuracoes.css">
+    <link rel="stylesheet" href="../css/interacoes.css">
+    <link rel="stylesheet" href="../css/tema.css">
+</head>
+<body class="paginaConfiguracoes">
+    <header class="cabecalhoPrincipal">
+        <figure class="logotipoContainer">
+            <a href="homepage.html"><img src="../img/logoBranco.svg" alt="Logotipo do Quote"></a>
+        </figure>
+        <form class="barraPesquisa pesquisaPadrao" action="busca.html" method="get" role="search" aria-label="Pesquisa geral">
+            <input id="txtPesquisaHeader" name="termo" type="search" placeholder="Encontre sua próxima leitura" aria-label="Pesquisar livros, gêneros, autores ou leitores" maxlength="100" required>
+            <input name="filtro" type="hidden" value="geral" data-filtro-header>
+            <button type="submit" aria-label="Pesquisar"><svg class="iconePesquisa" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4 4"/></svg></button>
+        </form>
+        <div class="acoesHeaderDesktop">
+            <a href="ranking.html" class="botaoRanking"><span class="material-symbols-outlined" aria-hidden="true">emoji_events</span>Ranking</a>
+            <div class="perfilMenuContainer">
+                <button type="button" class="botaoAvatarPerfil" aria-label="Abrir menu do perfil" aria-expanded="false" aria-controls="menuPerfil">
+                    <img id="avatar" class="avatarHeader fotoUsuarioLogado" src="../img/avatar.jpg" alt="Foto de perfil do usuário">
+                </button>
+                <nav id="menuPerfil" class="menuDropdownPerfil" aria-label="Menu do perfil" hidden>
+                    <div class="cabecalhoDropdown">
+                        <img id="avatarMenu" class="avatarHeader fotoUsuarioLogado" src="../img/avatar.jpg" alt="Foto de perfil do usuário">
+                        <div><strong id="nomeUsuarioHeader" class="nomeMenu">Seu perfil</strong><small id="emailUsuarioHeader" class="emailMenu"></small></div>
+                    </div>
+                    <ul class="listaMenuDropdown">
+                        <li><a href="perfil.html"><span class="material-symbols-outlined" aria-hidden="true">person</span>Perfil</a></li>
+                        <li><a href="perfil.html#estante"><span class="material-symbols-outlined" aria-hidden="true">collections_bookmark</span>Estante</a></li>
+                        <li><a href="perfil.html#atividade"><span class="material-symbols-outlined" aria-hidden="true">format_list_bulleted</span>Atividade</a></li>
+                        <li><a href="perfil.html#resenhas"><span class="material-symbols-outlined" aria-hidden="true">rate_review</span>Resenhas</a></li>
+                        <li><a href="perfil.html#metas"><span class="material-symbols-outlined" aria-hidden="true">target</span>Metas</a></li>
+                        <li class="divisorMenu" aria-hidden="true"></li>
+                        <li><a href="configuracoes.html" aria-current="page"><span class="material-symbols-outlined" aria-hidden="true">settings</span>Configurações</a></li>
+                        <li><a href="../index.html" class="itemSair"><span class="material-symbols-outlined" aria-hidden="true">logout</span>Sair</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+    </header>
+    <div class="topoConfiguracoesMobile">
+        <a href="perfil.html" aria-label="Voltar ao perfil"><span class="material-symbols-outlined" aria-hidden="true">arrow_back</span></a>
+        <strong>Configurações</strong>
+        <a href="perfil.html" aria-label="Meu perfil"><img class="fotoContaConfiguracoes" src="../img/avatar.jpg" alt=""></a>
+    </div>
+    <main class="conteudoConfiguracoes">
+        <div class="tituloConfiguracoes">
+            <h1>Configurações</h1>
+            <p>Ajuste a aparência e encontre suas preferências de leitura.</p>
+        </div>
+        <div class="gradeConfiguracoes">
+            <div class="colunaConfiguracoes">
+                <section class="cardConfiguracoes" aria-labelledby="tituloAparencia">
+                    <h2 id="tituloAparencia">Aparência</h2>
+                    <label class="linhaModoNoturno">
+                        <span class="iconeConfiguracao material-symbols-outlined" aria-hidden="true">dark_mode</span>
+                        <span class="descricaoModoNoturno"><strong id="tituloModoNoturno">Modo noturno</strong><small id="rotuloModoNoturno">Desativado</small></span>
+                        <span class="alternadorTema">
+                            <input type="checkbox" id="modoNoturno" role="switch" aria-labelledby="tituloModoNoturno" aria-describedby="explicacaoTema" disabled>
+                            <span class="trilhoTema" aria-hidden="true"></span>
+                        </span>
+                    </label>
+                    <p id="explicacaoTema" class="explicacaoTema">Use cores escuras para uma leitura mais confortável à noite.</p>
+                    <p id="estadoPreferenciaTema" class="estadoPreferenciaTema" role="status">Sua escolha será aplicada em todas as páginas deste navegador.</p>
+                    <noscript><p>Ative o JavaScript para alterar o modo noturno.</p></noscript>
+                </section>
+                <section class="cardConfiguracoes" aria-labelledby="tituloLeituras">
+                    <h2 id="tituloLeituras">Suas leituras</h2>
+                    <ul class="listaPreferencias">
+                        <li><a href="perfil.html#estante" class="linkPreferencia">
+                            <span class="material-symbols-outlined" aria-hidden="true">collections_bookmark</span>
+                            <div><strong>Minha estante</strong><p>Acompanhe seus livros e favoritos.</p></div>
+                            <span class="setaPreferencia material-symbols-outlined" aria-hidden="true">chevron_right</span>
+                        </a></li>
+                        <li><a href="perfil.html#metas" class="linkPreferencia">
+                            <span class="material-symbols-outlined" aria-hidden="true">track_changes</span>
+                            <div><strong>Metas de leitura</strong><p>Confira seu progresso e defina novos objetivos.</p></div>
+                            <span class="setaPreferencia material-symbols-outlined" aria-hidden="true">chevron_right</span>
+                        </a></li>
+                        <li><a href="perfil.html#atividade" class="linkPreferencia">
+                            <span class="material-symbols-outlined" aria-hidden="true">history</span>
+                            <div><strong>Atividade</strong><p>Relembre suas avaliações e leituras.</p></div>
+                            <span class="setaPreferencia material-symbols-outlined" aria-hidden="true">chevron_right</span>
+                        </a></li>
+                    </ul>
+                </section>
+            </div>
+            <aside class="colunaConfiguracoes" aria-label="Conta e informações">
+                <section class="cardConfiguracoes" aria-labelledby="tituloConta">
+                    <h2 id="tituloConta">Minha conta</h2>
+                    <div class="contaConfiguracoes">
+                        <img class="fotoContaConfiguracoes" src="../img/avatar.jpg" alt="Foto de perfil">
+                        <div><strong id="nomeContaConfiguracoes">Seu perfil</strong><small id="emailContaConfiguracoes"></small></div>
+                    </div>
+                    <a href="perfil.html" id="acessarConta" class="botaoContaConfiguracoes"><span data-rotulo-conta>Acessar perfil</span><span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>
+                </section>
+                <section class="cardConfiguracoes sobreConfiguracoes" aria-labelledby="tituloSobreQuote">
+                    <h2 id="tituloSobreQuote">Sobre o Quote</h2>
+                    <p>Um lugar para descobrir livros, organizar suas leituras e compartilhar histórias.</p>
+                    <a href="homepage.html">Explorar leituras<span class="material-symbols-outlined" aria-hidden="true">arrow_forward</span></a>
+                </section>
+            </aside>
+        </div>
+    </main>
+    <nav class="navegacaoMobile" aria-label="Navegação principal">
+        <a href="homepage.html" class="itemNavegacao" aria-label="Início"><span class="material-symbols-outlined" aria-hidden="true">home</span></a>
+        <a href="ranking.html" class="itemNavegacao" aria-label="Ranking"><span class="material-symbols-outlined" aria-hidden="true">emoji_events</span></a>
+        <a href="pesquisa.html" class="itemNavegacao" aria-label="Pesquisar"><span class="material-symbols-outlined" aria-hidden="true">search</span></a>
+        <a href="perfil.html" class="itemNavegacao ativo" aria-label="Perfil" aria-current="page"><span class="material-symbols-outlined" aria-hidden="true">person</span></a>
+    </nav>
+    <script src="../js/header.js"></script>
+    <script src="../js/menuPerfil.js"></script>
+    <script src="../js/entradaPesquisa.js"></script>
+    <script src="../js/configuracoes.js"></script>
+</body>
+</html>

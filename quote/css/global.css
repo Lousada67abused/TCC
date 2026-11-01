@@ -441,6 +441,27 @@ a.linkPerfilAvatar:focus-visible { outline: 3px solid var(--brightLightBlue); ou
     align-items: center;
 }
 
+.paginaPerfil:not(.paginaPerfilPublico) .cabecalhoPerfil { position: relative; }
+.paginaPerfil:not(.paginaPerfilPublico) .infoPerfil { padding-right: 40px; }
+.configuracoesPerfil {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    min-height: 40px;
+    border: 1px solid var(--tema-borda, #bdd7ff);
+    border-radius: 6px;
+    background: var(--tema-superficie, #ffffff);
+    color: var(--tema-link, #1254b5);
+    text-decoration: none;
+}
+.configuracoesPerfil .material-symbols-outlined { font-size: 20px; }
+.configuracoesPerfil:hover { background: var(--tema-suave, #edf4ff); }
+.configuracoesPerfil:focus-visible { outline: 3px solid var(--brightLightBlue); outline-offset: 3px; }
+
 .conteudoPrincipal {
     padding: 16px;
     width: 100%;
