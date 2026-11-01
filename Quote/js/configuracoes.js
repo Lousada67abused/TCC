@@ -17,7 +17,7 @@
         atualizar();
         const mensagem = controle.checked ? 'Modo noturno ativado.' : 'Modo noturno desativado.';
         estado.textContent = mensagem + (evento.detail.salvo ?
-            (evento.detail.sincronizado ? ' Preferência atualizada em outra aba.' : ' Preferência salva neste navegador.') :
+            (evento.detail.sincronizado ? ' Preferência atualizada neste navegador.' : ' Preferência salva neste navegador.') :
             ' A alteração vale nesta página; seu navegador não permitiu salvar a preferência.');
     });
 
