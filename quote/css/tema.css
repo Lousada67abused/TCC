@@ -309,3 +309,25 @@ html[data-tema="escuro"] body :is(.botoesSocial button, .botoesSociais .botaoSoc
         background-color: #dce8fa;
     }
 }
+
+/* O ranking compartilha a superfície do pódio e mantém a seleção dos gêneros. */
+html[data-tema="escuro"] body.paginaRanking :is(.listaRanking, .filtrosRanking) {
+    background-color: var(--tema-superficie);
+    border-color: var(--tema-borda);
+}
+html[data-tema="escuro"] body.paginaRanking #filtrosGeneros .filtroGenero {
+    background-color: transparent;
+    color: var(--tema-secundario);
+    border-color: var(--tema-borda);
+}
+@media (hover: hover) and (pointer: fine) {
+    html[data-tema="escuro"] body.paginaRanking #filtrosGeneros .filtroGenero:hover {
+        background-color: var(--tema-elevada);
+        color: var(--tema-texto);
+    }
+}
+html[data-tema="escuro"] body.paginaRanking #filtrosGeneros .filtroGenero:is(.ativo, [aria-current="page"]) {
+    background-color: var(--royalBlue);
+    color: var(--white);
+    border-color: var(--royalBlue);
+}
