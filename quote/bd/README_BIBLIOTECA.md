@@ -96,6 +96,16 @@ esse status. Os filtros estáticos das telas de biblioteca/perfil não fazem
 chamadas SQL; qualquer integração dessas listas deve filtrar favoritos por
 `favorito = 1`, nunca por `status = 'favorito'`.
 
+Ao excluir uma avaliação, o status `lido` desse livro volta a `NULL`, que a
+tela apresenta como a opção sem valor. A linha da biblioteca permanece para
+preservar favorito e visibilidade; os outros status não são alterados. Essa
+atualização ocorre na mesma transação da exclusão da avaliação e de suas
+interações. Não exige migração, pois a coluna `status` já aceita `NULL`.
+
+As resenhas permitem até 500 caracteres nos formulários de cadastro e edição,
+com validação nas APIs. Quebras de linha são preservadas na exibição e textos
+sem espaços quebram dentro do cartão.
+
 ## Verificações
 
 `Quote/bd/verificar_massa.sql` verifica os quatro status e o campo favorito,

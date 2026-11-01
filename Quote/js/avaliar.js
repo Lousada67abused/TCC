@@ -14,6 +14,14 @@
     const popupButton = popup?.querySelector('.btnEnviarAvaliacao');
     const popupStars = [...(popup?.querySelectorAll('.estrelasAvaliacaoModal button') || [])];
     const popupClose = popup?.querySelector('.btnFecharModal');
+    const limiteResenha = 500;
+    const contadorResenha = document.getElementById('contadorResenha');
+    text.maxLength = limiteResenha;
+    function atualizarContadorResenha() {
+        if (contadorResenha) contadorResenha.textContent = text.value.length + '/' + limiteResenha;
+    }
+    text.addEventListener('input', atualizarContadorResenha);
+    atualizarContadorResenha();
 
     const codigoUsuario = sessionStorage.getItem('codigo');
     const codigoLivro = sessionStorage.getItem('codigoLivro');
@@ -108,7 +116,7 @@
             // A freshly saved local review may not have received its ID yet.
             remove.disabled = !avaliacao.id_avaliacao;
             remove.addEventListener('click', async () => {
-                if (enviando || !avaliacao.id_avaliacao) return;
+                if (enviando || bibliotecaPendente() || !avaliacao.id_avaliacao) return;
                 enviando = true;
                 remove.disabled = true;
                 try {
@@ -123,12 +131,14 @@
                     minhaResenha = null;
                     nota = 0;
                     text.value = '';
+                    atualizarContadorResenha();
                     stars.forEach(el => {
                         el.classList.remove('estrelaCheia');
                         el.classList.add('estrelaVazia');
                         el.setAttribute('aria-pressed', 'false');
                     });
-                    mostrarMensagem(message, 'Resenha excluída. Você pode publicar outra avaliação.', true);
+                    await window.BibliotecaLivro.recarregar();
+                    mostrarMensagem(message, 'Resenha excluída.', true);
                 } catch (erro) {
                     mostrarMensagem(message, erro.message || 'Não foi possível excluir. Tente novamente.');
                     remove.disabled = false;
@@ -248,7 +258,7 @@
         if (nota < 1 || nota > 5) { mostrarMensagem(message, 'Selecione uma nota de 1 a 5.'); return; }
         const resenha = text.value.trim();
         if (!resenha) { mostrarMensagem(message, 'Escreva sua resenha antes de publicar.'); text.focus(); return; }
-        if (resenha.length > 500) { mostrarMensagem(message, 'A resenha deve ter no máximo 500 caracteres.'); return; }
+        if (resenha.length > limiteResenha) { mostrarMensagem(message, 'A resenha deve ter no máximo 500 caracteres.'); return; }
         await publicar(nota, resenha, message);
     });
 
@@ -317,7 +327,7 @@
         editando = avaliacao ? { ...avaliacao } : null;
         atualizarLivroPopup();
         popup.querySelector('.tituloModal').textContent = editando ? 'Editar sua resenha' : 'Dê seu feedback sobre o livro';
-        popupText.maxLength = editando ? 500 : 200;
+        popupText.maxLength = limiteResenha;
         notaPopup = 0;
         popupText.value = '';
         atualizarNotaPopup();

@@ -7,7 +7,7 @@
     <title>Quote</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
     <link rel="stylesheet" href="../css/global.css">
-    <link rel="stylesheet" href="../css/livro.css">
+    <link rel="stylesheet" href="../css/livro.css?v=2">
     <link rel="stylesheet" href="../css/comentariosAvaliacao.css">
     <link rel="stylesheet" href="../css/interacoes.css">
     <link rel="stylesheet" href="../css/tema.css">
@@ -154,7 +154,8 @@
             </div>
             
             <form action="#" method="post" class="formularioAvaliacao">
-                <textarea id="txtResenha" name="resenha" rows="4" placeholder="Compartilhe sua opinião sobre o livro..."></textarea>
+                <textarea id="txtResenha" name="resenha" rows="4" maxlength="500" placeholder="Compartilhe sua opinião sobre o livro..." aria-describedby="contadorResenha"></textarea>
+                <small id="contadorResenha" class="contadorResenha">0/500</small>
                 <div class="containerBtnPublicar">
                     <button type="submit" class="btnPublicar">publicar</button>
                 </div>
@@ -221,8 +222,8 @@
             <div class="secaoOpinaoModal">
                 <label for="txtFeedback" class="rotuloModal">Quer contar o que achou? <small>(opcional)</small></label>
                 <div class="textareaContainerModal">
-                    <textarea id="txtFeedback" maxlength="200" rows="4" placeholder="Escreva sua resenha..." aria-describedby="contadorFeedback"></textarea>
-                    <span id="contadorFeedback" class="contadorCaracteres">0/200</span>
+                    <textarea id="txtFeedback" maxlength="500" rows="4" placeholder="Escreva sua resenha..." aria-describedby="contadorFeedback"></textarea>
+                    <span id="contadorFeedback" class="contadorCaracteres">0/500</span>
                 </div>
             </div>
 
@@ -294,8 +295,8 @@
     <script src="../js/curtidasAvaliacao.js"></script>
     <script src="../js/comentariosAvaliacao.js"></script>
     <script src="../js/resenhas.js"></script>
-    <script src="../js/avaliar.js"></script>
-    <script src="../js/bibliotecaLivro.js"></script>
+    <script src="../js/avaliar.js?v=2"></script>
+    <script src="../js/bibliotecaLivro.js?v=2"></script>
     <script src="../js/header.js"></script>
     <script src="../js/pesquisa.js"></script>
     <script src="../js/entradaPesquisa.js"></script>

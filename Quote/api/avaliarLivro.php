@@ -34,9 +34,9 @@ try {
 	$codigoUsuario = $corpo['codigoUsuario'];
 	$codigoLivro = $corpo['codigoLivro'];
 	$nota = $corpo['nota'];
-	if (!is_string($corpo['resenha'])) {
+	if (!is_string($corpo['resenha']) || preg_match('/^.{0,500}$/usD', $corpo['resenha']) !== 1) {
 		http_response_code(400);
-		echo json_encode(['status' => false, 'mensagem' => 'A resenha deve ser um texto.']);
+		echo json_encode(['status' => false, 'mensagem' => 'A resenha deve ser um texto de até 500 caracteres.']);
 		return;
 	}
 	$resenha = trim($corpo['resenha']);

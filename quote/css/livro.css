@@ -818,6 +818,7 @@ body:has(#popupFeedbackLivro[open]) {
 }
 
 .cardResenhaUsuario {
+    min-width: 0;
     background-color: #ffffff;
     border-radius: 10px;
     padding: 14px;
@@ -842,6 +843,7 @@ body:has(#popupFeedbackLivro[open]) {
 .detalhesAutorCard {
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
 
 .nomeUsuarioResenha {
@@ -860,6 +862,17 @@ body:has(#popupFeedbackLivro[open]) {
     color: #333333;
     line-height: 1.4;
     margin-bottom: 10px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.contadorResenha {
+    display: block;
+    margin-top: 6px;
+    color: var(--tema-secundario, #666666);
+    font-size: 11px;
+    line-height: 1.4;
+    text-align: right;
 }
 
 .acoesCardResenha {

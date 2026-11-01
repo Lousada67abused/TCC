@@ -267,7 +267,7 @@
         // Esses itens são exibidos após as avaliações datadas, sem inventar datas.
         (dados.biblioteca || []).forEach(livro => {
             if (Number(livro.favorito) === 1) atividades.push({ ...livro, tipo: 'favorito' });
-            if (livro.status !== 'lido' || !avaliados.has(String(livro.id_livro))) {
+            if (livro.status && (livro.status !== 'lido' || !avaliados.has(String(livro.id_livro)))) {
                 atividades.push({ ...livro, tipo: livro.status });
             }
         });
