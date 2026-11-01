@@ -56,6 +56,10 @@
         const documento = new DOMParser().parseFromString(await resposta.text(), 'text/html');
         const principal = documento.querySelector('main.conteudoPesquisa');
         if (!principal || !principal.querySelector('#listaGeneros')) throw new Error('Página de pesquisa inválida');
+        // O modelo também pode vir do cache anterior à navegação canônica do ranking.
+        documento.querySelectorAll('a[href="ranking.html"]').forEach(link => {
+            link.setAttribute('href', 'ranking.html?genero=0');
+        });
         principal.querySelector('.pesquisaMobile')?.remove();
         modelo = { principal, navegacao: documento.querySelector('.navegacaoMobile'), titulo: documento.title };
         return modelo;
@@ -74,7 +78,7 @@
                 preparandoEstilo = null;
                 reject(new Error('Estilo da pesquisa indisponível'));
             }, { once: true });
-            const tema = document.querySelector('link[href$="/tema.css"]');
+            const tema = document.querySelector('link[data-estilo-tema], link[href$="/tema.css"]');
             document.head.insertBefore(estilo, tema);
         });
         return preparandoEstilo;
