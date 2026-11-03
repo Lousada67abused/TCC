@@ -178,8 +178,7 @@
         foto.loading = 'lazy';
         foto.width = 80;
         foto.height = 80;
-        foto.addEventListener('error', () => { foto.src = '../img/avatar.jpg'; }, { once: true });
-        foto.src = /^[1-9]\d*$/.test(codigo) ? '../img/' + codigo + '.png' : '../img/avatar.jpg';
+        window.Avatares.aplicar(foto, codigo);
 
         const informacoes = elemento('div', 'infoLeitor');
         const titulo = elemento('h3', 'nomeLeitor', nome);

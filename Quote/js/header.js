@@ -24,8 +24,7 @@
         usuario = JSON.parse(sessionStorage.getItem('usuario') || 'null');
     } catch (_) { /* Os links e a pesquisa funcionam também sem uma sessão. */ }
     document.querySelectorAll('.cabecalhoPrincipal .avatarHeader').forEach(imagem => {
-        imagem.addEventListener('error', () => { imagem.src = '../img/avatar.jpg'; }, { once: true });
-        imagem.src = /^[1-9]\d*$/.test(codigo || '') ? '../img/' + codigo + '.png' : '../img/avatar.jpg';
+        window.Avatares.aplicar(imagem, codigo);
     });
     const nome = document.getElementById('nomeUsuarioHeader');
     const email = document.getElementById('emailUsuarioHeader');

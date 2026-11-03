@@ -136,8 +136,7 @@
         buscar('#bioPerfilPublico').textContent = usuario.bio || 'Este leitor ainda não tem uma biografia.';
         const foto = buscar('#fotoPerfilPublico');
         foto.alt = 'Foto de perfil de ' + usuario.nm_usuario;
-        foto.onerror = () => { foto.onerror = null; foto.src = '../img/avatar.jpg'; };
-        foto.src = '../img/' + encodeURIComponent(usuario.id_usuario) + '.png';
+        window.Avatares.aplicar(foto, usuario.id_usuario);
         buscar('#lidosPerfilPublico').textContent = contagem(usuario.qtd_lidos);
         buscar('#seguindoPerfilPublico').textContent = contagem(usuario.qtd_seguindo);
         dados.biblioteca = dados.biblioteca.filter(item => Number(item.visivel) === 1);

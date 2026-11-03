@@ -50,8 +50,7 @@
         const foto = elemento('img');
         foto.alt = 'Foto de perfil de ' + nome;
         foto.loading = 'lazy';
-        foto.addEventListener('error', () => { foto.src = '../img/avatar.jpg'; }, { once: true });
-        foto.src = '../img/' + encodeURIComponent(comentario.id_usuario) + '.png';
+        window.Avatares.aplicar(foto, comentario.id_usuario);
         linkFoto.append(foto);
         const conteudo = elemento('div', 'conteudoComentarioAvaliacao');
         const cabecalho = elemento('div', 'autorComentarioAvaliacao');

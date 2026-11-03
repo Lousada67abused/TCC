@@ -42,6 +42,42 @@ As abas aceitam links como `perfil.html#estante` e `perfil.html#metas` e acompan
 o histórico do navegador. As capas usam o ISBN em
 `https://covers.openlibrary.org/b/isbn/{id_livro}-L.jpg`.
 
+## Foto de perfil
+
+No próprio perfil, o botão de câmera abre a edição de foto. Escolher um arquivo
+mostra uma prévia; somente Salvar envia a imagem. Cancelar, Escape e clicar fora
+descartam a seleção. Remover foto também exige Salvar e volta ao avatar padrão.
+O editor aceita JPG, PNG e WebP de até 5 MiB, incluindo fotos com orientação EXIF.
+O servidor valida o arquivo e gera um JPEG quadrado de 512 × 512, com recorte
+central e sem os metadados da imagem original.
+
+As fotos do cabeçalho, perfil, feed, resenhas, comentários e busca de leitores
+usam `avatarUsuario.php?codigoUsuario=ID`. O retorno público usa ETag e
+revalidação de cache. O helper `avatares.js` atualiza as fotos já exibidas após
+salvar, sem alterar o código ou nome da conta conectada. As imagens legadas
+`img/ID.png` continuam como alternativa até o usuário trocar ou remover a foto;
+esses arquivos rastreados nunca são sobrescritos ou apagados.
+
+`buscarAvatarUsuario.php` retorna os metadados e a identidade da sessão PHP.
+`atualizarAvatarUsuario.php` recebe formulário multipart com `codigoUsuario` e
+`foto`, ou `codigoUsuario` e `acao=remover`. A API confere a conta autenticada;
+visitantes e contas divergentes não recebem controles para editar. Envios de
+navegador vindos de outra origem são rejeitados.
+
+O PHP precisa de GD com suporte a JPEG/PNG/WebP, Fileinfo, `upload_max_filesize`
+de pelo menos `5M` e `post_max_size` de pelo menos `8M`. EXIF é recomendado para
+aplicar a orientação de fotos JPEG. Não há alteração no banco. Os uploads ficam
+fora da pasta pública, por padrão em `quote-private/avatars` no diretório
+retornado por `dirname(__DIR__, 4)` a partir do model. A variável de ambiente
+`QUOTE_AVATAR_DIR` permite definir outro caminho absoluto, fora do document root,
+com permissão de leitura e escrita para o processo PHP. Preserve essa pasta em
+atualizações e backups; ela não faz parte do Git.
+
+No ambiente da nuvem, o diretório padrão é
+`/workspace/.tcc-env/quote-private/avatars`, preservado ao regenerar a cópia de
+execução. GD, Fileinfo, EXIF e os limites de envio estão na configuração de
+instalação do ambiente.
+
 ## Perfil público de um leitor
 
 Os nomes e avatares nas resenhas do livro e no feed da homepage abrem

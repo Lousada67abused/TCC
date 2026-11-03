@@ -34,8 +34,7 @@
         const info = elemento('div', 'infoPerfilUsuario');
         const avatar = elemento('img', 'avatarUsuario');
         avatar.alt = 'Foto de ' + usuario.nm_usuario;
-        avatar.addEventListener('error', () => { avatar.src = '../img/avatar.jpg'; }, { once: true });
-        avatar.src = '../img/' + encodeURIComponent(usuario.id_usuario) + '.png';
+        window.Avatares.aplicar(avatar, usuario.id_usuario);
         const detalhes = elemento('div', 'detalhesUsuario');
         detalhes.append(elemento('h2', 'nomeUsuario', usuario.nm_usuario));
         const stats = elemento('div', 'estatisticasUsuario');

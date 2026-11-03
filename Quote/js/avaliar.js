@@ -53,8 +53,7 @@
     }
 
     function foto(img, codigo) {
-        img.onerror = function () { this.onerror = null; this.src = '../img/avatar.jpg'; };
-        img.src = '../img/' + encodeURIComponent(codigo) + '.png';
+        window.Avatares.aplicar(img, codigo);
     }
     const avatar = card.querySelector('img');
     if (avatar && codigoUsuario) foto(avatar, codigoUsuario);

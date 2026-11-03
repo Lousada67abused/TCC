@@ -1,0 +1,32 @@
+.fotoPerfilEditor { position: relative; flex-shrink: 0; }
+.fotoPerfilEditor .fotoPerfil { display: block; }
+.fotoPerfilEditor #alterarFotoPerfil { position: absolute; right: 2px; bottom: 2px; display: inline-flex; align-items: center; justify-content: center; width: 34px; height: 34px; padding: 7px; border: 1px solid #4176c4; border-radius: 50%; background: #fff; color: #1254b5; box-shadow: 0 2px 5px rgba(0, 0, 0, 0.12); cursor: pointer; }
+.fotoPerfilEditor #alterarFotoPerfil svg { width: 19px; height: 19px; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
+.fotoPerfilEditor #alterarFotoPerfil:hover { background: #edf4ff; }
+.fotoPerfilEditor #alterarFotoPerfil[hidden], .feedbackAvatarPerfil[hidden], .popupEditarAvatar [hidden] { display: none !important; }
+.fotoPerfilEditor #alterarFotoPerfil:focus-visible, .popupEditarAvatar :focus-visible, .feedbackAvatarPerfil button:focus-visible { outline: 2px solid #7bb0ff; outline-offset: 3px; }
+.feedbackAvatarPerfil { min-width: 0; font-size: 12px; line-height: 1.5; }
+#estadoAvatarPerfil { font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
+#estadoAvatarPerfil.sucesso { color: #15803d; }
+#estadoAvatarPerfil.erro { color: #b91c1c; }
+.botaoTentarAvatar { margin-top: 8px; padding: 6px 10px; border: 1px solid #1254b5; border-radius: 4px; background: #fff; color: #1254b5; font-size: 12px; cursor: pointer; }
+.popupEditarAvatar { position: fixed; inset: 0; width: min(440px, calc(100vw - 32px)); max-width: none; max-height: calc(100dvh - 32px); margin: auto; padding: 0; overflow-y: auto; border: 0; border-radius: 8px; background: #fff; color: #111; box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2); }
+.popupEditarAvatar::backdrop { background: rgba(0, 0, 0, 0.45); }
+body:has(.popupEditarAvatar[open]) { overflow: hidden; }
+.formAvatarPerfil { position: relative; display: flex; flex-direction: column; align-items: center; gap: 16px; padding: 28px; }
+.formAvatarPerfil h2 { align-self: stretch; margin: 8px 28px 2px 0; font-size: 20px; line-height: 1.35; }
+.popupEditarAvatar .fecharAvatarPerfil { position: absolute; top: 8px; right: 8px; width: 40px; height: 40px; padding: 0; border: 0; border-radius: 0; background: transparent; color: #475569; font-size: 28px; line-height: 1; cursor: pointer; }
+.previaAvatarPerfil { display: block; width: 136px; height: 136px; flex-shrink: 0; border-radius: 50%; background: #f1f5f9; object-fit: cover; }
+.popupEditarAvatar .escolherFotoAvatar, .popupEditarAvatar .cancelarAvatarPerfil, .popupEditarAvatar .salvarAvatarPerfil { min-height: 34px; padding: 7px 14px; border: 1px solid #1254b5; border-radius: 4px; background: #fff; color: #1254b5; font-size: 12px; line-height: 1.4; cursor: pointer; }
+.popupEditarAvatar .salvarAvatarPerfil { background: #1254b5; color: #fff; }
+.popupEditarAvatar .removerAvatarPerfil { padding: 2px 5px; border: 0; background: transparent; color: #b91c1c; font-size: 12px; line-height: 1.5; text-decoration: underline; cursor: pointer; }
+.ajudaAvatarPerfil, .estadoEditarAvatar { align-self: stretch; min-width: 0; margin: 0; color: #64748b; font-size: 12px; line-height: 1.5; text-align: center; overflow-wrap: anywhere; }
+.estadoEditarAvatar.erro { color: #b91c1c; }
+.acoesAvatarPerfil { display: flex; align-self: stretch; justify-content: flex-end; flex-wrap: wrap; gap: 8px; padding-top: 4px; }
+.popupEditarAvatar button:disabled { opacity: 0.6; cursor: default; }
+.popupEditarAvatar form[aria-busy="true"] button:disabled { cursor: wait; }
+@media (max-width: 480px) {
+    .formAvatarPerfil { gap: 14px; padding: 24px 20px; }
+    .previaAvatarPerfil { width: 120px; height: 120px; }
+    .fotoPerfilEditor #alterarFotoPerfil { width: 30px; height: 30px; padding: 5px; }
+}
