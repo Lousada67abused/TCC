@@ -623,7 +623,8 @@ body:has(#popupFeedbackLivro[open]) {
 
 .estrelasAvaliacaoModal {
     display: flex;
-    justify-content: space-between;
+    gap: 25px;
+    justify-content: center;
 }
 
 .estrelasAvaliacaoModal button {
@@ -645,7 +646,8 @@ body:has(#popupFeedbackLivro[open]) {
 
 .legendaEstrelas {
     display: flex;
-    justify-content: space-between;
+    gap: 223px;
+    justify-content: center;
     margin-top: 4px;
     font-size: 12px;
     color: #666666;
@@ -818,6 +820,7 @@ body:has(#popupFeedbackLivro[open]) {
 }
 
 .cardResenhaUsuario {
+    min-width: 0;
     background-color: #ffffff;
     border-radius: 10px;
     padding: 14px;
@@ -842,6 +845,7 @@ body:has(#popupFeedbackLivro[open]) {
 .detalhesAutorCard {
     display: flex;
     flex-direction: column;
+    min-width: 0;
 }
 
 .nomeUsuarioResenha {
@@ -860,6 +864,17 @@ body:has(#popupFeedbackLivro[open]) {
     color: #333333;
     line-height: 1.4;
     margin-bottom: 10px;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+.contadorResenha {
+    display: block;
+    margin-top: 6px;
+    color: var(--tema-secundario, #666666);
+    font-size: 11px;
+    line-height: 1.4;
+    text-align: right;
 }
 
 .acoesCardResenha {
@@ -910,38 +925,6 @@ body:has(#popupFeedbackLivro[open]) {
     font-size: 16px;
 }
 
-.navInferiorMobile {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 56px;
-    background-color: #003366;
-    z-index: 100;
-}
-
-.navInferiorMobile ul {
-    list-style: none;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 100%;
-}
-
-.navInferiorMobile a {
-    color: #ffffff;
-    text-decoration: none;
-    opacity: 0.7;
-}
-
-.navInferiorMobile a.ativo {
-    opacity: 1;
-}
-
-.navInferiorMobile .material-symbols-outlined {
-    font-size: 24px;
-}
-
 @media (min-width: 768px) {
     body {
         background-color: #ffffff;
@@ -970,13 +953,12 @@ body:has(#popupFeedbackLivro[open]) {
         padding: 0 20px;
     }
 
-    .avatarHeader {
+    .headerDesktop .avatarHeader {
         width: 36px;
         height: 36px;
         border-radius: 50%;
     }
 
-    .navInferiorMobile,
     .btnVoltarMobile,
     .mobileOnly {
         display: none !important;
@@ -1164,41 +1146,6 @@ body:has(#popupFeedbackLivro[open]) {
     font-size: 16px;
 }
 
-.navInferiorMobile {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 56px;
-    background-color: #002b66;
-    z-index: 100;
-}
-
-.navInferiorMobile ul {
-    list-style: none;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-    height: 100%;
-}
-
-.navInferiorMobile a {
-    color: #ffffff;
-    text-decoration: none;
-    opacity: 0.7;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.navInferiorMobile a.ativo {
-    opacity: 1;
-}
-
-.navInferiorMobile .material-symbols-outlined {
-    font-size: 24px;
-}
-
 @media (min-width: 768px) {
 
     .headerDesktop {
@@ -1261,7 +1208,4 @@ body:has(#popupFeedbackLivro[open]) {
         font-size: 12px;
     }
 
-    .navInferiorMobile {
-        display: none;
-    }
 }

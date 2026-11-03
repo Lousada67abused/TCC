@@ -72,8 +72,9 @@
         }
         const livro = resultado.resposta.find(item => item && String(item.id_livro) === codigoLivro);
         if (!livro) return null;
-        if (!statusValidos.has(livro.status)) throw new Error('Estado de leitura inválido.');
-        return { status: livro.status, favorito: Number(livro.favorito) === 1 ? 1 : 0 };
+        const status = livro.status === null ? '' : livro.status;
+        if (status !== '' && !statusValidos.has(status)) throw new Error('Estado de leitura inválido.');
+        return { status, favorito: Number(livro.favorito) === 1 ? 1 : 0 };
     }
 
     async function enviar(api, dados) {
@@ -96,8 +97,7 @@
         atualizarControles();
         try {
             entrada = await consultar();
-            if (statusSelecionado && entrada?.status !== statusSelecionado) confirmarSelecao('');
-            statusSelecionado = entrada?.status || '';
+            confirmarSelecao(entrada?.status || '');
             carregado = true;
             mensagem(entrada ? '' : 'Adicione o livro à estante para favoritar.');
         } catch (_) {
@@ -114,8 +114,7 @@
         // Reconsultar evita apresentar uma alteração como confirmada sem saber o estado atual.
         try {
             entrada = await consultar();
-            if (statusSelecionado && entrada?.status !== statusSelecionado) confirmarSelecao('');
-            statusSelecionado = entrada?.status || '';
+            confirmarSelecao(entrada?.status || '');
             carregado = true;
             mensagem(texto + ' Confira o estado atual e tente novamente.', true);
         } catch (_) {
@@ -167,7 +166,7 @@
         }
     }
 
-    window.BibliotecaLivro = { marcarLido: () => salvarStatus('lido') };
+    window.BibliotecaLivro = { marcarLido: () => salvarStatus('lido'), recarregar: carregar };
 
     seletores.forEach(seletor => seletor.addEventListener('change', () => {
         const novoStatus = seletor.value;

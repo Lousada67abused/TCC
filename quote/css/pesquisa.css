@@ -22,18 +22,7 @@ body.paginaPesquisa {
 
 .pesquisaMobile { display: flex; width: 100%; margin-bottom: 28px; }
 
-.navegacaoMobile .itemNavegacao {
-    display: flex;
-    justify-content: center;
-    flex: 1;
-    min-width: 0;
-}
 
-.navegacaoMobile .material-symbols-outlined {
-    width: 26px;
-    height: 26px;
-    overflow: hidden;
-}
 
 [hidden] {
     display: none !important;
@@ -195,7 +184,6 @@ body.paginaPesquisa {
     transform: none;
 }
 
-.pesquisaEmEdicao .botaoRanking,
 .filtroPesquisaAtiva {
     display: none;
 }

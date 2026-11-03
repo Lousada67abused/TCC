@@ -19,17 +19,19 @@ botões com rolagem horizontal no celular.
   `{status: 'true', resposta: [...]}`, usando `LivroController`, `Livro` e
   `rankingLivroGenero`.
 - A procedure ordena por nota média decrescente, quantidade de avaliações
-  decrescente e título crescente, com `LIMIT 10`. A interface preserva essa
+  decrescente, título e código crescentes, com `LIMIT 10`. Usa a média real
+  antes do arredondamento de apresentação. A interface preserva essa
   ordem e mostra posição, capa, título, autores, gêneros, ano de publicação,
-  nota média com até duas casas e quantidade de avaliações.
+  nota média com uma casa decimal e quantidade de avaliações.
 - Apenas livros avaliados participam da consulta existente. Se houver menos
   de dez, a tela mostra a quantidade disponível; um gênero sem avaliações
   apresenta uma mensagem vazia, sem preencher posições com livros fictícios.
 - As capas usam `https://covers.openlibrary.org/b/isbn/{id_livro}-L.jpg`.
   Os links levam o ISBN na URL da página do livro e também atualizam a sessão.
 
-Não há API ou alteração SQL nova nesta implementação. Uma base já configurada
-com essas duas consultas pode usar a página diretamente.
+A página usa as APIs existentes. Para atualizar as consultas de uma base já
+criada, execute `migracao_notas_livros.sql`; os dados não precisam ser
+reimportados. Veja `README_NOTAS_LIVROS.md` para o contrato e a validação.
 
 ## Comportamento
 

@@ -1,0 +1,343 @@
+body {
+    background-color: #ffffff;
+    color: #111111;
+    min-height: 100vh;
+    padding-bottom: 80px;
+}
+
+.conteudoPrincipal {
+    min-width: 0;
+    max-width: 1200px;
+    padding: 0px 16px 8px 16px;
+}
+
+.tituloSecao {
+    font-size: clamp(16px, 2vw, 20px);
+    font-weight: bold;
+    margin-bottom: 25px;
+}
+
+.mensagemEstado {
+    font-size: 13px;
+    line-height: 1.6;
+    color: #475569;
+    margin-bottom: 16px;
+    overflow-wrap: anywhere;
+}
+
+.mensagemEstado:empty {
+    display: none;
+}
+
+.areaLivros {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 104px), 1fr));
+    grid-auto-rows: 1fr;
+    align-items: stretch;
+    gap: 28px 16px;
+}
+
+.cardLivro {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    color: inherit;
+    text-decoration: none;
+    border-radius: 4px;
+    margin-bottom: 12px;
+}
+
+.capaLivro {
+    display: block;
+    width: 100%;
+    height: auto;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.18);
+}
+
+.capaLivroIndisponivel,
+.capaResenhaIndisponivel {
+    display: grid;
+    place-items: center;
+    background-color: #edf2f8;
+    color: #475569;
+    text-align: center;
+    padding: 8px;
+    font-size: 11px;
+}
+
+.tituloLivro {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+    overflow-wrap: anywhere;
+    line-height: 1.4;
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 2px;
+}
+
+.autorLivro {
+    display: block;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    line-height: 1.4;
+    font-size: 11px;
+    min-height: 1.4em;
+    color: #555555;
+    margin-bottom: 8px;
+}
+
+.cardLivro .areaEstrelas {
+    margin-top: auto;
+    display: flex;
+    align-items: center;
+}
+
+.areaEstrelas span {
+    font-size: 22px;
+}
+
+.estrelaAvaliacao {
+    font-family: Arial, sans-serif;
+    line-height: 1;
+}
+
+.areaEstrelas .notaLivro {
+    font-size: 18px;
+    margin-left: 4px;
+    white-space: nowrap;
+    color: #475569;
+}
+
+.containerBotaoVerMais {
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+[hidden] {
+    display: none !important;
+}
+
+.intervaloLivros {
+    margin-right: auto;
+    color: #475569;
+    font-size: 12px;
+}
+
+.botaoVerMais {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background-color: var(--royalBlue);
+    color: #ffffff;
+    border: 1px solid var(--royalBlue);
+    border-radius: 6px;
+    padding: 10px 18px;
+    min-height: 44px;
+    font-size: 13px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.botaoVerMais .iconeBotao {
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    fill: currentColor;
+}
+
+.botaoSecundario {
+    background-color: #ffffff;
+    color: var(--royalBlue);
+}
+
+.cardLivro:focus-visible,
+.cardResenhaAmigo a:focus-visible,
+.botaoVerMais:focus-visible {
+    outline: 3px solid var(--mediumBlue);
+    outline-offset: 4px;
+}
+
+.secaoAmigos {
+    margin-top: 40px;
+}
+
+.listaResenhasAmigos {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    align-items: start;
+    gap: 16px;
+    margin-left: -10px;
+}
+
+.cardResenhaAmigo {
+    display: flex;
+    min-width: 0;
+    gap: 12px;
+    padding: 14px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+.linkCapaResenha {
+    display: block;
+    flex-shrink: 0;
+    width: clamp(56px, 8vw, 80px);
+    text-decoration: none;
+    margin-left: 10px;
+}
+
+.capaResenha {
+    display: block;
+    width: 100%;
+    aspect-ratio: 2 / 3;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.capaResenhaIndisponivel {
+    display: grid;
+}
+
+.conteudoResenha {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    min-width: 0;
+    gap: 8px;
+}
+
+.tituloLivroResenha {
+    font-size: 14px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+}
+
+.tituloLivroResenha a {
+    color: inherit;
+    text-decoration: none;
+}
+
+.tituloLivroResenha a:hover {
+    text-decoration: underline;
+}
+
+.autorLivroResenha {
+    display: block;
+    font-size: 12px;
+    color: #555555;
+    margin-top: 4px;
+    overflow-wrap: anywhere;
+}
+
+.usuarioAvaliacao {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px 8px;
+}
+
+.avatarUsuarioResenha {
+    width: 24px;
+    height: 24px;
+    flex-shrink: 0;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.handleUsuario {
+    flex: 1 1 90px;
+    min-width: 0;
+    font-size: 12px;
+    color: #475569;
+    overflow-wrap: anywhere;
+}
+
+.usuarioAvaliacao .areaEstrelas {
+    flex-shrink: 0;
+}
+
+.dataResenha {
+    color: #64748b;
+    font-size: 11px;
+}
+
+.textoResenha {
+    font-size: 13px;
+    color: #475569;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+
+
+@media (min-width: 600px) {
+    .areaLivros {
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 136px), 1fr));
+        gap: 32px 20px;
+    }
+}
+
+@media (min-width: 768px) {
+    body {
+        padding-bottom: 24px;
+    }
+
+    .conteudoPrincipal {
+        padding: 0px 24px 24px 24px;
+    }
+
+    .tituloLivro {
+        font-size: 14px;
+    }
+
+    .autorLivro {
+        font-size: 12px;
+    }
+
+    .areaEstrelas span {
+        font-size: 20px;
+    }
+
+    .cardResenhaAmigo {
+        padding: 18px 18px 18px 0px;
+        gap: 16px;
+    }
+
+    .tituloLivroResenha {
+        font-size: 16px;
+    }
+
+    .textoResenha {
+        font-size: 14px;
+    }
+
+    .navegacaoMobile {
+        display: none;
+    }
+}
+
+@media (min-width: 900px) {
+    .areaLivros {
+        grid-template-columns: repeat(auto-fill, minmax(min(100%, 160px), 1fr));
+        column-gap: 24px;
+    }
+
+    .listaResenhasAmigos {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}

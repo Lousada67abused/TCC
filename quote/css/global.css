@@ -1,6 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
 
 :root {
+    scroll-padding-top: 86px;
     --deepNavyBlue: #002966;
     --darkOceanBlue: #0E3F88;
     --royalBlue: #1254B5;
@@ -52,6 +53,16 @@ header {
     justify-content: space-between;
     padding: 0 32px;
     margin-bottom: 50px;
+}
+
+/* Mantém a navegação visível sem retirar seu espaço no início da página. */
+body > header,
+body > .cabecalhoMetasMobile,
+body > .topoConfiguracoesMobile {
+    position: sticky;
+    top: 0;
+    z-index: 110;
+    flex-shrink: 0;
 }
 
 header > img {
@@ -207,12 +218,44 @@ form.pesquisaPadrao button:focus-visible { outline: none; }
 .acoesHeaderDesktop {
     display: flex;
     align-items: center;
-    gap: 12px;
+    gap: clamp(12px, calc(13.25vw - 86px), 105px);
     flex-shrink: 0;
 }
 
 .botaoRanking {
-    display: none;
+    transition: background-color 0.3s ease-in-out;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    gap: 5px;
+    width: 100px;
+    min-height: 44px;
+    border: 1px solid var(--white);
+    border-radius: 8px;
+    background-color: transparent;
+    color: var(--white);
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.botaoRanking .material-symbols-outlined {
+    flex-shrink: 0;
+    width: 20px;
+    height: 20px;
+    margin: 0;
+    overflow: hidden;
+    font-size: 20px;
+    line-height: 1;
+}
+
+.botaoRanking:hover { 
+    background-color: #051630;
+}
+
+.cabecalhoPrincipal .botaoRanking:focus-visible { 
+    outline: 3px solid var(--brightLightBlue); outline-offset: 3px; 
 }
 
 .avatarHeader {
@@ -231,11 +274,14 @@ form.pesquisaPadrao button:focus-visible { outline: none; }
 
 .menuDropdownPerfil {
     display: none;
+    flex-direction: column;
     position: absolute;
     top: calc(100% + 8px);
     right: 0;
     width: 200px;
     max-width: calc(100vw - 32px);
+    max-height: calc(100vh - 86px);
+    max-height: calc(100dvh - 86px);
     background-color: #ffffff;
     border-radius: 8px;
     box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
@@ -254,6 +300,7 @@ form.pesquisaPadrao button:focus-visible { outline: none; }
 
 .cabecalhoDropdown {
     display: flex;
+    flex-shrink: 0;
     align-items: center;
     gap: 10px;
     padding: 0 16px 12px;
@@ -285,6 +332,9 @@ form.pesquisaPadrao button:focus-visible { outline: none; }
 .listaMenuDropdown {
     list-style: none;
     padding-top: 8px;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
 }
 
 .listaMenuDropdown a {
@@ -343,7 +393,7 @@ form.pesquisaPadrao button:focus-visible { outline: none; }
 }
 
 [data-menu-perfil] .menuDropdownPerfil:not([hidden]) {
-    display: block;
+    display: flex;
 }
 
 .botao {
@@ -379,7 +429,7 @@ form.pesquisaPadrao button:focus-visible { outline: none; }
 .botaoCurtirAvaliacao svg { width: 18px; height: 18px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.7; stroke-linecap: round; stroke-linejoin: round; }
 .curtidasAvaliacao .botaoCurtirAvaliacao.curtida { color: #c72d50; }
 .botaoCurtirAvaliacao.curtida svg { fill: currentColor; }
-.curtidasAvaliacao .botaoCurtirAvaliacao:hover { background: #fff0f3; }
+.curtidasAvaliacao .botaoCurtirAvaliacao:hover { background: #FEFEFF; }
 .curtidasAvaliacao .botaoCurtirAvaliacao:disabled { opacity: 0.6; cursor: wait; }
 .curtidasAvaliacao .botaoCurtirAvaliacao:focus-visible { outline: 2px solid var(--brightLightBlue); outline-offset: 2px; }
 .curtidasAvaliacao .erroCurtidaAvaliacao { color: #b91c1c; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
@@ -409,6 +459,27 @@ a.linkPerfilAvatar:focus-visible { outline: 3px solid var(--brightLightBlue); ou
     align-items: center;
 }
 
+.paginaPerfil:not(.paginaPerfilPublico) .cabecalhoPerfil { position: relative; }
+.paginaPerfil:not(.paginaPerfilPublico) .infoPerfil { padding-right: 40px; }
+.configuracoesPerfil {
+    position: absolute;
+    top: 0;
+    right: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    min-height: 40px;
+    border: 1px solid var(--tema-borda, #bdd7ff);
+    border-radius: 6px;
+    background: var(--tema-superficie, #ffffff);
+    color: var(--tema-link, #1254b5);
+    text-decoration: none;
+}
+.configuracoesPerfil .material-symbols-outlined { font-size: 20px; }
+.configuracoesPerfil:hover { background: var(--tema-suave, #edf4ff); }
+.configuracoesPerfil:focus-visible { outline: 3px solid var(--brightLightBlue); outline-offset: 3px; }
+
 .conteudoPrincipal {
     padding: 16px;
     width: 100%;
@@ -431,6 +502,12 @@ a.linkPerfilAvatar:focus-visible { outline: 3px solid var(--brightLightBlue); ou
 }
 
 .itemNavegacao {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
     color: #ffffff;
     opacity: 0.7;
     text-decoration: none;
@@ -438,6 +515,15 @@ a.linkPerfilAvatar:focus-visible { outline: 3px solid var(--brightLightBlue); ou
 
 .itemNavegacao span {
     font-size: 26px;
+    width: 26px;
+    height: 26px;
+    overflow: hidden;
+}
+
+.itemNavegacao:focus-visible {
+    outline: 2px solid var(--brightLightBlue);
+    outline-offset: -4px;
+    border-radius: 4px;
 }
 
 .itemNavegacao.ativo {
@@ -455,20 +541,56 @@ a.linkPerfilAvatar:focus-visible { outline: 3px solid var(--brightLightBlue); ou
     width: 100%;
     background-color: #002663;
     display: flex;
-    justify-content: space-around;
+    min-height: 56px;
     align-items: center;
-    padding: 12px 0;
+    padding: 6px max(8px, env(safe-area-inset-right)) calc(6px + env(safe-area-inset-bottom)) max(8px, env(safe-area-inset-left));
     z-index: 100;
+}
+
+@media (max-width: 767px) {
+    :root {
+        scroll-padding-bottom: calc(80px + env(safe-area-inset-bottom));
+    }
+
+    body:has(> nav.navegacaoMobile) {
+        padding-bottom: calc(80px + env(safe-area-inset-bottom));
+    }
+
+    .menuDropdownPerfil {
+        max-height: calc(100vh - 150px - env(safe-area-inset-bottom));
+        max-height: calc(100dvh - 150px - env(safe-area-inset-bottom));
+    }
+
+    /* A busca aberta no cabeçalho também precisa de um fundo ao rolar. */
+    body.paginaPesquisa.pesquisaEmEdicao > header.cabecalhoPrincipal {
+        background-color: var(--tema-fundo, var(--background));
+    }
 }
 
 .secaoUsuario {
     display: none;
 }
 
+@media (max-width: 430px) {
+    .cabecalhoPrincipal{
+        display: none;
+    }
+    body{
+        padding-top: 30px;
+    }
+}
+
+
 @media (min-width: 768px) {
+    .navegacaoMobile { display: none; }
     .cabecalhoPrincipal {
+        display: flex;
         padding: 12px 48px;
         gap: 24px;
+    }
+
+    body{
+        padding-top: 0px;
     }
 
     .logotipoContainer img {
@@ -488,26 +610,16 @@ a.linkPerfilAvatar:focus-visible { outline: 3px solid var(--brightLightBlue); ou
         font-size: 20px;
     }
 
-    .acoesHeaderDesktop {
-        gap: 16px;
-    }
-
     .botaoRanking {
-        display: inline-flex;
-        align-items: center;
-        gap: 6px;
-        background-color: transparent;
-        color: #ffffff;
-        border: 1px solid #ffffff;
-        border-radius: 6px;
-        padding: 6px 16px;
-        font-size: 13px;
-        font-weight: bold;
-        text-decoration: none;
+        gap: 17px;
+        width: 135px;
+        min-height: 34px;
+        padding: 0 12px;
+        font-size: 16px;
     }
 
     .avatarHeader {
-        width: 40px;
-        height: 40px;
+        width: 50px;
+        height: 50px;
     }
 }

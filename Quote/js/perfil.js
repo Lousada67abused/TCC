@@ -20,6 +20,9 @@
     let filtroEstante = 'todos';
     let anoAtual = String(new Date().getFullYear());
     const formatoNumero = new Intl.NumberFormat('pt-BR');
+    if (conectado) todos('[data-lista-perfil]').forEach(link => {
+        link.href = 'conexoes.html?codigoUsuario=' + encodeURIComponent(codigo) + '&lista=' + link.dataset.listaPerfil;
+    });
 
     function elemento(tag, classe, texto) {
         const no = document.createElement(tag);
@@ -77,17 +80,29 @@
     }
     function criarResenha(avaliacao) {
         const artigo = elemento('article', 'resenha');
+        const livro = criarLivro(avaliacao);
         const texto = elemento('div', 'textoResenha');
+        const informacoes = linkLivro(avaliacao, 'informacoesResenha');
+        informacoes.append(livro.querySelector('.textoLivro'));
         const nota = elemento('div', 'notaResenha');
+        const estrelas = elemento('span', 'estrelasResenha');
+        const valor = Math.min(5, numero(avaliacao.nota));
+        estrelas.setAttribute('role', 'img');
+        estrelas.setAttribute('aria-label', 'Avaliação: ' + valor + ' de 5 estrelas');
+        for (let i = 1; i <= 5; i++) {
+            const estrela = elemento('span', i > valor ? 'estrelaVazia' : '', '★');
+            estrela.setAttribute('aria-hidden', 'true');
+            estrelas.append(estrela);
+        }
         const data = elemento('time', '', formatarData(avaliacao.dt_avaliacao));
         if (data.textContent) data.dateTime = String(avaliacao.dt_avaliacao).slice(0, 10);
-        nota.append(data);
-        texto.append(nota,
+        nota.append(estrelas, data);
+        texto.append(informacoes, nota,
             elemento('p', 'conteudoResenha', avaliacao.txt_resenha || 'Avaliação sem resenha.'));
         const interacoes = elemento('div', 'acoesResenhaInteracoes');
         interacoes.append(window.CurtidasAvaliacao.criar(avaliacao), window.ComentariosAvaliacao.criar(avaliacao));
         texto.append(interacoes);
-        artigo.append(criarLivro(avaliacao), texto);
+        artigo.append(livro, texto);
         return artigo;
     }
     function abrirAba(nome) {
@@ -106,8 +121,10 @@
     }
     abas.forEach((botao, indice) => {
         botao.addEventListener('click', () => {
-            history.pushState(null, '', '#' + botao.dataset.aba);
-            abrirAba(botao.dataset.aba);
+            const nome = botao.dataset.aba;
+            const consulta = nome === 'estante' && filtroEstante !== 'todos' ? '?status=' + encodeURIComponent(filtroEstante) : '';
+            history.pushState(null, '', '#' + nome + consulta);
+            lerAba();
         });
         botao.addEventListener('keydown', evento => {
             const teclas = ['ArrowLeft', 'ArrowRight', 'Home', 'End'];
@@ -120,11 +137,14 @@
         });
     });
     function lerAba() {
-        if (location.pathname.endsWith('/perfil.html')) abrirAba(location.hash.slice(1));
+        if (!location.pathname.endsWith('/perfil.html')) return;
+        const [nome, consulta = ''] = location.hash.slice(1).split('?');
+        if (nome === 'estante') definirFiltroEstante(new URLSearchParams(consulta).get('status') || 'todos');
+        abrirAba(nome);
     }
     window.addEventListener('hashchange', lerAba);
     window.addEventListener('popstate', lerAba);
-    abrirAba(location.hash.slice(1));
+    lerAba();
     document.getElementById('voltarMetas')?.addEventListener('click', () => {
         history.pushState(null, '', '#principal');
         abrirAba('principal');
@@ -164,14 +184,20 @@
         const favoritos = dados.biblioteca.filter(livro => Number(livro.favorito) === 1);
         lista('listaFavoritos', favoritos.slice(0, 5), criarLivro, 'Você ainda não marcou livros como favoritos.');
     }
-    todos('#estante [data-status]').forEach(botao => botao.addEventListener('click', () => {
-        filtroEstante = botao.dataset.status;
+    function definirFiltroEstante(status) {
+        const botoes = todos('#estante [data-status]');
+        filtroEstante = botoes.some(botao => botao.dataset.status === status) ? status : 'todos';
         todos('#estante [data-status]').forEach(outro => {
-            const ativo = outro === botao;
+            const ativo = outro.dataset.status === filtroEstante;
             outro.classList.toggle('ativo', ativo);
             outro.setAttribute('aria-pressed', String(ativo));
         });
         mostrarEstante();
+    }
+    todos('#estante [data-status]').forEach(botao => botao.addEventListener('click', () => {
+        const consulta = botao.dataset.status === 'todos' ? '' : '?status=' + encodeURIComponent(botao.dataset.status);
+        history.pushState(null, '', '#estante' + consulta);
+        lerAba();
     }));
     function mostrarAvaliacoes() {
         if (!dados.avaliacoes) return;
@@ -254,7 +280,7 @@
         // Esses itens são exibidos após as avaliações datadas, sem inventar datas.
         (dados.biblioteca || []).forEach(livro => {
             if (Number(livro.favorito) === 1) atividades.push({ ...livro, tipo: 'favorito' });
-            if (livro.status !== 'lido' || !avaliados.has(String(livro.id_livro))) {
+            if (livro.status && (livro.status !== 'lido' || !avaliados.has(String(livro.id_livro)))) {
                 atividades.push({ ...livro, tipo: livro.status });
             }
         });
@@ -381,7 +407,7 @@
             elemento('p', 'prazoMeta', 'Prazo: ' + formatarData(meta.data)));
         corpo.append(roda, detalhe);
         const numeros = elemento('ul', 'numerosMeta');
-        [['menu_book', formatoNumero.format(lidos), 'lidos na estante'],
+        [['menu_book', formatoNumero.format(lidos), 'lidos em ' + anoData(meta.data)],
             ['star', mediaDoAno(anoData(meta.data)), 'média em ' + anoData(meta.data)],
             ['schedule', dias === null ? '—' : formatoNumero.format(dias), 'dias restantes']].forEach(([nome, valor, rotulo]) => {
             const item = elemento('li');
@@ -396,13 +422,15 @@
     function mostrarResumo() {
         const resumo = buscar('#resumoAno');
         const itens = [];
+        const avaliacoesDoAno = (dados.avaliacoes || []).filter(avaliacao => anoData(avaliacao.dt_avaliacao) === anoAtual);
         function adicionar(rotulo, valor) {
             const item = elemento('li');
             item.append(elemento('span', '', rotulo), elemento('strong', '', valor));
             itens.push(item);
         }
-        if (dados.biblioteca) {
-            const lidos = dados.biblioteca.filter(livro => livro.status === 'lido');
+        if (dados.biblioteca && dados.avaliacoes) {
+            const avaliadosNoAno = new Set(avaliacoesDoAno.map(avaliacao => String(avaliacao.id_livro)));
+            const lidos = dados.biblioteca.filter(livro => livro.status === 'lido' && avaliadosNoAno.has(String(livro.id_livro)));
             adicionar('Livros lidos', formatoNumero.format(lidos.length));
             adicionar('Páginas lidas', formatoNumero.format(lidos.reduce((total, livro) => total + numero(livro.qnt_paginas), 0)));
             const generos = new Map();
@@ -414,12 +442,11 @@
             adicionar('Gênero mais lido', maisLido?.[0] || '—');
         }
         if (dados.avaliacoes) {
-            const melhorNota = dados.avaliacoes.length ? Math.max(...dados.avaliacoes.map(avaliacao => numero(avaliacao.nota))) : null;
+            const melhorNota = avaliacoesDoAno.length ? Math.max(...avaliacoesDoAno.map(avaliacao => numero(avaliacao.nota))) : null;
             adicionar('Melhor avaliação', melhorNota === null ? '—' : melhorNota.toLocaleString('pt-BR', { maximumFractionDigits: 1 }) + ' / 5');
         }
         resumo.replaceChildren(...itens);
-        const melhores = (dados.avaliacoes || []).filter(avaliacao => anoData(avaliacao.dt_avaliacao) === anoAtual)
-            .sort((a, b) => numero(b.nota) - numero(a.nota)).slice(0, 3);
+        const melhores = avaliacoesDoAno.sort((a, b) => numero(b.nota) - numero(a.nota)).slice(0, 3);
         const area = buscar('#melhoresAno');
         area.replaceChildren(...melhores.map(avaliacao => {
             const item = elemento('li');

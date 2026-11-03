@@ -1,0 +1,49 @@
+body.paginaConexoes {
+    min-height: 100vh;
+    background: var(--tema-fundo, #fefeff);
+    color: var(--tema-texto, #172033);
+}
+
+.paginaConexoes [hidden] { display: none !important; }
+.conteudoConexoes { width: calc(100% - 48px); max-width: 600px; min-width: 0; margin: 0 auto 40px; }
+.voltarPerfilConexoes { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; margin-bottom: 12px; color: var(--tema-link); text-decoration: none; font-size: 12px; }
+.voltarPerfilConexoes .material-symbols-outlined { font-size: 20px; }
+.cardConexoes { overflow: hidden; min-width: 0; border: 1px solid var(--tema-borda); border-radius: 12px; background: var(--tema-superficie); }
+.tituloConexoes { padding: 24px 24px 20px; text-align: center; }
+.tituloConexoes h1 { font-size: 20px; line-height: 1.4; }
+.donoConexoes { display: inline-flex; align-items: center; justify-content: center; gap: 8px; max-width: 100%; min-height: 36px; margin-top: 6px; color: var(--tema-secundario); text-decoration: none; font-size: 12px; }
+.donoConexoes img { width: 26px; height: 26px; flex-shrink: 0; object-fit: cover; border-radius: 50%; }
+.donoConexoes span { min-width: 0; overflow-wrap: anywhere; }
+.abasConexoes { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); border-bottom: 1px solid var(--tema-borda); }
+.abasConexoes a { display: flex; align-items: center; justify-content: center; gap: 8px; min-width: 0; min-height: 46px; padding: 10px 8px; border-bottom: 2px solid transparent; color: var(--tema-secundario); text-decoration: none; font-size: 13px; }
+.abasConexoes a span { font-size: 11px; }
+.abasConexoes a[aria-current="page"] { border-bottom-color: var(--tema-link); color: var(--tema-link); font-weight: 600; }
+.buscaConexoes { padding: 20px 24px 0; }
+.buscaConexoes label { display: block; margin-bottom: 8px; font-size: 11px; color: var(--tema-secundario); }
+.campoBuscaConexoes { display: flex; align-items: center; gap: 8px; min-width: 0; padding: 0 12px; border: 1px solid var(--tema-borda); border-radius: 7px; background: var(--tema-elevada); color: var(--tema-secundario); }
+.campoBuscaConexoes .material-symbols-outlined { flex-shrink: 0; font-size: 20px; }
+.paginaConexoes .campoBuscaConexoes input { width: 100%; min-width: 0; min-height: 42px; padding: 8px 0; border: 0; outline: 0; background: transparent; color: var(--tema-texto); font-size: 13px; }
+.campoBuscaConexoes:focus-within { outline: 2px solid var(--tema-link); outline-offset: 2px; }
+.campoBuscaConexoes input::placeholder { color: var(--tema-secundario); opacity: 1; }
+.estadoConexoes { padding: 14px 24px; font-size: 12px; line-height: 1.6; color: var(--tema-secundario); overflow-wrap: anywhere; }
+.tentarConexoes { display: block; min-height: 40px; margin: 0 24px 20px; padding: 8px 16px; border: 1px solid var(--tema-link); border-radius: 5px; background: transparent; color: var(--tema-link); font-size: 12px; cursor: pointer; }
+.listaConexoes { max-height: min(60vh, 560px); padding: 0 12px 12px; overflow-y: auto; list-style: none; scrollbar-color: var(--tema-borda) transparent; }
+.leitorConexao { display: flex; align-items: center; gap: 12px; min-height: 72px; padding: 10px 12px; border-radius: 7px; color: var(--tema-texto); text-decoration: none; }
+.fotoLeitorConexao { width: 44px; height: 44px; flex-shrink: 0; object-fit: cover; border-radius: 50%; }
+.nomeLeitorConexao { flex: 1; min-width: 0; overflow-wrap: anywhere; font-size: 13px; line-height: 1.5; }
+.leitorConexao > .material-symbols-outlined { flex-shrink: 0; color: var(--tema-secundario); font-size: 20px; }
+.leitorConexao:hover, .tentarConexoes:hover, .abasConexoes a:hover { background: var(--tema-suave); }
+.donoConexoes:hover, .voltarPerfilConexoes:hover { text-decoration: underline; }
+.conteudoConexoes :is(a, button):focus-visible { outline: 2px solid var(--tema-link); outline-offset: -2px; }
+
+@media (max-width: 767px) {
+    .conteudoConexoes { width: calc(100% - 32px); margin-bottom: 20px; }
+    .paginaConexoes > .cabecalhoPrincipal { margin-bottom: 20px; }
+    .tituloConexoes { padding: 20px 16px 16px; }
+    .tituloConexoes h1 { font-size: 18px; }
+    .buscaConexoes { padding: 16px 16px 0; }
+    .estadoConexoes { padding: 14px 16px; }
+    .tentarConexoes { margin-left: 16px; margin-right: 16px; }
+    .listaConexoes { max-height: none; padding: 0 6px 8px; }
+    .leitorConexao { padding: 10px; gap: 10px; }
+}

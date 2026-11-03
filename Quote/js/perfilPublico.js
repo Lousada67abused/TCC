@@ -44,8 +44,10 @@
     }
     abas.forEach((aba, indice) => {
         aba.addEventListener('click', () => {
-            history.pushState(null, '', '#' + aba.dataset.aba);
-            abrirAba(aba.dataset.aba);
+            const nome = aba.dataset.aba;
+            const consulta = nome === 'estante' && filtro !== 'todos' ? '?status=' + encodeURIComponent(filtro) : '';
+            history.pushState(null, '', '#' + nome + consulta);
+            lerAba();
         });
         aba.addEventListener('keydown', evento => {
             if (!['ArrowLeft', 'ArrowRight', 'Home', 'End'].includes(evento.key)) return;
@@ -56,9 +58,14 @@
             abas[alvo].click();
         });
     });
-    window.addEventListener('hashchange', () => abrirAba(location.hash.slice(1)));
-    window.addEventListener('popstate', () => abrirAba(location.hash.slice(1)));
-    abrirAba(location.hash.slice(1));
+    function lerAba() {
+        const [nome, consulta = ''] = location.hash.slice(1).split('?');
+        if (nome === 'estante') definirFiltroEstante(new URLSearchParams(consulta).get('status') || 'todos');
+        abrirAba(nome);
+    }
+    window.addEventListener('hashchange', lerAba);
+    window.addEventListener('popstate', lerAba);
+    lerAba();
 
     function livro(item) {
         const link = elemento('a', 'livro');
@@ -75,13 +82,17 @@
     }
     function resenha(item) {
         const card = elemento('article', 'resenha');
+        const capaLivro = livro(item);
         const conteudo = elemento('div', 'conteudoResenhaPublica');
-        const estrelas = elemento('span', 'notaPublica');
+        const informacoes = elemento('a', 'informacoesResenha');
+        informacoes.href = capaLivro.href;
+        informacoes.append(capaLivro.querySelector('.textoLivro'));
+        const estrelas = elemento('span', 'estrelasResenha');
         const nota = Math.min(5, Math.max(0, Number(item.nota) || 0));
         estrelas.setAttribute('role', 'img');
         estrelas.setAttribute('aria-label', 'Avaliação: ' + nota + ' de 5 estrelas');
         for (let i = 1; i <= 5; i++) {
-            const estrela = elemento('span', i > nota ? 'vazia' : '', '★');
+            const estrela = elemento('span', i > nota ? 'estrelaVazia' : '', '★');
             estrela.setAttribute('aria-hidden', 'true');
             estrelas.append(estrela);
         }
@@ -91,11 +102,13 @@
             data.dateTime = iso;
             data.textContent = iso.split('-').reverse().join('/');
         }
-        conteudo.append(estrelas, data, elemento('p', '', item.txt_resenha || 'Avaliação sem resenha.'));
+        const notaResenha = elemento('div', 'notaResenha');
+        notaResenha.append(estrelas, data);
+        conteudo.append(informacoes, notaResenha, elemento('p', '', item.txt_resenha || 'Avaliação sem resenha.'));
         const interacoes = elemento('div', 'acoesResenhaInteracoes');
         interacoes.append(window.CurtidasAvaliacao.criar(item), window.ComentariosAvaliacao.criar(item));
         conteudo.append(interacoes);
-        card.append(livro(item), conteudo);
+        card.append(capaLivro, conteudo);
         return card;
     }
     function lista(seletor, estadoSeletor, itens, criar, vazio) {
@@ -108,13 +121,20 @@
             (filtro === 'favoritos' ? Number(item.favorito) === 1 : item.status === filtro));
         lista('#estantePublica', '#estadoEstantePublica', livros, livro, 'Nenhum livro público nesta categoria.');
     }
-    main.querySelectorAll('[data-status]').forEach(botao => botao.addEventListener('click', () => {
-        filtro = botao.dataset.status;
+    function definirFiltroEstante(status) {
+        const botoes = [...main.querySelectorAll('[data-status]')];
+        filtro = botoes.some(botao => botao.dataset.status === status) ? status : 'todos';
         main.querySelectorAll('[data-status]').forEach(outro => {
-            outro.classList.toggle('ativo', outro === botao);
-            outro.setAttribute('aria-pressed', String(outro === botao));
+            const ativo = outro.dataset.status === filtro;
+            outro.classList.toggle('ativo', ativo);
+            outro.setAttribute('aria-pressed', String(ativo));
         });
         mostrarEstante();
+    }
+    main.querySelectorAll('[data-status]').forEach(botao => botao.addEventListener('click', () => {
+        const consulta = botao.dataset.status === 'todos' ? '' : '?status=' + encodeURIComponent(botao.dataset.status);
+        history.pushState(null, '', '#estante' + consulta);
+        lerAba();
     }));
     function mostrarSeguimento() {
         if (!dados) return;
@@ -139,6 +159,9 @@
         window.Avatares.aplicar(foto, usuario.id_usuario);
         buscar('#lidosPerfilPublico').textContent = contagem(usuario.qtd_lidos);
         buscar('#seguindoPerfilPublico').textContent = contagem(usuario.qtd_seguindo);
+        main.querySelectorAll('[data-lista-perfil]').forEach(link => {
+            link.href = 'conexoes.html?codigoUsuario=' + encodeURIComponent(usuario.id_usuario) + '&lista=' + link.dataset.listaPerfil;
+        });
         dados.biblioteca = dados.biblioteca.filter(item => Number(item.visivel) === 1);
         lista('#favoritosPublicos', '#estadoFavoritosPublicos', dados.biblioteca.filter(item => Number(item.favorito) === 1).slice(0, 5), livro, 'Este leitor ainda não tem favoritos públicos.');
         lista('#resenhasRecentesPublicas', '#estadoResenhasRecentesPublicas', dados.avaliacoes.slice(0, 2), resenha, 'Este leitor ainda não publicou resenhas.');

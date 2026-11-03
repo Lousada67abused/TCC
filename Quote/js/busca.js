@@ -27,6 +27,7 @@
         return novo;
     }
     function criarLivro(livro) {
+        console.log(livro)
         const id = String(livro.id_livro);
         const nome = texto(livro.titulo, 'Livro sem título');
         const autores = texto(livro.autores || livro.nm_autor, 'Autor não informado');

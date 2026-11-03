@@ -70,6 +70,8 @@ class Avaliacao extends Banco {
             $conexao->prepare("DELETE FROM comentario WHERE id_avaliacao = ?")->execute([$codigoAvaliacao]);
             $conexao->prepare("DELETE FROM curtida_avaliacao WHERE id_avaliacao = ?")->execute([$codigoAvaliacao]);
             $conexao->prepare("DELETE FROM avaliacao WHERE id_avaliacao = ? AND id_usuario = ?")->execute([$codigoAvaliacao, $codigoUsuario]);
+            $conexao->prepare("UPDATE biblioteca SET status = NULL WHERE id_usuario = ? AND id_livro = ? AND status = 'lido'")
+                ->execute([$codigoUsuario, $codigoLivro]);
             return true;
         });
     }

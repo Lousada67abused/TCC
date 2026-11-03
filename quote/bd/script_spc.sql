@@ -83,7 +83,7 @@ CREATE PROCEDURE buscarMetaUsuario(
     IN p_id_usuario INT
 )
 BEGIN
-    -- A biblioteca não registra a data da leitura: o progresso é acumulado.
+    -- A data da avaliação identifica o ano da leitura dos livros marcados como lidos.
     SELECT
         m.id_meta,
         m.qnt_livros,
@@ -94,11 +94,14 @@ BEGIN
         CONCAT(LEAST(COALESCE(lidos.quantidade, 0), m.qnt_livros), ' de ', m.qnt_livros) AS texto_progresso
     FROM meta_leitura m
     LEFT JOIN (
-        SELECT id_usuario, COUNT(*) AS quantidade
-        FROM biblioteca
-        WHERE status = 'lido'
-        GROUP BY id_usuario
-    ) lidos ON lidos.id_usuario = m.id_usuario
+        SELECT b.id_usuario, YEAR(a.dt_avaliacao) AS ano,
+            COUNT(DISTINCT b.id_livro) AS quantidade
+        FROM biblioteca b
+        INNER JOIN avaliacao a
+            ON a.id_usuario = b.id_usuario AND a.id_livro = b.id_livro
+        WHERE b.status = 'lido' AND a.dt_avaliacao IS NOT NULL
+        GROUP BY b.id_usuario, YEAR(a.dt_avaliacao)
+    ) lidos ON lidos.id_usuario = m.id_usuario AND lidos.ano = YEAR(m.data)
     WHERE m.id_usuario = p_id_usuario
     ORDER BY m.data, m.id_meta;
 END $$
@@ -124,8 +127,8 @@ BEGIN
         e.nm_editora,
         GROUP_CONCAT(DISTINCT au.nm_autor SEPARATOR ', ') AS nm_autor,
         GROUP_CONCAT(DISTINCT g.nm_genero SEPARATOR ', ') AS nm_genero,
-        ROUND(AVG(a.nota), 2) AS nota_media,
-        COUNT(DISTINCT a.id_avaliacao) AS quantidade_avaliacoes
+        COALESCE(ROUND(notas.nota_media_real, 1), 0) AS nota_media,
+        notas.quantidade_avaliacoes
     FROM livro l
     INNER JOIN livro_genero lg
         ON l.id_livro = lg.id_livro
@@ -133,8 +136,14 @@ BEGIN
         ON lg.id_genero = g.id_genero
     INNER JOIN editora e
         ON l.cd_editora = e.id_editora
-    INNER JOIN avaliacao a
-        ON l.id_livro = a.id_livro
+    INNER JOIN (
+        -- Agregar antes dos vínculos evita multiplicar avaliações por autores/gêneros.
+        SELECT av.id_livro,
+            AVG(av.nota) AS nota_media_real,
+            COUNT(DISTINCT av.id_avaliacao) AS quantidade_avaliacoes
+        FROM avaliacao av
+        GROUP BY av.id_livro
+    ) notas ON notas.id_livro = l.id_livro
     LEFT JOIN autor_livro al
         ON l.id_livro = al.id_livro
     LEFT JOIN autor au
@@ -145,11 +154,14 @@ BEGIN
         l.id_livro,
         l.titulo,
         l.ano_publicacao,
-        e.nm_editora
+        e.nm_editora,
+        notas.nota_media_real,
+        notas.quantidade_avaliacoes
     ORDER BY
-        nota_media DESC,
-        quantidade_avaliacoes DESC,
-        l.titulo ASC
+        notas.nota_media_real DESC,
+        notas.quantidade_avaliacoes DESC,
+        l.titulo ASC,
+        l.id_livro ASC
     LIMIT 10;
 END $$
 
@@ -865,7 +877,12 @@ BEGIN
         l.ano_publicacao,
         l.qnt_paginas,
         e.id_editora,
-        e.nm_editora
+        e.nm_editora,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = l.id_livro
+        ) AS nota_media
     FROM livro l
     INNER JOIN editora e
         ON l.cd_editora = e.id_editora
@@ -888,7 +905,12 @@ BEGIN
         e.id_editora,
         e.nm_editora,
         GROUP_CONCAT(DISTINCT a.nm_autor ORDER BY a.nm_autor SEPARATOR ', ') AS autores,
-        GROUP_CONCAT(DISTINCT g.nm_genero ORDER BY g.nm_genero SEPARATOR ', ') AS generos
+        GROUP_CONCAT(DISTINCT g.nm_genero ORDER BY g.nm_genero SEPARATOR ', ') AS generos,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = l.id_livro
+        ) AS nota_media
     FROM livro l
     INNER JOIN editora e
         ON l.cd_editora = e.id_editora
@@ -974,7 +996,12 @@ BEGIN
         e.id_editora,
         e.nm_editora,
         GROUP_CONCAT(DISTINCT a.nm_autor SEPARATOR ', ') AS nm_autor,
-        GROUP_CONCAT(DISTINCT g.nm_genero SEPARATOR ', ') AS nm_genero
+        GROUP_CONCAT(DISTINCT g.nm_genero SEPARATOR ', ') AS nm_genero,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = l.id_livro
+        ) AS nota_media
     FROM livro l
     INNER JOIN editora e      ON l.cd_editora = e.id_editora
     LEFT JOIN autor_livro al  ON l.id_livro = al.id_livro
@@ -1011,7 +1038,12 @@ BEGIN
             WHERE lg.id_livro = l.id_livro
         ) AS generos,
         l.ano_publicacao,
-        l.qnt_paginas
+        l.qnt_paginas,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = l.id_livro
+        ) AS nota_media
     FROM livro l
     WHERE l.id_livro IN (
         SELECT lg2.id_livro
@@ -1033,7 +1065,12 @@ BEGIN
         l.titulo,
         GROUP_CONCAT(a.nm_autor ORDER BY a.nm_autor SEPARATOR ', ') AS autores,
         l.ano_publicacao,
-        l.qnt_paginas
+        l.qnt_paginas,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = l.id_livro
+        ) AS nota_media
     FROM livro l
     INNER JOIN autor_livro al
         ON l.id_livro = al.id_livro
@@ -1061,7 +1098,12 @@ BEGIN
         l.sinopse,
         l.ano_publicacao,
         l.qnt_paginas,
-        e.nm_editora
+        e.nm_editora,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = l.id_livro
+        ) AS nota_media
     FROM livro l
     INNER JOIN editora e
         ON l.cd_editora = e.id_editora
@@ -1207,7 +1249,12 @@ BEGIN
         l.sinopse,
         l.ano_publicacao,
         l.qnt_paginas,
-        e.nm_editora
+        e.nm_editora,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = l.id_livro
+        ) AS nota_media
     FROM livro l
     INNER JOIN autor_livro al
         ON l.id_livro = al.id_livro
@@ -1293,7 +1340,12 @@ BEGIN
         l.sinopse,
         l.ano_publicacao,
         l.qnt_paginas,
-        e.nm_editora
+        e.nm_editora,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = l.id_livro
+        ) AS nota_media
     FROM livro l
     INNER JOIN livro_genero lg
         ON l.id_livro = lg.id_livro
@@ -1894,7 +1946,12 @@ BEGIN
         GROUP_CONCAT(a.nm_autor ORDER BY a.nm_autor SEPARATOR ', ') AS autores,
         b.status,
         b.favorito,
-        b.visivel
+        b.visivel,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = b.id_livro
+        ) AS nota_media
     FROM biblioteca b
     INNER JOIN livro l
         ON b.id_livro = l.id_livro
@@ -1920,7 +1977,12 @@ BEGIN
         GROUP_CONCAT(a.nm_autor ORDER BY a.nm_autor SEPARATOR ', ') AS autores,
         b.status,
         b.favorito,
-        b.visivel
+        b.visivel,
+        (
+            SELECT COALESCE(ROUND(AVG(av_media.nota), 1), 0)
+            FROM avaliacao av_media
+            WHERE av_media.id_livro = b.id_livro
+        ) AS nota_media
     FROM biblioteca b
     INNER JOIN livro l
         ON b.id_livro = l.id_livro
@@ -2289,7 +2351,7 @@ CREATE PROCEDURE buscarMetaUsuario(
     IN p_id_usuario INT
 )
 BEGIN
-    -- A biblioteca não registra a data da leitura: o progresso é acumulado.
+    -- A data da avaliação identifica o ano da leitura dos livros marcados como lidos.
     SELECT
         m.id_meta,
         m.qnt_livros,
@@ -2300,11 +2362,14 @@ BEGIN
         CONCAT(LEAST(COALESCE(lidos.quantidade, 0), m.qnt_livros), ' de ', m.qnt_livros) AS texto_progresso
     FROM meta_leitura m
     LEFT JOIN (
-        SELECT id_usuario, COUNT(*) AS quantidade
-        FROM biblioteca
-        WHERE status = 'lido'
-        GROUP BY id_usuario
-    ) lidos ON lidos.id_usuario = m.id_usuario
+        SELECT b.id_usuario, YEAR(a.dt_avaliacao) AS ano,
+            COUNT(DISTINCT b.id_livro) AS quantidade
+        FROM biblioteca b
+        INNER JOIN avaliacao a
+            ON a.id_usuario = b.id_usuario AND a.id_livro = b.id_livro
+        WHERE b.status = 'lido' AND a.dt_avaliacao IS NOT NULL
+        GROUP BY b.id_usuario, YEAR(a.dt_avaliacao)
+    ) lidos ON lidos.id_usuario = m.id_usuario AND lidos.ano = YEAR(m.data)
     WHERE m.id_usuario = p_id_usuario
     ORDER BY m.data, m.id_meta;
 END $$
@@ -2333,21 +2398,20 @@ BEGIN
     SELECT
         m.id_meta,
         m.qnt_livros AS meta,
-        COUNT(b.id_livro) AS livros_lidos,
-        LEAST(COUNT(b.id_livro), m.qnt_livros) AS progresso,
-        CONCAT(
-            LEAST(COUNT(b.id_livro), m.qnt_livros),
-            ' de ',
-            m.qnt_livros
-        ) AS texto_progresso
+        COALESCE(lidos.quantidade, 0) AS livros_lidos,
+        LEAST(COALESCE(lidos.quantidade, 0), m.qnt_livros) AS progresso,
+        CONCAT(LEAST(COALESCE(lidos.quantidade, 0), m.qnt_livros), ' de ', m.qnt_livros) AS texto_progresso
     FROM meta_leitura m
-    LEFT JOIN biblioteca b
-        ON b.id_usuario = m.id_usuario
-       AND b.status = 'lido'
-    WHERE m.id_meta = p_id_meta
-    GROUP BY
-        m.id_meta,
-        m.qnt_livros;
+    LEFT JOIN (
+        SELECT b.id_usuario, YEAR(a.dt_avaliacao) AS ano,
+            COUNT(DISTINCT b.id_livro) AS quantidade
+        FROM biblioteca b
+        INNER JOIN avaliacao a
+            ON a.id_usuario = b.id_usuario AND a.id_livro = b.id_livro
+        WHERE b.status = 'lido' AND a.dt_avaliacao IS NOT NULL
+        GROUP BY b.id_usuario, YEAR(a.dt_avaliacao)
+    ) lidos ON lidos.id_usuario = m.id_usuario AND lidos.ano = YEAR(m.data)
+    WHERE m.id_meta = p_id_meta;
 END $$
 
 
