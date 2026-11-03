@@ -31,7 +31,9 @@ try {
 	}
 
 	http_response_code(200);
-	echo json_encode(['status' => 'true', 'resposta' => $feed['avaliacoes'], 'modo' => $feed['modo']]);
+	$codigoLogado = isset($_SESSION['codigoUsuario']) ? (int) $_SESSION['codigoUsuario'] : null;
+	echo json_encode(['status' => 'true', 'resposta' => $feed['avaliacoes'], 'modo' => $feed['modo'],
+		'estado' => ['autenticado' => $codigoLogado !== null, 'codigoUsuarioLogado' => $codigoLogado]]);
 } catch (Throwable $erro) {
 	http_response_code(500);
 	echo json_encode(['status' => 'false', 'mensagem' => 'Não foi possível carregar as resenhas. Tente novamente.']);

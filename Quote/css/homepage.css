@@ -283,6 +283,20 @@ body {
     overflow-wrap: anywhere;
 }
 
+.acompanhamentoFeed { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; max-width: 100%; margin: 8px 0 0 auto; }
+.botaoSeguirFeed { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-width: 96px; min-height: 30px; padding: 4px 9px; border: 1px solid var(--royalBlue); border-radius: 4px; background: #fff; color: var(--royalBlue); font: inherit; font-size: 12px; line-height: 1.2; cursor: pointer; }
+.botaoSeguirFeed.seguindo { border-color: var(--mediumBlue); background: #d6e5fa; color: var(--mediumBlue); }
+.botaoSeguirFeed:hover:not(:disabled) { background: var(--tema-suave, #edf4ff); }
+.botaoSeguirFeed:disabled { opacity: .6; cursor: default; }
+.botaoSeguirFeed[aria-busy="true"] { cursor: wait; }
+.botaoSeguirFeed:focus-visible { outline: 3px solid var(--mediumBlue); outline-offset: 3px; }
+.botaoSeguirFeed svg { width: 16px; height: 16px; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 1.4; stroke-linecap: round; stroke-linejoin: round; }
+.botaoSeguirFeed .iconeConfirmarSeguir, .botaoSeguirFeed.seguindo .iconeMaisSeguir, .acompanhamentoFeed [hidden] { display: none !important; }
+.botaoSeguirFeed.seguindo .iconeConfirmarSeguir { display: block !important; }
+.erroSeguimentoFeed, .entrarSeguimentoFeed { max-width: 100%; font-size: 11px; line-height: 1.5; overflow-wrap: anywhere; }
+.erroSeguimentoFeed { color: var(--tema-erro, #b91c1c); }
+.entrarSeguimentoFeed { color: var(--tema-link, var(--royalBlue)); }
+
 
 
 @media (min-width: 600px) {

@@ -14,6 +14,8 @@
     let exibidas = 0;
     let codigoUsuario = null;
     let sugestoes = false;
+    let autenticado = false;
+    const acompanhamentos = new Map();
 
     try {
         codigoUsuario = sessionStorage.getItem('codigo');
@@ -87,6 +89,103 @@
         return estrelas;
     }
 
+    function mostrarSeguimento(registro) {
+        registro.views.forEach(({ botao, rotulo, erro, entrar }) => {
+            botao.disabled = registro.pendente || !autenticado;
+            botao.classList.toggle('seguindo', registro.seguindo);
+            botao.setAttribute('aria-pressed', String(registro.seguindo));
+            botao.setAttribute('aria-busy', String(registro.pendente));
+            botao.setAttribute('aria-label', registro.confirmado
+                ? (registro.seguindo ? 'Deixar de seguir ' : 'Seguir ') + registro.nome
+                : 'Tentar confirmar acompanhamento de ' + registro.nome);
+            rotulo.textContent = registro.confirmado ? (registro.seguindo ? 'seguindo' : 'seguir') : 'tentar novamente';
+            erro.textContent = registro.erro;
+            erro.hidden = !registro.erro;
+            entrar.hidden = autenticado;
+        });
+    }
+
+    async function confirmarSeguimento(registro) {
+        const resposta = await fetch('../api/buscarSeguidosUsuario.php?codigoUsuario=' + encodeURIComponent(codigoUsuario), {
+            headers: { Accept: 'application/json' }
+        });
+        const resultado = await resposta.json();
+        if (!resposta.ok || !(resultado.status === true || resultado.status === 'true') || !Array.isArray(resultado.resposta)) {
+            throw new Error('Não foi possível confirmar o acompanhamento.');
+        }
+        registro.seguindo = resultado.resposta.some(usuario => String(usuario.id_usuario) === registro.codigo);
+        registro.confirmado = true;
+    }
+
+    async function alternarSeguimento(registro) {
+        if (registro.pendente || !autenticado) return;
+        const novoEstado = !registro.seguindo;
+        const somenteConsultar = !registro.confirmado;
+        registro.pendente = true;
+        registro.erro = '';
+        mostrarSeguimento(registro);
+        try {
+            if (somenteConsultar) {
+                await confirmarSeguimento(registro);
+                return;
+            }
+            const resposta = await fetch('../api/' + (novoEstado ? 'seguirUsuario.php' : 'deixarDeSeguir.php'), {
+                method: 'POST', headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+                body: JSON.stringify({ codigoSeguidor: codigoUsuario, codigoSeguido: registro.codigo })
+            });
+            const resultado = await resposta.json();
+            if (!resposta.ok || resultado.status !== true || typeof resultado.resposta?.seguindo !== 'boolean') {
+                const erro = new Error('Não foi possível atualizar o acompanhamento.');
+                erro.status = resposta.status;
+                throw erro;
+            }
+            registro.seguindo = resultado.resposta.seguindo;
+        } catch (erro) {
+            if (erro.status === 401 || erro.status === 403) {
+                autenticado = false;
+                registro.erro = 'Entre na sua conta para seguir leitores.';
+            } else {
+                // Confere uma escrita que pode ter sido salva antes de perder a resposta.
+                registro.confirmado = false;
+                try { await confirmarSeguimento(registro); } catch (_) {}
+                if (!registro.confirmado) registro.erro = 'Não foi possível confirmar o acompanhamento. Tente novamente.';
+                else if (!somenteConsultar && registro.seguindo !== novoEstado) registro.erro = 'Não foi possível atualizar o acompanhamento. Tente novamente.';
+            }
+        } finally {
+            registro.pendente = false;
+            acompanhamentos.forEach(mostrarSeguimento);
+        }
+    }
+
+    function criarSeguimento(codigo, nome) {
+        if (!/^[1-9]\d{0,9}$/.test(codigo) || Number(codigo) > 2147483647 || codigo === codigoUsuario) return null;
+        let registro = acompanhamentos.get(codigo);
+        if (!registro) {
+            registro = { codigo, nome, seguindo: !sugestoes, pendente: false, confirmado: true, erro: '', views: [] };
+            acompanhamentos.set(codigo, registro);
+        }
+        const raiz = elemento('div', 'acompanhamentoFeed');
+        raiz.dataset.seguirUsuario = codigo;
+        const botao = elemento('button', 'botaoSeguir botaoSeguirFeed');
+        botao.type = 'button';
+        const icone = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+        icone.setAttribute('viewBox', '0 0 24 24');
+        icone.setAttribute('aria-hidden', 'true');
+        icone.setAttribute('focusable', 'false');
+        icone.innerHTML = '<circle cx="9" cy="6" r="3.5"/><path d="M2.5 20v-2a6.5 6.5 0 0 1 13 0v2"/><path class="iconeMaisSeguir" d="M19 8v6m-3-3h6"/><path class="iconeConfirmarSeguir" d="m16 11 2 2 4-4"/>';
+        const rotulo = elemento('span');
+        botao.append(icone, rotulo);
+        const erro = elemento('p', 'erroSeguimentoFeed');
+        erro.setAttribute('role', 'status');
+        const entrar = elemento('a', 'entrarSeguimentoFeed', 'Entrar');
+        entrar.href = 'login.html';
+        raiz.append(botao, erro, entrar);
+        registro.views.push({ botao, rotulo, erro, entrar });
+        botao.addEventListener('click', () => alternarSeguimento(registro));
+        mostrarSeguimento(registro);
+        return raiz;
+    }
+
     function criarCard(avaliacao) {
         const codigoLivro = String(avaliacao.id_livro);
         const titulo = texto(avaliacao.titulo, 'Livro');
@@ -136,6 +235,8 @@
             elemento('p', 'textoResenha', texto(avaliacao.txt_resenha)));
         const interacoes = elemento('div', 'acoesResenhaInteracoes');
         interacoes.append(window.CurtidasAvaliacao.criar(avaliacao), window.ComentariosAvaliacao.criar(avaliacao));
+        const acompanhamento = criarSeguimento(codigoAutor, nome);
+        if (acompanhamento) interacoes.append(acompanhamento);
         conteudo.append(interacoes);
         card.append(linkCapa, conteudo);
         return card;
@@ -171,6 +272,7 @@
                 throw new Error('Feed indisponível');
             }
             sugestoes = resultado.modo === 'sugestoes';
+            autenticado = resultado.estado?.autenticado === true && String(resultado.estado.codigoUsuarioLogado) === codigoUsuario;
             if (tituloSecao) tituloSecao.textContent = sugestoes ? 'Sugestões para você' : 'Amigos';
             const ids = new Set();
             avaliacoes = resultado.resposta.filter(avaliacao => {
