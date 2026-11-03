@@ -623,7 +623,8 @@ body:has(#popupFeedbackLivro[open]) {
 
 .estrelasAvaliacaoModal {
     display: flex;
-    justify-content: space-between;
+    gap: 25px;
+    justify-content: center;
 }
 
 .estrelasAvaliacaoModal button {
@@ -645,7 +646,8 @@ body:has(#popupFeedbackLivro[open]) {
 
 .legendaEstrelas {
     display: flex;
-    justify-content: space-between;
+    gap: 223px;
+    justify-content: center;
     margin-top: 4px;
     font-size: 12px;
     color: #666666;
