@@ -4,7 +4,12 @@
     if (!wrapper || !fotoPerfil) return;
     let codigoUsuario = null;
     try { codigoUsuario = sessionStorage.getItem('codigo'); } catch (_) {}
-    if (!/^[1-9]\d{0,9}$/.test(codigoUsuario || '') || Number(codigoUsuario) > 2147483647) return;
+    const avisoAcesso = document.querySelector('[data-avatar-entrar]');
+    if (!/^[1-9]\d{0,9}$/.test(codigoUsuario || '') || Number(codigoUsuario) > 2147483647) {
+        if (avisoAcesso) avisoAcesso.hidden = false;
+        return;
+    }
+    window.Avatares.aplicar(fotoPerfil, codigoUsuario);
 
     function elemento(tag, classe, texto) {
         const no = document.createElement(tag);
@@ -83,6 +88,7 @@
         alterar.hidden = !autenticado() || falhaConsulta;
         alterar.disabled = consultando || salvando;
         tentarPerfil.disabled = consultando;
+        if (avisoAcesso) avisoAcesso.hidden = consultando || salvando || falhaConsulta || autenticado();
         if (!modal) return;
         const ocupado = salvando || consultando || preparando;
         modal.escolher.disabled = ocupado || !autenticado();

@@ -44,7 +44,13 @@ o histórico do navegador. As capas usam o ISBN em
 
 ## Foto de perfil
 
-No próprio perfil, o botão de câmera abre a edição de foto. Escolher um arquivo
+O menu do avatar abre `configuracoes.html`, onde Alterar foto permite escolher
+e salvar a imagem da conta conectada. O servidor grava o JPEG como
+`CODIGO_USUARIO.jpg` no diretório privado de avatares, usando o código conferido
+pela sessão PHP. O nome final é definido pelo servidor, sem alteração no banco.
+Visitantes recebem um link para entrar; contas divergentes não podem editar.
+
+No próprio perfil, o botão de câmera também abre a edição de foto. Escolher um arquivo
 mostra uma prévia; somente Salvar envia a imagem. Cancelar, Escape e clicar fora
 descartam a seleção. Remover foto também exige Salvar e volta ao avatar padrão.
 O editor aceita JPG, PNG e WebP de até 5 MiB, incluindo fotos com orientação EXIF.
