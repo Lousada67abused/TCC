@@ -4,6 +4,7 @@
 
     const lista = secao.querySelector('.listaResenhasAmigos');
     const estado = document.getElementById('statusFeed');
+    const tituloSecao = document.getElementById('tituloAmigos');
     const botaoMais = document.getElementById('verMaisFeed');
     if (!lista || !estado || !botaoMais || lista.dataset.feedInicializado === 'true') return;
     lista.dataset.feedInicializado = 'true';
@@ -12,6 +13,7 @@
     let avaliacoes = [];
     let exibidas = 0;
     let codigoUsuario = null;
+    let sugestoes = false;
 
     try {
         codigoUsuario = sessionStorage.getItem('codigo');
@@ -151,12 +153,12 @@
 
     lista.replaceChildren();
     botaoMais.hidden = true;
-    if (!codigoUsuario || !/^[1-9]\d*$/.test(codigoUsuario)) {
+    if (!codigoUsuario || !/^[1-9]\d{0,9}$/.test(codigoUsuario) || Number(codigoUsuario) > 2147483647) {
         estado.textContent = 'Entre na sua conta para ver as resenhas de quem você segue.';
         return;
     }
 
-    estado.textContent = 'Carregando resenhas de amigos...';
+    estado.textContent = 'Carregando resenhas...';
     lista.setAttribute('aria-busy', 'true');
     botaoMais.addEventListener('click', mostrarMais);
 
@@ -168,6 +170,8 @@
             if (!resposta.ok || !(resultado.status === true || resultado.status === 'true') || !Array.isArray(resultado.resposta)) {
                 throw new Error('Feed indisponível');
             }
+            sugestoes = resultado.modo === 'sugestoes';
+            if (tituloSecao) tituloSecao.textContent = sugestoes ? 'Sugestões para você' : 'Amigos';
             const ids = new Set();
             avaliacoes = resultado.resposta.filter(avaliacao => {
                 if (!avaliacao || typeof avaliacao !== 'object' || Array.isArray(avaliacao)) return false;
@@ -177,13 +181,15 @@
                 return true;
             });
             if (!avaliacoes.length) {
-                estado.textContent = 'Ainda não há resenhas de quem você segue. Siga leitores para acompanhar suas leituras.';
+                estado.textContent = sugestoes
+                    ? 'Ainda não há resenhas disponíveis para sugerir. Volte mais tarde para descobrir novas leituras.'
+                    : 'Ainda não há resenhas de quem você segue. Siga leitores para acompanhar suas leituras.';
                 return;
             }
             mostrarMais();
         })
         .catch(() => {
-            estado.textContent = 'Não foi possível carregar as resenhas de amigos. Atualize a página para tentar novamente.';
+            estado.textContent = 'Não foi possível carregar as resenhas. Atualize a página para tentar novamente.';
             botaoMais.hidden = true;
         })
         .finally(() => { lista.setAttribute('aria-busy', 'false'); });
