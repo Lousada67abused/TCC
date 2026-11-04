@@ -229,14 +229,17 @@
         linkAvatar.append(avatar);
         const linkNome = linkPerfil(codigoAutor, 'handleUsuario linkPerfilUsuario');
         linkNome.textContent = nome;
-        usuario.append(linkAvatar, linkNome, criarEstrelas(avaliacao.nota));
+        linkNome.title = nome;
+        const identidade = elemento('div', 'identidadeUsuarioFeed');
+        identidade.append(linkAvatar, linkNome);
+        const acompanhamento = criarSeguimento(codigoAutor, nome);
+        if (acompanhamento) identidade.append(acompanhamento);
+        usuario.append(identidade, criarEstrelas(avaliacao.nota));
 
         conteudo.append(cabecalho, usuario, criarData(avaliacao.dt_avaliacao),
             elemento('p', 'textoResenha', texto(avaliacao.txt_resenha)));
         const interacoes = elemento('div', 'acoesResenhaInteracoes');
         interacoes.append(window.CurtidasAvaliacao.criar(avaliacao), window.ComentariosAvaliacao.criar(avaliacao));
-        const acompanhamento = criarSeguimento(codigoAutor, nome);
-        if (acompanhamento) interacoes.append(acompanhamento);
         conteudo.append(interacoes);
         card.append(linkCapa, conteudo);
         return card;

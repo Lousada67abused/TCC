@@ -268,7 +268,11 @@ body {
 
 .usuarioAvaliacao .areaEstrelas {
     flex-shrink: 0;
+    margin-left: auto;
 }
+
+.identidadeUsuarioFeed { display: flex; align-items: center; gap: 8px; flex: 0 1 auto; min-width: 0; max-width: 100%; }
+.identidadeUsuarioFeed .handleUsuario { flex: 0 1 auto; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 
 .dataResenha {
     color: #64748b;
@@ -283,7 +287,7 @@ body {
     overflow-wrap: anywhere;
 }
 
-.acompanhamentoFeed { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; max-width: 100%; margin: 8px 0 0 auto; }
+.acompanhamentoFeed { display: flex; flex-direction: column; align-items: flex-start; gap: 6px; flex-shrink: 0; max-width: min(140px, 100%); }
 .botaoSeguirFeed { display: inline-flex; align-items: center; justify-content: center; gap: 5px; min-width: 96px; min-height: 30px; padding: 4px 9px; border: 1px solid var(--royalBlue); border-radius: 4px; background: #fff; color: var(--royalBlue); font: inherit; font-size: 12px; line-height: 1.2; cursor: pointer; }
 .botaoSeguirFeed.seguindo { border-color: var(--mediumBlue); background: #d6e5fa; color: var(--mediumBlue); }
 .botaoSeguirFeed:hover:not(:disabled) { background: var(--tema-suave, #edf4ff); }
