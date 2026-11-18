@@ -148,7 +148,88 @@ class AvatarUsuario extends Banco {
         return ['codigoUsuario' => (int) $codigo,
             'url' => '../api/avatarUsuario.php?codigoUsuario=' . (int) $codigo . '&v=' . $imagem['versao'],
             'personalizado' => $imagem['personalizado'], 'autenticado' => $autenticado,
-            'codigoUsuarioLogado' => $autenticado ? (int) $observador : null, 'versao' => $imagem['versao']];
+            'codigoUsuarioLogado' => $autenticado ? (int) $observador : null, 'versao' => $imagem['versao'],
+            'prepararNoNavegador' => !self::PodeProcessar('image/jpeg') || !self::PodeProcessar('image/png') || !self::PodeProcessar('image/webp')];
+    }
+
+    private static function PodeProcessar($tipo) {
+        $decodificadores = ['image/jpeg' => 'imagecreatefromjpeg', 'image/png' => 'imagecreatefrompng', 'image/webp' => 'imagecreatefromwebp'];
+        return extension_loaded('gd') && function_exists('imagejpeg') && function_exists('imagecreatetruecolor') &&
+            function_exists('imagecopyresampled') && isset($decodificadores[$tipo]) && function_exists($decodificadores[$tipo]);
+    }
+
+    private static function JpegPreparado($arquivo) {
+        // Sem GD, aceita o JPEG de 512px preparado pelo editor e remove metadados.
+        $dados = file_get_contents($arquivo);
+        $invalida = function () { return new DomainException('Não foi possível validar a foto. Escolha outra imagem pelo editor do perfil.', 422); };
+        if ($dados === false || substr($dados, 0, 2) !== "\xff\xd8") throw $invalida();
+        $total = strlen($dados);
+        $posicao = 2;
+        $saida = "\xff\xd8";
+        $quadro = false;
+        $tabelaQuantizacao = false;
+        $tabelaHuffman = false;
+        $leuImagem = false;
+        $componentes = 0;
+        while ($posicao < $total) {
+            if (ord($dados[$posicao]) !== 255) throw $invalida();
+            while ($posicao < $total && ord($dados[$posicao]) === 255) $posicao++;
+            if ($posicao >= $total) throw $invalida();
+            $marca = ord($dados[$posicao++]);
+            if ($marca === 0xd9) {
+                if (!$quadro || !$leuImagem) throw $invalida();
+                // Descarta também qualquer conteúdo acrescentado depois do fim da imagem.
+                return $saida . "\xff\xd9";
+            }
+            $metadados = ($marca >= 0xe0 && $marca <= 0xef) || $marca === 0xfe;
+            if (!$metadados && !in_array($marca, [0xc0, 0xc2, 0xc4, 0xdb, 0xdd, 0xda], true)) throw $invalida();
+            if ($posicao + 2 > $total) throw $invalida();
+            $tamanho = unpack('n', substr($dados, $posicao, 2))[1];
+            if ($tamanho < 2 || $posicao + $tamanho > $total) throw $invalida();
+            if ($marca === 0xc0 || $marca === 0xc2) {
+                if ($quadro || $tamanho < 11) throw $invalida();
+                $componentes = ord($dados[$posicao + 7]);
+                $dimensoes = unpack('naltura/nlargura', substr($dados, $posicao + 3, 4));
+                if (ord($dados[$posicao + 2]) !== 8 || !in_array($componentes, [1, 3], true) ||
+                    $tamanho !== 8 + 3 * $componentes || $dimensoes['altura'] !== 512 || $dimensoes['largura'] !== 512) throw $invalida();
+                $quadro = true;
+            }
+            if ($marca === 0xdb) {
+                if ($tamanho < 67) throw $invalida();
+                $tabelaQuantizacao = true;
+            }
+            if ($marca === 0xc4) {
+                if ($tamanho < 20) throw $invalida();
+                $tabelaHuffman = true;
+            }
+            if ($marca === 0xdd && $tamanho !== 4) throw $invalida();
+            if ($marca === 0xda) {
+                if ($tamanho < 8) throw $invalida();
+                $componentesScan = ord($dados[$posicao + 2]);
+                if ($componentesScan < 1 || $componentesScan > $componentes || $tamanho !== 6 + 2 * $componentesScan) throw $invalida();
+            }
+            if (!$metadados) $saida .= "\xff" . chr($marca) . substr($dados, $posicao, $tamanho);
+            $posicao += $tamanho;
+            if ($marca !== 0xda) continue;
+            if (!$quadro || !$tabelaQuantizacao || !$tabelaHuffman) throw $invalida();
+            $inicio = $posicao;
+            while (true) {
+                $proximaMarca = strpos($dados, "\xff", $posicao);
+                if ($proximaMarca === false) throw $invalida();
+                $fimMarca = $proximaMarca + 1;
+                while ($fimMarca < $total && ord($dados[$fimMarca]) === 255) $fimMarca++;
+                if ($fimMarca >= $total) throw $invalida();
+                $codigo = ord($dados[$fimMarca]);
+                // FF00 representa um byte escapado; FFD0–FFD7 são reinícios do scan.
+                if ($codigo === 0 || ($codigo >= 0xd0 && $codigo <= 0xd7)) { $posicao = $fimMarca + 1; continue; }
+                if ($proximaMarca === $inicio) throw $invalida();
+                $saida .= substr($dados, $inicio, $proximaMarca - $inicio);
+                $posicao = $proximaMarca;
+                $leuImagem = true;
+                break;
+            }
+        }
+        throw $invalida();
     }
 
     private static function LimiteMemoria() {
@@ -177,9 +258,6 @@ class AvatarUsuario extends Banco {
 
     public static function Salvar($codigo, $foto) {
         self::VerificarUsuarios($codigo);
-        if (!extension_loaded('gd') || !extension_loaded('fileinfo') || !function_exists('imagejpeg')) {
-            throw new DomainException('O envio de fotos não está disponível no servidor. Tente novamente mais tarde.', 503);
-        }
         if (!is_array($foto) || !isset($foto['error']) || !is_int($foto['error'])) throw new DomainException('Selecione uma foto.', 400);
         if (in_array($foto['error'], [UPLOAD_ERR_INI_SIZE, UPLOAD_ERR_FORM_SIZE], true)) throw new DomainException('A foto deve ter no máximo 5 MB.', 413);
         if ($foto['error'] === UPLOAD_ERR_NO_FILE) throw new DomainException('Selecione uma foto.', 400);
@@ -188,10 +266,13 @@ class AvatarUsuario extends Banco {
         if (!is_string($temporario) || !is_uploaded_file($temporario)) throw new DomainException('Arquivo de foto inválido.', 400);
         $bytes = filesize($temporario);
         if (!$bytes || $bytes > self::MAX_BYTES) throw new DomainException('A foto deve ter de 1 byte a 5 MB.', 413);
-        $tipo = (new finfo(FILEINFO_MIME_TYPE))->file($temporario);
         $formatos = ['image/jpeg' => IMAGETYPE_JPEG, 'image/png' => IMAGETYPE_PNG, 'image/webp' => IMAGETYPE_WEBP];
         $dados = @getimagesize($temporario);
+        $tipo = $dados['mime'] ?? '';
         if (!isset($formatos[$tipo]) || !$dados || ($dados[2] ?? null) !== $formatos[$tipo]) {
+            throw new DomainException('Escolha uma foto JPG, PNG ou WebP válida.', 415);
+        }
+        if (class_exists('finfo') && (new finfo(FILEINFO_MIME_TYPE))->file($temporario) !== $tipo) {
             throw new DomainException('Escolha uma foto JPG, PNG ou WebP válida.', 415);
         }
         $largura = (int) $dados[0];
@@ -200,31 +281,39 @@ class AvatarUsuario extends Banco {
         if ($largura < 1 || $altura < 1 || max($largura, $altura) > self::MAX_DIMENSAO || $pixels > self::MAX_PIXELS) {
             throw new DomainException('A foto deve ter até 12 megapixels e 6000 pixels em cada lado.', 400);
         }
+        $processar = self::PodeProcessar($tipo);
+        if (!$processar && ($tipo !== 'image/jpeg' || $largura !== 512 || $altura !== 512)) {
+            throw new DomainException('Selecione a foto pelo editor do perfil para preparar a imagem antes do envio.', 400);
+        }
         $memoria = self::LimiteMemoria();
         $necessario = $pixels * 8 + $bytes * 2 + 18874368;
         if ($memoria !== null && memory_get_usage(true) + $necessario > $memoria - 4194304) {
             throw new DomainException('Esta foto é grande demais para processar. Escolha uma imagem menor.', 400);
         }
+        $preparado = $processar ? null : self::JpegPreparado($temporario);
         $origem = null;
         $destino = null;
         $salvo = null;
         try {
-            $decodificadores = ['image/jpeg' => 'imagecreatefromjpeg', 'image/png' => 'imagecreatefrompng', 'image/webp' => 'imagecreatefromwebp'];
-            $decodificar = $decodificadores[$tipo];
-            if (!function_exists($decodificar)) throw new DomainException('Este formato de foto não está disponível no servidor.', 503);
-            $origem = @$decodificar($temporario);
-            if (!$origem) throw new DomainException('Não foi possível ler a foto. Escolha outro arquivo.', 422);
-            $destino = imagecreatetruecolor(512, 512);
-            if (!$destino) throw new RuntimeException('Falha ao preparar avatar.');
-            imagefill($destino, 0, 0, imagecolorallocate($destino, 255, 255, 255));
-            $lado = min(imagesx($origem), imagesy($origem));
-            if (!imagecopyresampled($destino, $origem, 0, 0, (int) floor((imagesx($origem) - $lado) / 2),
-                (int) floor((imagesy($origem) - $lado) / 2), 512, 512, $lado, $lado)) throw new RuntimeException('Falha ao preparar avatar.');
-            // Recorte central quadrado e rotação/reflexão EXIF são equivalentes nesta imagem menor.
-            $destino = self::Orientar($destino, $temporario, $tipo);
+            if ($processar) {
+                $decodificadores = ['image/jpeg' => 'imagecreatefromjpeg', 'image/png' => 'imagecreatefrompng', 'image/webp' => 'imagecreatefromwebp'];
+                $decodificar = $decodificadores[$tipo];
+                $origem = @$decodificar($temporario);
+                if (!$origem) throw new DomainException('Não foi possível ler a foto. Escolha outro arquivo.', 422);
+                $destino = imagecreatetruecolor(512, 512);
+                if (!$destino) throw new RuntimeException('Falha ao preparar avatar.');
+                imagefill($destino, 0, 0, imagecolorallocate($destino, 255, 255, 255));
+                $lado = min(imagesx($origem), imagesy($origem));
+                if (!imagecopyresampled($destino, $origem, 0, 0, (int) floor((imagesx($origem) - $lado) / 2),
+                    (int) floor((imagesy($origem) - $lado) / 2), 512, 512, $lado, $lado)) throw new RuntimeException('Falha ao preparar avatar.');
+                // Recorte central quadrado e rotação/reflexão EXIF são equivalentes nesta imagem menor.
+                $destino = self::Orientar($destino, $temporario, $tipo);
+            }
             $diretorio = self::Diretorio(true);
             $salvo = tempnam($diretorio, '.avatar-');
-            if (!$salvo || !imagejpeg($destino, $salvo, 90)) throw new RuntimeException('Falha ao salvar avatar.');
+            if (!$salvo || ($processar ? !imagejpeg($destino, $salvo, 90) : file_put_contents($salvo, $preparado) !== strlen($preparado))) {
+                throw new RuntimeException('Falha ao salvar avatar.');
+            }
             @chmod($salvo, 0640);
             self::ComTrava($codigo, true, function ($pasta) use ($codigo, $salvo) {
                 if (!@rename($salvo, $pasta . '/' . $codigo . '.jpg')) throw new RuntimeException('Falha ao confirmar avatar.');

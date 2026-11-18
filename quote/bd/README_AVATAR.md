@@ -8,13 +8,21 @@ a foto e usar o avatar padrão.
 
 A conta é conferida pela sessão PHP. O código no navegador não autoriza alterar
 a foto de outra pessoa. O envio aceita JPG, PNG e WebP de até 5 MB, no máximo
-12 megapixels e 6000 pixels por lado. O servidor valida e recodifica a imagem
-em JPEG de 512 × 512, com recorte central, orientação EXIF e remoção de metadados.
+12 megapixels e 6000 pixels por lado. A imagem final é um JPEG de 512 × 512,
+com recorte central e remoção de metadados.
 
 ## Servidor
 
-Habilite GD e Fileinfo no PHP, com suporte a JPEG, PNG e WebP. Habilite EXIF
-para corrigir a orientação das fotos de celular. Configure:
+O envio pelo editor funciona mesmo sem GD e Fileinfo. A API informa em
+`prepararNoNavegador` quando precisa da preparação local; nesse caso, o navegador
+decodifica JPG/PNG/WebP, aplica a orientação da foto, recorta e exporta um JPEG
+de 512 × 512 antes de enviar. O servidor aceita somente esse tamanho/formato,
+confere a estrutura JPEG e remove metadados e conteúdo após o fim da imagem.
+
+Com GD disponível, o PHP continua decodificando e recodificando a imagem, inclusive
+para clientes que enviam os arquivos originais diretamente à API. Fileinfo reforça
+a identificação quando está habilitada; EXIF corrige a orientação no processamento
+pelo PHP. Configure os limites do upload:
 
 ```ini
 upload_max_filesize=5M
@@ -59,3 +67,12 @@ php quote/bd/test_avatar_caminhos.php
 
 O teste usa apenas arquivos temporários, sem conexão ao banco e sem modificar
 fotos existentes.
+
+Para conferir a validação de JPEG preparado sem extensões de imagem:
+
+```sh
+php -n quote/bd/test_avatar_jpeg.php
+```
+
+As duas imagens em `fixtures/` são quadrados sintéticos de 512 pixels para testar
+JPEG baseline e progressivo. O teste não usa fotos de usuários nem banco.

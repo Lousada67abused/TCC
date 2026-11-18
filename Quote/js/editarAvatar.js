@@ -186,8 +186,33 @@
             await imagem.decode();
             if (!imagem.naturalWidth || !imagem.naturalHeight) throw new Error();
             if (atual !== selecao || !modal.dialog.open) { revogar(novaUrl); return; }
+            let preparado = selecionado;
+            if (dados.prepararNoNavegador === true) {
+                const largura = imagem.naturalWidth, altura = imagem.naturalHeight;
+                if (Math.max(largura, altura) > 6000 || largura * altura > 12 * 1024 * 1024) {
+                    revogar(novaUrl);
+                    mensagemModal('A foto deve ter até 12 megapixels e 6000 pixels em cada lado.', true);
+                    return;
+                }
+                const canvas = document.createElement('canvas');
+                canvas.width = canvas.height = 512;
+                const contexto = canvas.getContext('2d');
+                if (!contexto) throw new Error();
+                contexto.fillStyle = '#fff';
+                contexto.fillRect(0, 0, 512, 512);
+                const lado = Math.min(largura, altura);
+                contexto.drawImage(imagem, Math.floor((largura - lado) / 2), Math.floor((altura - lado) / 2), lado, lado, 0, 0, 512, 512);
+                const jpeg = await new Promise(resolve => canvas.toBlob(resolve, 'image/jpeg', .9));
+                if (!jpeg || jpeg.type !== 'image/jpeg') throw new Error();
+                if (atual !== selecao || !modal.dialog.open) { revogar(novaUrl); return; }
+                const urlPreparada = URL.createObjectURL(jpeg);
+                urls.add(urlPreparada);
+                revogar(novaUrl);
+                novaUrl = urlPreparada;
+                preparado = new File([jpeg], 'foto-' + codigoUsuario + '.jpg', { type: 'image/jpeg' });
+            }
             revogar(urlPrevia);
-            arquivo = selecionado;
+            arquivo = preparado;
             urlPrevia = novaUrl;
             remover = false;
             mensagemModal('');
