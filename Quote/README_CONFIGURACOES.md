@@ -6,10 +6,11 @@ A página reutiliza o cabeçalho, o botão Ranking e a navegação inferior de
 quatro itens. Inclui aparência, identificação da conta e links para estante,
 metas, atividade e perfil; não apresenta controles sem ação.
 
-No cartão **Minha conta**, a foto mostra uma camada escura e o ícone de edição
+No cartão de perfil, a foto mostra uma camada escura e o ícone de edição
 ao passar o mouse ou receber foco pelo teclado. Clicar abre a seleção de arquivo
 e uma prévia para salvar ou cancelar. No celular, o ícone permanece visível.
 A imagem salva é usada nos cabeçalhos, perfis, resenhas e listas de leitores.
+O cartão exibe foto, nome e e-mail, sem título nem botão de acesso ao perfil.
 Veja os formatos, limites e requisitos do servidor em
 [`bd/README_AVATAR.md`](../quote/bd/README_AVATAR.md).
 

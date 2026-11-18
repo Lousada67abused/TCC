@@ -28,10 +28,7 @@
         usuario = JSON.parse(sessionStorage.getItem('usuario') || 'null');
     } catch (_) {}
     const conectado = /^[1-9]\d*$/.test(codigo || '');
-    const linkPerfil = document.getElementById('acessarConta');
     if (!conectado) {
-        linkPerfil.href = 'login.html';
-        linkPerfil.querySelector('[data-rotulo-conta]').textContent = 'Entrar na conta';
         document.getElementById('nomeContaConfiguracoes').textContent = 'Seu espaço de leitura';
     } else if (usuario && typeof usuario === 'object' && !Array.isArray(usuario)) {
         document.getElementById('nomeContaConfiguracoes').textContent = usuario.nm_usuario || 'Seu perfil';

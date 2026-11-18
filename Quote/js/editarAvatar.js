@@ -142,10 +142,13 @@
             if (modal?.dialog.open) {
                 mensagemModal(autenticado() ? '' : 'Entre novamente na sua conta para alterar a foto.', !autenticado());
             } else mensagemPerfil('');
-        } catch (_) {
+        } catch (erro) {
             falhaConsulta = true;
-            if (modal?.dialog.open) mensagemModal('Não foi possível carregar a foto. Tente novamente.', true);
-            else mensagemPerfil('Não foi possível carregar a foto de perfil.', false, true);
+            const mensagem = erro instanceof TypeError || erro instanceof SyntaxError
+                ? 'Não foi possível carregar a foto de perfil. Tente novamente.'
+                : erro.message || 'Não foi possível carregar a foto de perfil. Tente novamente.';
+            if (modal?.dialog.open) mensagemModal(mensagem, true);
+            else mensagemPerfil(mensagem, false, true);
         } finally { consultando = false; controles(); }
     }
     function fechar() {

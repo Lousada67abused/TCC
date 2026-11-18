@@ -1,6 +1,6 @@
 # Foto de perfil
 
-Em **Configurações → Minha conta**, clique na foto para escolher uma imagem e
+No cartão de perfil em **Configurações**, clique na foto para escolher uma imagem e
 confira a prévia antes de salvar. O botão fica sobre a foto, com fundo escuro e
 ícone de editar ao passar o mouse ou usar o teclado; em telas de toque, o ícone
 fica visível. Cancelar não altera a foto atual. O editor também permite remover
@@ -23,7 +23,10 @@ post_max_size=8M
 
 As imagens são salvas com o código do usuário: `CODIGO_USUARIO.jpg`. Por padrão,
 o armazenamento é `quote-private/avatars`, quatro níveis acima do diretório do
-modelo `classes/models/AvatarUsuario.php`, fora da pasta pública. A variável de
+modelo `classes/models/AvatarUsuario.php`, quando esse local está fora da pasta
+pública. Se a instalação estiver dentro de `htdocs`/`www`, o caminho é ajustado
+automaticamente para uma pasta ao lado da raiz pública. Um armazenamento antigo
+que já esteja fora dela é preservado. A variável de
 ambiente `QUOTE_AVATAR_DIR` permite escolher outra pasta absoluta, gravável pelo
 PHP e também fora da raiz pública. Preserve essa pasta ao atualizar o site.
 Não é necessário alterar o banco nem reimportar os dados.
@@ -38,10 +41,21 @@ Não é necessário alterar o banco nem reimportar os dados.
 
 `js/avatares.js` centraliza os endereços e atualiza as fotos da conta na página
 após o envio. As demais páginas consultam a imagem atual ao navegar. Fotos
-legadas em `img/ID.png` continuam disponíveis; removê-las pelo editor apenas
+legadas em `img/ID.png` continuam disponíveis, mesmo quando os arquivos estão
+divididos entre `Quote/img` e `quote/img`; removê-las pelo editor apenas
 oculta o legado, preservando os arquivos originais do projeto.
 
 As mensagens de sucesso são verdes e desaparecem após dois segundos. Durante
 o envio, os controles ficam bloqueados para evitar duplicações. Falhas mantêm
 a prévia para tentar novamente; quando a resposta do envio se perde, o editor
 consulta o estado salvo antes de liberar outra alteração.
+
+Para verificar os caminhos do avatar em uma instalação direta, incluindo as
+pastas `Quote/img` e `quote/img` e um projeto dentro de `htdocs`/`www`:
+
+```sh
+php quote/bd/test_avatar_caminhos.php
+```
+
+O teste usa apenas arquivos temporários, sem conexão ao banco e sem modificar
+fotos existentes.

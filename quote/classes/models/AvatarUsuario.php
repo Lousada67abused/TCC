@@ -62,8 +62,17 @@ class AvatarUsuario extends Banco {
 
     private static function Diretorio($criar = false) {
         $configurado = getenv('QUOTE_AVATAR_DIR');
-        $diretorio = self::NormalizarPasta($configurado !== false && $configurado !== '' ? $configurado : dirname(__DIR__, 4) . '/quote-private/avatars');
-        $raizWeb = realpath($_SERVER['DOCUMENT_ROOT'] ?? '') ?: null;
+        $raizDeclarada = $_SERVER['DOCUMENT_ROOT'] ?? '';
+        $raizWeb = $raizDeclarada !== '' ? (realpath($raizDeclarada) ?: null) : null;
+        if ($configurado === false || $configurado === '') {
+            $configurado = dirname(__DIR__, 4) . '/quote-private/avatars';
+            // Uma instalação dentro de htdocs/www pode deixar o caminho antigo público.
+            // Preserva o armazenamento anterior quando ele já está fora da raiz pública.
+            if (self::DentroRaiz(realpath($configurado) ?: $configurado, $raizWeb)) {
+                $configurado = dirname($raizWeb) . '/quote-private/avatars';
+            }
+        }
+        $diretorio = self::NormalizarPasta($configurado);
         $real = realpath($diretorio) ?: $diretorio;
         if (self::DentroRaiz($real, $raizWeb)) {
             throw new DomainException('O armazenamento das fotos deve ficar fora da pasta pública.', 503);
@@ -92,10 +101,13 @@ class AvatarUsuario extends Banco {
         }
     }
 
-    private static function PastaImagens() {
-        $pasta = dirname(__DIR__, 2) . '/img';
-        if (!is_dir($pasta)) $pasta = dirname(__DIR__, 3) . '/Quote/img';
-        return $pasta;
+    private static function ImagemLegada($nome) {
+        // Quote/img e quote/img existem no repositório e contêm arquivos diferentes.
+        foreach ([dirname(__DIR__, 2) . '/img', dirname(__DIR__, 3) . '/Quote/img'] as $pasta) {
+            $caminho = $pasta . '/' . $nome;
+            if (is_file($caminho) && is_readable($caminho)) return $caminho;
+        }
+        return null;
     }
 
     public static function Abrir($codigo, $verificarUsuario = true) {
@@ -103,10 +115,11 @@ class AvatarUsuario extends Banco {
         return self::ComTrava($codigo, false, function ($diretorio) use ($codigo) {
             $removido = $diretorio . '/' . $codigo . '.removido';
             $enviado = $diretorio . '/' . $codigo . '.jpg';
-            $legado = self::PastaImagens() . '/' . $codigo . '.png';
-            $padrao = self::PastaImagens() . '/avatar.jpg';
-            $personalizado = !is_file($removido) && (is_file($enviado) || is_file($legado));
+            $legado = self::ImagemLegada($codigo . '.png');
+            $padrao = self::ImagemLegada('avatar.jpg');
+            $personalizado = !is_file($removido) && (is_file($enviado) || $legado !== null);
             $caminho = $personalizado ? (is_file($enviado) ? $enviado : $legado) : $padrao;
+            if ($caminho === null) throw new DomainException('A foto de perfil não está disponível.', 503);
             $dados = @getimagesize($caminho);
             if (!$dados || !in_array($dados['mime'] ?? '', ['image/jpeg', 'image/png', 'image/webp'], true)) {
                 throw new DomainException('A foto de perfil não está disponível.', 503);
