@@ -44,8 +44,7 @@
         const foto = elemento('img', 'fotoLeitorConexao');
         foto.alt = '';
         foto.loading = 'lazy';
-        foto.addEventListener('error', () => { foto.src = '../img/avatar.jpg'; }, { once: true });
-        foto.src = '../img/' + encodeURIComponent(usuario.id_usuario) + '.png';
+        window.Avatares.aplicar(foto, usuario.id_usuario);
         const nome = elemento('strong', 'nomeLeitorConexao', usuario.nm_usuario);
         const seta = elemento('span', 'material-symbols-outlined', 'chevron_right');
         seta.setAttribute('aria-hidden', 'true');
@@ -99,8 +98,7 @@
             dono.href = perfil(codigo);
             document.getElementById('nomeDonoConexoes').textContent = usuario.nm_usuario;
             const foto = document.getElementById('fotoDonoConexoes');
-            foto.onerror = () => { foto.onerror = null; foto.src = '../img/avatar.jpg'; };
-            foto.src = '../img/' + encodeURIComponent(codigo) + '.png';
+            window.Avatares.aplicar(foto, codigo);
             dono.hidden = false;
             const seguidores = tipo === 'seguidores' ? pessoas.length : usuario.qtd_seguidores;
             const seguindo = tipo === 'seguindo' ? pessoas.length : usuario.qtd_seguindo;

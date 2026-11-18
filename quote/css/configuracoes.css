@@ -66,6 +66,21 @@
 
 .contaConfiguracoes { display: flex; align-items: center; gap: 12px; margin-bottom: 18px; }
 .fotoContaConfiguracoes { width: 44px; height: 44px; flex-shrink: 0; object-fit: cover; border-radius: 50%; }
+.fotoContaEditor { width: 44px; height: 44px; border-radius: 50%; }
+.fotoContaEditor #alterarFotoPerfil { inset: 0; width: 100%; height: 100%; padding: 11px; border: 0; border-radius: 50%; box-shadow: none; background: rgb(0 0 0 / 55%); color: #fff; opacity: 0; transition: opacity .15s ease; }
+.fotoContaEditor #alterarFotoPerfil svg { width: 22px; height: 22px; }
+.fotoContaEditor:hover #alterarFotoPerfil,
+.fotoContaEditor #alterarFotoPerfil:focus-visible { background: rgb(0 0 0 / 55%); opacity: 1; }
+.fotoContaEditor #alterarFotoPerfil:disabled { cursor: wait; }
+.paginaConfiguracoes [data-avatar-entrar][hidden] { display: none; }
+.avisoFotoConta, .contaConfiguracoes + .feedbackAvatarPerfil { margin-bottom: 14px; }
+.avisoFotoConta a { color: var(--tema-link, #1254b5); }
+@media (hover: none) {
+    .fotoContaEditor #alterarFotoPerfil { opacity: 1; }
+}
+@media (prefers-reduced-motion: reduce) {
+    .fotoContaEditor #alterarFotoPerfil { transition: none; }
+}
 .contaConfiguracoes > div { min-width: 0; }
 .contaConfiguracoes strong { display: block; font-size: 12px; line-height: 1.5; overflow-wrap: anywhere; }
 .contaConfiguracoes small { display: block; font-size: 11px; margin-top: 3px; color: var(--tema-secundario, #64748b); overflow-wrap: anywhere; }

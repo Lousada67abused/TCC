@@ -38,7 +38,6 @@
         document.getElementById('emailContaConfiguracoes').textContent = usuario.email || '';
     }
     document.querySelectorAll('.fotoContaConfiguracoes').forEach(foto => {
-        foto.addEventListener('error', () => { foto.src = '../img/avatar.jpg'; }, { once: true });
-        foto.src = conectado ? '../img/' + codigo + '.png' : '../img/avatar.jpg';
+        window.Avatares.aplicar(foto, codigo);
     });
 })();

@@ -118,11 +118,8 @@
         const avatar = elemento('img', 'avatarUsuarioResenha');
         avatar.alt = 'Foto de perfil de ' + nome;
         avatar.loading = 'lazy';
-        avatar.addEventListener('error', () => { avatar.src = '../img/avatar.jpg'; }, { once: true });
         const codigoAutor = texto(avaliacao.id_usuario);
-        avatar.src = /^[1-9]\d*$/.test(codigoAutor)
-            ? '../img/' + encodeURIComponent(codigoAutor) + '.png'
-            : '../img/avatar.jpg';
+        window.Avatares.aplicar(avatar, codigoAutor);
         const linkAvatar = linkPerfil(codigoAutor, 'linkPerfilAvatar');
         linkAvatar.setAttribute('aria-label', 'Ver perfil de ' + nome);
         linkAvatar.append(avatar);
